@@ -1,0 +1,5 @@
+﻿Hypothesis,Comparison,Difference (pp),95% CI (pp),z,p-value,Cohen's h,Holm-adjusted p,Statistically significant,Practically important (|diff| >= 5 pp)
+H1,Service & wait vs rest of F&B,5.3722351112028885,+3.3 to +7.4,5.341415783902786,9.222345819605119e-08,0.11114858179331488,3.6889383278420475e-07,True,True
+H2,Price & value vs rest of F&B,5.607570091641922,+3.2 to +8.0,4.656419230468526,3.2175642401026746e-06,0.11592460136850158,6.435128480205349e-06,True,True
+H3,Morning caffeine vs rest of F&B,-6.61424278628458,-9.0 to -4.3,-5.205476667774381,1.9349926015940302e-07,-0.14247171834167793,5.804977804782091e-07,True,True
+H4,"F&B lift, launch week vs baseline (diff-in-diff)",-0.3257838471105945,-1.0 to +0.4,-0.8932477713259636,0.3717245006874984,,0.3717245006874984,False,False

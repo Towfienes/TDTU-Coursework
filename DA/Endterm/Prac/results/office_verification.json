@@ -1,0 +1,392 @@
+{
+  "checked_at": "2026-10-20T05:34:43.550441+00:00",
+  "claim_boundary": "Internal automated package checks plus visual renderer review. Native Microsoft PowerPoint opening and rehearsal were not performed.",
+  "sha256": {
+    "report/VibeCoding_Expert_DAV_Endterm_Report.docx": "1c44223edf49c5b19542f09763d38d0ffaa0c322d1d95d9d68f3f84ddcf2b300",
+    "report/VibeCoding_Expert_DAV_Endterm_Report.pdf": "274f43cd132db7d014a0144a635423d2e8a4fa7a57c480e6af8ecb547e2e1fad",
+    "slides/VibeCoding_Expert_DAV_Endterm_Presentation.pptx": "139949d8d137d4ba80947cc34a5255f2e10cb2929220d64d717c25b3708b84d9",
+    "slides/VibeCoding_Expert_DAV_Endterm_Presentation.pdf": "c2ab7cf782170df2c186843231a2496f61f91f159d1cb624cefbd081223a4e6b"
+  },
+  "unchanged_workspace_reference_sha256": {
+    "Template_EN.docx": "43233c7ab2aa96157b199d7e02521ba4346ed7f07e26cfdf606e72f87059dead",
+    "524H0195_524H0191.pdf": "49918267441513033d8bd77fefabbaa58c54c22a253672d10841f88cb9755a76"
+  },
+  "report": {
+    "pdf_pages": 31,
+    "covers": 2,
+    "roman_front_matter_pages": 6,
+    "arabic_body_pages": 23,
+    "native_omml_equations": 3,
+    "figures": 6,
+    "tables": 12,
+    "pagination": {
+      "method": "native TOC/SEQ/PAGEREF fields; caches materialized from rendered headings/captions",
+      "render_passes": 2,
+      "physical_pages": 31,
+      "body_start_physical_page": 9,
+      "entries": [
+        {
+          "label": "CHAPTER 1. INTRODUCTION",
+          "bookmark": "heading_1",
+          "level": 1,
+          "page": 1,
+          "physical_page": 9
+        },
+        {
+          "label": "1.1 Objectives and research questions",
+          "bookmark": "heading_2",
+          "level": 2,
+          "page": 1,
+          "physical_page": 9
+        },
+        {
+          "label": "1.2 Dataset and provenance",
+          "bookmark": "heading_3",
+          "level": 2,
+          "page": 1,
+          "physical_page": 9
+        },
+        {
+          "label": "1.3 Reproducibility and scope",
+          "bookmark": "heading_5",
+          "level": 2,
+          "page": 2,
+          "physical_page": 10
+        },
+        {
+          "label": "CHAPTER 2. ACQUISITION AND PREPROCESSING",
+          "bookmark": "heading_6",
+          "level": 1,
+          "page": 3,
+          "physical_page": 11
+        },
+        {
+          "label": "2.1 Loading and structural inspection",
+          "bookmark": "heading_7",
+          "level": 2,
+          "page": 3,
+          "physical_page": 11
+        },
+        {
+          "label": "2.2 Controlled missing-data experiment",
+          "bookmark": "heading_8",
+          "level": 2,
+          "page": 3,
+          "physical_page": 11
+        },
+        {
+          "label": "2.3 Mean imputation and row removal",
+          "bookmark": "heading_9",
+          "level": 2,
+          "page": 4,
+          "physical_page": 12
+        },
+        {
+          "label": "2.4 Python structures and regular expressions",
+          "bookmark": "heading_11",
+          "level": 2,
+          "page": 5,
+          "physical_page": 13
+        },
+        {
+          "label": "CHAPTER 3. ANALYSIS AND TRANSFORMATION",
+          "bookmark": "heading_12",
+          "level": 1,
+          "page": 6,
+          "physical_page": 14
+        },
+        {
+          "label": "3.1 Indexing and two-condition filtering",
+          "bookmark": "heading_13",
+          "level": 2,
+          "page": 6,
+          "physical_page": 14
+        },
+        {
+          "label": "3.2 Derived features and their limits",
+          "bookmark": "heading_14",
+          "level": 2,
+          "page": 6,
+          "physical_page": 14
+        },
+        {
+          "label": "3.3 Correlation and association ranking",
+          "bookmark": "heading_16",
+          "level": 2,
+          "page": 7,
+          "physical_page": 15
+        },
+        {
+          "label": "3.4 Grouped grade statistics",
+          "bookmark": "heading_18",
+          "level": 2,
+          "page": 9,
+          "physical_page": 17
+        },
+        {
+          "label": "3.5 Within-school normalization",
+          "bookmark": "heading_22",
+          "level": 2,
+          "page": 10,
+          "physical_page": 18
+        },
+        {
+          "label": "3.6 Sensitivity to simulated missingness",
+          "bookmark": "heading_23",
+          "level": 2,
+          "page": 10,
+          "physical_page": 18
+        },
+        {
+          "label": "CHAPTER 4. DATA VISUALIZATION",
+          "bookmark": "heading_25",
+          "level": 1,
+          "page": 12,
+          "physical_page": 20
+        },
+        {
+          "label": "4.1 Final-grade distribution",
+          "bookmark": "heading_26",
+          "level": 2,
+          "page": 12,
+          "physical_page": 20
+        },
+        {
+          "label": "4.2 Distribution by school",
+          "bookmark": "heading_28",
+          "level": 2,
+          "page": 13,
+          "physical_page": 21
+        },
+        {
+          "label": "4.3 Comparison by study-time category",
+          "bookmark": "heading_30",
+          "level": 2,
+          "page": 14,
+          "physical_page": 22
+        },
+        {
+          "label": "4.4 Performance-band proportions",
+          "bookmark": "heading_32",
+          "level": 2,
+          "page": 15,
+          "physical_page": 23
+        },
+        {
+          "label": "4.5 Earlier and final grades",
+          "bookmark": "heading_34",
+          "level": 2,
+          "page": 16,
+          "physical_page": 24
+        },
+        {
+          "label": "4.6 Matplotlib core demonstration",
+          "bookmark": "heading_36",
+          "level": 2,
+          "page": 17,
+          "physical_page": 25
+        },
+        {
+          "label": "CHAPTER 5. SYNTHESIS AND CONCLUSION",
+          "bookmark": "heading_38",
+          "level": 1,
+          "page": 18,
+          "physical_page": 26
+        },
+        {
+          "label": "5.1 Comprehensive reporting function",
+          "bookmark": "heading_39",
+          "level": 2,
+          "page": 18,
+          "physical_page": 26
+        },
+        {
+          "label": "5.2 Highest and lowest records",
+          "bookmark": "heading_41",
+          "level": 2,
+          "page": 18,
+          "physical_page": 26
+        },
+        {
+          "label": "5.3 Findings and practical interpretation",
+          "bookmark": "heading_44",
+          "level": 2,
+          "page": 20,
+          "physical_page": 28
+        },
+        {
+          "label": "5.4 Limitations",
+          "bookmark": "heading_45",
+          "level": 2,
+          "page": 21,
+          "physical_page": 29
+        },
+        {
+          "label": "5.5 Proposed presentation responsibilities",
+          "bookmark": "heading_46",
+          "level": 2,
+          "page": 21,
+          "physical_page": 29
+        },
+        {
+          "label": "REFERENCES",
+          "bookmark": "heading_48",
+          "level": 1,
+          "page": 23,
+          "physical_page": 31
+        },
+        {
+          "label": "Figure 4.1.1: Distribution of final grades in the Portuguese-language dataset",
+          "bookmark": "figure_27",
+          "level": 2,
+          "page": 12,
+          "physical_page": 20
+        },
+        {
+          "label": "Figure 4.2.1: Final-grade distributions for GP and MS",
+          "bookmark": "figure_29",
+          "level": 2,
+          "page": 13,
+          "physical_page": 21
+        },
+        {
+          "label": "Figure 4.3.1: Mean final grade by weekly study-time category",
+          "bookmark": "figure_31",
+          "level": 2,
+          "page": 14,
+          "physical_page": 22
+        },
+        {
+          "label": "Figure 4.4.1: Proportions of the analyst-defined final-grade bands",
+          "bookmark": "figure_33",
+          "level": 2,
+          "page": 15,
+          "physical_page": 23
+        },
+        {
+          "label": "Figure 4.5.1: Relationship between second-period and final grades",
+          "bookmark": "figure_35",
+          "level": 2,
+          "page": 16,
+          "physical_page": 24
+        },
+        {
+          "label": "Figure 4.6.1: Earlier-grade averages for the first five source records",
+          "bookmark": "figure_37",
+          "level": 2,
+          "page": 17,
+          "physical_page": 25
+        },
+        {
+          "label": "Table 1.2.1: Selected variable families and measurement levels",
+          "bookmark": "table_4",
+          "level": 2,
+          "page": 2,
+          "physical_page": 10
+        },
+        {
+          "label": "Table 2.3.1: Dimensions and absence summaries for each treatment",
+          "bookmark": "table_10",
+          "level": 2,
+          "page": 4,
+          "physical_page": 12
+        },
+        {
+          "label": "Table 3.2.1: Engineered columns and safeguards",
+          "bookmark": "table_15",
+          "level": 2,
+          "page": 7,
+          "physical_page": 15
+        },
+        {
+          "label": "Table 3.3.1: Contextual numerical/ordinal associations with G3",
+          "bookmark": "table_17",
+          "level": 2,
+          "page": 8,
+          "physical_page": 16
+        },
+        {
+          "label": "Table 3.4.1: Descriptive statistics for all three grades by school",
+          "bookmark": "table_19",
+          "level": 2,
+          "page": 9,
+          "physical_page": 17
+        },
+        {
+          "label": "Table 3.4.2: Final-grade summaries by study-time category",
+          "bookmark": "table_20",
+          "level": 2,
+          "page": 9,
+          "physical_page": 17
+        },
+        {
+          "label": "Table 3.4.3: Final-grade summaries by recorded failure category",
+          "bookmark": "table_21",
+          "level": 2,
+          "page": 10,
+          "physical_page": 18
+        },
+        {
+          "label": "Table 3.6.1: Targeted sensitivity comparison using the same missing mask",
+          "bookmark": "table_24",
+          "level": 2,
+          "page": 10,
+          "physical_page": 18
+        },
+        {
+          "label": "Table 5.1.1: Summary statistics of the three assessment grades",
+          "bookmark": "table_40",
+          "level": 2,
+          "page": 18,
+          "physical_page": 26
+        },
+        {
+          "label": "Table 5.2.1: Highest ten final-grade records: selected columns",
+          "bookmark": "table_42",
+          "level": 2,
+          "page": 19,
+          "physical_page": 27
+        },
+        {
+          "label": "Table 5.2.2: Lowest ten final-grade records: selected columns",
+          "bookmark": "table_43",
+          "level": 2,
+          "page": 20,
+          "physical_page": 28
+        },
+        {
+          "label": "Table 5.5.1: Proposed presentation allocation, not a contribution record",
+          "bookmark": "table_47",
+          "level": 2,
+          "page": 22,
+          "physical_page": 30
+        }
+      ]
+    },
+    "all_pages_visually_reviewed": true,
+    "renderer": "Documents render_docx.py / LibreOffice PDF"
+  },
+  "presentation": {
+    "slides": 25,
+    "main_slides_including_QA": 22,
+    "appendices": 3,
+    "native_tables": 9,
+    "native_charts_with_embedded_workbooks": 5,
+    "editable_box_geometry": true,
+    "notes_slides": 25,
+    "original_logo_embedded_on_each_slide": true,
+    "package_status": "pass",
+    "layout_findings": 0,
+    "layout_warnings": 0,
+    "font_policy_pass": true,
+    "first_party_import_pass": true,
+    "native_quantitative_chart_pass": true,
+    "all_slides_visually_reviewed": true,
+    "renderers": [
+      "Artifact Tool import/render",
+      "LibreOffice PDF"
+    ],
+    "native_powerpoint_open_verified": false,
+    "actual_rehearsal_verified": false
+  }
+}

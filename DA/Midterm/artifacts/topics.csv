@@ -1,0 +1,10 @@
+﻿,Topic,Top terms,Tweets,Share,Negative share,Lift vs rest (pp),95% CI (pp)
+0,Work and breaks,"work, break, tomorrow, ready, hours, work tomorrow, gotta, hour",1950,0.023040930144626146,0.48205128205128206,13.747809804508965,+11.5 to +16.0
+1,Family and weekend fun,"having, family, having fun, sunday, late, mom, lovely, break",1972,0.02330087910010398,0.276369168356998,-7.307433515134948,-9.3 to -5.3
+2,Morning start,"morning, sunday, early, start, sunday morning, beautiful, enjoying, enjoy",2185,0.025817657623593913,0.2805491990846682,-6.897231170408097,-8.8 to -5.0
+3,Coming home and waiting,"home, waiting, finally, came home, mom, came, left, went",2471,0.029196994044805746,0.3828409550789154,3.6155788150567414,+1.7 to +5.6
+4,Cooking at home,"making, mom, stop, watching, mac, start, mommy, blueberry",1396,0.016494942811229794,0.2636103151862464,-8.554149412703149,-10.9 to -6.2
+5,Late nights,"night, late, late night, sleep, friday, friday night, fun, movie",2587,0.030567633991870687,0.3401623502126015,-0.7817416988324832,-2.6 to +1.1
+6,Plans and anticipation,"tonight, looking, forward, looking forward, party, movie, wait, family",2007,0.02371443425654599,0.29247633283507724,-5.6606874426647416,-7.7 to -3.6
+7,Everyday mood (generic words),"watching, house, fun, ready, tomorrow, happy, miss, hot",6700,0.07916627280461291,0.3332835820895522,-1.5700147315570179,-2.7 to -0.4
+8,No clear topic,,63364,0.7487002552226109,0.3522189255728805,1.7819828337597432,+1.0 to +2.5

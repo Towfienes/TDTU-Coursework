@@ -1,0 +1,12 @@
+test_band_boundaries_and_invalid_values (test_analysis.AnalysisTests.test_band_boundaries_and_invalid_values) ... ok
+test_group_alignment_and_constant_groups (test_analysis.AnalysisTests.test_group_alignment_and_constant_groups) ... ok
+test_summary_empty_and_zero_count_categories (test_analysis.AnalysisTests.test_summary_empty_and_zero_count_categories) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.015s
+
+OK
+
+Executed 20 code cells without errors: VibeCoding_Expert_DAV_Endterm_Analysis.ipynb
+
+PASS: source, mask, treatments, all-column rankings, manifest, 20 executed cells, 6 figures, native Word fields/equations, 25 slides with embedded original logo, notes and 5 editable chart workbooks.

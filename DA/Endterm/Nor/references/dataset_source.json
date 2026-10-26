@@ -1,0 +1,11 @@
+{
+  "landing_page": "https://archive.ics.uci.edu/dataset/1/abalone",
+  "download_url": "https://archive.ics.uci.edu/static/public/1/abalone.zip",
+  "retrieved_utc": "2026-10-20T10:30:10.378926+00:00",
+  "doi": "10.24432/C55C7W",
+  "licence": "CC BY 4.0",
+  "citation": "Nash, W., Sellers, T., Talbot, S., Cawthorn, A., & Ford, W. (1994). Abalone [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C55C7W.",
+  "raw_sha256": "de37cdcdcaaa50c309d514f248f7c2302a5f1f88c168905eba23fe2fbc78449f",
+  "unit_caution": "Original codebook states continuous attributes were divided by 200. Preserve stored values and label scaled measurements; do not silently assign physical units.",
+  "approval_status": "Dataset accepted per user confirmation20October2026; no external message was sent by the agent."
+}

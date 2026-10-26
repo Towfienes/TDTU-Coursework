@@ -1,0 +1,59 @@
+{
+  "group": "VibeCoding_Expert",
+  "course": "Data Analysis and Visualization",
+  "report_type": "ENDTERM REPORT",
+  "report_date": "20 October 2026",
+  "deadline": "2026-10-22T23:55:00+07:00",
+  "advisor": "Ho Thi Linh, Ph.D.",
+  "advisor_address_vietnamese": "C\u00f4",
+  "authors": [
+    {
+      "name": "NGO LAM TIEN",
+      "id": "524H0195",
+      "tasks": "Code, regression and reproducibility",
+      "contribution_percent": 30,
+      "completion_percent": 100,
+      "proposed_tasks": "Code, regression and reproducibility",
+      "proposed_contribution_percent": 30
+    },
+    {
+      "name": "NGUYEN CONG THANH",
+      "id": "524H0191",
+      "tasks": "Probability distributions and hypothesis tests",
+      "contribution_percent": 25,
+      "completion_percent": 100,
+      "proposed_tasks": "Probability distributions and hypothesis tests",
+      "proposed_contribution_percent": 25
+    },
+    {
+      "name": "NGUYEN LE NHAT TAM",
+      "id": "524H0186",
+      "tasks": "EDA and correlation analysis",
+      "contribution_percent": 25,
+      "completion_percent": 100,
+      "proposed_tasks": "EDA and correlation analysis",
+      "proposed_contribution_percent": 25
+    },
+    {
+      "name": "NGO BINH MINH",
+      "id": "524H0169",
+      "tasks": "Report, slides and video coordination",
+      "contribution_percent": 20,
+      "completion_percent": 100,
+      "proposed_tasks": "Report, slides and video coordination",
+      "proposed_contribution_percent": 20
+    }
+  ],
+  "prefix": "VibeCoding_Expert_DAV_Theory_Endterm",
+  "presentation_language": "English",
+  "speaker_notes_language": "Vietnamese",
+  "submission": "524H0195_524H0191_524H0186_524H0169",
+  "class": "N4",
+  "topic": "Abalone Measurements and Shell Rings",
+  "video_deadline": "2026-10-21T23:59:59+07:00",
+  "dataset_approved": true,
+  "youtube_url": "https://youtu.be/D-H3yQ4IDro?si=VZ5VouVBJcCDhlBc",
+  "contributions_confirmed": true,
+  "video_duration_seconds": 720,
+  "dataset_confirmation_note": "User answered ok r\u1ed3i to dataset acceptance question on20October2026."
+}

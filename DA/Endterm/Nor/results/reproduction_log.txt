@@ -1,0 +1,19 @@
+$ -m unittest discover -s tests -v
+test_cleaning_noncontiguous_index_and_bands (test_analysis.AnalysisTests.test_cleaning_noncontiguous_index_and_bands) ... ok
+test_contingency_independence_and_sparse_fallback (test_analysis.AnalysisTests.test_contingency_independence_and_sparse_fallback) ... ok
+test_holm_known_example_and_order (test_analysis.AnalysisTests.test_holm_known_example_and_order) ... ok
+test_metric_hand_calculation_and_shapes (test_analysis.AnalysisTests.test_metric_hand_calculation_and_shapes) ... ok
+test_preprocessing_does_not_fit_validation (test_analysis.AnalysisTests.test_preprocessing_does_not_fit_validation) ... ok
+test_welch_known_difference_and_symmetry (test_analysis.AnalysisTests.test_welch_known_difference_and_symmetry) ... ok
+test_missing_facts_and_valid_confirmed_record (test_analysis.SubmissionFactsTests.test_missing_facts_and_valid_confirmed_record) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.132s
+
+OK
+
+$ tools/run_notebook.py
+Executed 17 code cells without errors: VibeCoding_Expert_DAV_Theory_Endterm_Analysis.ipynb
+
+$ tools/verify_project.py
+PASS: raw/schema, quality audit, disjoint saved split, Holm/tests, independent prediction equation, metrics, manifest, 17 clean code cells/10 figures, Word OMML/fields/tabs, 19 slides/notes/logo and 6 chart workbooks.

@@ -1,0 +1,7 @@
+﻿Recommendation,Descriptive,Diagnostic,Predictive
+R1. Keep the core campaign message (no rewrite),Launch-week F&B lift -5.4 pp vs baseline -5.1 pp,"H4 diff-in-diff -0.3 pp (CI -1.0 to +0.4), not significant",Next-week negative share estimated 38.2% (true 36.8%); 0 alert days
+"R2. Add an availability message: where to find the product, restock times, apology when sold out",1.0% of F&B tweets,"79.6% negative (+45.3 pp), OR 7.2",~108 negative tweets per 10k mentions expected next week
+"R3. Answer service and waiting complaints, especially in the evening (order-ahead, wait-time message)",2.7% of F&B tweets,+5.4 pp (CI +3.3 to +7.4); evening +10.2 pp; OR 1.11,~129 negative tweets per 10k mentions next week (largest product issue)
+"R4. Reframe price as value (trial offer, bundle, coupon)",1.9% of F&B tweets,+5.6 pp (CI +3.2 to +8.0); OR 1.21,~87 negative tweets per 10k mentions next week
+"R5. Build creative around trying it, sharing it and morning moments; avoid ""work stress"" framing",Social occasions are the largest aspect (10.4%),"Novelty -7.2 pp (OR 0.66), social -8.6 pp; work-and-breaks topic +13.7 pp","""can't wait"" is the most positive term in the model"
+R6. Monitor daily with the classifier and the alert rule,Daily F&B lift averages -3.9 pp,Baseline SD 2.6 pp gives an alert limit of +1.5 pp,"AUC 0.896, catches 84% of negative tweets"

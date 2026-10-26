@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "checked_at": "2026-10-22T03:25:27.886986+00:00",
+  "mode": "release",
+  "fresh_kernel_code_cells": 17,
+  "unit_tests": 7,
+  "all_csv_tables_compared": 24,
+  "structured_summary_compared": true,
+  "floating_absolute_tolerance": 1e-10,
+  "raw_sha256": "de37cdcdcaaa50c309d514f248f7c2302a5f1f88c168905eba23fe2fbc78449f",
+  "original_summary_sha256": "3263d1023eef7bb4e2abfc8d1736fbd2f2e8476e45e7f527ad5cba16e4685b87",
+  "environment": "Existing exact locked Python environment; fresh directory and kernel.",
+  "method": "Extract candidate; run tests, full notebook and verifier; compare every analytical CSV and summary."
+}

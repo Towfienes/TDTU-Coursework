@@ -1,0 +1,4 @@
+Download training.1600000.processed.noemoticon.csv from
+https://www.kaggle.com/datasets/kazanova/sentiment140
+and place it in this folder before running the notebook.
+The dashboard does NOT need it (it uses data/processed and artifacts).

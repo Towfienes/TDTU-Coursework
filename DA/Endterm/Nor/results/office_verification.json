@@ -1,0 +1,42 @@
+{
+  "checked_at": "2026-10-22T03:01:00.000000+00:00",
+  "mode": "release",
+  "project_sha256": "c1a137b0cb1622124ac51fba05462c2241ac6e15896dbb82a4e79084508b89bb",
+  "sha256": {
+    "report/VibeCoding_Expert_DAV_Theory_Endterm_Report.docx": "40e72665acc570bf0dc07408ae2b5e8b254af94a8f46d06223e5805d203edd4f",
+    "report/VibeCoding_Expert_DAV_Theory_Endterm_Report.pdf": "009ec528e25e47b1259e9dfe8fe2146913425ff620b6792800350cf5a91979f2",
+    "slides/VibeCoding_Expert_DAV_Theory_Endterm_Presentation.pptx": "596b9752fb46c023ae387ca2eba2814aa3d3f3edddc96ab5d657cc23d9d50696",
+    "slides/VibeCoding_Expert_DAV_Theory_Endterm_Presentation.pdf": "ada14b3b5447d2e8cc860e120a83918c0817341b719f49fad702999c5bc0b90c"
+  },
+  "report_physical_pages": 33,
+  "report_covers": 2,
+  "front_matter_roman_pages": 6,
+  "body_arabic_pages": 25,
+  "native_word_equations": 9,
+  "report_figures": 10,
+  "report_tables": 13,
+  "page_reference_entries": 54,
+  "indexes": 3,
+  "slide_pages": 19,
+  "main_slides": 16,
+  "appendix_slides": 3,
+  "native_chart_workbooks": 6,
+  "native_tables": 5,
+  "speaker_notes": 19,
+  "planned_narration_seconds": 720,
+  "layout_warnings": 0,
+  "all_report_pages_visually_reviewed": true,
+  "all_slide_pages_visually_reviewed": true,
+  "all_slide_pdf_pages_visually_reviewed": true,
+  "report_render_directory": ".build/qa/report_final33",
+  "slide_render_directory": ".build/qa/slides_color",
+  "visual_check_method": "Changed slides 5,6,7,8,11,12,14 individually inspected in native and PDF renders; other 12 slides match previously reviewed PNG bytes. Report files unchanged.",
+  "native_microsoft_powerpoint_opened": false,
+  "actual_group_rehearsal_performed": false,
+  "original_reference_sha256": {
+    "Template_EN.docx": "43233c7ab2aa96157b199d7e02521ba4346ed7f07e26cfdf606e72f87059dead",
+    "524H0195_524H0191.pdf": "49918267441513033d8bd77fefabbaa58c54c22a253672d10841f88cb9755a76"
+  },
+  "claim_boundary": "Office package and rendered QA; real YouTube video link integrated, external submission, signatures or actual contribution completion certified.",
+  "slide_visual_style": "Colored charts, analytical visuals and original-color logo; white backgrounds, monochrome ordinary text/tables/rules."
+}

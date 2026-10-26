@@ -1,0 +1,77 @@
+{
+  "conversion": "chart_data_snapshot",
+  "converted_chart_count": 6,
+  "converted_charts": [
+    {
+      "chart_part": "ppt/slides/charts/chart1.xml",
+      "owner_slide": 5,
+      "point_count": 25,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-001.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart2.xml",
+      "owner_slide": 6,
+      "point_count": 3,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-002.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart3.xml",
+      "owner_slide": 7,
+      "point_count": 300,
+      "series_count": 2,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-003.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart4.xml",
+      "owner_slide": 8,
+      "point_count": 450,
+      "series_count": 3,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-004.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart5.xml",
+      "owner_slide": 12,
+      "point_count": 3341,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-005.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart6.xml",
+      "owner_slide": 14,
+      "point_count": 6,
+      "series_count": 2,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-006.xlsx"
+    }
+  ],
+  "detected_chart_owner_slides": [
+    5,
+    6,
+    7,
+    8,
+    12,
+    14
+  ],
+  "experimental": true,
+  "input_sha256": "84493eba88e3db34f2ec15127a5b2f19532c2a5872e2d360d9450c4b21b559bf",
+  "new_formulas_describe_snapshot_only": true,
+  "output_bytes": 349726,
+  "output_sha256": "596b9752fb46c023ae387ca2eba2814aa3d3f3edddc96ab5d657cc23d9d50696",
+  "portable_chart_validation_passed": true,
+  "portable_validated_owner_slides": [
+    5,
+    6,
+    7,
+    8,
+    12,
+    14
+  ],
+  "preserved_existing_workbook_chart_count": 0,
+  "preserved_existing_workbook_charts": [],
+  "schema_version": "experimental.literal-chart-workbook-snapshot.v1",
+  "source_formula_required_slides": [],
+  "source_formulas_preserved": false,
+  "source_workbook_preserved": false,
+  "source_workbook_required_slides": []
+}

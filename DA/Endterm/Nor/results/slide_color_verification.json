@@ -1,0 +1,52 @@
+{
+  "status": "pass",
+  "checked_at": "2026-10-20T12:40:10.603517+00:00",
+  "pptx_sha256": "16238c665c395c8c02d7ec457cd95818a3576d24470d4c28fe753cbc52f2279f",
+  "pdf_sha256": "81e0a0004ec1cf9715ec7557811f03b139d08c78cbf1cb3aadab233d3c2170ed",
+  "colored_visual_slides": [
+    5,
+    6,
+    7,
+    8,
+    11,
+    12,
+    14
+  ],
+  "unchanged_slides": [
+    1,
+    2,
+    3,
+    4,
+    9,
+    10,
+    13,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "native_chart_count": 6,
+  "chart_numeric_caches_category_caches_formulas_unchanged": true,
+  "all_speaker_notes_unchanged": true,
+  "changed_slides_visually_reviewed_native_and_pdf": true,
+  "other_slide_render_bytes_unchanged": true,
+  "chromatic_pixels_in_body": {
+    "native_5": 83780,
+    "pdf_5": 75703,
+    "native_6": 77411,
+    "pdf_6": 85861,
+    "native_7": 4582,
+    "pdf_7": 4425,
+    "native_8": 5692,
+    "pdf_8": 5466,
+    "native_11": 112838,
+    "pdf_11": 104500,
+    "native_12": 25415,
+    "pdf_12": 30214,
+    "native_14": 86720,
+    "pdf_14": 92642
+  },
+  "layout_warnings": 0,
+  "scope": "Color/style revision only; analytical artifacts and report documents unchanged; prior extracted analysis reproduction remains applicable."
+}

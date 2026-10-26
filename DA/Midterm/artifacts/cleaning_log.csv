@@ -1,0 +1,7 @@
+﻿,Step,Rows before,Removed,Rows after,Reason,% of raw kept
+0,0. Raw file,1600000,0,1600000,As downloaded from Kaggle,100.0
+1,1. Consistent labels,1600000,3370,1596630,Same tweet id labelled both positive and negative,99.8
+2,2. Collection window,1596630,275225,1321405,After 16 Jun 08:40:50 only negative tweets were collected,82.6
+3,3. Readable text,1321405,3179,1318226,No words left after removing links and @usernames,82.4
+4,4. Unambiguous text,1318226,14139,1304087,Identical normalised text appears with both labels,81.5
+5,5. Unique texts,1304087,30053,1274034,"Later copies of the same text (bots, spam, repeated posts)",79.6

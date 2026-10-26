@@ -1,0 +1,31 @@
+{
+  "group": "VibeCoding_Expert",
+  "course": "Data Analysis and Visualization",
+  "report_type": "ENDTERM REPORT",
+  "report_date": "20 October 2026",
+  "deadline": "2026-10-22T23:00:00+07:00",
+  "advisor": "Ho Thi Linh, Ph.D.",
+  "advisor_address_vietnamese": "Cô",
+  "authors": [
+    {
+      "name": "NGO LAM TIEN",
+      "id": "524H0195"
+    },
+    {
+      "name": "NGUYEN CONG THANH",
+      "id": "524H0191"
+    },
+    {
+      "name": "NGUYEN LE NHAT TAM",
+      "id": "524H0186"
+    },
+    {
+      "name": "NGO BINH MINH",
+      "id": "524H0169"
+    }
+  ],
+  "prefix": "VibeCoding_Expert_DAV_Endterm",
+  "presentation_language": "English",
+  "speaker_notes_language": "Vietnamese",
+  "submission": "524H0195_524H0191_524H0186_524H0169"
+}

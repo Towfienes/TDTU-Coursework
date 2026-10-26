@@ -1,0 +1,386 @@
+{
+  "method": "native TOC/SEQ/PAGEREF fields; caches materialized from rendered headings/captions",
+  "render_passes": 2,
+  "physical_pages": 33,
+  "body_start_physical_page": 9,
+  "entries": [
+    {
+      "label": "CHAPTER 1. INTRODUCTION AND DATASET",
+      "bookmark": "heading_1",
+      "level": 1,
+      "page": 1,
+      "physical_page": 9
+    },
+    {
+      "label": "1.1 Questions and analytical scope",
+      "bookmark": "heading_2",
+      "level": 2,
+      "page": 1,
+      "physical_page": 9
+    },
+    {
+      "label": "1.2 Source and measurement dictionary",
+      "bookmark": "heading_3",
+      "level": 2,
+      "page": 1,
+      "physical_page": 9
+    },
+    {
+      "label": "1.3 Reproducibility and analysis design",
+      "bookmark": "heading_5",
+      "level": 2,
+      "page": 2,
+      "physical_page": 10
+    },
+    {
+      "label": "CHAPTER 2. DATA QUALITY AND EXPLORATORY ANALYSIS",
+      "bookmark": "heading_6",
+      "level": 1,
+      "page": 3,
+      "physical_page": 11
+    },
+    {
+      "label": "2.1 Structural inspection and cleaning",
+      "bookmark": "heading_7",
+      "level": 2,
+      "page": 3,
+      "physical_page": 11
+    },
+    {
+      "label": "2.2 Descriptive statistics and graphical choices",
+      "bookmark": "heading_8",
+      "level": 2,
+      "page": 3,
+      "physical_page": 11
+    },
+    {
+      "label": "2.3 Outlier identification and treatment rationale",
+      "bookmark": "heading_12",
+      "level": 2,
+      "page": 5,
+      "physical_page": 13
+    },
+    {
+      "label": "CHAPTER 3. PROBABILITY DISTRIBUTIONS",
+      "bookmark": "heading_14",
+      "level": 1,
+      "page": 7,
+      "physical_page": 15
+    },
+    {
+      "label": "3.1 Candidate families and theory",
+      "bookmark": "heading_15",
+      "level": 2,
+      "page": 7,
+      "physical_page": 15
+    },
+    {
+      "label": "3.2 Fitted parameters and goodness of fit",
+      "bookmark": "heading_16",
+      "level": 2,
+      "page": 7,
+      "physical_page": 15
+    },
+    {
+      "label": "3.3 Visual evidence and implications",
+      "bookmark": "heading_18",
+      "level": 2,
+      "page": 8,
+      "physical_page": 16
+    },
+    {
+      "label": "CHAPTER 4. HYPOTHESIS TESTING",
+      "bookmark": "heading_21",
+      "level": 1,
+      "page": 10,
+      "physical_page": 18
+    },
+    {
+      "label": "4.1 Tests and assumptions",
+      "bookmark": "heading_22",
+      "level": 2,
+      "page": 10,
+      "physical_page": 18
+    },
+    {
+      "label": "4.2 Primary results and effect interpretation",
+      "bookmark": "heading_23",
+      "level": 2,
+      "page": 11,
+      "physical_page": 19
+    },
+    {
+      "label": "4.3 Group patterns and follow-up comparisons",
+      "bookmark": "heading_25",
+      "level": 2,
+      "page": 12,
+      "physical_page": 20
+    },
+    {
+      "label": "4.4 Scope of inference",
+      "bookmark": "heading_28",
+      "level": 2,
+      "page": 12,
+      "physical_page": 20
+    },
+    {
+      "label": "CHAPTER 5. CORRELATION ANALYSIS",
+      "bookmark": "heading_29",
+      "level": 1,
+      "page": 13,
+      "physical_page": 21
+    },
+    {
+      "label": "5.1 Pearson and Spearman theory",
+      "bookmark": "heading_30",
+      "level": 2,
+      "page": 13,
+      "physical_page": 21
+    },
+    {
+      "label": "5.2 Matrices and pairwise sample sizes",
+      "bookmark": "heading_31",
+      "level": 2,
+      "page": 14,
+      "physical_page": 22
+    },
+    {
+      "label": "5.3 Practical interpretation and collinearity",
+      "bookmark": "heading_35",
+      "level": 2,
+      "page": 16,
+      "physical_page": 24
+    },
+    {
+      "label": "CHAPTER 6. MULTIPLE LINEAR REGRESSION",
+      "bookmark": "heading_37",
+      "level": 1,
+      "page": 17,
+      "physical_page": 25
+    },
+    {
+      "label": "6.1 Model theory and feature definitions",
+      "bookmark": "heading_38",
+      "level": 2,
+      "page": 17,
+      "physical_page": 25
+    },
+    {
+      "label": "6.2 Leakage control and cross validation",
+      "bookmark": "heading_39",
+      "level": 2,
+      "page": 17,
+      "physical_page": 25
+    },
+    {
+      "label": "6.3 Final holdout evaluation",
+      "bookmark": "heading_41",
+      "level": 2,
+      "page": 18,
+      "physical_page": 26
+    },
+    {
+      "label": "6.4 Coefficients and model diagnostics",
+      "bookmark": "heading_44",
+      "level": 2,
+      "page": 19,
+      "physical_page": 27
+    },
+    {
+      "label": "6.5 Influence sensitivity and limits",
+      "bookmark": "heading_48",
+      "level": 2,
+      "page": 21,
+      "physical_page": 29
+    },
+    {
+      "label": "CHAPTER 7. CONCLUSIONS AND CONTRIBUTIONS",
+      "bookmark": "heading_50",
+      "level": 1,
+      "page": 23,
+      "physical_page": 31
+    },
+    {
+      "label": "7.1 Answers to the research questions",
+      "bookmark": "heading_51",
+      "level": 2,
+      "page": 23,
+      "physical_page": 31
+    },
+    {
+      "label": "7.2 Limitations and responsible use",
+      "bookmark": "heading_52",
+      "level": 2,
+      "page": 23,
+      "physical_page": 31
+    },
+    {
+      "label": "7.3 Contribution and submission confirmation",
+      "bookmark": "heading_53",
+      "level": 2,
+      "page": 24,
+      "physical_page": 32
+    },
+    {
+      "label": "Figure 2.2.1: Training distributions of length, weight, height and rings",
+      "bookmark": "figure_10",
+      "level": 2,
+      "page": 4,
+      "physical_page": 12
+    },
+    {
+      "label": "Figure 2.2.2: Length and Rings across recorded groups with sample counts",
+      "bookmark": "figure_11",
+      "level": 2,
+      "page": 5,
+      "physical_page": 13
+    },
+    {
+      "label": "Figure 3.3.1: Length histogram with fitted Normal density and Normal Q–Q plot",
+      "bookmark": "figure_19",
+      "level": 2,
+      "page": 8,
+      "physical_page": 16
+    },
+    {
+      "label": "Figure 3.3.2: Weight and log weight against Normal and Lognormal candidates",
+      "bookmark": "figure_20",
+      "level": 2,
+      "page": 9,
+      "physical_page": 17
+    },
+    {
+      "label": "Figure 4.3.1: Ring-band shares and mean Length with unadjusted 95 percent intervals",
+      "bookmark": "figure_26",
+      "level": 2,
+      "page": 12,
+      "physical_page": 20
+    },
+    {
+      "label": "Figure 5.2.1: Pearson correlations among the original numerical variables",
+      "bookmark": "figure_32",
+      "level": 2,
+      "page": 14,
+      "physical_page": 22
+    },
+    {
+      "label": "Figure 5.2.2: Spearman rank correlations among the original numerical variables",
+      "bookmark": "figure_33",
+      "level": 2,
+      "page": 15,
+      "physical_page": 23
+    },
+    {
+      "label": "Figure 5.3.1: Shell weight and length versus Rings and shared size information",
+      "bookmark": "figure_36",
+      "level": 2,
+      "page": 16,
+      "physical_page": 24
+    },
+    {
+      "label": "Figure 6.3.1: Observed and predicted test rings and comparison with the mean baseline",
+      "bookmark": "figure_43",
+      "level": 2,
+      "page": 19,
+      "physical_page": 27
+    },
+    {
+      "label": "Figure 6.4.1: Training residual patterns and Cook influence diagnostics",
+      "bookmark": "figure_47",
+      "level": 2,
+      "page": 21,
+      "physical_page": 29
+    },
+    {
+      "label": "Table 1.2.1: Variables retained from the UCI source",
+      "bookmark": "table_4",
+      "level": 2,
+      "page": 2,
+      "physical_page": 10
+    },
+    {
+      "label": "Table 2.2.1: Training descriptive statistics in stored units",
+      "bookmark": "table_9",
+      "level": 2,
+      "page": 3,
+      "physical_page": 11
+    },
+    {
+      "label": "Table 2.3.1: Univariate training outlier flags without automatic deletion",
+      "bookmark": "table_13",
+      "level": 2,
+      "page": 6,
+      "physical_page": 14
+    },
+    {
+      "label": "Table 3.2.1: Distribution assessments on 3341 training observations",
+      "bookmark": "table_17",
+      "level": 2,
+      "page": 8,
+      "physical_page": 16
+    },
+    {
+      "label": "Table 4.2.1: Primary tests with Holm correction across three questions",
+      "bookmark": "table_24",
+      "level": 2,
+      "page": 11,
+      "physical_page": 19
+    },
+    {
+      "label": "Table 4.3.1: Conditional post-hoc Welch comparisons after the omnibus rejection",
+      "bookmark": "table_27",
+      "level": 2,
+      "page": 12,
+      "physical_page": 20
+    },
+    {
+      "label": "Table 5.2.1: Original measurements associated with Rings on training data",
+      "bookmark": "table_34",
+      "level": 2,
+      "page": 16,
+      "physical_page": 24
+    },
+    {
+      "label": "Table 6.2.1: Fivefold training cross validation with shared folds",
+      "bookmark": "table_40",
+      "level": 2,
+      "page": 18,
+      "physical_page": 26
+    },
+    {
+      "label": "Table 6.3.1: Final evaluation of prespecified models on 836 held out records",
+      "bookmark": "table_42",
+      "level": 2,
+      "page": 18,
+      "physical_page": 26
+    },
+    {
+      "label": "Table 6.4.1: Full model coefficients with heteroskedasticity robust intervals",
+      "bookmark": "table_45",
+      "level": 2,
+      "page": 19,
+      "physical_page": 27
+    },
+    {
+      "label": "Table 6.4.2: Variance inflation factors from the training design",
+      "bookmark": "table_46",
+      "level": 2,
+      "page": 20,
+      "physical_page": 28
+    },
+    {
+      "label": "Table 6.5.1: Training only influence sensitivity with unchanged validation folds",
+      "bookmark": "table_49",
+      "level": 2,
+      "page": 22,
+      "physical_page": 30
+    },
+    {
+      "label": "Table 7.3.1: Proposed roles and shares pending verification of actual work",
+      "bookmark": "table_54",
+      "level": 2,
+      "page": 24,
+      "physical_page": 32
+    }
+  ]
+}

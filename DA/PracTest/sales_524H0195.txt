@@ -1,0 +1,382 @@
+[2025-03-13 15:15] ORDER#0001 | cust=KH120 | branch=td | item=TaiNghe | qty=4 | price=1.165.000 VND
+[2025-01-25 12:47] ORDER#0002 | cust=KH705 | branch=Q7 | item=BanPhim | qty=1 | price=830.000 VND
+ERROR: timeout while reading POS
+[2025-02-23 20:24] ORDER#0003 | cust=KH265 | branch=Q7 | item=ManHinh | qty=3 | price=4.20tr
+[2025-02-23 20:24] ORDER#0003 | cust=KH265 | branch=Q7 | item=ManHinh | qty=3 | price=4.20tr
+[2025-02-12 19:25] ORDER#0004 | cust=KH544 | branch=TD | item=Chuot | qty=1 | price=0.24tr
+[2025-03-08 19:13] ORDER#0005 | cust=KH838 | branch= Q1  | item=ManHinh | qty=3 | price=4.068.000 VND
+[2025-03-17 15:36] ORDER#0006 | cust=KH838 | branch=Q1 | item=Chuot | qty=1 | price=238.000 VND
+[2025-01-11 19:23] ORDER#0007 | cust=KH239 | branch=Q1 | item=BanPhim | qty=1 | price=917.000 VND
+[2025-01-11 19:23] ORDER#0007 | cust=KH239 | branch=Q1 | item=BanPhim | qty=1 | price=917.000 VND
+[2025-01-12 20:46] ORDER#0008 | cust=KH414 | branch=q1 | item=ManHinh | qty=2 | price=4011000
+[2025-02-22 12:40] ORDER#0009 | cust=KH758 | branch=q1 | item=BanPhim | qty=3 | price=871.000 VND
+[2025-01-17 12:16] ORDER#0010 | cust=KH472 | branch=Q7 | item=Chuot | qty=2 | price=?
+[2025-02-22 13:23] ORDER#0011 | cust=KH277 | branch=TD | item=ManHinh | qty=1 | price=4.044.000 VND
+----------------------------------------
+[2025-03-31 19:22] ORDER#0012 | cust=KH472 | branch=Q1 | item=ManHinh | qty=3 | price=?
+[2025-02-11 11:26] ORDER#0013 | cust=KH290 | branch=Q1 | item=TaiNghe | qty=1 | price=1.195.000 VND
+[2025-02-11 13:26] CANCEL ORDER#0013
+[2025-01-20 19:14] ORDER#0014 | cust=KH873 | branch=q1 | item=ManHinh | qty=1 | price=4.219.000 VND
+[2025-02-01 15:27] ORDER#0015 | cust=KH120 | branch=Q7 | item=TaiNghe | qty=4 | price=1.233.000 VND
+[2025-03-30 19:55] ORDER#0016 | cust=KH265 | branch=q1 | item=BanPhim | qty=2 | price=910.000 VND
+[2025-03-30 19:55] ORDER#0016 | cust=KH265 | branch=q1 | item=BanPhim | qty=2 | price=910.000 VND
+[2025-02-16 15:41] ORDER#0017 | cust=KH488 | branch=bt | item=TaiNghe | qty=1 | price=1177000
+[2025-02-09 19:35] ORDER#0018 | cust=KH120 | branch=Q7 | item=Chuot | qty=3 | price=245000
+[2025-01-03 13:08] ORDER#0019 | cust=KH894 | branch=BT | item=Chuot | qty=2 | price=0.26tr
+[2025-01-29 11:05] ORDER#0020 | cust=KH120 | branch=BT | item=Laptop | qty=1 | price=16250000
+[2025-03-28 20:02] ORDER#0021 | cust=KH705 | branch=bt | item=ManHinh | qty=1 | price=4.24tr
+[2025-03-27 15:58] ORDER#0022 | cust=KH894 | branch=Q7 | item=Laptop | qty=2 | price=16951000
+[2025-02-04 16:25] ORDER#0023 | cust=KH121 | branch=BT | item=Laptop | qty=2 | price=15174000
+[2025-02-04 16:25] ORDER#0023 | cust=KH121 | branch=BT | item=Laptop | qty=2 | price=15174000
+[2025-01-01 18:01] ORDER#0024 | cust=KH116 | branch=BT | item=TaiNghe | qty=3 | price=1.229.000 VND
+[2025-02-27 19:28] ORDER#0025 | cust=KH488 | branch=BT | item=BanPhim | qty=3 | price=0.89tr
+[2025-01-31 13:01] ORDER#0026 | cust=KH265 | branch=td | item=TaiNghe | qty=2 | price=1.097.000 VND
+[2025-02-08 09:47] ORDER#0027 | cust=KH247 | branch=BT | item=Chuot | qty=1 | price=259000
+[2025-02-12 16:07] ORDER#0028 | cust=KH873 | branch=Q7 | item=BanPhim | qty=2 | price=818000
+[2025-03-09 14:27] ORDER#0029 | cust=KH265 | branch=q7 | item=TaiNghe | qty=4 | price=1.19tr
+[2025-03-09 11:39] ORDER#0030 | cust=KH889 | branch=TD | item=TaiNghe | qty=3 | price=1.06tr
+[2025-01-24 16:48] ORDER#0031 | cust=KH290 | branch=td | item=Chuot | qty=2 | price=243.000 VND
+[2025-02-01 16:08] ORDER#0032 | cust=KH277 | branch=TD | item=TaiNghe | qty=2 | price=1192000
+[2025-03-30 16:28] ORDER#0033 | cust=KH758 | branch= Q7  | item=TaiNghe | qty=1 | price=1.213.000 VND
+[2025-01-26 15:55] ORDER#0034 | cust=KH661 | branch=BT | item=ManHinh | qty=? | price=4176000
+[2025-01-31 10:07] ORDER#0035 | cust=KH578 | branch=bt | item=BanPhim | qty=? | price=854.000 VND
+[2025-03-24 19:26] ORDER#0036 | cust=KH116 | branch=Q1 | item=ManHinh | qty=1 | price=4.510.000 VND
+[2025-02-17 09:47] ORDER#0037 | cust=KH838 | branch=Q1 | item=Laptop | qty=4 | price=15998000
+[2025-01-07 11:26] ORDER#0038 | cust=KH381 | branch=BT | item=BanPhim | qty=1 | price=899.000 VND
+[2025-01-07 13:26] CANCEL ORDER#0038
+WARN: printer offline
+[2025-03-24 14:53] ORDER#0039 | cust=KH201 | branch=Q1 | item=BanPhim | qty=1 | price=0.81tr
+[2025-03-24 14:53] ORDER#0039 | cust=KH201 | branch=Q1 | item=BanPhim | qty=1 | price=0.81tr
+[2025-01-21 10:44] ORDER#0040 | cust=KH705 | branch=bt | item=BanPhim | qty=1 | price=0.85tr
+[2025-01-21 10:44] ORDER#0040 | cust=KH705 | branch=bt | item=BanPhim | qty=1 | price=0.85tr
+[2025-01-19 15:34] ORDER#0041 | cust=KH705 | branch=bt | item=TaiNghe | qty=1 | price=1053000
+[2025-01-30 17:18] ORDER#0042 | cust=KH661 | branch=Q7 | item=ManHinh | qty=4 | price=4344000
+[2025-02-10 17:45] ORDER#0043 | cust=KH488 | branch=Q7 | item=Laptop | qty=3 | price=15.257.000 VND
+[2025-01-15 20:54] ORDER#0044 | cust=KH873 | branch=Q1 | item=ManHinh | qty=1 | price=4596000
+[2025-01-15 08:22] ORDER#0045 | cust=KH212 | branch=q7 | item=ManHinh | qty=5 | price=3909000
+[2025-02-02 13:56] ORDER#0046 | cust=KH496 | branch=TD | item=BanPhim | qty=1 | price=836.000 VND
+[2025-01-15 10:44] ORDER#0047 | cust=KH544 | branch=Q1 | item=BanPhim | qty=1 | price=842.000 VND
+[2025-03-10 17:53] ORDER#0048 | cust=KH121 | branch=BT | item=BanPhim | qty=? | price=940000
+INFO: sync with server OK
+[2025-01-05 14:40] ORDER#0049 | cust=KH894 | branch=TD | item=Chuot | qty=2 | price=?
+[2025-01-31 12:50] ORDER#0050 | cust=KH894 | branch=TD | item=ManHinh | qty=1 | price=4.280.000 VND
+[2025-01-08 17:10] ORDER#0051 | cust=KH894 | branch=q7 | item=TaiNghe | qty=4 | price=1100000
+[2025-01-08 17:10] ORDER#0051 | cust=KH894 | branch=q7 | item=TaiNghe | qty=4 | price=1100000
+[2025-03-29 17:08] ORDER#0052 | cust=KH578 | branch=BT | item=Chuot | qty=5 | price=249.000 VND
+[2025-03-29 17:08] ORDER#0052 | cust=KH578 | branch=BT | item=Chuot | qty=5 | price=249.000 VND
+[2025-03-30 15:25] ORDER#0053 | cust=KH239 | branch=Q7 | item=BanPhim | qty=2 | price=902.000 VND
+[2025-03-06 15:27] ORDER#0054 | cust=KH838 | branch=q7 | item=BanPhim | qty=1 | price=964.000 VND
+[2025-03-01 19:17] ORDER#0055 | cust=KH496 | branch=td | item=ManHinh | qty=1 | price=4004000
+[2025-03-27 15:00] ORDER#0056 | cust=KH381 | branch=q7 | item=Laptop | qty=5 | price=16.92tr
+[2025-03-26 16:11] ORDER#0057 | cust=KH290 | branch=Q1 | item=TaiNghe | qty=1 | price=1.045.000 VND
+[2025-01-14 10:45] ORDER#0058 | cust=KH496 | branch= Q1  | item=BanPhim | qty=3 | price=817.000 VND
+[2025-02-02 08:26] ORDER#0059 | cust=KH496 | branch=Q7 | item=TaiNghe | qty=? | price=1.10tr
+[2025-02-02 10:26] CANCEL ORDER#0059
+[2025-03-21 11:22] ORDER#0060 | cust=KH705 | branch=Q1 | item=TaiNghe | qty=5 | price=1.186.000 VND
+[2025-01-11 09:56] ORDER#0061 | cust=KH121 | branch=BT | item=TaiNghe | qty=3 | price=1.216.000 VND
+[2025-03-08 20:58] ORDER#0062 | cust=KH201 | branch=BT | item=ManHinh | qty=4 | price=3.880.000 VND
+[2025-02-23 14:41] ORDER#0063 | cust=KH116 | branch=Q7 | item=Chuot | qty=3 | price=253000
+# SYSTEM: backup completed
+[2025-01-02 10:42] ORDER#0064 | cust=KH120 | branch=Q7 | item=TaiNghe | qty=1 | price=1.054.000 VND
+[2025-02-22 15:05] ORDER#0065 | cust=KH873 | branch=BT | item=BanPhim | qty=3 | price=865000
+[2025-02-28 14:39] ORDER#0066 | cust=KH496 | branch=Q1 | item=Laptop | qty=1 | price=14.269.000 VND
+[2025-01-13 12:30] ORDER#0067 | cust=KH894 | branch=Q7 | item=Chuot | qty=2 | price=255.000 VND
+[2025-03-19 14:56] ORDER#0068 | cust=KH889 | branch=BT | item=Laptop | qty=1 | price=16929000
+[2025-03-19 14:56] ORDER#0068 | cust=KH889 | branch=BT | item=Laptop | qty=1 | price=16929000
+INFO: sync with server OK
+[2025-01-15 13:55] ORDER#0069 | cust=KH381 | branch=BT | item=TaiNghe | qty=2 | price=1.152.000 VND
+[2025-02-03 20:10] ORDER#0070 | cust=KH212 | branch=td | item=ManHinh | qty=4 | price=4569000
+[2025-03-26 10:25] ORDER#0071 | cust=KH290 | branch=Q1 | item=Laptop | qty=1 | price=15383000
+[2025-03-26 12:25] CANCEL ORDER#0071
+WARN: printer offline
+[2025-01-23 10:22] ORDER#0072 | cust=KH894 | branch=Q1 | item=TaiNghe | qty=3 | price=1.194.000 VND
+[2025-01-03 13:05] ORDER#0073 | cust=KH873 | branch=td | item=ManHinh | qty=1 | price=4.003.000 VND
+[2025-02-03 19:46] ORDER#0074 | cust=KH381 | branch= TD  | item=BanPhim | qty=4 | price=930000
+[2025-02-18 20:56] ORDER#0075 | cust=KH116 | branch=Q1 | item=Laptop | qty=999 | price=14.516.000 VND
+[2025-03-29 11:35] ORDER#0076 | cust=KH578 | branch=TD | item=Chuot | qty=4 | price=262.000 VND
+[2025-01-04 14:36] ORDER#0077 | cust=KH201 | branch=bt | item=ManHinh | qty=2 | price=4.51tr
+[2025-01-04 14:36] ORDER#0077 | cust=KH201 | branch=bt | item=ManHinh | qty=2 | price=4.51tr
+[2025-01-15 08:19] ORDER#0078 | cust=KH120 | branch=Q1 | item=TaiNghe | qty=3 | price=1.23tr
+[2025-03-07 16:01] ORDER#0079 | cust=KH544 | branch=BT | item=BanPhim | qty=4 | price=932.000 VND
+[2025-02-10 18:50] ORDER#0080 | cust=KH472 | branch= Q1  | item=Laptop | qty=4 | price=14.191.000 VND
+[2025-03-19 15:00] ORDER#0081 | cust=KH472 | branch=Q7 | item=TaiNghe | qty=1 | price=1.102.000 VND
+[2025-03-14 13:20] ORDER#0082 | cust=KH488 | branch= Q7  | item=Chuot | qty=1 | price=246.000 VND
+[2025-03-31 20:20] ORDER#0083 | cust=KH873 | branch=TD | item=Laptop | qty=4 | price=14.057.000 VND
+[2025-03-25 10:16] ORDER#0084 | cust=KH960 | branch=bt | item=TaiNghe | qty=3 | price=1.249.000 VND
+[2025-03-19 12:44] ORDER#0085 | cust=KH894 | branch=td | item=TaiNghe | qty=5 | price=1.097.000 VND
+[2025-01-29 15:49] ORDER#0086 | cust=KH758 | branch=Q7 | item=ManHinh | qty=1 | price=4.436.000 VND
+[2025-03-29 10:23] ORDER#0087 | cust=KH290 | branch=q7 | item=BanPhim | qty=3 | price=890000
+[2025-02-25 20:55] ORDER#0088 | cust=KH960 | branch=q1 | item=Chuot | qty=2 | price=0.24tr
+[2025-03-06 15:02] ORDER#0089 | cust=KH414 | branch=td | item=BanPhim | qty=3 | price=944.000 VND
+[2025-03-06 15:02] ORDER#0089 | cust=KH414 | branch=td | item=BanPhim | qty=3 | price=944.000 VND
+[2025-01-12 20:29] ORDER#0090 | cust=KH381 | branch=TD | item=BanPhim | qty=3 | price=939.000 VND
+[2025-01-14 17:35] ORDER#0091 | cust=KH414 | branch=bt | item=BanPhim | qty=2 | price=962.000 VND
+[2025-03-07 18:28] ORDER#0092 | cust=KH212 | branch=td | item=TaiNghe | qty=1 | price=?
+[2025-02-15 10:44] ORDER#0093 | cust=KH381 | branch=BT | item=Laptop | qty=1 | price=14.21tr
+[2025-03-30 11:56] ORDER#0094 | cust=KH758 | branch=bt | item=Chuot | qty=1 | price=0.25tr
+----------------------------------------
+[2025-03-31 15:50] ORDER#0095 | cust=KH838 | branch=BT | item=Laptop | qty=1 | price=16.792.000 VND
+[2025-03-21 08:34] ORDER#0096 | cust=KH894 | branch=q7 | item=TaiNghe | qty=1 | price=1.072.000 VND
+# SYSTEM: backup completed
+[2025-02-25 09:46] ORDER#0097 | cust=KH414 | branch=Q7 | item=ManHinh | qty=1 | price=4474000
+[2025-02-25 09:46] ORDER#0097 | cust=KH414 | branch=Q7 | item=ManHinh | qty=1 | price=4474000
+[2025-02-09 18:30] ORDER#0098 | cust=KH758 | branch=Q7 | item=ManHinh | qty=1 | price=4.41tr
+[2025-01-10 14:18] ORDER#0099 | cust=KH661 | branch=bt | item=BanPhim | qty=1 | price=931000
+[2025-03-19 12:06] ORDER#0100 | cust=KH265 | branch=Q7 | item=BanPhim | qty=1 | price=882.000 VND
+[2025-02-28 15:26] ORDER#0101 | cust=KH247 | branch=BT | item=Chuot | qty=2 | price=252.000 VND
+[2025-03-18 12:10] ORDER#0102 | cust=KH472 | branch=BT | item=BanPhim | qty=1 | price=936000
+[2025-01-26 15:47] ORDER#0103 | cust=KH578 | branch=td | item=TaiNghe | qty=1 | price=1152000
+[2025-01-26 15:47] ORDER#0103 | cust=KH578 | branch=td | item=TaiNghe | qty=1 | price=1152000
+[2025-02-18 16:31] ORDER#0104 | cust=KH496 | branch=Q7 | item=TaiNghe | qty=1 | price=1.211.000 VND
+----------------------------------------
+[2025-01-22 13:48] ORDER#0105 | cust=KH414 | branch=td | item=TaiNghe | qty=4 | price=1120000
+[2025-01-29 20:21] ORDER#0106 | cust=KH120 | branch=q1 | item=TaiNghe | qty=1 | price=1.246.000 VND
+[2025-01-07 14:38] ORDER#0107 | cust=KH488 | branch=Q7 | item=Chuot | qty=5 | price=0.25tr
+[2025-03-07 10:57] ORDER#0108 | cust=KH212 | branch=TD | item=Laptop | qty=3 | price=15.112.000 VND
+[2025-02-13 13:44] ORDER#0109 | cust=KH894 | branch=Q7 | item=ManHinh | qty=1 | price=?
+[2025-01-22 14:22] ORDER#0110 | cust=KH889 | branch=BT | item=TaiNghe | qty=2 | price=1.051.000 VND
+[2025-01-03 14:43] ORDER#0111 | cust=KH120 | branch=td | item=Laptop | qty=2 | price=14.645.000 VND
+[2025-01-03 14:43] ORDER#0111 | cust=KH120 | branch=td | item=Laptop | qty=2 | price=14.645.000 VND
+[2025-03-05 16:07] ORDER#0112 | cust=KH277 | branch=BT | item=BanPhim | qty=1 | price=961.000 VND
+[2025-03-08 18:36] ORDER#0113 | cust=KH212 | branch= Q1  | item=Chuot | qty=1 | price=260.000 VND
+[2025-01-04 11:32] ORDER#0114 | cust=KH121 | branch=Q1 | item=ManHinh | qty=2 | price=3.870.000 VND
+[2025-01-15 19:47] ORDER#0115 | cust=KH544 | branch=Q7 | item=TaiNghe | qty=3 | price=1.26tr
+[2025-02-28 12:13] ORDER#0116 | cust=KH838 | branch=Q7 | item=ManHinh | qty=1 | price=4.394.000 VND
+[2025-02-08 14:43] ORDER#0117 | cust=KH247 | branch=TD | item=TaiNghe | qty=1 | price=1.184.000 VND
+[2025-03-12 17:29] ORDER#0118 | cust=KH758 | branch=td | item=BanPhim | qty=1 | price=899.000 VND
+[2025-01-25 10:10] ORDER#0119 | cust=KH960 | branch=q7 | item=TaiNghe | qty=1 | price=1.170.000 VND
+[2025-02-27 08:00] ORDER#0120 | cust=KH838 | branch=td | item=BanPhim | qty=1 | price=825.000 VND
+[2025-02-08 08:03] ORDER#0121 | cust=KH873 | branch= Q7  | item=Chuot | qty=1 | price=258.000 VND
+[2025-02-17 10:45] ORDER#0122 | cust=KH496 | branch=TD | item=Laptop | qty=5 | price=16276000
+[2025-03-26 10:23] ORDER#0123 | cust=KH496 | branch=BT | item=BanPhim | qty=1 | price=962000
+[2025-03-16 17:47] ORDER#0124 | cust=KH290 | branch=Q1 | item=Chuot | qty=4 | price=251000
+[2025-03-13 11:52] ORDER#0125 | cust=KH212 | branch=BT | item=TaiNghe | qty=5 | price=1.078.000 VND
+[2025-03-13 13:52] CANCEL ORDER#0125
+[2025-03-19 13:47] ORDER#0126 | cust=KH496 | branch= TD  | item=Laptop | qty=5 | price=16.077.000 VND
+[2025-03-08 12:43] ORDER#0127 | cust=KH873 | branch=Q1 | item=BanPhim | qty=1 | price=813000
+[2025-01-08 18:17] ORDER#0128 | cust=KH758 | branch= Q7  | item=BanPhim | qty=1 | price=953.000 VND
+[2025-02-20 10:24] ORDER#0129 | cust=KH472 | branch= Q7  | item=Chuot | qty=1 | price=?
+[2025-03-18 10:13] ORDER#0130 | cust=KH290 | branch=BT | item=Chuot | qty=3 | price=258000
+[2025-01-25 19:57] ORDER#0131 | cust=KH705 | branch=TD | item=TaiNghe | qty=2 | price=1229000
+[2025-01-25 21:57] CANCEL ORDER#0131
+[2025-02-15 13:21] ORDER#0132 | cust=KH758 | branch=Q7 | item=Chuot | qty=2 | price=243000
+[2025-01-13 11:30] ORDER#0133 | cust=KH201 | branch=td | item=Laptop | qty=5 | price=15.076.000 VND
+[2025-01-10 10:48] ORDER#0134 | cust=KH960 | branch=BT | item=BanPhim | qty=3 | price=917.000 VND
+[2025-02-11 16:13] ORDER#0135 | cust=KH277 | branch=Q1 | item=Laptop | qty=2 | price=15115000
+[2025-01-06 11:03] ORDER#0136 | cust=KH838 | branch=Q1 | item=BanPhim | qty=1 | price=0.92tr
+[2025-03-23 15:25] ORDER#0137 | cust=KH201 | branch=TD | item=TaiNghe | qty=2 | price=?
+[2025-02-03 19:33] ORDER#0138 | cust=KH544 | branch=BT | item=BanPhim | qty=2 | price=807.000 VND
+[2025-01-26 15:03] ORDER#0139 | cust=KH894 | branch=BT | item=BanPhim | qty=2 | price=821000
+[2025-01-22 13:56] ORDER#0140 | cust=KH116 | branch= Q1  | item=TaiNghe | qty=1 | price=1.110.000 VND
+[2025-03-25 16:42] ORDER#0141 | cust=KH201 | branch=Q7 | item=TaiNghe | qty=1 | price=1.13tr
+# SYSTEM: backup completed
+[2025-03-19 19:04] ORDER#0142 | cust=KH758 | branch=BT | item=Chuot | qty=5 | price=?
+[2025-01-22 11:36] ORDER#0143 | cust=KH578 | branch=TD | item=TaiNghe | qty=1 | price=?
+[2025-01-20 15:19] ORDER#0144 | cust=KH578 | branch=td | item=TaiNghe | qty=4 | price=1.098.000 VND
+[2025-02-01 17:15] ORDER#0145 | cust=KH116 | branch=Q1 | item=Laptop | qty=1 | price=15132000
+[2025-03-11 18:55] ORDER#0146 | cust=KH239 | branch=td | item=ManHinh | qty=1 | price=?
+[2025-03-11 18:55] ORDER#0146 | cust=KH239 | branch=td | item=ManHinh | qty=1 | price=?
+[2025-02-24 12:27] ORDER#0147 | cust=KH290 | branch=TD | item=ManHinh | qty=2 | price=3.925.000 VND
+[2025-01-24 19:06] ORDER#0148 | cust=KH838 | branch=q1 | item=Laptop | qty=3 | price=15355000
+[2025-01-11 09:42] ORDER#0149 | cust=KH544 | branch=Q7 | item=Chuot | qty=5 | price=225.000 VND
+[2025-02-23 20:37] ORDER#0150 | cust=KH838 | branch= TD  | item=ManHinh | qty=2 | price=4.386.000 VND
+[2025-02-05 08:18] ORDER#0151 | cust=KH121 | branch= TD  | item=Laptop | qty=2 | price=14784000
+WARN: printer offline
+[2025-03-09 15:10] ORDER#0152 | cust=KH894 | branch=q7 | item=Chuot | qty=1 | price=271.000 VND
+[2025-01-31 09:16] ORDER#0153 | cust=KH121 | branch=Q1 | item=TaiNghe | qty=2 | price=1.263.000 VND
+[2025-01-02 17:14] ORDER#0154 | cust=KH496 | branch= Q1  | item=BanPhim | qty=2 | price=931.000 VND
+[2025-01-01 20:38] ORDER#0155 | cust=KH201 | branch=Q1 | item=BanPhim | qty=2 | price=917.000 VND
+[2025-03-09 17:02] ORDER#0156 | cust=KH960 | branch=Q1 | item=BanPhim | qty=4 | price=880.000 VND
+ERROR: timeout while reading POS
+[2025-01-30 11:28] ORDER#0157 | cust=KH894 | branch=Q7 | item=ManHinh | qty=5 | price=4.07tr
+[2025-02-19 17:18] ORDER#0158 | cust=KH121 | branch=BT | item=Chuot | qty=1 | price=243.000 VND
+[2025-02-08 13:30] ORDER#0159 | cust=KH381 | branch= TD  | item=ManHinh | qty=1 | price=3.882.000 VND
+[2025-01-24 10:29] ORDER#0160 | cust=KH873 | branch=BT | item=Chuot | qty=999 | price=271.000 VND
+[2025-01-24 10:29] ORDER#0160 | cust=KH873 | branch=BT | item=Chuot | qty=999 | price=271.000 VND
+[2025-02-19 10:39] ORDER#0161 | cust=KH239 | branch=BT | item=BanPhim | qty=3 | price=875000
+[2025-01-20 14:22] ORDER#0162 | cust=KH277 | branch=Q1 | item=Laptop | qty=1 | price=14.097.000 VND
+[2025-01-08 15:00] ORDER#0163 | cust=KH578 | branch=BT | item=BanPhim | qty=1 | price=840.000 VND
+[2025-01-15 12:54] ORDER#0164 | cust=KH472 | branch=Q1 | item=TaiNghe | qty=2 | price=1.18tr
+[2025-03-02 20:09] ORDER#0165 | cust=KH277 | branch=q7 | item=ManHinh | qty=1 | price=4516000
+[2025-02-07 20:06] ORDER#0166 | cust=KH414 | branch=td | item=TaiNghe | qty=2 | price=1103000
+[2025-02-09 14:45] ORDER#0167 | cust=KH488 | branch=Q7 | item=Chuot | qty=1 | price=265.000 VND
+[2025-01-06 16:42] ORDER#0168 | cust=KH705 | branch=TD | item=ManHinh | qty=2 | price=3.824.000 VND
+[2025-01-23 18:36] ORDER#0169 | cust=KH247 | branch=BT | item=Chuot | qty=3 | price=274.000 VND
+[2025-03-15 15:38] ORDER#0170 | cust=KH116 | branch=bt | item=TaiNghe | qty=1 | price=1.242.000 VND
+[2025-02-20 19:36] ORDER#0171 | cust=KH472 | branch=TD | item=Laptop | qty=5 | price=?
+[2025-01-24 18:12] ORDER#0172 | cust=KH960 | branch=bt | item=ManHinh | qty=1 | price=4.191.000 VND
+[2025-01-29 20:26] ORDER#0173 | cust=KH121 | branch=q7 | item=Laptop | qty=5 | price=16.38tr
+[2025-01-02 20:31] ORDER#0174 | cust=KH705 | branch=BT | item=TaiNghe | qty=? | price=?
+[2025-01-08 17:36] ORDER#0175 | cust=KH544 | branch=q7 | item=TaiNghe | qty=1 | price=1.188.000 VND
+[2025-03-14 09:01] ORDER#0176 | cust=KH116 | branch=bt | item=ManHinh | qty=2 | price=3.889.000 VND
+[2025-01-15 18:39] ORDER#0177 | cust=KH705 | branch=TD | item=Chuot | qty=4 | price=261.000 VND
+[2025-01-16 12:20] ORDER#0178 | cust=KH212 | branch=Q1 | item=Laptop | qty=2 | price=15.704.000 VND
+[2025-01-20 08:57] ORDER#0179 | cust=KH120 | branch=Q1 | item=BanPhim | qty=1 | price=873.000 VND
+[2025-02-05 12:19] ORDER#0180 | cust=KH472 | branch=Q7 | item=ManHinh | qty=3 | price=4.205.000 VND
+[2025-03-05 09:07] ORDER#0181 | cust=KH381 | branch=TD | item=Chuot | qty=1 | price=264.000 VND
+[2025-03-30 15:01] ORDER#0182 | cust=KH414 | branch=Q1 | item=BanPhim | qty=1 | price=891.000 VND
+[2025-03-30 20:21] ORDER#0183 | cust=KH544 | branch= BT  | item=ManHinh | qty=1 | price=4015000
+[2025-01-11 10:17] ORDER#0184 | cust=KH496 | branch=q7 | item=ManHinh | qty=5 | price=4.150.000 VND
+[2025-01-08 08:25] ORDER#0185 | cust=KH661 | branch= BT  | item=Chuot | qty=3 | price=273000
+[2025-01-01 09:02] ORDER#0186 | cust=KH201 | branch=Q7 | item=TaiNghe | qty=5 | price=1.126.000 VND
+# SYSTEM: backup completed
+[2025-03-22 18:03] ORDER#0187 | cust=KH488 | branch=Q7 | item=ManHinh | qty=1 | price=4.136.000 VND
+[2025-03-26 09:17] ORDER#0188 | cust=KH705 | branch=Q7 | item=TaiNghe | qty=? | price=?
+[2025-03-19 15:10] ORDER#0189 | cust=KH201 | branch=TD | item=ManHinh | qty=4 | price=4.224.000 VND
+[2025-01-27 11:51] ORDER#0190 | cust=KH488 | branch= Q1  | item=Laptop | qty=3 | price=16844000
+[2025-03-26 09:11] ORDER#0191 | cust=KH247 | branch=BT | item=ManHinh | qty=1 | price=4.533.000 VND
+[2025-01-12 20:13] ORDER#0192 | cust=KH116 | branch=q7 | item=Chuot | qty=2 | price=233.000 VND
+[2025-01-12 22:13] CANCEL ORDER#0192
+[2025-01-06 15:46] ORDER#0193 | cust=KH212 | branch=BT | item=BanPhim | qty=1 | price=978.000 VND
+# SYSTEM: backup completed
+[2025-01-17 08:21] ORDER#0194 | cust=KH544 | branch= Q1  | item=BanPhim | qty=2 | price=843.000 VND
+[2025-01-23 17:50] ORDER#0195 | cust=KH488 | branch=Q7 | item=Chuot | qty=4 | price=238.000 VND
+[2025-02-05 17:48] ORDER#0196 | cust=KH889 | branch=TD | item=BanPhim | qty=3 | price=866.000 VND
+[2025-02-13 11:23] ORDER#0197 | cust=KH381 | branch=BT | item=Chuot | qty=? | price=252.000 VND
+[2025-03-14 13:31] ORDER#0198 | cust=KH488 | branch=TD | item=Chuot | qty=1 | price=265.000 VND
+[2025-03-14 11:32] ORDER#0199 | cust=KH894 | branch=TD | item=ManHinh | qty=? | price=4111000
+[2025-03-03 19:25] ORDER#0200 | cust=KH290 | branch=TD | item=Laptop | qty=4 | price=?
+[2025-01-28 19:21] ORDER#0201 | cust=KH414 | branch=BT | item=BanPhim | qty=2 | price=0.81tr
+[2025-01-17 20:04] ORDER#0202 | cust=KH120 | branch=Q7 | item=Laptop | qty=5 | price=15.786.000 VND
+[2025-02-02 09:57] ORDER#0203 | cust=KH578 | branch=Q1 | item=ManHinh | qty=2 | price=3.913.000 VND
+[2025-03-16 11:52] ORDER#0204 | cust=KH116 | branch=Q7 | item=TaiNghe | qty=1 | price=1.195.000 VND
+[2025-03-05 11:57] ORDER#0205 | cust=KH120 | branch=TD | item=BanPhim | qty=2 | price=825000
+[2025-02-23 14:10] ORDER#0206 | cust=KH544 | branch=q1 | item=BanPhim | qty=1 | price=813000
+[2025-01-01 11:55] ORDER#0207 | cust=KH578 | branch=td | item=Laptop | qty=5 | price=15.52tr
+[2025-02-27 19:59] ORDER#0208 | cust=KH488 | branch=q1 | item=TaiNghe | qty=1 | price=1.100.000 VND
+[2025-03-04 10:46] ORDER#0209 | cust=KH889 | branch= Q1  | item=BanPhim | qty=2 | price=908000
+[2025-03-30 15:30] ORDER#0210 | cust=KH247 | branch=TD | item=BanPhim | qty=3 | price=964.000 VND
+[2025-02-16 18:54] ORDER#0211 | cust=KH661 | branch=BT | item=Chuot | qty=2 | price=271.000 VND
+[2025-01-02 15:38] ORDER#0212 | cust=KH472 | branch=BT | item=BanPhim | qty=2 | price=821000
+[2025-01-22 15:19] ORDER#0213 | cust=KH544 | branch=Q1 | item=Laptop | qty=2 | price=16687000
+[2025-02-17 09:30] ORDER#0214 | cust=KH838 | branch=BT | item=ManHinh | qty=5 | price=4552000
+[2025-02-17 16:32] ORDER#0215 | cust=KH578 | branch=Q7 | item=Laptop | qty=1 | price=14.37tr
+[2025-01-08 09:38] ORDER#0216 | cust=KH265 | branch=td | item=BanPhim | qty=1 | price=0.81tr
+[2025-03-28 12:28] ORDER#0217 | cust=KH894 | branch= BT  | item=BanPhim | qty=3 | price=823000
+INFO: sync with server OK
+[2025-02-16 18:10] ORDER#0218 | cust=KH116 | branch=Q1 | item=Chuot | qty=4 | price=231000
+[2025-02-16 13:23] ORDER#0219 | cust=KH758 | branch= Q7  | item=TaiNghe | qty=999 | price=1.127.000 VND
+[2025-02-16 13:23] ORDER#0219 | cust=KH758 | branch= Q7  | item=TaiNghe | qty=999 | price=1.127.000 VND
+[2025-02-26 16:55] ORDER#0220 | cust=KH120 | branch=td | item=Chuot | qty=4 | price=243000
+[2025-02-26 16:55] ORDER#0220 | cust=KH120 | branch=td | item=Chuot | qty=4 | price=243000
+[2025-03-11 10:17] ORDER#0221 | cust=KH120 | branch=TD | item=BanPhim | qty=2 | price=970000
+[2025-01-25 18:18] ORDER#0222 | cust=KH201 | branch=BT | item=BanPhim | qty=5 | price=923.000 VND
+[2025-01-07 19:33] ORDER#0223 | cust=KH496 | branch=TD | item=ManHinh | qty=5 | price=3.978.000 VND
+[2025-01-07 19:33] ORDER#0223 | cust=KH496 | branch=TD | item=ManHinh | qty=5 | price=3.978.000 VND
+[2025-01-09 16:16] ORDER#0224 | cust=KH889 | branch=Q1 | item=BanPhim | qty=2 | price=?
+[2025-01-04 17:50] ORDER#0225 | cust=KH277 | branch=Q1 | item=Chuot | qty=1 | price=247.000 VND
+[2025-01-01 12:23] ORDER#0226 | cust=KH247 | branch=BT | item=TaiNghe | qty=1 | price=1.147.000 VND
+[2025-02-28 15:11] ORDER#0227 | cust=KH873 | branch=Q7 | item=TaiNghe | qty=3 | price=1.169.000 VND
+[2025-02-28 15:11] ORDER#0227 | cust=KH873 | branch=Q7 | item=TaiNghe | qty=3 | price=1.169.000 VND
+[2025-01-25 19:10] ORDER#0228 | cust=KH239 | branch=TD | item=Laptop | qty=2 | price=16.277.000 VND
+[2025-02-19 09:54] ORDER#0229 | cust=KH758 | branch=Q1 | item=Laptop | qty=1 | price=?
+[2025-03-01 18:33] ORDER#0230 | cust=KH239 | branch=Q7 | item=ManHinh | qty=2 | price=4.56tr
+[2025-03-31 14:45] ORDER#0231 | cust=KH121 | branch=Q7 | item=ManHinh | qty=1 | price=?
+[2025-02-27 09:14] ORDER#0232 | cust=KH578 | branch=Q7 | item=Laptop | qty=3 | price=14488000
+[2025-01-22 11:52] ORDER#0233 | cust=KH201 | branch=Q1 | item=BanPhim | qty=5 | price=905.000 VND
+[2025-02-13 20:19] ORDER#0234 | cust=KH381 | branch=TD | item=Laptop | qty=3 | price=15429000
+[2025-02-05 08:26] ORDER#0235 | cust=KH116 | branch=TD | item=BanPhim | qty=1 | price=896000
+[2025-03-02 19:09] ORDER#0236 | cust=KH496 | branch=Q7 | item=Chuot | qty=5 | price=?
+[2025-01-15 17:15] ORDER#0237 | cust=KH838 | branch=td | item=BanPhim | qty=999 | price=0.94tr
+[2025-01-16 12:50] ORDER#0238 | cust=KH120 | branch=q7 | item=Chuot | qty=2 | price=274.000 VND
+[2025-03-26 08:44] ORDER#0239 | cust=KH247 | branch=Q7 | item=Laptop | qty=1 | price=15094000
+[2025-02-07 19:14] ORDER#0240 | cust=KH472 | branch=TD | item=Laptop | qty=5 | price=14.576.000 VND
+[2025-02-28 10:53] ORDER#0241 | cust=KH758 | branch= Q7  | item=Chuot | qty=2 | price=245.000 VND
+[2025-02-15 12:07] ORDER#0242 | cust=KH661 | branch=BT | item=TaiNghe | qty=2 | price=1.14tr
+[2025-02-22 08:00] ORDER#0243 | cust=KH496 | branch= TD  | item=Chuot | qty=2 | price=265.000 VND
+----------------------------------------
+[2025-03-07 09:14] ORDER#0244 | cust=KH544 | branch=q7 | item=BanPhim | qty=4 | price=0.97tr
+[2025-01-22 17:58] ORDER#0245 | cust=KH290 | branch=Q7 | item=TaiNghe | qty=? | price=1.232.000 VND
+[2025-01-22 19:58] CANCEL ORDER#0245
+[2025-01-10 15:35] ORDER#0246 | cust=KH121 | branch=td | item=TaiNghe | qty=2 | price=1.20tr
+[2025-03-30 08:51] ORDER#0247 | cust=KH544 | branch=TD | item=Chuot | qty=1 | price=0.26tr
+[2025-01-30 20:58] ORDER#0248 | cust=KH201 | branch=BT | item=BanPhim | qty=1 | price=905.000 VND
+[2025-03-05 16:51] ORDER#0249 | cust=KH381 | branch=td | item=BanPhim | qty=1 | price=849000
+[2025-02-06 16:13] ORDER#0250 | cust=KH472 | branch= TD  | item=BanPhim | qty=5 | price=819.000 VND
+[2025-02-06 16:13] ORDER#0250 | cust=KH472 | branch= TD  | item=BanPhim | qty=5 | price=819.000 VND
+[2025-03-27 08:43] ORDER#0251 | cust=KH265 | branch=BT | item=Laptop | qty=1 | price=15570000
+[2025-03-27 10:43] CANCEL ORDER#0251
+[2025-03-28 09:29] ORDER#0252 | cust=KH116 | branch=q1 | item=Laptop | qty=1 | price=17043000
+[2025-02-08 18:58] ORDER#0253 | cust=KH894 | branch=TD | item=TaiNghe | qty=1 | price=1194000
+[2025-03-09 15:11] ORDER#0254 | cust=KH838 | branch=Q7 | item=Chuot | qty=3 | price=263000
+[2025-02-06 12:15] ORDER#0255 | cust=KH705 | branch= BT  | item=BanPhim | qty=4 | price=973.000 VND
+[2025-03-15 15:18] ORDER#0256 | cust=KH265 | branch=q1 | item=BanPhim | qty=2 | price=859.000 VND
+[2025-01-30 14:03] ORDER#0257 | cust=KH121 | branch=td | item=TaiNghe | qty=2 | price=1.115.000 VND
+[2025-03-10 15:41] ORDER#0258 | cust=KH889 | branch=bt | item=Laptop | qty=5 | price=16.982.000 VND
+[2025-01-16 11:32] ORDER#0259 | cust=KH116 | branch=q7 | item=ManHinh | qty=? | price=?
+[2025-03-18 13:39] ORDER#0260 | cust=KH873 | branch=Q7 | item=BanPhim | qty=1 | price=945000
+[2025-03-21 08:54] ORDER#0261 | cust=KH116 | branch=Q1 | item=TaiNghe | qty=3 | price=1.123.000 VND
+[2025-03-28 08:31] ORDER#0262 | cust=KH578 | branch=BT | item=BanPhim | qty=4 | price=0.95tr
+[2025-02-18 20:20] ORDER#0263 | cust=KH838 | branch=BT | item=Chuot | qty=3 | price=242.000 VND
+[2025-03-26 11:46] ORDER#0264 | cust=KH121 | branch=TD | item=Laptop | qty=1 | price=14.12tr
+[2025-01-15 19:52] ORDER#0265 | cust=KH960 | branch=q1 | item=BanPhim | qty=2 | price=808.000 VND
+[2025-03-04 10:08] ORDER#0266 | cust=KH265 | branch=TD | item=BanPhim | qty=4 | price=905000
+[2025-01-29 13:10] ORDER#0267 | cust=KH488 | branch=Q1 | item=BanPhim | qty=1 | price=961.000 VND
+[2025-03-14 13:53] ORDER#0268 | cust=KH496 | branch=Q1 | item=BanPhim | qty=2 | price=850.000 VND
+[2025-01-15 09:45] ORDER#0269 | cust=KH116 | branch=TD | item=Laptop | qty=1 | price=16.033.000 VND
+ERROR: timeout while reading POS
+[2025-02-06 13:57] ORDER#0270 | cust=KH290 | branch=TD | item=ManHinh | qty=1 | price=4150000
+[2025-02-07 08:50] ORDER#0271 | cust=KH705 | branch=BT | item=TaiNghe | qty=? | price=1.23tr
+WARN: printer offline
+[2025-02-16 11:35] ORDER#0272 | cust=KH661 | branch=q7 | item=Laptop | qty=2 | price=16786000
+[2025-02-01 18:04] ORDER#0273 | cust=KH705 | branch=TD | item=TaiNghe | qty=3 | price=1.087.000 VND
+[2025-03-04 10:37] ORDER#0274 | cust=KH960 | branch=Q1 | item=Chuot | qty=1 | price=226000
+[2025-03-21 20:46] ORDER#0275 | cust=KH212 | branch= Q1  | item=Laptop | qty=4 | price=14.758.000 VND
+[2025-03-03 16:30] ORDER#0276 | cust=KH661 | branch=TD | item=TaiNghe | qty=4 | price=1.210.000 VND
+[2025-03-28 18:36] ORDER#0277 | cust=KH121 | branch= Q7  | item=ManHinh | qty=1 | price=4444000
+[2025-03-06 12:16] ORDER#0278 | cust=KH488 | branch=td | item=ManHinh | qty=2 | price=4.567.000 VND
+[2025-03-27 20:49] ORDER#0279 | cust=KH758 | branch=BT | item=Laptop | qty=2 | price=15.913.000 VND
+[2025-01-08 19:35] ORDER#0280 | cust=KH496 | branch=TD | item=Chuot | qty=1 | price=235000
+[2025-01-29 19:15] ORDER#0281 | cust=KH116 | branch=q1 | item=TaiNghe | qty=1 | price=1082000
+ERROR: timeout while reading POS
+[2025-02-04 19:36] ORDER#0282 | cust=KH873 | branch=Q1 | item=TaiNghe | qty=2 | price=1.219.000 VND
+WARN: printer offline
+[2025-03-17 12:24] ORDER#0283 | cust=KH488 | branch= Q7  | item=Chuot | qty=3 | price=246.000 VND
+ERROR: timeout while reading POS
+[2025-02-15 19:05] ORDER#0284 | cust=KH414 | branch=q7 | item=TaiNghe | qty=1 | price=1040000
+[2025-03-31 20:55] ORDER#0285 | cust=KH116 | branch=bt | item=BanPhim | qty=1 | price=924.000 VND
+[2025-03-31 20:55] ORDER#0285 | cust=KH116 | branch=bt | item=BanPhim | qty=1 | price=924.000 VND
+[2025-03-31 22:55] CANCEL ORDER#0285
+[2025-03-20 14:54] ORDER#0286 | cust=KH838 | branch=Q1 | item=ManHinh | qty=2 | price=3.85tr
+[2025-01-12 15:09] ORDER#0287 | cust=KH838 | branch=q7 | item=BanPhim | qty=2 | price=870.000 VND
+[2025-01-12 17:09] CANCEL ORDER#0287
+[2025-02-04 12:39] ORDER#0288 | cust=KH381 | branch= Q7  | item=ManHinh | qty=1 | price=4.514.000 VND
+[2025-02-11 20:52] ORDER#0289 | cust=KH239 | branch=Q7 | item=ManHinh | qty=3 | price=3.851.000 VND
+[2025-01-18 15:15] ORDER#0290 | cust=KH201 | branch=Q1 | item=BanPhim | qty=2 | price=975.000 VND
+[2025-01-07 20:14] ORDER#0291 | cust=KH414 | branch=BT | item=TaiNghe | qty=2 | price=1.213.000 VND
+[2025-01-04 14:21] ORDER#0292 | cust=KH277 | branch=Q7 | item=Laptop | qty=1 | price=15259000
+[2025-02-13 12:28] ORDER#0293 | cust=KH247 | branch=BT | item=TaiNghe | qty=5 | price=1.08tr
+[2025-01-21 12:02] ORDER#0294 | cust=KH414 | branch=q7 | item=BanPhim | qty=4 | price=920000
+[2025-02-21 20:12] ORDER#0295 | cust=KH960 | branch=q7 | item=Laptop | qty=1 | price=14.177.000 VND
+[2025-03-24 08:03] ORDER#0296 | cust=KH705 | branch=Q7 | item=ManHinh | qty=3 | price=?
+[2025-02-15 11:42] ORDER#0297 | cust=KH496 | branch=Q7 | item=BanPhim | qty=2 | price=866000
+[2025-03-21 20:34] ORDER#0298 | cust=KH472 | branch=q7 | item=TaiNghe | qty=5 | price=?
+[2025-03-05 20:11] ORDER#0299 | cust=KH201 | branch= TD  | item=BanPhim | qty=1 | price=803.000 VND
+[2025-02-03 12:26] ORDER#0300 | cust=KH265 | branch=BT | item=BanPhim | qty=1 | price=904000
+[2025-02-02 13:07] ORDER#0301 | cust=KH894 | branch=q7 | item=Chuot | qty=1 | price=?
+INFO: sync with server OK
+[2025-02-26 08:53] ORDER#0302 | cust=KH212 | branch=Q7 | item=Chuot | qty=5 | price=227000
+WARN: printer offline
+[2025-02-05 18:46] ORDER#0303 | cust=KH239 | branch=td | item=Chuot | qty=1 | price=?
+[2025-02-19 10:39] ORDER#0304 | cust=KH201 | branch= Q7  | item=BanPhim | qty=5 | price=918000
+[2025-03-03 09:09] ORDER#0305 | cust=KH873 | branch=TD | item=TaiNghe | qty=2 | price=1.083.000 VND
+[2025-03-05 14:06] ORDER#0306 | cust=KH838 | branch=Q1 | item=Chuot | qty=1 | price=?
+[2025-02-17 14:02] ORDER#0307 | cust=KH472 | branch=BT | item=Chuot | qty=5 | price=272.000 VND
+[2025-03-21 11:42] ORDER#0308 | cust=KH472 | branch=Q7 | item=TaiNghe | qty=4 | price=1251000
+[2025-02-10 14:50] ORDER#0309 | cust=KH488 | branch=BT | item=BanPhim | qty=2 | price=891.000 VND
+[2025-02-08 09:54] ORDER#0310 | cust=KH889 | branch=q7 | item=TaiNghe | qty=3 | price=1218000
+[2025-02-17 16:03] ORDER#0311 | cust=KH414 | branch=Q7 | item=Chuot | qty=3 | price=255.000 VND
+[2025-02-22 13:01] ORDER#0312 | cust=KH381 | branch=Q7 | item=Chuot | qty=3 | price=227.000 VND
+[2025-02-15 12:57] ORDER#0313 | cust=KH265 | branch=Q1 | item=TaiNghe | qty=1 | price=1.10tr
+[2025-01-25 19:26] ORDER#0314 | cust=KH705 | branch=BT | item=Laptop | qty=1 | price=14.151.000 VND
+[2025-01-03 12:09] ORDER#0315 | cust=KH414 | branch=Q7 | item=TaiNghe | qty=? | price=1042000
+[2025-03-01 19:34] ORDER#0316 | cust=KH414 | branch=Q1 | item=Laptop | qty=2 | price=15381000
+[2025-03-01 19:34] ORDER#0316 | cust=KH414 | branch=Q1 | item=Laptop | qty=2 | price=15381000
+[2025-03-01 16:08] ORDER#0317 | cust=KH661 | branch=q7 | item=TaiNghe | qty=1 | price=1.197.000 VND
+[2025-03-01 16:08] ORDER#0317 | cust=KH661 | branch=q7 | item=TaiNghe | qty=1 | price=1.197.000 VND
+[2025-02-19 08:02] ORDER#0318 | cust=KH889 | branch=TD | item=Laptop | qty=1 | price=14.196.000 VND
+[2025-02-22 08:09] ORDER#0319 | cust=KH239 | branch= BT  | item=Laptop | qty=2 | price=16.610.000 VND
+[2025-02-03 11:23] ORDER#0320 | cust=KH960 | branch=q7 | item=Chuot | qty=5 | price=243000
+[2025-02-02 16:39] ORDER#0321 | cust=KH544 | branch=bt | item=BanPhim | qty=2 | price=824.000 VND
+[2025-03-06 14:10] ORDER#0322 | cust=KH889 | branch=Q1 | item=BanPhim | qty=1 | price=807.000 VND
+[2025-03-06 16:10] CANCEL ORDER#0322

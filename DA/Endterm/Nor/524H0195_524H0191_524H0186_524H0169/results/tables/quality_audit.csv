@@ -1,0 +1,3 @@
+source_index,column,raw_value,action
+1257,height,0,set to NaN; training-only median imputation in regression
+3996,height,0,set to NaN; training-only median imputation in regression

@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "checked_at": "2026-10-20T05:35:03.217260+00:00",
+  "archive_root": "524H0195_524H0191_524H0186_524H0169",
+  "fresh_kernel_code_cells": 20,
+  "unit_tests": 3,
+  "all_csv_tables_compared": 14,
+  "structured_summary_compared": true,
+  "floating_absolute_tolerance": 1e-10,
+  "raw_sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+  "original_summary_sha256": "d39f2c78c5b4a817396152506922ea206e50752bd5b12e76d3b074b4442e956c",
+  "method": "Extract candidate into a fresh temporary directory; run tests, notebook and verification with the installed locked environment; compare all analytical CSV tables and summary."
+}

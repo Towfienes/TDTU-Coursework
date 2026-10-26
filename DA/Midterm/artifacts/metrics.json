@@ -1,0 +1,100 @@
+{
+  "thresholds": {
+    "Naive Bayes (baseline)": 0.37,
+    "Logistic Regression (advanced)": 0.44,
+    "Dummy (majority)": 0.5
+  },
+  "best_C": 2.0,
+  "best_alpha": 3.0,
+  "test": {
+    "Dummy (majority)": {
+      "Accuracy": 0.5906,
+      "Macro F1": 0.3713,
+      "Negative F1": 0.0,
+      "Negative precision": 0.0,
+      "Negative recall": 0.0,
+      "ROC-AUC": 0.5
+    },
+    "Naive Bayes (baseline)": {
+      "Accuracy": 0.7663,
+      "Macro F1": 0.7634,
+      "Negative F1": 0.737,
+      "Negative precision": 0.6833,
+      "Negative recall": 0.7999,
+      "ROC-AUC": 0.8459
+    },
+    "Logistic Regression (advanced)": {
+      "Accuracy": 0.8103,
+      "Macro F1": 0.8076,
+      "Negative F1": 0.7845,
+      "Negative precision": 0.7333,
+      "Negative recall": 0.8434,
+      "ROC-AUC": 0.8955
+    }
+  },
+  "robustness": {
+    "Time split, all test tweets (main result)": {
+      "Tweets": 150736,
+      "Accuracy": 0.8103,
+      "Negative precision": 0.7333,
+      "Negative recall": 0.8434,
+      "Negative F1": 0.7845,
+      "Macro F1": 0.8076,
+      "ROC-AUC": 0.8955
+    },
+    "Random 80/20 split": {
+      "Tweets": 254807,
+      "Accuracy": 0.8203,
+      "Negative precision": 0.7418,
+      "Negative recall": 0.8427,
+      "Negative F1": 0.789,
+      "Macro F1": 0.8163,
+      "ROC-AUC": 0.9035
+    },
+    "Time split, F&B test tweets": {
+      "Tweets": 9527,
+      "Accuracy": 0.8111,
+      "Negative precision": 0.7158,
+      "Negative recall": 0.8061,
+      "Negative F1": 0.7583,
+      "Macro F1": 0.8016,
+      "ROC-AUC": 0.8864
+    },
+    "Time split, non-F&B test tweets": {
+      "Tweets": 141209,
+      "Accuracy": 0.8103,
+      "Negative precision": 0.7343,
+      "Negative recall": 0.8456,
+      "Negative F1": 0.7861,
+      "Macro F1": 0.8078,
+      "ROC-AUC": 0.896
+    },
+    "Time split, users seen in training": {
+      "Tweets": 88298,
+      "Accuracy": 0.811,
+      "Negative precision": 0.7256,
+      "Negative recall": 0.8379,
+      "Negative F1": 0.7777,
+      "Macro F1": 0.8067,
+      "ROC-AUC": 0.8956
+    },
+    "Time split, new users": {
+      "Tweets": 62438,
+      "Accuracy": 0.8093,
+      "Negative precision": 0.7434,
+      "Negative recall": 0.8505,
+      "Negative F1": 0.7934,
+      "Macro F1": 0.8082,
+      "ROC-AUC": 0.895
+    },
+    "F&B-only model on F&B test tweets": {
+      "Tweets": 9527,
+      "Accuracy": 0.7744,
+      "Negative precision": 0.6558,
+      "Negative recall": 0.8132,
+      "Negative F1": 0.7261,
+      "Macro F1": 0.7672,
+      "ROC-AUC": 0.862
+    }
+  }
+}
