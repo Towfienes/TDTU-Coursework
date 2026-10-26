@@ -1,0 +1,52 @@
+# ==========================================
+# TDTU Workspace Git Ignore Rules
+# ==========================================
+
+# 1. Environment & API Key files (Protected)
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+secrets/
+
+# 2. Virtual Environments & Package Managers
+.venv/
+.venv*/
+venv/
+env/
+ENV/
+node_modules/
+.uv-cache/
+.npm/
+.npm-cache/
+.build/
+packages/
+
+# 3. Python Caches & Build Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+build/
+dist/
+*.egg-info/
+
+# 4. OS & Editor Artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+.git_standalone_bak/
+
+# 5. Oversized Binary Archives (>100MB blocked by GitHub)
+# (Real deliverables for DA are stored in DA/Endterm/Nor/524H0195_524H0191_524H0186_524H0169.zip)
+DA/Endterm/Nor.zip

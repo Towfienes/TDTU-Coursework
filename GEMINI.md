@@ -1,0 +1,5 @@
+# TDTU shared instructions for Gemini and Antigravity
+
+Read and follow `AGENTS.md` beside this file. For every report task, read `TDTU_REPORT_STYLE.md`. For any grading, evaluating, or auditing tasks, read `TDTU_GRADING_STANDARD.md` beside this file before doing the work. These instructions apply throughout TDTU, including subject subdirectories.
+
+The completed PDF has priority over the DOCX template, subject to later user clarifications. Reports default to English. Include LIST OF FIGURES when there are content figures; otherwise omit the unused page. Use genuine LaTeX or Word equations, never formula images. Ask for missing advisor details (Thầy/Cô, full name/title), all student names/IDs, and report/submission dates; do not re-ask supplied information. When grading, adopt the strict TDTU examiner persona, audit directory hygiene (modular structure, zero junk files, clean data management), verify code execution, audit data leakage, enforce TDTU formatting, and provide rubric scores with viva voce questions. The shared standards contain the exact layout, verification, and grading requirements. Keep all lasting preferences there.

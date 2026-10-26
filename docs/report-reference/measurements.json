@@ -1,0 +1,3821 @@
+{
+  "measured_on": "2026-10-14",
+  "units": "PDF coordinates and font sizes are points (1/72 inch), origin top-left; OOXML values retain native units",
+  "authority": "User selected completed PDF over DOCX on conflicts. Measurements describe original files, not automatic requirements to retain defects.",
+  "sources": {
+    "Template_EN.docx": {
+      "sha256": "43233c7ab2aa96157b199d7e02521ba4346ed7f07e26cfdf606e72f87059dead",
+      "bytes": 57458
+    },
+    "524H0195_524H0191.pdf": {
+      "sha256": "49918267441513033d8bd77fefabbaa58c54c22a253672d10841f88cb9755a76",
+      "bytes": 388202
+    }
+  },
+  "docx_sections": [
+    {
+      "tag": "sectPr",
+      "attributes": {
+        "rsidR": "003C69F2",
+        "rsidRPr": "00642693",
+        "rsidSect": "00602D02"
+      },
+      "children": [
+        {
+          "tag": "headerReference",
+          "attributes": {
+            "type": "default",
+            "id": "rId9"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgSz",
+          "attributes": {
+            "w": "11906",
+            "h": "16838",
+            "code": "9"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgMar",
+          "attributes": {
+            "top": "1985",
+            "right": "1134",
+            "bottom": "1701",
+            "left": "1985",
+            "header": "720",
+            "footer": "720",
+            "gutter": "0"
+          },
+          "children": []
+        },
+        {
+          "tag": "cols",
+          "attributes": {
+            "space": "720"
+          },
+          "children": []
+        },
+        {
+          "tag": "docGrid",
+          "attributes": {
+            "linePitch": "360"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "tag": "sectPr",
+      "attributes": {
+        "rsidR": "00B76F10",
+        "rsidRPr": "00B76F10",
+        "rsidSect": "00602D02"
+      },
+      "children": [
+        {
+          "tag": "headerReference",
+          "attributes": {
+            "type": "default",
+            "id": "rId10"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgSz",
+          "attributes": {
+            "w": "11906",
+            "h": "16838",
+            "code": "9"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgMar",
+          "attributes": {
+            "top": "1985",
+            "right": "1134",
+            "bottom": "1701",
+            "left": "1985",
+            "header": "720",
+            "footer": "720",
+            "gutter": "0"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgNumType",
+          "attributes": {
+            "fmt": "lowerRoman",
+            "start": "1"
+          },
+          "children": []
+        },
+        {
+          "tag": "cols",
+          "attributes": {
+            "space": "720"
+          },
+          "children": []
+        },
+        {
+          "tag": "docGrid",
+          "attributes": {
+            "linePitch": "360"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "tag": "sectPr",
+      "attributes": {
+        "rsidR": "003C69F2",
+        "rsidRPr": "007403A8",
+        "rsidSect": "00602D02"
+      },
+      "children": [
+        {
+          "tag": "pgSz",
+          "attributes": {
+            "w": "11906",
+            "h": "16838",
+            "code": "9"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgMar",
+          "attributes": {
+            "top": "1985",
+            "right": "1134",
+            "bottom": "1701",
+            "left": "1985",
+            "header": "720",
+            "footer": "720",
+            "gutter": "0"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgNumType",
+          "attributes": {
+            "fmt": "lowerRoman"
+          },
+          "children": []
+        },
+        {
+          "tag": "cols",
+          "attributes": {
+            "space": "720"
+          },
+          "children": []
+        },
+        {
+          "tag": "docGrid",
+          "attributes": {
+            "linePitch": "360"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "tag": "sectPr",
+      "attributes": {
+        "rsidR": "00743F7E",
+        "rsidRPr": "007403A8",
+        "rsidSect": "00602D02"
+      },
+      "children": [
+        {
+          "tag": "headerReference",
+          "attributes": {
+            "type": "default",
+            "id": "rId11"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgSz",
+          "attributes": {
+            "w": "11906",
+            "h": "16838",
+            "code": "9"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgMar",
+          "attributes": {
+            "top": "1985",
+            "right": "1134",
+            "bottom": "1701",
+            "left": "1985",
+            "header": "720",
+            "footer": "720",
+            "gutter": "0"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgNumType",
+          "attributes": {
+            "fmt": "lowerRoman"
+          },
+          "children": []
+        },
+        {
+          "tag": "cols",
+          "attributes": {
+            "space": "720"
+          },
+          "children": []
+        },
+        {
+          "tag": "docGrid",
+          "attributes": {
+            "linePitch": "360"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "tag": "sectPr",
+      "attributes": {
+        "rsidR": "00E946FB",
+        "rsidSect": "00602D02"
+      },
+      "children": [
+        {
+          "tag": "pgSz",
+          "attributes": {
+            "w": "11906",
+            "h": "16838",
+            "code": "9"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgMar",
+          "attributes": {
+            "top": "1985",
+            "right": "1134",
+            "bottom": "1701",
+            "left": "1985",
+            "header": "720",
+            "footer": "720",
+            "gutter": "0"
+          },
+          "children": []
+        },
+        {
+          "tag": "pgNumType",
+          "attributes": {
+            "start": "1"
+          },
+          "children": []
+        },
+        {
+          "tag": "cols",
+          "attributes": {
+            "space": "720"
+          },
+          "children": []
+        },
+        {
+          "tag": "docGrid",
+          "attributes": {
+            "linePitch": "360"
+          },
+          "children": []
+        }
+      ]
+    }
+  ],
+  "docx_styles": [
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "default": "1",
+        "styleId": "Normal"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "4"
+          },
+          "children": []
+        },
+        {
+          "tag": "qFormat",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00B56979"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "spacing",
+              "attributes": {
+                "before": "120",
+                "after": "120",
+                "line": "240",
+                "lineRule": "auto"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "Heading1"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "heading 1"
+          },
+          "children": []
+        },
+        {
+          "tag": "aliases",
+          "attributes": {
+            "val": "Chương"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "link",
+          "attributes": {
+            "val": "Heading1Char"
+          },
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "9"
+          },
+          "children": []
+        },
+        {
+          "tag": "qFormat",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00B56979"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "numPr",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "numId",
+                  "attributes": {
+                    "val": "19"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "spacing",
+              "attributes": {
+                "line": "360",
+                "lineRule": "auto"
+              },
+              "children": []
+            },
+            {
+              "tag": "outlineLvl",
+              "attributes": {
+                "val": "0"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "b",
+              "attributes": {},
+              "children": []
+            },
+            {
+              "tag": "sz",
+              "attributes": {
+                "val": "32"
+              },
+              "children": []
+            },
+            {
+              "tag": "szCs",
+              "attributes": {
+                "val": "32"
+              },
+              "children": []
+            },
+            {
+              "tag": "lang",
+              "attributes": {
+                "val": "vi-VN"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "Heading2"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "heading 2"
+          },
+          "children": []
+        },
+        {
+          "tag": "aliases",
+          "attributes": {
+            "val": "Tiểu mục cấp 1"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "next",
+          "attributes": {
+            "val": "Nidungvnbn"
+          },
+          "children": []
+        },
+        {
+          "tag": "link",
+          "attributes": {
+            "val": "Heading2Char"
+          },
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "1"
+          },
+          "children": []
+        },
+        {
+          "tag": "unhideWhenUsed",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "qFormat",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00B56979"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "numPr",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "ilvl",
+                  "attributes": {
+                    "val": "1"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "numId",
+                  "attributes": {
+                    "val": "19"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "spacing",
+              "attributes": {
+                "line": "360",
+                "lineRule": "auto"
+              },
+              "children": []
+            },
+            {
+              "tag": "outlineLvl",
+              "attributes": {
+                "val": "1"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "b",
+              "attributes": {},
+              "children": []
+            },
+            {
+              "tag": "noProof",
+              "attributes": {},
+              "children": []
+            },
+            {
+              "tag": "sz",
+              "attributes": {
+                "val": "28"
+              },
+              "children": []
+            },
+            {
+              "tag": "szCs",
+              "attributes": {
+                "val": "28"
+              },
+              "children": []
+            },
+            {
+              "tag": "lang",
+              "attributes": {
+                "val": "vi-VN"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "Heading3"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "heading 3"
+          },
+          "children": []
+        },
+        {
+          "tag": "aliases",
+          "attributes": {
+            "val": "Tiểu mục cấp 2"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "next",
+          "attributes": {
+            "val": "Nidungvnbn"
+          },
+          "children": []
+        },
+        {
+          "tag": "link",
+          "attributes": {
+            "val": "Heading3Char"
+          },
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "1"
+          },
+          "children": []
+        },
+        {
+          "tag": "unhideWhenUsed",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "qFormat",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00887DA5"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "numPr",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "ilvl",
+                  "attributes": {
+                    "val": "2"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "numId",
+                  "attributes": {
+                    "val": "19"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "spacing",
+              "attributes": {
+                "line": "360",
+                "lineRule": "auto"
+              },
+              "children": []
+            },
+            {
+              "tag": "outlineLvl",
+              "attributes": {
+                "val": "2"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "b",
+              "attributes": {},
+              "children": []
+            },
+            {
+              "tag": "i",
+              "attributes": {},
+              "children": []
+            },
+            {
+              "tag": "sz",
+              "attributes": {
+                "val": "28"
+              },
+              "children": []
+            },
+            {
+              "tag": "szCs",
+              "attributes": {
+                "val": "26"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "Heading4"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "heading 4"
+          },
+          "children": []
+        },
+        {
+          "tag": "aliases",
+          "attributes": {
+            "val": "Tiểu mục cấp 3"
+          },
+          "children": []
+        },
+        {
+          "tag": "next",
+          "attributes": {
+            "val": "Nidungvnbn"
+          },
+          "children": []
+        },
+        {
+          "tag": "link",
+          "attributes": {
+            "val": "Heading4Char"
+          },
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "1"
+          },
+          "children": []
+        },
+        {
+          "tag": "unhideWhenUsed",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "qFormat",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "008508C7"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "numPr",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "ilvl",
+                  "attributes": {
+                    "val": "3"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "numId",
+                  "attributes": {
+                    "val": "19"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "spacing",
+              "attributes": {
+                "before": "120",
+                "after": "120",
+                "line": "360",
+                "lineRule": "auto"
+              },
+              "children": []
+            },
+            {
+              "tag": "outlineLvl",
+              "attributes": {
+                "val": "3"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "sz",
+              "attributes": {
+                "val": "28"
+              },
+              "children": []
+            },
+            {
+              "tag": "szCs",
+              "attributes": {
+                "val": "26"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "customStyle": "1",
+        "styleId": "Nidungvnbn"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "Nội dung văn bản"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "link",
+          "attributes": {
+            "val": "NidungvnbnChar"
+          },
+          "children": []
+        },
+        {
+          "tag": "qFormat",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00F918E8"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "spacing",
+              "attributes": {
+                "before": "0",
+                "after": "0",
+                "line": "360",
+                "lineRule": "auto"
+              },
+              "children": []
+            },
+            {
+              "tag": "ind",
+              "attributes": {
+                "firstLine": "720"
+              },
+              "children": []
+            },
+            {
+              "tag": "jc",
+              "attributes": {
+                "val": "both"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "sz",
+              "attributes": {
+                "val": "26"
+              },
+              "children": []
+            },
+            {
+              "tag": "szCs",
+              "attributes": {
+                "val": "26"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "customStyle": "1",
+        "styleId": "Default"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "Default"
+          },
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00453AB1"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "autoSpaceDE",
+              "attributes": {
+                "val": "0"
+              },
+              "children": []
+            },
+            {
+              "tag": "autoSpaceDN",
+              "attributes": {
+                "val": "0"
+              },
+              "children": []
+            },
+            {
+              "tag": "adjustRightInd",
+              "attributes": {
+                "val": "0"
+              },
+              "children": []
+            },
+            {
+              "tag": "spacing",
+              "attributes": {
+                "after": "0",
+                "line": "240",
+                "lineRule": "auto"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "rFonts",
+              "attributes": {
+                "eastAsia": "Times New Roman",
+                "cs": "Times New Roman"
+              },
+              "children": []
+            },
+            {
+              "tag": "color",
+              "attributes": {
+                "val": "000000"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "Header"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "header"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "link",
+          "attributes": {
+            "val": "HeaderChar"
+          },
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "99"
+          },
+          "children": []
+        },
+        {
+          "tag": "unhideWhenUsed",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00453AB1"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "tabs",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "tab",
+                  "attributes": {
+                    "val": "center",
+                    "pos": "4680"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "tab",
+                  "attributes": {
+                    "val": "right",
+                    "pos": "9360"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "TOC1"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "toc 1"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "next",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "autoRedefine",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "39"
+          },
+          "children": []
+        },
+        {
+          "tag": "unhideWhenUsed",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00F772AD"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "tabs",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "tab",
+                  "attributes": {
+                    "val": "left",
+                    "pos": "1560"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "tab",
+                  "attributes": {
+                    "val": "right",
+                    "leader": "dot",
+                    "pos": "9111"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "spacing",
+              "attributes": {
+                "line": "360",
+                "lineRule": "auto"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "b",
+              "attributes": {},
+              "children": []
+            },
+            {
+              "tag": "sz",
+              "attributes": {
+                "val": "26"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "TOC2"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "toc 2"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "next",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "autoRedefine",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "39"
+          },
+          "children": []
+        },
+        {
+          "tag": "unhideWhenUsed",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00F772AD"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "tabs",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "tab",
+                  "attributes": {
+                    "val": "left",
+                    "pos": "567"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "tab",
+                  "attributes": {
+                    "val": "right",
+                    "leader": "dot",
+                    "pos": "9111"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "spacing",
+              "attributes": {
+                "line": "360",
+                "lineRule": "auto"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "sz",
+              "attributes": {
+                "val": "26"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "TOC3"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "toc 3"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "next",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "autoRedefine",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "39"
+          },
+          "children": []
+        },
+        {
+          "tag": "unhideWhenUsed",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00F772AD"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "tabs",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "tab",
+                  "attributes": {
+                    "val": "left",
+                    "pos": "993"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "tab",
+                  "attributes": {
+                    "val": "right",
+                    "leader": "dot",
+                    "pos": "9111"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "spacing",
+              "attributes": {
+                "line": "360",
+                "lineRule": "auto"
+              },
+              "children": []
+            },
+            {
+              "tag": "ind",
+              "attributes": {
+                "left": "142"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "i",
+              "attributes": {},
+              "children": []
+            },
+            {
+              "tag": "sz",
+              "attributes": {
+                "val": "26"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "Caption"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "caption"
+          },
+          "children": []
+        },
+        {
+          "tag": "aliases",
+          "attributes": {
+            "val": "Caption Hình,Bảng biểu"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "next",
+          "attributes": {
+            "val": "Nidungvnbn"
+          },
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "3"
+          },
+          "children": []
+        },
+        {
+          "tag": "unhideWhenUsed",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "qFormat",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00546D2F"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "jc",
+              "attributes": {
+                "val": "center"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "bCs",
+              "attributes": {},
+              "children": []
+            },
+            {
+              "tag": "sz",
+              "attributes": {
+                "val": "26"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "table",
+        "styleId": "TableGrid"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "Table Grid"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "TableNormal"
+          },
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "39"
+          },
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "00CA1C39"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "spacing",
+              "attributes": {
+                "after": "0",
+                "line": "240",
+                "lineRule": "auto"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "tblPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "tblBorders",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "top",
+                  "attributes": {
+                    "val": "single",
+                    "sz": "4",
+                    "space": "0",
+                    "color": "auto"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "left",
+                  "attributes": {
+                    "val": "single",
+                    "sz": "4",
+                    "space": "0",
+                    "color": "auto"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "bottom",
+                  "attributes": {
+                    "val": "single",
+                    "sz": "4",
+                    "space": "0",
+                    "color": "auto"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "right",
+                  "attributes": {
+                    "val": "single",
+                    "sz": "4",
+                    "space": "0",
+                    "color": "auto"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "insideH",
+                  "attributes": {
+                    "val": "single",
+                    "sz": "4",
+                    "space": "0",
+                    "color": "auto"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "insideV",
+                  "attributes": {
+                    "val": "single",
+                    "sz": "4",
+                    "space": "0",
+                    "color": "auto"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "style",
+      "attributes": {
+        "type": "paragraph",
+        "styleId": "Bibliography"
+      },
+      "children": [
+        {
+          "tag": "name",
+          "attributes": {
+            "val": "Bibliography"
+          },
+          "children": []
+        },
+        {
+          "tag": "basedOn",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "next",
+          "attributes": {
+            "val": "Normal"
+          },
+          "children": []
+        },
+        {
+          "tag": "uiPriority",
+          "attributes": {
+            "val": "37"
+          },
+          "children": []
+        },
+        {
+          "tag": "unhideWhenUsed",
+          "attributes": {},
+          "children": []
+        },
+        {
+          "tag": "rsid",
+          "attributes": {
+            "val": "008630F6"
+          },
+          "children": []
+        },
+        {
+          "tag": "pPr",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "spacing",
+              "attributes": {
+                "after": "0",
+                "line": "480",
+                "lineRule": "auto"
+              },
+              "children": []
+            },
+            {
+              "tag": "ind",
+              "attributes": {
+                "left": "720",
+                "hanging": "720"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "docx_package_parts": [
+    {
+      "path": "[Content_Types].xml",
+      "bytes": 2400,
+      "sha256": "3142b145eab8c5d99ec0d9db210cf22da98760877e8214669a9f67b3418313d9"
+    },
+    {
+      "path": "_rels/.rels",
+      "bytes": 737,
+      "sha256": "c30fe099dbcfed4ecc4ae544ccf82f432c8d3bb665e2a301df283738b196d803"
+    },
+    {
+      "path": "word/_rels/document.xml.rels",
+      "bytes": 1876,
+      "sha256": "03f063cd33317966a0488094afbf7bc1335420ba151ec0bc7f6efae35e84791c"
+    },
+    {
+      "path": "word/document.xml",
+      "bytes": 83722,
+      "sha256": "12a2c34b63c0c6f4ddb03806253c68ba0b5a4c963d9bdac22c3d7793a1e2c481"
+    },
+    {
+      "path": "word/header2.xml",
+      "bytes": 3334,
+      "sha256": "7fe2d2a33c7645e60d3f6e11b560a7d9112fb5a6f9aedd0d169c6d8ca24074a3"
+    },
+    {
+      "path": "word/header3.xml",
+      "bytes": 3751,
+      "sha256": "287de435f389c6c287e6818d9d1733c49a106fb4c94f959adf73c28958e4ba0e"
+    },
+    {
+      "path": "word/header1.xml",
+      "bytes": 2847,
+      "sha256": "1f6612296a2d8a0402b785126da32bb8b8d06cb6856d3df9cf01e5c7c213a5a9"
+    },
+    {
+      "path": "word/footnotes.xml",
+      "bytes": 3038,
+      "sha256": "61f343531820b6d73cabae5728d275bd3ee8f09861f1ddcef2dd23fafbffa61f"
+    },
+    {
+      "path": "word/endnotes.xml",
+      "bytes": 3030,
+      "sha256": "41d8fc3fa0d9c7f659a2eb471903140582a47f2a645bf3d2b09e651cc18a1858"
+    },
+    {
+      "path": "word/media/image1.png",
+      "bytes": 7209,
+      "sha256": "e8db0340a55802441be3a8dfe9ceadeeac0f3b82ecf6b0368d1e7ffa84522385"
+    },
+    {
+      "path": "word/theme/theme1.xml",
+      "bytes": 7076,
+      "sha256": "488a401645c6030b741d7e912aa55ad9ec6b219d36a3247332454c0de867b827"
+    },
+    {
+      "path": "word/_rels/settings.xml.rels",
+      "bytes": 379,
+      "sha256": "cedc81948bbbf0ceb51a81094c5cfe7197d95dab7fd29323ca2e991d26ada752"
+    },
+    {
+      "path": "word/settings.xml",
+      "bytes": 32947,
+      "sha256": "8764d4415474711db83a1044be0261f4f5fe7d0e72722cf05a545dc8b464942f"
+    },
+    {
+      "path": "word/styles.xml",
+      "bytes": 57975,
+      "sha256": "9cc63893290e6331fae34c4523f24fbfdc979ea115b8f6b4bfdf2233ce1423ea"
+    },
+    {
+      "path": "word/numbering.xml",
+      "bytes": 125948,
+      "sha256": "0f4c934300596155b74facadc2a25a7cc3c2675a3d7cda04b1367b69d0e9f898"
+    },
+    {
+      "path": "docProps/core.xml",
+      "bytes": 721,
+      "sha256": "76bc9cb7ae1428a309571451b3d3de946e682a783071bd7430bee1da1dbc1ce6"
+    },
+    {
+      "path": "docProps/app.xml",
+      "bytes": 1048,
+      "sha256": "61f10f1e9acea03652d14f2219fc5218aaf712c39958bb788b30695e8449f1a2"
+    },
+    {
+      "path": "docProps/custom.xml",
+      "bytes": 780,
+      "sha256": "9c405072cab714925051baf48d3cc42800c08936ca9545e684709a20916aa94a"
+    },
+    {
+      "path": "customXml/itemProps1.xml",
+      "bytes": 341,
+      "sha256": "74d0fddf6d39c0fcbd13d3c5a9e5c09cd8f6c8dd901df466146c717b45edf5ed"
+    },
+    {
+      "path": "customXml/item1.xml",
+      "bytes": 3581,
+      "sha256": "a43c1a45775d14535bd518f43fdc510a006ee775a1dc5c9767df6f2b0ff5cfd0"
+    },
+    {
+      "path": "customXml/_rels/item1.xml.rels",
+      "bytes": 296,
+      "sha256": "80482f86e196171d66001e0e74d1900408a3aaf2463e54005d251b5f2db9a0b0"
+    },
+    {
+      "path": "word/webSettings.xml",
+      "bytes": 307781,
+      "sha256": "a842b38d0d643bea0faaf7d67a496a214449519b12995ea66df7590f167785db"
+    },
+    {
+      "path": "word/fontTable.xml",
+      "bytes": 4098,
+      "sha256": "089d7984fb02df27225b58a623b2bbdd9664dc756bbd47eef4f7ddbdad22e54c"
+    }
+  ],
+  "logo": {
+    "source": "Template_EN.docx::word/media/image1.png",
+    "file": "docs/report-reference/tdtu-logo.png",
+    "sha256": "e8db0340a55802441be3a8dfe9ceadeeac0f3b82ecf6b0368d1e7ffa84522385",
+    "drawing_extent_emu": [
+      1487606,
+      823567
+    ]
+  },
+  "pdf_pages": [
+    {
+      "physical_page": 1,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "VIETNAM GENERAL CONFEDERATION OF LABOR",
+        "TON DUC THANG UNIVERSITY",
+        "FACULTY OF INFORMATION TECHNOLOGY"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 112
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 34
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 21.96,
+          "nonspace_characters": 18
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 24.0,
+          "nonspace_characters": 11
+        }
+      ],
+      "images": [
+        {
+          "x_pt": 260.38,
+          "top_pt": 184.14,
+          "width_pt": 117.05,
+          "height_pt": 64.8
+        }
+      ],
+      "landmarks": [
+        {
+          "text": "VIETNAM GENERAL CONFEDERATION OF LABOR",
+          "x0_pt": 135.26,
+          "x1_pt": 438.394,
+          "top_pt": 101.339,
+          "bottom_pt": 114.299,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "TON DUC THANG UNIVERSITY",
+          "x0_pt": 213.41,
+          "x1_pt": 423.813,
+          "top_pt": 123.893,
+          "bottom_pt": 137.933,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "FACULTY OF INFORMATION TECHNOLOGY",
+          "x0_pt": 166.82,
+          "x1_pt": 470.449,
+          "top_pt": 145.973,
+          "bottom_pt": 160.013,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "NGÔ LÂM TIẾN – 524H0195",
+          "x0_pt": 226.13,
+          "x1_pt": 405.805,
+          "top_pt": 284.963,
+          "bottom_pt": 299.003,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "NGUYỄN CÔNG THÀNH – 524H0191",
+          "x0_pt": 196.73,
+          "x1_pt": 431.753,
+          "top_pt": 301.043,
+          "bottom_pt": 315.083,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "FINAL REPORT",
+          "x0_pt": 228.41,
+          "x1_pt": 409.058,
+          "top_pt": 391.034,
+          "bottom_pt": 415.034,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              24.0
+            ]
+          ]
+        },
+        {
+          "text": "LINEAR ALGEBRA FOR IT",
+          "x0_pt": 178.22,
+          "x1_pt": 458.561,
+          "top_pt": 463.213,
+          "bottom_pt": 485.173,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              21.96
+            ]
+          ]
+        },
+        {
+          "text": "HO CHI MINH CITY, 2024",
+          "x0_pt": 235.13,
+          "x1_pt": 403.69,
+          "top_pt": 639.133,
+          "bottom_pt": 653.173,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "physical_page": 2,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "VIETNAM GENERAL CONFEDERATION OF LABOR",
+        "TON DUC THANG UNIVERSITY",
+        "FACULTY OF INFORMATION TECHNOLOGY"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 126
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 43
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 21.96,
+          "nonspace_characters": 18
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 24.0,
+          "nonspace_characters": 11
+        }
+      ],
+      "images": [
+        {
+          "x_pt": 260.38,
+          "top_pt": 183.07,
+          "width_pt": 117.05,
+          "height_pt": 64.8
+        }
+      ],
+      "landmarks": [
+        {
+          "text": "VIETNAM GENERAL CONFEDERATION OF LABOR",
+          "x0_pt": 155.3,
+          "x1_pt": 481.772,
+          "top_pt": 101.333,
+          "bottom_pt": 115.373,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "TON DUC THANG UNIVERSITY",
+          "x0_pt": 213.41,
+          "x1_pt": 423.813,
+          "top_pt": 123.413,
+          "bottom_pt": 137.453,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "FACULTY OF INFORMATION TECHNOLOGY",
+          "x0_pt": 166.82,
+          "x1_pt": 470.449,
+          "top_pt": 145.493,
+          "bottom_pt": 159.533,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "NGÔ LÂM TIẾN – 524H0195",
+          "x0_pt": 228.05,
+          "x1_pt": 407.725,
+          "top_pt": 289.283,
+          "bottom_pt": 303.323,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "NGUYỄN CÔNG THÀNH – 524H0191",
+          "x0_pt": 200.33,
+          "x1_pt": 435.353,
+          "top_pt": 304.163,
+          "bottom_pt": 318.203,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "FINAL REPORT",
+          "x0_pt": 228.29,
+          "x1_pt": 408.914,
+          "top_pt": 394.154,
+          "bottom_pt": 418.154,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              24.0
+            ]
+          ]
+        },
+        {
+          "text": "LINEAR ALGEBRA FOR IT",
+          "x0_pt": 178.22,
+          "x1_pt": 458.561,
+          "top_pt": 466.333,
+          "bottom_pt": 488.293,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              21.96
+            ]
+          ]
+        },
+        {
+          "text": "Advised by",
+          "x0_pt": 285.65,
+          "x1_pt": 349.827,
+          "top_pt": 632.653,
+          "bottom_pt": 646.693,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "Ms. PHAM KIM THUY",
+          "x0_pt": 246.17,
+          "x1_pt": 391.625,
+          "top_pt": 654.733,
+          "bottom_pt": 668.773,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "HO CHI MINH CITY, 2024",
+          "x0_pt": 235.13,
+          "x1_pt": 403.69,
+          "top_pt": 700.213,
+          "bottom_pt": 714.253,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "physical_page": 3,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "i",
+        "ACKNOWLEDGEMENT",
+        "We would like to express our sincere gratitude to Ms. Pham Kim Thuy, our"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 591
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 57
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 15.96,
+          "nonspace_characters": 15
+        },
+        {
+          "name": "TimesNewRomanPS-BoldItalicMT",
+          "size_pt": 15.96,
+          "nonspace_characters": 9
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 8.52,
+          "nonspace_characters": 2
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.0,
+          "nonspace_characters": 1
+        }
+      ],
+      "images": [],
+      "landmarks": [
+        {
+          "text": "i",
+          "x0_pt": 317.23,
+          "x1_pt": 320.566,
+          "top_pt": 43.752,
+          "bottom_pt": 55.752,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.0
+            ]
+          ]
+        },
+        {
+          "text": "ACKNOWLEDGEMENT",
+          "x0_pt": 229.13,
+          "x1_pt": 408.616,
+          "top_pt": 101.627,
+          "bottom_pt": 117.587,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              15.96
+            ]
+          ]
+        },
+        {
+          "text": "We would like to express our sincere gratitude to Ms. Pham Kim Thuy, our",
+          "x0_pt": 135.26,
+          "x1_pt": 542.608,
+          "top_pt": 154.139,
+          "bottom_pt": 167.099,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "physical_page": 4,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "ii",
+        "DECLARATION OF AUTHORSHIP",
+        "We hereby declare that this is our own project and is guided by Ms. Pham Kim"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 572
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 76
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 56
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 15.96,
+          "nonspace_characters": 23
+        },
+        {
+          "name": "TimesNewRomanPS-BoldItalicMT",
+          "size_pt": 15.96,
+          "nonspace_characters": 9
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.0,
+          "nonspace_characters": 2
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 8.52,
+          "nonspace_characters": 2
+        }
+      ],
+      "images": [],
+      "landmarks": [
+        {
+          "text": "ii",
+          "x0_pt": 315.55,
+          "x1_pt": 322.246,
+          "top_pt": 43.752,
+          "bottom_pt": 55.752,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.0
+            ]
+          ]
+        },
+        {
+          "text": "DECLARATION OF AUTHORSHIP",
+          "x0_pt": 189.77,
+          "x1_pt": 447.412,
+          "top_pt": 106.787,
+          "bottom_pt": 122.747,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              15.96
+            ]
+          ]
+        },
+        {
+          "text": "We hereby declare that this is our own project and is guided by Ms. Pham Kim",
+          "x0_pt": 135.26,
+          "x1_pt": 538.53,
+          "top_pt": 140.219,
+          "bottom_pt": 153.179,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "Thuy; The content research and results contained herein are central and have not been",
+          "x0_pt": 99.264,
+          "x1_pt": 538.268,
+          "top_pt": 162.659,
+          "bottom_pt": 175.619,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "physical_page": 5,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "iii"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 3
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 6,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "iv",
+        "TABLE OF CONTENT",
+        "CHAPTER 1. INTRODUCTION ............................................................................ 1"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 1463
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 382
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 15.96,
+          "nonspace_characters": 14
+        }
+      ],
+      "images": [],
+      "landmarks": [
+        {
+          "text": "iv",
+          "x0_pt": 313.87,
+          "x1_pt": 323.95,
+          "top_pt": 44.079,
+          "bottom_pt": 57.039,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "TABLE OF CONTENT",
+          "x0_pt": 237.17,
+          "x1_pt": 400.648,
+          "top_pt": 101.627,
+          "bottom_pt": 117.587,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              15.96
+            ]
+          ]
+        },
+        {
+          "text": "CHAPTER 1. INTRODUCTION ............................................................................ 1",
+          "x0_pt": 99.264,
+          "x1_pt": 538.66,
+          "top_pt": 134.939,
+          "bottom_pt": 147.899,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "1.1 Question 1 ............................................................................................................. 1",
+          "x0_pt": 99.264,
+          "x1_pt": 538.66,
+          "top_pt": 163.379,
+          "bottom_pt": 176.339,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "CHAPTER 2. THEORETICAL BASIS .................................................................. 2",
+          "x0_pt": 99.264,
+          "x1_pt": 538.66,
+          "top_pt": 277.049,
+          "bottom_pt": 290.009,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "CHAPTER 3. DESIGNING AND IMPLEMENTING .......................................... 6",
+          "x0_pt": 99.264,
+          "x1_pt": 538.66,
+          "top_pt": 419.249,
+          "bottom_pt": 432.209,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              12.96
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "physical_page": 7,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "1",
+        "CHAPTER 1. INTRODUCTION",
+        "1.1 Question 1"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 707
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 106
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 48
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 15.96,
+          "nonspace_characters": 21
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 19
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 17
+        },
+        {
+          "name": "BCDGEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 4
+        },
+        {
+          "name": "BCDFEE+CourierNewPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 2
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 2
+        },
+        {
+          "name": "ArialMT",
+          "size_pt": 14.52,
+          "nonspace_characters": 1
+        }
+      ],
+      "images": [],
+      "landmarks": [
+        {
+          "text": "1",
+          "x0_pt": 315.67,
+          "x1_pt": 322.15,
+          "top_pt": 44.079,
+          "bottom_pt": 57.039,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "CHAPTER 1. INTRODUCTION",
+          "x0_pt": 99.264,
+          "x1_pt": 329.977,
+          "top_pt": 101.627,
+          "bottom_pt": 117.587,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              15.96
+            ]
+          ]
+        },
+        {
+          "text": "1.1 Question 1",
+          "x0_pt": 99.264,
+          "x1_pt": 184.88,
+          "top_pt": 134.933,
+          "bottom_pt": 148.973,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "Investigate in-detail the singular value decomposition (SVD) of a rectangular",
+          "x0_pt": 99.624,
+          "x1_pt": 501.302,
+          "top_pt": 164.219,
+          "bottom_pt": 177.179,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "physical_page": 8,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "2",
+        "CHAPTER 2. THEORETICAL BASIS",
+        "2.1 Question 1"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 991
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 143
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 44
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 15.96,
+          "nonspace_characters": 25
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 18
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 12
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 8
+        }
+      ],
+      "images": [],
+      "landmarks": [
+        {
+          "text": "2",
+          "x0_pt": 315.67,
+          "x1_pt": 322.15,
+          "top_pt": 44.079,
+          "bottom_pt": 57.039,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "CHAPTER 2. THEORETICAL BASIS",
+          "x0_pt": 99.264,
+          "x1_pt": 371.234,
+          "top_pt": 101.627,
+          "bottom_pt": 117.587,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              15.96
+            ]
+          ]
+        },
+        {
+          "text": "2.1 Question 1",
+          "x0_pt": 99.264,
+          "x1_pt": 184.88,
+          "top_pt": 134.933,
+          "bottom_pt": 148.973,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              14.04
+            ]
+          ]
+        },
+        {
+          "text": "=>Definition/Formulas of singular values:",
+          "x0_pt": 99.264,
+          "x1_pt": 331.637,
+          "top_pt": 173.099,
+          "bottom_pt": 186.059,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              12.96
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "physical_page": 9,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "3",
+        "Σ is an m × n diagonal matrix with non-negative singular values σ ,σ ,…,σ",
+        "1 2 𝑟"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 1093
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 136
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 36
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 17
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 15
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 8.52,
+          "nonspace_characters": 3
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 10,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "4",
+        "3.Construct Σ:",
+        "-The diagonal entries of Σ are the square roots of the eigenvalues of AT A, arranged"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 942
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 303
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 15
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 12
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 3
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 2
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 8.52,
+          "nonspace_characters": 2
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 8.52,
+          "nonspace_characters": 2
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 11,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "5",
+        "A is diagonalizable if it has n linearly independent eigenvectors.",
+        "4. Construct P and D:"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 413
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 127
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 126
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 111
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 7.56,
+          "nonspace_characters": 59
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 24
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 9.0,
+          "nonspace_characters": 12
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 2
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 12,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "6",
+        "𝑃 = ([𝑢 ] [𝑢 ] [𝑢 ] )",
+        "1 𝑇 2 𝑇 𝑘 𝑇"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 567
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 138
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 46
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 43
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 15.96,
+          "nonspace_characters": 33
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 12
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 9.0,
+          "nonspace_characters": 11
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 1
+        }
+      ],
+      "images": [],
+      "landmarks": [
+        {
+          "text": "6",
+          "x0_pt": 315.67,
+          "x1_pt": 322.15,
+          "top_pt": 44.079,
+          "bottom_pt": 57.039,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "𝑃 = ([𝑢 ] [𝑢 ] [𝑢 ] )",
+          "x0_pt": 171.26,
+          "x1_pt": 312.148,
+          "top_pt": 100.817,
+          "bottom_pt": 114.497,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "1 𝑇 2 𝑇 𝑘 𝑇",
+          "x0_pt": 213.77,
+          "x1_pt": 305.936,
+          "top_pt": 107.258,
+          "bottom_pt": 116.258,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              9.0
+            ]
+          ]
+        },
+        {
+          "text": "*) Let S and T be two bases of a vector space and let P be the transition matrix",
+          "x0_pt": 135.26,
+          "x1_pt": 538.591,
+          "top_pt": 124.259,
+          "bottom_pt": 137.219,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              12.96
+            ],
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "from S to T. Then",
+          "x0_pt": 135.26,
+          "x1_pt": 228.598,
+          "top_pt": 146.579,
+          "bottom_pt": 159.539,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "1) P is invertible; and",
+          "x0_pt": 135.26,
+          "x1_pt": 251.618,
+          "top_pt": 169.019,
+          "bottom_pt": 181.979,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              12.96
+            ],
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "CHAPTER 3. DESIGNING AND IMPLEMENTING",
+          "x0_pt": 99.264,
+          "x1_pt": 466.754,
+          "top_pt": 700.387,
+          "bottom_pt": 716.347,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              15.96
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "physical_page": 13,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "7",
+        "𝟐 𝟎 𝟎",
+        "Ex 1: Let A = ( )  Rank (A) = 2"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 252
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 240
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 83
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 41
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 10
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 8
+        }
+      ],
+      "images": [],
+      "landmarks": [
+        {
+          "text": "7",
+          "x0_pt": 315.67,
+          "x1_pt": 322.15,
+          "top_pt": 44.079,
+          "bottom_pt": 57.039,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "𝟐 𝟎 𝟎",
+          "x0_pt": 200.21,
+          "x1_pt": 249.48,
+          "top_pt": 99.857,
+          "bottom_pt": 112.817,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "Ex 1: Let A = ( )  Rank (A) = 2",
+          "x0_pt": 113.42,
+          "x1_pt": 347.81,
+          "top_pt": 106.097,
+          "bottom_pt": 119.777,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              12.96
+            ],
+            [
+              "SymbolMT",
+              12.96
+            ],
+            [
+              "TimesNewRomanPS-BoldMT",
+              12.96
+            ],
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "𝟎 𝟑 𝟎",
+          "x0_pt": 200.21,
+          "x1_pt": 249.48,
+          "top_pt": 115.097,
+          "bottom_pt": 128.057,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "4 0",
+          "x0_pt": 226.37,
+          "x1_pt": 253.71,
+          "top_pt": 133.817,
+          "bottom_pt": 146.777,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": ") We have: AA𝑇= ( ) is a symmetric matrix",
+          "x0_pt": 113.42,
+          "x1_pt": 379.134,
+          "top_pt": 139.058,
+          "bottom_pt": 153.737,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              9.0
+            ],
+            [
+              "BCDHEE+CambriaMath",
+              12.96
+            ],
+            [
+              "SymbolMT",
+              12.96
+            ],
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "0 9",
+          "x0_pt": 226.37,
+          "x1_pt": 253.71,
+          "top_pt": 149.057,
+          "bottom_pt": 162.017,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "1 0 4 0",
+          "x0_pt": 236.09,
+          "x1_pt": 323.21,
+          "top_pt": 167.777,
+          "bottom_pt": 180.737,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "Let (I −AAT) =  ( ) − ( )",
+          "x0_pt": 113.42,
+          "x1_pt": 332.46,
+          "top_pt": 173.018,
+          "bottom_pt": 187.697,
+          "fonts": [
+            [
+              "BCDHEE+CambriaMath",
+              9.0
+            ],
+            [
+              "BCDHEE+CambriaMath",
+              12.96
+            ],
+            [
+              "SymbolMT",
+              12.96
+            ],
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "physical_page": 14,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "8",
+        "‖𝑣 ‖ = √02+ 12 = 1",
+        "2"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 260
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 211
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 66
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 40
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 8
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 2
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 15,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "9",
+        "0 0",
+        " E ={𝑏( 1 )|𝑏  0} = Span {( 1 )}"
+      ],
+      "fonts": [
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 217
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 108
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 70
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 38
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 4
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 1
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 16,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "10",
+        "1 0 0",
+        "So that V= ( 0 1 0 ) is an orthogonal matrix that will orthogonally diagonalize"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 291
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 274
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 77
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 46
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 10
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 7.56,
+          "nonspace_characters": 9
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 8
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 9.0,
+          "nonspace_characters": 4
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 17,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "11",
+        "−1 −1",
+        " E ={𝑏( )|𝑏  0} = Span {( )}"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 246
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 192
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 64
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 54
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 2
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 1
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 18,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "12",
+        "0 0 0 𝑚 1 = 𝑎 𝑎 1",
+        "( 0 8 0 )  {𝑚 = 0 (𝑎  0)  m = ( 0 ) = a ( 0 )"
+      ],
+      "fonts": [
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 255
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 106
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 78
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 41
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 6
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 1
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 19,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "13",
+        "1 0 0",
+        "𝑤 = ( 0 ),𝑤 = ( 1 ),𝑤 = ( 0 )"
+      ],
+      "fonts": [
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 236
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 208
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 57
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 41
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 12
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 2
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 1
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 20,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "14",
+        "𝑎 1",
+        " m = ( 2𝑎 ) = 𝑎( 2 )"
+      ],
+      "fonts": [
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 207
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 127
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 41
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 37
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 7.56,
+          "nonspace_characters": 11
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 9.0,
+          "nonspace_characters": 6
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 5
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 2
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 21,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "15",
+        "−2 −2 −2 −2 −2 −2 2𝑅2 − 𝑅1 → 𝑅2 −2 −2 2",
+        "( −2 −2 −1 ) 𝐶 → 3  𝐶1 ( −1 −2 −2 )→ 𝑅 3 − 𝑅 1 → 𝑅 3 ( 0 −2 −2 )"
+      ],
+      "fonts": [
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 280
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 118
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 64
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 52
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 12
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 7.56,
+          "nonspace_characters": 11
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 9.0,
+          "nonspace_characters": 5
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 1
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 22,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "16",
+        "‖𝑣 ‖ = √82+ (−4)2+ (−8)2 = 12",
+        "3"
+      ],
+      "fonts": [
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 9.0,
+          "nonspace_characters": 138
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 134
+        },
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 116
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 34
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 14.04,
+          "nonspace_characters": 12
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 9.0,
+          "nonspace_characters": 6
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 23,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "17",
+        "1 0 1",
+        "𝑄 = ( 1 1 0 )"
+      ],
+      "fonts": [
+        {
+          "name": "BCDHEE+CambriaMath",
+          "size_pt": 12.96,
+          "nonspace_characters": 12
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 9.0,
+          "nonspace_characters": 3
+        },
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 2
+        },
+        {
+          "name": "SymbolMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 1
+        }
+      ],
+      "images": []
+    },
+    {
+      "physical_page": 24,
+      "size_pt": [
+        595.32,
+        841.92
+      ],
+      "first_lines": [
+        "18",
+        "REFERENCES",
+        "Howard Anton, Chris Rorres, (2005), Elementary Linear Algebra. Applications"
+      ],
+      "fonts": [
+        {
+          "name": "TimesNewRomanPSMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 250
+        },
+        {
+          "name": "TimesNewRomanPS-ItalicMT",
+          "size_pt": 12.96,
+          "nonspace_characters": 186
+        },
+        {
+          "name": "TimesNewRomanPS-BoldMT",
+          "size_pt": 15.96,
+          "nonspace_characters": 10
+        }
+      ],
+      "images": [],
+      "landmarks": [
+        {
+          "text": "18",
+          "x0_pt": 312.43,
+          "x1_pt": 325.39,
+          "top_pt": 44.079,
+          "bottom_pt": 57.039,
+          "fonts": [
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "REFERENCES",
+          "x0_pt": 265.13,
+          "x1_pt": 372.602,
+          "top_pt": 101.627,
+          "bottom_pt": 117.587,
+          "fonts": [
+            [
+              "TimesNewRomanPS-BoldMT",
+              15.96
+            ]
+          ]
+        },
+        {
+          "text": "Howard Anton, Chris Rorres, (2005), Elementary Linear Algebra. Applications",
+          "x0_pt": 99.264,
+          "x1_pt": 538.649,
+          "top_pt": 134.939,
+          "bottom_pt": 147.899,
+          "fonts": [
+            [
+              "TimesNewRomanPS-ItalicMT",
+              12.96
+            ],
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        },
+        {
+          "text": "Version Tenth Edition, John Wiley & Son, Inc, USA.",
+          "x0_pt": 135.26,
+          "x1_pt": 409.63,
+          "top_pt": 157.379,
+          "bottom_pt": 170.339,
+          "fonts": [
+            [
+              "TimesNewRomanPS-ItalicMT",
+              12.96
+            ],
+            [
+              "TimesNewRomanPSMT",
+              12.96
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

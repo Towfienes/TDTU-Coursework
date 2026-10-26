@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lập Kế Hoạch Thời Khóa Biểu TDTU | Tránh Trùng Môn ĐKMH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & THEME TOKENS (TDTU Inspired: Deep Academic Blue & Crimson)
+       ========================================================================== */
+    :root {
+      --primary: #0A3672;
+      --primary-hover: #072652;
+      --primary-surface: #EFF5FC;
+      --primary-border: #BCD5F5;
+      
+      --accent-red: #D92D20;
+      --accent-red-hover: #B42318;
+      --accent-red-surface: #FEF3F2;
+      --accent-red-border: #FECDCA;
+
+      --accent-amber: #D97706;
+      --accent-amber-surface: #FFFBEB;
+      --accent-amber-border: #FDE68A;
+
+      --accent-emerald: #059669;
+      --accent-emerald-surface: #ECFDF5;
+      --accent-emerald-border: #A7F3D0;
+
+      --text-main: #1E293B;
+      --text-secondary: #475569;
+      --text-muted: #64748B;
+      --text-light: #94A3B8;
+
+      --bg-page: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F1F5F9;
+
+      --border-subtle: #E2E8F0;
+      --border-strong: #CBD5E1;
+
+      --radius-xs: 4px;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 18px;
+
+      --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+      --shadow-float: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
+
+      --ease-tactile: cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-standard: 150ms var(--ease-tactile);
+    }
+
+    /* Reset & Typography defaults */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.45;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Utility classes */
+    .tabular {
+      font-variant-numeric: tabular-nums;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .balance-text {
+      text-wrap: balance;
+    }
+
+    .pretty-text {
+      text-wrap: pretty;
+    }
+
+    /* ==========================================================================
+       APP HEADER & DOCK CONTROLS
+       ========================================================================== */
+    header.app-header {
+      background: #061D3A;
+      color: #FFFFFF;
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 10px rgba(6, 29, 58, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .header-inner {
+      max-width: 1720px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tdtu-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #FACC15;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-info h1 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-info p {
+      font-size: 11.5px;
+      color: #94A3B8;
+      font-weight: 400;
+    }
+
+    /* Auto-save & Status indicator */
+    .save-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-sm);
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #CBD5E1;
+      transition: color var(--transition-standard), border-color var(--transition-standard);
+    }
+
+    .save-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+      transition: background-color var(--transition-standard), transform var(--transition-standard);
+    }
+
+    .save-indicator.saving .save-dot {
+      background: #F59E0B;
+      box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+      animation: pulseDot 0.8s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: background-color var(--transition-standard), border-color var(--transition-standard), color var(--transition-standard), transform var(--transition-standard), box-shadow var(--transition-standard);
+      user-select: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-solid-white {
+      background: #FFFFFF;
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-solid-white:hover {
+      background: #F8FAFC;
+      color: var(--primary-hover);
+    }
+
+    .btn-nav-glass {
+      background: rgba(255, 255, 255, 0.1);
+      color: #F8FAFC;
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+    .btn-nav-glass:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #FFFFFF;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-outline {
+      background: #FFFFFF;
+      color: var(--text-main);
+      border-color: var(--border-subtle);
+      box-shadow: var(--shadow-xs);
+    }
+    .btn-outline:hover {
+      background: var(--bg-subtle);
+      border-color: var(--border-strong);
+    }
+
+    .btn-danger {
+      background: var(--accent-red);
+      color: #FFFFFF;
+    }
+    .btn-danger:hover {
+      background: var(--accent-red-hover);
+    }
+
+    .btn-danger-outline {
+      background: #FFFFFF;
+      color: var(--accent-red);
+      border-color: var(--accent-red-border);
+    }
+    .btn-danger-outline:hover {
+      background: var(--accent-red-surface);
+    }
+
+    .btn-icon-only {
+      padding: 6px;
+      min-width: 32px;
+      min-height: 32px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* History Undo/Redo pill */
+    .history-group {
+      display: flex;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .history-btn {
+      background: transparent;
+      border: none;
+      color: #E2E8F0;
+      padding: 5px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      transition: background-color var(--transition-standard), color var(--transition-standard);
+    }
+
+    .history-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+    }
+
+    .history-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ==========================================================================
+       SUB-NAV TOOLBAR (Plans & View Toggles)
+       ========================================================================== */
+    .subnav-bar {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 8px 20px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .subnav-inner {
+      max-width: 1720px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Plan Tabs */
+    .plan-tabs-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .plan-pills {
+      display: flex;
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: var(--radius-md);
+      gap: 3px;
+    }
+
+    .plan-pill-btn {
+      background: transparent;
+      border: none;
+      padding: 6px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background-color var(--transition-standard), color var(--transition-standard), box-shadow var(--transition-standard);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .plan-pill-btn.active {
+      background: #FFFFFF;
+      color: var(--primary);
+      box-shadow: var(--shadow-xs);
+      font-weight: 700;
+    }
+
+    .plan-pill-count {
+      background: var(--primary-surface);
+      color: var(--primary);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    .view-toggles {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+    }
+
+    .toggle-check-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+    }
+
+    .toggle-check-label input {
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    /* ==========================================================================
+       MAIN DUAL-COLUMN WORKSPACE (Smart 75% Grid / 25% Dock)
+       ========================================================================== */
+    main.workspace-layout {
+      max-width: 1720px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      width: 100%;
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    @media (max-width: 1240px) {
+      main.workspace-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left: Schedule Section */
+    .schedule-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    /* Conflict Warning Notification Bar */
+    .conflict-callout {
+      background: var(--accent-red-surface);
+      border: 1px solid var(--accent-red-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      animation: alertPulse 3s infinite;
+      box-shadow: 0 2px 6px rgba(217, 45, 32, 0.08);
+    }
+
+    @keyframes alertPulse {
+      0%, 100% { border-color: var(--accent-red-border); }
+      50% { border-color: #F04438; }
+    }
+
+    .conflict-callout-icon {
+      background: #FEE4E2;
+      color: var(--accent-red);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .conflict-callout-body h3 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #991B1B;
+      margin-bottom: 2px;
+    }
+
+    .conflict-callout-body ul {
+      margin-left: 18px;
+      font-size: 12.5px;
+      color: #7F1D1D;
+    }
+
+    .conflict-callout-body li {
+      margin-top: 3px;
+    }
+
+    /* Timetable Matrix Card */
+    .matrix-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      padding: 10px;
+    }
+
+    .matrix-scroll-wrapper {
+      overflow-x: auto;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .timetable-grid {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 5px;
+      table-layout: fixed;
+    }
+
+    /* Day Headers */
+    .day-th {
+      padding: 10px 6px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      user-select: none;
+    }
+
+    .day-th.time-header-th {
+      width: 130px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      background: #E8EEF5;
+    }
+
+    .day-th.is-today {
+      background: var(--primary-surface);
+      border-color: var(--primary-border);
+      color: var(--primary);
+    }
+
+    .day-th.is-today .today-badge {
+      display: inline-block;
+      font-size: 10px;
+      background: var(--primary);
+      color: #FFFFFF;
+      padding: 1px 5px;
+      border-radius: 4px;
+      margin-left: 4px;
+      font-weight: 700;
+    }
+
+    /* Shift Header (Ca 1 to Ca 5) */
+    .shift-th {
+      background: #FAFCFE;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      text-align: center;
+      vertical-align: middle;
+      user-select: none;
+    }
+
+    .shift-name-text {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .shift-time-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      display: block;
+    }
+
+    .shift-period-tag {
+      display: inline-block;
+      margin-top: 3px;
+      padding: 1px 6px;
+      background: var(--bg-subtle);
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    /* Timetable Matrix Cell */
+    .grid-cell {
+      background: #FAFCFE;
+      border: 1.5px dashed var(--border-subtle);
+      border-radius: var(--radius-md);
+      min-height: 120px;
+      height: auto;
+      vertical-align: top;
+      padding: 5px;
+      position: relative;
+      cursor: pointer;
+      transition: background-color var(--transition-standard), border-color var(--transition-standard);
+    }
+
+    .grid-cell:hover {
+      background: #F1F5F9;
+      border-color: var(--border-strong);
+    }
+
+    .grid-cell.has-course {
+      background: transparent;
+      border-style: solid;
+      border-color: var(--border-subtle);
+      cursor: default;
+    }
+
+    .grid-cell.has-conflict {
+      background: #FFF5F5 !important;
+      border: 2px solid var(--accent-red) !important;
+      box-shadow: 0 0 0 3px rgba(217, 45, 32, 0.12);
+    }
+
+    .cell-add-btn {
+      display: none;
+      min-height: 110px;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .grid-cell:hover .cell-add-btn {
+      display: flex;
+    }
+
+    .cell-cards-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-height: 110px;
+    }
+
+    /* Compact mode adjustments */
+    body.is-compact .grid-cell {
+      min-height: 90px;
+      padding: 4px;
+    }
+    body.is-compact .cell-cards-flow {
+      min-height: 80px;
+    }
+    body.is-compact .course-chip {
+      padding: 5px 7px;
+    }
+
+    /* Course Chip Inside Grid */
+    .course-chip {
+      border-radius: var(--radius-sm);
+      padding: 6px 8px;
+      font-size: 11.5px;
+      position: relative;
+      background: var(--chip-bg, #EFF6FF);
+      color: var(--chip-text, #1E40AF);
+      border-left: 3.5px solid var(--chip-accent, #3B82F6);
+      box-shadow: var(--shadow-xs);
+      cursor: pointer;
+      transition: transform var(--transition-standard), box-shadow var(--transition-standard), opacity var(--transition-standard);
+    }
+
+    .course-chip:hover {
+      transform: translateY(-1.5px);
+      box-shadow: var(--shadow-md);
+      z-index: 5;
+    }
+
+    .course-chip.is-muted {
+      opacity: 0.45;
+      filter: grayscale(0.5);
+      border-left-style: dashed;
+    }
+
+    .course-chip-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 4px;
+      line-height: 1.25;
+    }
+
+    .course-chip-name {
+      font-weight: 700;
+      font-size: 11.5px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-break: break-word;
+    }
+
+    .course-chip-badge {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+
+    .course-chip-meta {
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      font-size: 10.5px;
+      opacity: 0.9;
+    }
+
+    .course-chip-meta code {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    .course-conflict-tag {
+      background: var(--accent-red);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 9px;
+      padding: 2px 4px;
+      border-radius: 3px;
+      margin-top: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      animation: alertPulse 2s infinite;
+    }
+
+    /* Course Chip Action overlay on hover */
+    .chip-hover-actions {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      display: none;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      padding: 2px;
+      box-shadow: var(--shadow-sm);
+      gap: 2px;
+      z-index: 10;
+    }
+
+    .course-chip:hover .chip-hover-actions {
+      display: flex;
+    }
+
+    .chip-action-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 2px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+    }
+
+    .chip-action-btn:hover {
+      background: #E2E8F0;
+      color: var(--text-main);
+    }
+
+    .chip-action-btn.del:hover {
+      background: #FEE2E2;
+      color: var(--accent-red);
+    }
+
+    /* ==========================================================================
+       RIGHT DOCK PANEL (Smart Management & Registration Assistant)
+       ========================================================================== */
+    .dock-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: sticky;
+      top: 70px;
+    }
+
+    .dock-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .dock-header {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: #FAFCFE;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dock-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-main);
+    }
+
+    /* Credit Gauge & Stats Card */
+    .stats-card-body {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .credit-meter-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .credit-meter-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .credit-big-number {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .credit-big-number span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .credit-status-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--accent-emerald-surface);
+      color: var(--accent-emerald);
+      border: 1px solid var(--accent-emerald-border);
+    }
+
+    .credit-status-badge.warning {
+      background: var(--accent-amber-surface);
+      color: var(--accent-amber);
+      border-color: var(--accent-amber-border);
+    }
+
+    .credit-status-badge.danger {
+      background: var(--accent-red-surface);
+      color: var(--accent-red);
+      border-color: var(--accent-red-border);
+    }
+
+    .meter-bar-track {
+      width: 100%;
+      height: 7px;
+      background: #E2E8F0;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .meter-bar-fill {
+      height: 100%;
+      background: var(--accent-emerald);
+      border-radius: 4px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    .meter-bar-fill.warning {
+      background: var(--accent-amber);
+    }
+
+    .meter-bar-fill.danger {
+      background: var(--accent-red);
+    }
+
+    /* Mini Stats Grid */
+    .mini-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      padding-top: 6px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .mini-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mini-stat-label {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .mini-stat-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Course List inside Dock */
+    .dock-list-scroll {
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .dock-course-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: #FFFFFF;
+      transition: background-color var(--transition-standard), border-color var(--transition-standard);
+      gap: 8px;
+    }
+
+    .dock-course-row:hover {
+      background: #F8FAFC;
+      border-color: var(--border-strong);
+    }
+
+    .dock-course-row.conflict-row {
+      background: #FFF5F5;
+      border-color: var(--accent-red-border);
+    }
+
+    .dock-course-row.muted-row {
+      opacity: 0.5;
+    }
+
+    .dock-course-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .color-pip {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dock-course-info {
+      min-width: 0;
+      line-height: 1.3;
+    }
+
+    .dock-course-title {
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text-main);
+    }
+
+    .dock-course-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dock-course-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .btn-row-action {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-row-action:hover {
+      background: #E2E8F0;
+      color: var(--text-main);
+    }
+
+    .btn-row-action.delete:hover {
+      background: #FEE2E2;
+      color: var(--accent-red);
+    }
+
+    /* Quick Copy Box */
+    .quick-copy-content {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .copy-textarea {
+      width: 100%;
+      height: 90px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      background: var(--bg-subtle);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      color: var(--text-main);
+      resize: none;
+      outline: none;
+      user-select: all;
+    }
+
+    .quick-copy-tip {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* ==========================================================================
+       MODAL DIALOG (Add / Edit Course)
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 37, 64, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-float);
+      border: 1px solid var(--border-subtle);
+      transform: translateY(10px) scale(0.98);
+      transition: transform 0.2s var(--ease-tactile);
+    }
+
+    .modal-overlay.is-active .modal-box {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-head {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: #FFFFFF;
+      z-index: 10;
+    }
+
+    .modal-head h2 {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-body-form {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modal-foot {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border-subtle);
+      background: #FAFCFE;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    /* Form Fields */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .field-label .req {
+      color: var(--accent-red);
+    }
+
+    .input-control, .select-control {
+      width: 100%;
+      padding: 7px 11px;
+      font-size: 13px;
+      font-family: inherit;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      outline: none;
+      background: #FFFFFF;
+      transition: border-color var(--transition-standard), box-shadow var(--transition-standard);
+    }
+
+    .input-control:focus, .select-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(10, 54, 114, 0.12);
+    }
+
+    /* Color Swatch Selector */
+    .palette-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .palette-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 0 0 1px #CBD5E1;
+      transition: transform var(--transition-standard), box-shadow var(--transition-standard);
+    }
+
+    .palette-dot:hover {
+      transform: scale(1.15);
+    }
+
+    .palette-dot.is-chosen {
+      box-shadow: 0 0 0 2.5px var(--primary);
+      transform: scale(1.1);
+    }
+
+    /* Toast Notification */
+    .toast-shelf {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast-msg {
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: toastIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Print Optimization */
+    @media print {
+      header.app-header, .subnav-bar, .dock-section, .btn, .cell-add-btn, .chip-hover-actions {
+        display: none !important;
+      }
+      body, main.workspace-layout {
+        background: #FFFFFF !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+      }
+      .matrix-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+      }
+      .timetable-grid {
+        min-width: 100% !important;
+      }
+      .print-title-area {
+        display: block !important;
+        margin-bottom: 12px;
+      }
+    }
+
+    .print-title-area {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-wrap">
+        <div class="tdtu-pill">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          TDTU
+        </div>
+        <div class="brand-info">
+          <h1>
+            Kế Hoạch Thời Khóa Biểu
+            <span style="font-size: 12px; font-weight: 500; opacity: 0.85; padding: 1px 6px; background: rgba(255,255,255,0.12); border-radius: 4px;">ĐKMH Chống Trùng</span>
+          </h1>
+          <p>Trường Đại học Tôn Đức Thắng • Ca 1 đến Ca 5 • Phát hiện trùng lịch thời gian thực</p>
+        </div>
+      </div>
+
+      <!-- Center Auto-save Status & Undo/Redo -->
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="save-indicator" id="autoSaveIndicator" title="Trạng thái tự động lưu vào trình duyệt">
+          <span class="save-dot" id="saveDot"></span>
+          <span id="saveStatusText">Đã tự động lưu</span>
+        </div>
+
+        <div class="history-group">
+          <button class="history-btn" id="btnUndo" onclick="undoAction()" title="Hoàn tác (Ctrl+Z)" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+          </button>
+          <button class="history-btn" id="btnRedo" onclick="redoAction()" title="Làm lại (Ctrl+Y)" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+        <button class="btn btn-solid-white" onclick="openCreateModal()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Thêm Môn Học
+        </button>
+        <button class="btn btn-nav-glass" onclick="copyPortalBlock()" title="Copy nhanh danh sách mã & nhóm để nhập portal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          Copy Mã ĐKMH
+        </button>
+        <button class="btn btn-nav-glass" onclick="window.print()" title="In ra giấy hoặc lưu thành PDF A4">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          In / PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Subnav Toolbar: Plans & Layout Controls -->
+  <div class="subnav-bar">
+    <div class="subnav-inner">
+      <div class="plan-tabs-row">
+        <span style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Phương án:</span>
+        <div class="plan-pills" id="planPillContainer"></div>
+        <button class="btn btn-outline btn-icon-only" onclick="promptNewPlan()" title="Tạo phương án đăng ký mới">+</button>
+        <button class="btn btn-outline" style="padding: 5px 9px; font-size: 11.5px;" onclick="duplicateCurrentPlan()" title="Nhân bản phương án để sửa nhóm khi bị full">Nhân bản</button>
+        <button class="btn btn-outline" style="padding: 5px 9px; font-size: 11.5px;" onclick="promptRenamePlan()" title="Đổi tên phương án">Đổi tên</button>
+        <button class="btn btn-danger-outline" style="padding: 5px 9px; font-size: 11.5px;" onclick="confirmDeletePlan()" title="Xóa phương án này">Xóa PA</button>
+      </div>
+
+      <div class="view-toggles">
+        <label class="toggle-check-label" title="Ẩn bớt Chủ Nhật nếu không có ca học để mở rộng Thứ 2 - Thứ 7">
+          <input type="checkbox" id="chkToggleSunday" onchange="toggleSundayVisibility(this.checked)">
+          <span>Hiện Chủ Nhật</span>
+        </label>
+        <span style="color: var(--border-strong);">|</span>
+        <label class="toggle-check-label" title="Thu nhỏ khoảng cách ô để xem trọn vẹn màn hình">
+          <input type="checkbox" id="chkCompactMode" onchange="toggleCompactMode(this.checked)">
+          <span>Gọn gàng</span>
+        </label>
+        <span style="color: var(--border-strong);">|</span>
+        <button class="btn btn-outline" style="padding: 4px 8px; font-size: 11.5px;" onclick="loadSampleScenario()" title="Nạp 6 môn học ví dụ kèm 1 xung đột để test">
+          Nạp mẫu
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dual-Column Workspace -->
+  <main class="workspace-layout">
+    <!-- Print-only Title -->
+    <div class="print-title-area">
+      <h2 style="font-size: 20px; font-weight: 800; color: #0A3672;">TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG - THỜI KHÓA BIỂU DỰ KIẾN</h2>
+      <p style="font-size: 12px; color: #64748B;" id="printPlanSubtitle">Phương án: Phương án 1</p>
+    </div>
+
+    <!-- Left: Schedule Timetable Matrix -->
+    <section class="schedule-section">
+      <!-- Conflict Alert Banner (Dynamic) -->
+      <div id="conflictCallout" class="conflict-callout" style="display: none;">
+        <div class="conflict-callout-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="conflict-callout-body">
+          <h3>PHÁT HIỆN TRÙNG LỊCH HỌC!</h3>
+          <p style="font-size: 12px; margin-bottom: 4px;">Hệ thống đăng ký môn học TDTU sẽ tự động chặn khi đăng ký trùng ca. Vui lòng chọn nhóm lớp khác:</p>
+          <ul id="conflictDetailList"></ul>
+        </div>
+      </div>
+
+      <!-- Timetable Card Grid -->
+      <div class="matrix-card">
+        <div class="matrix-scroll-wrapper">
+          <table class="timetable-grid">
+            <thead>
+              <tr>
+                <th class="day-th time-header-th">CA & TIẾT</th>
+                <th class="day-th" id="th-day-2">Thứ Hai (T2)</th>
+                <th class="day-th" id="th-day-3">Thứ Ba (T3)</th>
+                <th class="day-th" id="th-day-4">Thứ Tư (T4)</th>
+                <th class="day-th" id="th-day-5">Thứ Năm (T5)</th>
+                <th class="day-th" id="th-day-6">Thứ Sáu (T6)</th>
+                <th class="day-th" id="th-day-7">Thứ Bảy (T7)</th>
+                <th class="day-th col-sunday" id="th-day-8" style="display: none;">Chủ Nhật (CN)</th>
+              </tr>
+            </thead>
+            <tbody id="matrixGridBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Dock Panel (Stats, Conflicts, Quick Copy, Course List) -->
+    <aside class="dock-section">
+      <!-- 1. Stats & Credit Progress -->
+      <div class="dock-card">
+        <div class="dock-header">
+          <div class="dock-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Tín Chỉ & Tiến Độ ĐKMH
+          </div>
+        </div>
+        <div class="stats-card-body">
+          <div class="credit-meter-wrap">
+            <div class="credit-meter-top">
+              <div class="credit-big-number tabular" id="dockTotalCredits">
+                0 <span>/ 24 TC</span>
+              </div>
+              <span class="credit-status-badge" id="dockCreditStatusBadge">Chưa đủ 14 TC</span>
+            </div>
+            <div class="meter-bar-track">
+              <div class="meter-bar-fill" id="dockCreditMeterFill" style="width: 0%;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-muted);">
+              <span>Min: 14 TC</span>
+              <span>Chuẩn TDTU: 14 - 24 TC</span>
+              <span>Max: 24 TC</span>
+            </div>
+          </div>
+
+          <div class="mini-stats-grid">
+            <div class="mini-stat-item">
+              <span class="mini-stat-label">Số môn:</span>
+              <span class="mini-stat-val tabular" id="dockSubjectCount">0</span>
+            </div>
+            <div class="mini-stat-item">
+              <span class="mini-stat-label">Số buổi/tuần:</span>
+              <span class="mini-stat-val tabular" id="dockSessionCount">0 ca</span>
+            </div>
+            <div class="mini-stat-item">
+              <span class="mini-stat-label">Ngày rảnh:</span>
+              <span class="mini-stat-val tabular" id="dockFreeDays">0 ngày</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Course List Card -->
+      <div class="dock-card">
+        <div class="dock-header">
+          <div class="dock-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            Danh Sách Môn (<span id="dockCourseListCount">0</span>)
+          </div>
+          <button class="btn btn-outline" style="padding: 2px 8px; font-size: 11px;" onclick="clearAllCurrentPlanCourses()">Xóa hết</button>
+        </div>
+        <div class="dock-list-scroll" id="dockCourseListScroll">
+          <!-- Filled via JS -->
+        </div>
+      </div>
+
+      <!-- 3. Quick Copy for TDTU Portal -->
+      <div class="dock-card">
+        <div class="dock-header">
+          <div class="dock-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy Nhanh Đăng Ký Portal
+          </div>
+          <button class="btn btn-primary" style="padding: 4px 10px; font-size: 11.5px;" onclick="copyPortalBlock()">Sao chép</button>
+        </div>
+        <div class="quick-copy-content">
+          <textarea class="copy-textarea" id="portalTextarea" readonly placeholder="Danh sách mã môn & nhóm sẽ hiện ở đây để bạn copy vào portal TDTU..."></textarea>
+          <p class="quick-copy-tip">
+            💡 <strong>Mẹo ĐKMH:</strong> Khi hệ thống mở cổng, chỉ cần bấm "Sao chép" rồi nhìn mã môn & nhóm lớp để đăng ký chuẩn xác, không sợ nhầm mã.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Modal Dialog: Create / Edit Subject -->
+  <div class="modal-overlay" id="courseModalOverlay" onclick="handleBackdropClick(event)">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitleText">
+      <div class="modal-head">
+        <h2 id="modalTitleText">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Thêm Môn Học Mới
+        </h2>
+        <button class="btn btn-outline btn-icon-only" onclick="closeCourseModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form class="modal-body-form" id="courseForm" onsubmit="handleFormSubmit(event)">
+        <input type="hidden" id="fieldEditingId" value="">
+
+        <div class="field-group">
+          <label class="field-label" for="fieldName">Tên môn học <span class="req">*</span></label>
+          <input type="text" id="fieldName" class="input-control" placeholder="Ví dụ: Cơ sở dữ liệu, Lập trình Web, AI..." required>
+        </div>
+
+        <div class="field-row-3">
+          <div class="field-group">
+            <label class="field-label" for="fieldCode">Mã môn học</label>
+            <input type="text" id="fieldCode" class="input-control tabular" placeholder="Vd: 502045">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="fieldGroup">Nhóm / Lớp / Tổ</label>
+            <input type="text" id="fieldGroup" class="input-control" placeholder="Vd: 01 hoặc N01-T02">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="fieldCredits">Số tín chỉ</label>
+            <input type="number" id="fieldCredits" class="input-control tabular" min="0" max="15" value="3">
+          </div>
+        </div>
+
+        <div class="field-row-2">
+          <div class="field-group">
+            <label class="field-label" for="fieldDay">Thứ trong tuần <span class="req">*</span></label>
+            <select id="fieldDay" class="select-control">
+              <option value="2">Thứ Hai (T2)</option>
+              <option value="3">Thứ Ba (T3)</option>
+              <option value="4">Thứ Tư (T4)</option>
+              <option value="5">Thứ Năm (T5)</option>
+              <option value="6">Thứ Sáu (T6)</option>
+              <option value="7">Thứ Bảy (T7)</option>
+              <option value="8">Chủ Nhật (CN)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="fieldShift">Ca học (Chuẩn TDTU) <span class="req">*</span></label>
+            <select id="fieldShift" class="select-control">
+              <option value="1">Ca 1 (06:50 – 09:15 | Tiết 1-3)</option>
+              <option value="2">Ca 2 (09:25 – 11:50 | Tiết 4-6)</option>
+              <option value="3">Ca 3 (12:30 – 14:55 | Tiết 7-9)</option>
+              <option value="4">Ca 4 (15:05 – 17:30 | Tiết 10-12)</option>
+              <option value="5">Ca 5 (17:45 – 21:00 | Tiết 13-15)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row-3">
+          <div class="field-group">
+            <label class="field-label" for="fieldType">Loại hình</label>
+            <select id="fieldType" class="select-control">
+              <option value="LT">Lý thuyết (LT)</option>
+              <option value="TH">Thực hành (TH)</option>
+              <option value="DA">Đồ án / Khóa luận</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="fieldRoom">Phòng học</label>
+            <input type="text" id="fieldRoom" class="input-control" placeholder="Vd: A0402, C001">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="fieldTeacher">Giảng viên</label>
+            <input type="text" id="fieldTeacher" class="input-control" placeholder="Vd: Thầy A, Cô B...">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="fieldNote">Tuần học / Ghi chú</label>
+          <input type="text" id="fieldNote" class="input-control" placeholder="Vd: Tuần 1-15, bắt đầu từ tuần 3...">
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Màu nhận diện môn học</label>
+          <div class="palette-row" id="paletteRow"></div>
+          <input type="hidden" id="fieldColor" value="#3B82F6">
+        </div>
+
+        <div class="modal-foot">
+          <button type="button" class="btn btn-outline" onclick="closeCourseModal()">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu Môn Học</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Shelf -->
+  <div class="toast-shelf" id="toastShelf"></div>
+
+  <script>
+    /* ==========================================================================
+       TDTU TIMETABLE PLANNER V2 CORE ENGINE
+       ========================================================================== */
+
+    const TDTU_SHIFTS = [
+      { id: 1, name: "Ca 1", periods: "Tiết 1 - 3", time: "06:50 – 09:15" },
+      { id: 2, name: "Ca 2", periods: "Tiết 4 - 6", time: "09:25 – 11:50" },
+      { id: 3, name: "Ca 3", periods: "Tiết 7 - 9", time: "12:30 – 14:55" },
+      { id: 4, name: "Ca 4", periods: "Tiết 10 - 12", time: "15:05 – 17:30" },
+      { id: 5, name: "Ca 5", periods: "Tiết 13 - 15", time: "17:45 – 21:00" }
+    ];
+
+    const DAYS = [
+      { id: 2, name: "Thứ Hai", short: "T2" },
+      { id: 3, name: "Thứ Ba", short: "T3" },
+      { id: 4, name: "Thứ Tư", short: "T4" },
+      { id: 5, name: "Thứ Năm", short: "T5" },
+      { id: 6, name: "Thứ Sáu", short: "T6" },
+      { id: 7, name: "Thứ Bảy", short: "T7" },
+      { id: 8, name: "Chủ Nhật", short: "CN", isSunday: true }
+    ];
+
+    const PALETTES = [
+      { name: "Xanh dương", bg: "#EFF6FF", border: "#3B82F6", text: "#1E40AF" },
+      { name: "Lục ngọc", bg: "#ECFDF5", border: "#10B981", text: "#065F46" },
+      { name: "Cam rực", bg: "#FFF7ED", border: "#F97316", text: "#9A3412" },
+      { name: "Tím thanh lịch", bg: "#FAF5FF", border: "#A855F7", text: "#6B21A8" },
+      { name: "Hồng đào", bg: "#FDF2F8", border: "#EC4899", text: "#9D174D" },
+      { name: "Lam ngọc", bg: "#ECFEFF", border: "#06B6D4", text: "#155E75" },
+      { name: "Chàm Indigo", bg: "#EEF2FF", border: "#6366F1", text: "#3730A3" },
+      { name: "Vàng hổ phách", bg: "#FEFCE8", border: "#EAB308", text: "#854D0E" }
+    ];
+
+    const STORAGE_KEY = "TDTU_TIMETABLE_PLANS_V2";
+    const OLD_STORAGE_KEY = "TDTU_TIMETABLE_PLANS_V1";
+
+    // Application state
+    let state = {
+      activePlanId: "plan-1",
+      showSunday: false,
+      isCompact: false,
+      plans: [
+        {
+          id: "plan-1",
+          name: "Phương án 1 (Chính)",
+          courses: []
+        }
+      ]
+    };
+
+    // Undo / Redo history stacks
+    let historyStack = [];
+    let historyIndex = -1;
+    const MAX_HISTORY = 25;
+    let autoSaveTimer = null;
+
+    /* Initialize */
+    document.addEventListener("DOMContentLoaded", () => {
+      loadState();
+      buildColorPalette();
+      buildMatrixGrid();
+      markTodayColumn();
+      pushHistory(true); // Initial state
+      renderAll();
+      setupKeyboardShortcuts();
+    });
+
+    /* Keyboard Shortcuts (Ctrl+Z, Ctrl+Y, Esc) */
+    function setupKeyboardShortcuts() {
+      window.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") {
+          if (e.shiftKey) {
+            e.preventDefault();
+            redoAction();
+          } else {
+            e.preventDefault();
+            undoAction();
+          }
+        } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "y") {
+          e.preventDefault();
+          redoAction();
+        } else if (e.key === "Escape") {
+          closeCourseModal();
+        }
+      });
+    }
+
+    /* History Management */
+    function pushHistory(initial = false) {
+      if (!initial) {
+        historyStack = historyStack.slice(0, historyIndex + 1);
+      }
+      historyStack.push(JSON.stringify({
+        activePlanId: state.activePlanId,
+        plans: state.plans
+      }));
+      if (historyStack.length > MAX_HISTORY) {
+        historyStack.shift();
+      }
+      historyIndex = historyStack.length - 1;
+      updateUndoRedoButtons();
+    }
+
+    function undoAction() {
+      if (historyIndex > 0) {
+        historyIndex--;
+        const restored = JSON.parse(historyStack[historyIndex]);
+        state.activePlanId = restored.activePlanId;
+        state.plans = restored.plans;
+        renderAll();
+        triggerAutoSave("Đã hoàn tác");
+        updateUndoRedoButtons();
+        showToast("Đã hoàn tác (Undo)");
+      }
+    }
+
+    function redoAction() {
+      if (historyIndex < historyStack.length - 1) {
+        historyIndex++;
+        const restored = JSON.parse(historyStack[historyIndex]);
+        state.activePlanId = restored.activePlanId;
+        state.plans = restored.plans;
+        renderAll();
+        triggerAutoSave("Đã làm lại");
+        updateUndoRedoButtons();
+        showToast("Đã làm lại (Redo)");
+      }
+    }
+
+    function updateUndoRedoButtons() {
+      const undoBtn = document.getElementById("btnUndo");
+      const redoBtn = document.getElementById("btnRedo");
+      if (undoBtn) undoBtn.disabled = historyIndex <= 0;
+      if (redoBtn) redoBtn.disabled = historyIndex >= historyStack.length - 1;
+    }
+
+    /* LocalStorage Persistence & Auto-Save */
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(OLD_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.plans && parsed.plans.length > 0) {
+            state.activePlanId = parsed.activePlanId || parsed.plans[0].id;
+            state.showSunday = !!parsed.showSunday;
+            state.isCompact = !!parsed.isCompact;
+            state.plans = parsed.plans.map(p => ({
+              id: p.id,
+              name: p.name,
+              courses: (p.courses || []).map(c => ({
+                ...c,
+                isMuted: !!c.isMuted
+              }))
+            }));
+          }
+        }
+      } catch (err) {
+        console.error("Lỗi đọc dữ liệu:", err);
+      }
+
+      // Sync checkbox controls
+      document.getElementById("chkToggleSunday").checked = state.showSunday;
+      document.getElementById("chkCompactMode").checked = state.isCompact;
+      document.body.classList.toggle("is-compact", state.isCompact);
+    }
+
+    function triggerAutoSave(customText = "Đã tự động lưu") {
+      const indicator = document.getElementById("autoSaveIndicator");
+      const textEl = document.getElementById("saveStatusText");
+
+      indicator.classList.add("saving");
+      textEl.innerText = "Đang lưu...";
+
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            activePlanId: state.activePlanId,
+            showSunday: state.showSunday,
+            isCompact: state.isCompact,
+            plans: state.plans
+          }));
+
+          const now = new Date();
+          const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+          
+          indicator.classList.remove("saving");
+          textEl.innerText = `${customText} (${timeStr})`;
+        } catch (e) {
+          indicator.classList.remove("saving");
+          textEl.innerText = "Lỗi lưu dữ liệu!";
+        }
+      }, 250);
+    }
+
+    function getActivePlan() {
+      let plan = state.plans.find(p => p.id === state.activePlanId);
+      if (!plan) {
+        plan = state.plans[0];
+        state.activePlanId = plan.id;
+      }
+      return plan;
+    }
+
+    /* Build Matrix Table Skeleton */
+    function buildMatrixGrid() {
+      const tbody = document.getElementById("matrixGridBody");
+      tbody.innerHTML = "";
+
+      TDTU_SHIFTS.forEach(shift => {
+        const tr = document.createElement("tr");
+
+        // Shift Header Cell
+        const th = document.createElement("td");
+        th.className = "shift-th";
+        th.innerHTML = `
+          <div class="shift-name-text">${shift.name}</div>
+          <span class="shift-time-text tabular">${shift.time}</span>
+          <span class="shift-period-tag">${shift.periods}</span>
+        `;
+        tr.appendChild(th);
+
+        // Days 2 to 8
+        DAYS.forEach(day => {
+          const td = document.createElement("td");
+          td.className = `grid-cell ${day.isSunday ? 'col-sunday' : ''}`;
+          td.id = `cell-${day.id}-${shift.id}`;
+          if (day.isSunday && !state.showSunday) {
+            td.style.display = "none";
+          }
+
+          td.onclick = (e) => {
+            // Only trigger if clicking cell background, not inside a chip
+            if (e.target.closest(".course-chip")) return;
+            openCreateModal(day.id, shift.id);
+          };
+
+          td.innerHTML = `
+            <div class="cell-add-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>+ Thêm</span>
+            </div>
+            <div class="cell-cards-flow" id="flow-${day.id}-${shift.id}"></div>
+          `;
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* Highlight Today */
+    function markTodayColumn() {
+      const today = new Date().getDay(); // 0: Sunday, 1: Monday, ...
+      const dayId = today === 0 ? 8 : (today + 1);
+      const th = document.getElementById(`th-day-${dayId}`);
+      if (th) {
+        th.classList.add("is-today");
+        th.innerHTML += `<span class="today-badge">Hôm nay</span>`;
+      }
+    }
+
+    /* Palette Selection in Modal */
+    function buildColorPalette() {
+      const row = document.getElementById("paletteRow");
+      row.innerHTML = "";
+      PALETTES.forEach((palette, idx) => {
+        const dot = document.createElement("div");
+        dot.className = `palette-dot ${idx === 0 ? 'is-chosen' : ''}`;
+        dot.style.background = palette.border;
+        dot.title = palette.name;
+        dot.onclick = () => {
+          document.querySelectorAll(".palette-dot").forEach(d => d.classList.remove("is-chosen"));
+          dot.classList.add("is-chosen");
+          document.getElementById("fieldColor").value = palette.border;
+        };
+        row.appendChild(dot);
+      });
+    }
+
+    /* Render All */
+    function renderAll() {
+      renderPlanPills();
+      renderMatrix();
+      renderDock();
+      updateUndoRedoButtons();
+    }
+
+    /* Render Plan Navigation */
+    function renderPlanPills() {
+      const container = document.getElementById("planPillContainer");
+      container.innerHTML = state.plans.map(p => {
+        const isActive = p.id === state.activePlanId;
+        const count = p.courses.length;
+        return `
+          <button class="plan-pill-btn ${isActive ? 'active' : ''}" onclick="switchPlan('${p.id}')">
+            <span>${escapeHtml(p.name)}</span>
+            <span class="plan-pill-count tabular">${count}</span>
+          </button>
+        `;
+      }).join("");
+
+      document.getElementById("printPlanSubtitle").innerText = `Phương án: ${getActivePlan().name}`;
+    }
+
+    function switchPlan(planId) {
+      state.activePlanId = planId;
+      pushHistory();
+      renderAll();
+      triggerAutoSave("Đã chuyển phương án");
+    }
+
+    /* Render Matrix Grid with Conflict Detection */
+    function renderMatrix() {
+      const plan = getActivePlan();
+
+      // Clear all cells
+      TDTU_SHIFTS.forEach(shift => {
+        DAYS.forEach(day => {
+          const cell = document.getElementById(`cell-${day.id}-${shift.id}`);
+          const flow = document.getElementById(`flow-${day.id}-${shift.id}`);
+          if (cell) cell.classList.remove("has-course", "has-conflict");
+          if (flow) flow.innerHTML = "";
+        });
+      });
+
+      // Detect conflicts among ACTIVE (non-muted) courses
+      const activeCourses = plan.courses.filter(c => !c.isMuted);
+      const conflicts = detectScheduleConflicts(activeCourses);
+
+      // Render Callout
+      const callout = document.getElementById("conflictCallout");
+      const listContainer = document.getElementById("conflictDetailList");
+      if (conflicts.hasConflict) {
+        callout.style.display = "flex";
+        listContainer.innerHTML = conflicts.list.map(item => {
+          const names = item.courses.map(c => `<strong>${escapeHtml(c.name)}</strong> (Nhóm: ${escapeHtml(c.group || "01")})`).join(" và ");
+          return `<li>Tại <strong>${item.dayName} – ${item.shiftName}</strong>: ${names}</li>`;
+        }).join("");
+      } else {
+        callout.style.display = "none";
+      }
+
+      // Populate chips into matrix cells
+      plan.courses.forEach(course => {
+        const cell = document.getElementById(`cell-${course.day}-${course.shift}`);
+        const flow = document.getElementById(`flow-${course.day}-${course.shift}`);
+        if (!cell || !flow) return;
+
+        cell.classList.add("has-course");
+
+        const isConflict = !course.isMuted && conflicts.conflictKeys.has(`${course.day}-${course.shift}`);
+        if (isConflict) {
+          cell.classList.add("has-conflict");
+        }
+
+        const chip = createCourseChip(course, isConflict);
+        flow.appendChild(chip);
+      });
+    }
+
+    function detectScheduleConflicts(courses) {
+      const map = {};
+      const conflictKeys = new Set();
+      const list = [];
+
+      courses.forEach(c => {
+        const key = `${c.day}-${c.shift}`;
+        if (!map[key]) map[key] = [];
+        map[key].push(c);
+      });
+
+      for (const [key, items] of Object.entries(map)) {
+        if (items.length > 1) {
+          conflictKeys.add(key);
+          const [dayId, shiftId] = key.split("-").map(Number);
+          const dayName = DAYS.find(d => d.id === dayId)?.name || `Thứ ${dayId}`;
+          const shiftName = TDTU_SHIFTS.find(s => s.id === shiftId)?.name || `Ca ${shiftId}`;
+          list.push({ key, dayName, shiftName, courses: items });
+        }
+      }
+
+      return { hasConflict: list.length > 0, conflictKeys, list };
+    }
+
+    /* Course Chip in Grid */
+    function createCourseChip(course, isConflict) {
+      const chip = document.createElement("div");
+      chip.className = `course-chip ${course.isMuted ? 'is-muted' : ''}`;
+
+      const palette = PALETTES.find(p => p.border === course.color) || PALETTES[0];
+      chip.style.setProperty("--chip-bg", palette.bg);
+      chip.style.setProperty("--chip-accent", palette.border);
+      chip.style.setProperty("--chip-text", palette.text);
+
+      chip.onclick = (e) => {
+        e.stopPropagation();
+        openEditModal(course.id);
+      };
+
+      const typeLabel = course.type === "TH" ? "TH" : (course.type === "DA" ? "ĐA" : "LT");
+
+      chip.innerHTML = `
+        <div class="chip-hover-actions" onclick="event.stopPropagation()">
+          <button class="chip-action-btn" onclick="toggleCourseMute('${course.id}')" title="${course.isMuted ? 'Bật lại môn này' : 'Tắt tạm thời'}">
+            ${course.isMuted 
+              ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>` 
+              : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+            }
+          </button>
+          <button class="chip-action-btn del" onclick="deleteCourse('${course.id}')" title="Xóa môn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+        </div>
+
+        <div class="course-chip-header">
+          <div class="course-chip-name" title="${escapeHtml(course.name)}">${escapeHtml(course.name)}</div>
+          <span class="course-chip-badge">${typeLabel}</span>
+        </div>
+
+        <div class="course-chip-meta">
+          ${course.code ? `<code>${escapeHtml(course.code)}</code>` : ''}
+          ${course.group ? `<span>N:${escapeHtml(course.group)}</span>` : ''}
+          ${course.room ? `<span>P:${escapeHtml(course.room)}</span>` : ''}
+        </div>
+
+        ${isConflict ? `<div class="course-conflict-tag">⚠️ TRÙNG LỊCH</div>` : ''}
+      `;
+
+      return chip;
+    }
+
+    /* Render Dock Right Section */
+    function renderDock() {
+      const plan = getActivePlan();
+      const courses = plan.courses;
+      const activeCourses = courses.filter(c => !c.isMuted);
+
+      // Unique subjects calculation
+      const uniqueCodes = new Set();
+      let totalCredits = 0;
+      activeCourses.forEach(c => {
+        const key = (c.code || c.name).trim().toLowerCase();
+        if (!uniqueCodes.has(key)) {
+          uniqueCodes.add(key);
+          totalCredits += Number(c.credits) || 0;
+        }
+      });
+
+      // Update Credits Meter
+      const numEl = document.getElementById("dockTotalCredits");
+      const badgeEl = document.getElementById("dockCreditStatusBadge");
+      const fillEl = document.getElementById("dockCreditMeterFill");
+
+      numEl.innerHTML = `${totalCredits} <span>/ 24 TC</span>`;
+      const pct = Math.min(Math.round((totalCredits / 24) * 100), 100);
+      fillEl.style.width = `${pct}%`;
+
+      if (totalCredits < 14) {
+        fillEl.className = "meter-bar-fill warning";
+        badgeEl.className = "credit-status-badge warning";
+        badgeEl.innerText = "Dưới 14 TC";
+      } else if (totalCredits > 24) {
+        fillEl.className = "meter-bar-fill danger";
+        badgeEl.className = "credit-status-badge danger";
+        badgeEl.innerText = "Vượt 24 TC";
+      } else {
+        fillEl.className = "meter-bar-fill";
+        badgeEl.className = "credit-status-badge";
+        badgeEl.innerText = "Chuẩn TDTU";
+      }
+
+      // Update Mini Stats
+      document.getElementById("dockSubjectCount").innerText = uniqueCodes.size;
+      document.getElementById("dockSessionCount").innerText = `${activeCourses.length} ca`;
+      
+      const activeDays = new Set(activeCourses.map(c => c.day));
+      const totalDays = state.showSunday ? 7 : 6;
+      const freeDays = Math.max(0, totalDays - activeDays.size);
+      document.getElementById("dockFreeDays").innerText = `${freeDays} ngày`;
+
+      // Render Dock Course List
+      renderDockCourseList(courses);
+
+      // Render Quick Copy Textarea
+      updatePortalTextarea(activeCourses);
+    }
+
+    function renderDockCourseList(courses) {
+      const listScroll = document.getElementById("dockCourseListScroll");
+      document.getElementById("dockCourseListCount").innerText = courses.length;
+
+      if (courses.length === 0) {
+        listScroll.innerHTML = `
+          <div style="text-align: center; padding: 24px 12px; font-size: 12px; color: var(--text-muted);">
+            Chưa có môn học nào.<br>Bấm <strong>"+ Thêm Môn Học"</strong> hoặc click vào ô trên bảng để thêm!
+          </div>
+        `;
+        return;
+      }
+
+      // Sort courses by day and shift
+      const sorted = [...courses].sort((a, b) => {
+        if (a.day !== b.day) return a.day - b.day;
+        return a.shift - b.shift;
+      });
+
+      listScroll.innerHTML = sorted.map(c => {
+        const dayObj = DAYS.find(d => d.id === Number(c.day));
+        const shiftObj = TDTU_SHIFTS.find(s => s.id === Number(c.shift));
+
+        return `
+          <div class="dock-course-row ${c.isMuted ? 'muted-row' : ''}">
+            <div class="dock-course-left" onclick="openEditModal('${c.id}')" style="cursor: pointer;">
+              <span class="color-pip" style="background: ${c.color || '#3B82F6'};"></span>
+              <div class="dock-course-info">
+                <div class="dock-course-title" title="${escapeHtml(c.name)}">${escapeHtml(c.name)}</div>
+                <div class="dock-course-sub tabular">
+                  <span>${dayObj ? dayObj.short : ''}: Ca ${c.shift}</span>
+                  <span>•</span>
+                  <span>${c.code || '---'} (N:${c.group || '01'})</span>
+                  <span>•</span>
+                  <span><strong>${c.credits || 3}TC</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="dock-course-actions">
+              <button class="btn-row-action" onclick="toggleCourseMute('${c.id}')" title="${c.isMuted ? 'Bật lại' : 'Tắt thử'}">
+                ${c.isMuted
+                  ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+                  : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+                }
+              </button>
+              <button class="btn-row-action delete" onclick="deleteCourse('${c.id}')" title="Xóa">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function updatePortalTextarea(courses) {
+      const textarea = document.getElementById("portalTextarea");
+      if (courses.length === 0) {
+        textarea.value = "";
+        return;
+      }
+
+      // Group distinct by code + group
+      const distinct = [];
+      const seen = new Set();
+      courses.forEach(c => {
+        const key = `${c.code || c.name}-${c.group}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          distinct.push(c);
+        }
+      });
+
+      const lines = distinct.map(c => `[${c.code || "MÃ_MÔN"}] Nhóm: ${c.group || "01"} - ${c.name} (${c.credits || 3} TC)`);
+      textarea.value = lines.join("\n");
+    }
+
+    function copyPortalBlock() {
+      const textarea = document.getElementById("portalTextarea");
+      if (!textarea.value.trim()) {
+        showToast("Chưa có môn nào để sao chép!");
+        return;
+      }
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        showToast("Đã sao chép danh sách mã môn & nhóm lớp!");
+      }).catch(() => {
+        textarea.select();
+        showToast("Hãy nhấn Ctrl+C để sao chép!");
+      });
+    }
+
+    /* Modal Operations */
+    function openCreateModal(defaultDay = 2, defaultShift = 1) {
+      document.getElementById("modalTitleText").innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Thêm Môn Học Mới
+      `;
+      document.getElementById("fieldEditingId").value = "";
+      document.getElementById("fieldName").value = "";
+      document.getElementById("fieldCode").value = "";
+      document.getElementById("fieldGroup").value = "01";
+      document.getElementById("fieldCredits").value = "3";
+      document.getElementById("fieldDay").value = defaultDay;
+      document.getElementById("fieldShift").value = defaultShift;
+      document.getElementById("fieldType").value = "LT";
+      document.getElementById("fieldRoom").value = "";
+      document.getElementById("fieldTeacher").value = "";
+      document.getElementById("fieldNote").value = "";
+
+      // Pick next color
+      const plan = getActivePlan();
+      const nextIndex = plan.courses.length % PALETTES.length;
+      document.getElementById("fieldColor").value = PALETTES[nextIndex].border;
+      document.querySelectorAll(".palette-dot").forEach((d, idx) => {
+        d.classList.toggle("is-chosen", idx === nextIndex);
+      });
+
+      document.getElementById("courseModalOverlay").classList.add("is-active");
+      setTimeout(() => document.getElementById("fieldName").focus(), 80);
+    }
+
+    function openEditModal(courseId) {
+      const plan = getActivePlan();
+      const course = plan.courses.find(c => c.id === courseId);
+      if (!course) return;
+
+      document.getElementById("modalTitleText").innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        Chỉnh Sửa Môn Học
+      `;
+      document.getElementById("fieldEditingId").value = course.id;
+      document.getElementById("fieldName").value = course.name;
+      document.getElementById("fieldCode").value = course.code || "";
+      document.getElementById("fieldGroup").value = course.group || "";
+      document.getElementById("fieldCredits").value = course.credits || 3;
+      document.getElementById("fieldDay").value = course.day;
+      document.getElementById("fieldShift").value = course.shift;
+      document.getElementById("fieldType").value = course.type || "LT";
+      document.getElementById("fieldRoom").value = course.room || "";
+      document.getElementById("fieldTeacher").value = course.teacher || "";
+      document.getElementById("fieldNote").value = course.note || "";
+      document.getElementById("fieldColor").value = course.color || PALETTES[0].border;
+
+      document.querySelectorAll(".palette-dot").forEach(d => {
+        d.classList.toggle("is-chosen", d.style.background === course.color);
+      });
+
+      document.getElementById("courseModalOverlay").classList.add("is-active");
+    }
+
+    function closeCourseModal() {
+      document.getElementById("courseModalOverlay").classList.remove("is-active");
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target.id === "courseModalOverlay") {
+        closeCourseModal();
+      }
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("fieldName").value.trim();
+      if (!name) return;
+
+      const editingId = document.getElementById("fieldEditingId").value;
+      const plan = getActivePlan();
+
+      const item = {
+        id: editingId || `c-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+        name: name,
+        code: document.getElementById("fieldCode").value.trim().toUpperCase(),
+        group: document.getElementById("fieldGroup").value.trim(),
+        credits: parseInt(document.getElementById("fieldCredits").value, 10) || 0,
+        day: parseInt(document.getElementById("fieldDay").value, 10),
+        shift: parseInt(document.getElementById("fieldShift").value, 10),
+        type: document.getElementById("fieldType").value,
+        room: document.getElementById("fieldRoom").value.trim().toUpperCase(),
+        teacher: document.getElementById("fieldTeacher").value.trim(),
+        note: document.getElementById("fieldNote").value.trim(),
+        color: document.getElementById("fieldColor").value,
+        isMuted: false
+      };
+
+      if (editingId) {
+        const idx = plan.courses.findIndex(c => c.id === editingId);
+        if (idx !== -1) {
+          item.isMuted = plan.courses[idx].isMuted;
+          plan.courses[idx] = item;
+          showToast(`Đã cập nhật môn "${item.name}"`);
+        }
+      } else {
+        plan.courses.push(item);
+        showToast(`Đã thêm môn "${item.name}"`);
+      }
+
+      closeCourseModal();
+      pushHistory();
+      renderAll();
+      triggerAutoSave();
+    }
+
+    function deleteCourse(courseId) {
+      const plan = getActivePlan();
+      const course = plan.courses.find(c => c.id === courseId);
+      if (!course) return;
+
+      plan.courses = plan.courses.filter(c => c.id !== courseId);
+      pushHistory();
+      renderAll();
+      triggerAutoSave();
+      showToast(`Đã xóa môn "${course.name}"`);
+    }
+
+    function toggleCourseMute(courseId) {
+      const plan = getActivePlan();
+      const course = plan.courses.find(c => c.id === courseId);
+      if (!course) return;
+
+      course.isMuted = !course.isMuted;
+      pushHistory();
+      renderAll();
+      triggerAutoSave();
+      showToast(`${course.isMuted ? 'Đã tạm ẩn' : 'Đã kích hoạt lại'} môn "${course.name}"`);
+    }
+
+    function clearAllCurrentPlanCourses() {
+      const plan = getActivePlan();
+      if (plan.courses.length === 0) return;
+      if (confirm(`Bạn có chắc muốn xóa tất cả môn trong "${plan.name}" không?`)) {
+        plan.courses = [];
+        pushHistory();
+        renderAll();
+        triggerAutoSave();
+        showToast("Đã xóa tất cả môn trong phương án hiện tại");
+      }
+    }
+
+    /* Plan Management */
+    function promptNewPlan() {
+      const name = prompt("Nhập tên phương án mới (ví dụ: Phương án 2 dự phòng):", `Phương án ${state.plans.length + 1}`);
+      if (!name || !name.trim()) return;
+
+      const newPlan = {
+        id: `plan-${Date.now()}`,
+        name: name.trim(),
+        courses: []
+      };
+
+      state.plans.push(newPlan);
+      state.activePlanId = newPlan.id;
+      pushHistory();
+      renderAll();
+      triggerAutoSave();
+      showToast(`Đã tạo "${newPlan.name}"`);
+    }
+
+    function duplicateCurrentPlan() {
+      const current = getActivePlan();
+      const name = prompt("Tên cho phương án sao chép:", `${current.name} (Bản sao)`);
+      if (!name || !name.trim()) return;
+
+      const cloned = {
+        id: `plan-${Date.now()}`,
+        name: name.trim(),
+        courses: current.courses.map(c => ({
+          ...c,
+          id: `c-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`
+        }))
+      };
+
+      state.plans.push(cloned);
+      state.activePlanId = cloned.id;
+      pushHistory();
+      renderAll();
+      triggerAutoSave();
+      showToast(`Đã nhân bản "${cloned.name}"`);
+    }
+
+    function promptRenamePlan() {
+      const plan = getActivePlan();
+      const newName = prompt("Nhập tên mới:", plan.name);
+      if (!newName || !newName.trim()) return;
+
+      plan.name = newName.trim();
+      pushHistory();
+      renderPlanPills();
+      triggerAutoSave();
+      showToast("Đã đổi tên phương án");
+    }
+
+    function confirmDeletePlan() {
+      if (state.plans.length <= 1) {
+        alert("Bạn phải giữ lại ít nhất 1 phương án thời khóa biểu!");
+        return;
+      }
+      const plan = getActivePlan();
+      if (confirm(`Bạn có chắc chắn muốn xóa phương án "${plan.name}"?`)) {
+        state.plans = state.plans.filter(p => p.id !== plan.id);
+        state.activePlanId = state.plans[0].id;
+        pushHistory();
+        renderAll();
+        triggerAutoSave();
+        showToast("Đã xóa phương án");
+      }
+    }
+
+    /* View Toggles */
+    function toggleSundayVisibility(show) {
+      state.showSunday = show;
+      document.querySelectorAll(".col-sunday").forEach(el => {
+        el.style.display = show ? "" : "none";
+      });
+      triggerAutoSave();
+      renderDock();
+    }
+
+    function toggleCompactMode(isCompact) {
+      state.isCompact = isCompact;
+      document.body.classList.toggle("is-compact", isCompact);
+      triggerAutoSave();
+    }
+
+    /* Load Demo Scenario */
+    function loadSampleScenario() {
+      const plan = getActivePlan();
+      if (plan.courses.length > 0 && !confirm("Nạp dữ liệu mẫu sẽ thay thế các môn trong phương án hiện tại. Bạn có tiếp tục?")) {
+        return;
+      }
+
+      plan.courses = [
+        {
+          id: "demo-1",
+          name: "Lập trình Web và Ứng dụng",
+          code: "502045",
+          group: "01",
+          credits: 3,
+          day: 2,
+          shift: 1,
+          type: "LT",
+          room: "A0402",
+          teacher: "TS. Nguyễn Văn A",
+          note: "Tuần 1-15",
+          color: "#3B82F6",
+          isMuted: false
+        },
+        {
+          id: "demo-2",
+          name: "Thực hành Lập trình Web",
+          code: "502045",
+          group: "01-TH1",
+          credits: 0,
+          day: 4,
+          shift: 3,
+          type: "TH",
+          room: "C002",
+          teacher: "ThS. Trần Thị B",
+          note: "Phòng Lab C",
+          color: "#3B82F6",
+          isMuted: false
+        },
+        {
+          id: "demo-3",
+          name: "Trí tuệ nhân tạo",
+          code: "502088",
+          group: "02",
+          credits: 3,
+          day: 3,
+          shift: 2,
+          type: "LT",
+          room: "B204",
+          teacher: "PGS.TS. Lê Hoàng C",
+          note: "Mang laptop",
+          color: "#10B981",
+          isMuted: false
+        },
+        {
+          id: "demo-4",
+          name: "An toàn thông tin",
+          code: "502099",
+          group: "01",
+          credits: 3,
+          day: 5,
+          shift: 4,
+          type: "LT",
+          room: "A0105",
+          teacher: "TS. Đặng Minh D",
+          note: "",
+          color: "#F97316",
+          isMuted: false
+        },
+        {
+          id: "demo-5",
+          name: "Tiếng Anh chuyên ngành",
+          code: "EN03",
+          group: "05",
+          credits: 3,
+          day: 6,
+          shift: 5,
+          type: "LT",
+          room: "C103",
+          teacher: "Cô Emily White",
+          note: "Ca tối 17:45",
+          color: "#A855F7",
+          isMuted: false
+        },
+        // Intentional clash for demonstration
+        {
+          id: "demo-conflict",
+          name: "Kỹ năng mềm (Thử nghiệm trùng lịch)",
+          code: "KNM01",
+          group: "03",
+          credits: 2,
+          day: 3,
+          shift: 2,
+          type: "LT",
+          room: "C001",
+          teacher: "Thầy Tâm Lý",
+          note: "Đang bị đụng Ca 2 Thứ 3",
+          color: "#EC4899",
+          isMuted: false
+        }
+      ];
+
+      pushHistory();
+      renderAll();
+      triggerAutoSave();
+      showToast("Đã nạp 6 môn học mẫu (kèm 1 ví dụ cảnh báo trùng ca)!");
+    }
+
+    /* Notification Toast */
+    function showToast(text) {
+      const shelf = document.getElementById("toastShelf");
+      const toast = document.createElement("div");
+      toast.className = "toast-msg";
+      toast.innerHTML = `
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>${escapeHtml(text)}</span>
+      `;
+      shelf.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(8px)";
+        toast.style.transition = "all 0.25s ease";
+        setTimeout(() => toast.remove(), 260);
+      }, 2800);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
