@@ -10,11 +10,12 @@ report và các artifact thực nghiệm trong `../results/`.
 | `midterm_presentation.pptx` | Deck chính, 14 slide, 16:9 (13.333 × 7.5 in), có speaker notes tiếng Việt cho từng slide |
 | `midterm_presentation.pdf` | Bản chiếu 14 trang, khổ 960 × 540 pt (đúng 16:9), dùng khi máy trình chiếu không có PowerPoint |
 | `TRANSCRIPT.md` | Lời thoại (1341 từ ≈ 8:56) dùng được khi một người trình bày cả bài hoặc cả nhóm chia phần; câu chốt và mốc thời gian từng slide, bảng câu hỏi dự kiến; sinh từ `src/talk_content.json` |
+| `TRANSCRIPT_THEO_SLIDE.md` | Bản nói ngắn (1026 từ ≈ 6:50) đi theo từng vùng trên slide: chỉ vào đâu, nói câu gì; sinh từ trường `guide` của `src/talk_content.json` |
 | `figures/` | 6 hình được vẽ riêng cho slide, đọc trực tiếp từ `../results/` |
 | `src/make_deck_figures.py` | Script vẽ hình + kiểm tra lại 11 con số so với `results/*.json` |
 | `src/build_deck.js` | Script dựng PPTX và `preview.html`; speaker notes đọc từ `src/talk_content.json` |
 | `src/talk_content.json` | **Nguồn duy nhất** của lời thoại (speaker notes, `TRANSCRIPT.md`) và phần "Hiểu sâu" của bản xem trên điện thoại |
-| `src/build_talk.py` | Sinh `TRANSCRIPT.md`; thêm `--viewer OUT_DIR` để dựng bản xem trên điện thoại (`src/study_viewer.html`) |
+| `src/build_talk.py` | Sinh `TRANSCRIPT.md` và `TRANSCRIPT_THEO_SLIDE.md`; thêm `--viewer OUT_DIR` để dựng bản xem trên điện thoại (`src/study_viewer.html`) |
 | `preview.html` | Bản HTML cùng hệ toạ độ với PPTX; đây là nguồn của file PDF |
 
 ## Số slide: 14 cho 10 phút

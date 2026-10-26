@@ -84,6 +84,25 @@ h1.title { margin: 0; font-size: clamp(1.25rem, 1.05rem + 1vw, 1.65rem); line-he
 
 .label { display: flex; align-items: center; gap: 10px; margin: 22px 0 8px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
 .label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+.tabs { display: flex; gap: 18px; margin: 20px 0 10px; border-bottom: 1px solid var(--rule); }
+.tabs button { border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: transparent; padding: 8px 0; font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.hint { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.step { width: 100%; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; padding: 10px; border: 1px solid transparent; border-radius: 8px; background: transparent; text-align: left; cursor: pointer; }
+.step:hover { background: var(--surface); }
+.step.on { background: var(--accent-soft); border-color: var(--accent); }
+.step .num { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--accent); color: var(--accent); font: 600 12px/23px var(--font-mono); text-align: center; }
+.step.on .num { background: var(--accent); color: var(--bg); }
+.step .at { display: block; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+.step .say { display: block; font-size: 1.04rem; line-height: 1.6; }
+body.rehearse .step .say { font-size: 1.22rem; }
+/* spotlight on the slide (slide is always white, so these colors are fixed) */
+.spot { position: absolute; border: 2.5px solid #1458a6; border-radius: 4px; box-shadow: 0 0 0 9999px rgba(15, 18, 22, .40); pointer-events: none; transition: left .25s ease, top .25s ease, width .25s ease, height .25s ease; }
+.pin { position: absolute; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 50%; background: #1458a6; color: #fff; font: 600 11px/20px var(--font-mono); text-align: center; transform: translate(-35%, -35%); cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.pin.on { background: #0b3d78; outline: 2px solid #fff; }
+body:not(.guide) .pin, body:not(.guide) .spot { display: none; }
+@media (max-width: 520px) { .pin { width: 16px; height: 16px; font-size: 9.5px; line-height: 16px; } }
 .script { margin: 0; font-size: 1.065rem; line-height: 1.75; }
 body.rehearse .script { font-size: 1.28rem; line-height: 1.7; }
 
@@ -199,11 +218,13 @@ body.rehearse .watch { display: flex; }
   <section class="slidecol" aria-label="Slide">
     <figure class="figure" id="figure">
       <img id="slide-img" src="slides/s01.webp" alt="Slide 1" width="1600" height="900">
+      <div class="spot" id="spot" hidden></div>
+      <div id="pins"></div>
       <button type="button" class="zoom-btn" id="zoom-btn" aria-label="Phóng to slide">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8.5v5M8.5 11h5"/></svg>
       </button>
     </figure>
-    <p class="slide-caption">Phím ← → để chuyển slide · bấm vào slide để phóng to</p>
+    <p class="slide-caption">Phím ← → chuyển slide · ↑ ↓ chuyển bước · bấm vào slide để phóng to</p>
   </section>
 
   <article class="textcol" id="text" aria-live="polite">
@@ -224,8 +245,15 @@ body.rehearse .watch { display: flex; }
     <p class="eyebrow" id="eyebrow">Mở đầu</p>
     <h1 class="title" id="title">Hồi quy &amp; Phân loại</h1>
 
-    <div class="label">Lời nói</div>
-    <p class="script" id="script"></p>
+    <div class="tabs" role="tablist" aria-label="Kiểu lời thoại">
+      <button type="button" role="tab" id="tab-guide" aria-selected="true">Theo slide</button>
+      <button type="button" role="tab" id="tab-full" aria-selected="false">Lời nói đầy đủ</button>
+    </div>
+    <div id="panel-guide">
+      <p class="hint">Chạm vào từng bước để vùng đó sáng lên trên slide.</p>
+      <ol class="steps" id="steps"></ol>
+    </div>
+    <p class="script" id="script" hidden></p>
     <p class="handoff" id="handoff" hidden></p>
 
     <details class="deep" id="deep" open>
@@ -255,7 +283,7 @@ body.rehearse .watch { display: flex; }
 
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Danh sách slide" hidden>
   <div class="sheet-panel">
-    <div class="sheet-head"><div><b>14 slide</b> <span>· lời nói ≈ __TOTAL__ · __WORDS__ từ</span></div><button type="button" class="closebtn" id="sheet-close">Đóng</button></div>
+    <div class="sheet-head"><div><b>14 slide</b> <span>· theo slide ≈ __GTOTAL__ · đầy đủ ≈ __TOTAL__</span></div><button type="button" class="closebtn" id="sheet-close">Đóng</button></div>
     <div id="sheet-list"></div>
   </div>
 </div>
@@ -270,7 +298,8 @@ body.rehearse .watch { display: flex; }
   var SLIDES = __DATA__;
   var N = SLIDES.length;
   var PARTS = { "Tiến": "Câu 1 · Hồi quy tự cài đặt", "Thành": "Câu 2 · Phân loại trên credit-g", "Tâm": "Đọc kết quả, overfitting, kết luận" };
-  var solo = false;
+  var solo = false, tab = "guide", step = -1;
+  function T(s) { return tab === "guide" ? { start: s.gstart, dur: s.gdur } : { start: s.start, dur: s.dur }; }
   var $ = function (id) { return document.getElementById(id); };
   var cur = 0;
 
@@ -296,7 +325,7 @@ body.rehearse .watch { display: flex; }
   var tl = $("timeline");
   SLIDES.forEach(function (s, i) {
     var sp = document.createElement("span");
-    sp.style.flexGrow = s.dur;
+    sp.style.flexGrow = s.gdur;
     if (i > 0 && SLIDES[i - 1].speaker !== s.speaker) sp.className = "gap";
     tl.appendChild(sp);
   });
@@ -312,7 +341,7 @@ body.rehearse .watch { display: flex; }
     b.type = "button"; b.className = "item"; b.dataset.i = i;
     b.innerHTML = '<img loading="lazy" alt="" src="thumbs/s' + pad(i + 1) + '.webp" width="384" height="216">' +
       '<span><span class="item-t">' + s.n + ". " + esc(s.title) + '</span><span class="item-m" style="display:block">' +
-      mmss(s.start) + " · ~" + s.dur + "s</span></span>";
+      "</span></span>";
     b.addEventListener("click", function () { closeSheet(); go(i); });
     box.appendChild(b);
   });
@@ -322,7 +351,18 @@ body.rehearse .watch { display: flex; }
     var img = $("slide-img");
     img.src = src(cur); img.alt = "Slide " + s.n + ": " + s.title;
     $("who").innerHTML = "<i>" + s.speaker.charAt(0) + "</i>" + esc(s.speakerFull);
-    $("when").textContent = "Bắt đầu " + mmss(s.start) + " · ~" + s.dur + " giây";
+    var tt = T(s);
+    $("when").textContent = "Bắt đầu " + mmss(tt.start) + " · ~" + tt.dur + " giây";
+    step = -1;
+    $("steps").innerHTML = s.guide.map(function (g, i) {
+      return '<li><button type="button" class="step" data-k="' + i + '"><span class="num">' + (i + 1) +
+        '</span><span><span class="at">' + esc(g.at) + '</span><span class="say">' + esc(g.say) + "</span></span></button></li>";
+    }).join("");
+    $("pins").innerHTML = s.guide.map(function (g, i) {
+      return '<button type="button" class="pin" data-k="' + i + '" aria-label="Bước ' + (i + 1) + ": " + esc(g.at) +
+        '" style="left:' + g.box[0] + "%;top:" + g.box[1] + '%">' + (i + 1) + "</button>";
+    }).join("");
+    showStep(-1);
     $("eyebrow").textContent = s.n + " · " + s.eyebrow;
     $("title").textContent = s.title;
     $("script").textContent = s.script;
@@ -341,9 +381,12 @@ body.rehearse .watch { display: flex; }
     $("next").disabled = cur === N - 1;
     Array.prototype.forEach.call(tl.children, function (el, i) {
       el.classList.toggle("cur", i === cur); el.classList.toggle("past", i < cur);
+      el.style.flexGrow = T(SLIDES[i]).dur;
     });
     Array.prototype.forEach.call(list.querySelectorAll(".item"), function (el) {
+      var x = SLIDES[+el.dataset.i], xt = T(x);
       el.classList.toggle("cur", +el.dataset.i === cur);
+      el.querySelector(".item-m").textContent = mmss(xt.start) + " · ~" + xt.dur + "s";
     });
     updateWatch();
     [cur - 1, cur + 1].forEach(function (j) { if (j >= 0 && j < N) { var p = new Image(); p.src = src(j); } });
@@ -401,6 +444,11 @@ body.rehearse .watch { display: flex; }
     if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
     if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); go(cur + 1); }
     if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(cur - 1); }
+    if (tab === "guide" && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+      e.preventDefault();
+      var n = SLIDES[cur].guide.length;
+      showStep(e.key === "ArrowDown" ? Math.min(n - 1, step + 1) : Math.max(-1, step - 1));
+    }
   });
 
   // modes
@@ -414,6 +462,43 @@ body.rehearse .watch { display: flex; }
   }
   $("mode-study").addEventListener("click", function () { setMode("study"); });
   $("mode-rehearse").addEventListener("click", function () { setMode("rehearse"); });
+
+  // slide-anchored steps
+  function showStep(k) {
+    var s = SLIDES[cur], spot = $("spot");
+    step = k;
+    Array.prototype.forEach.call(document.querySelectorAll(".step, .pin"), function (el) {
+      el.classList.toggle("on", +el.dataset.k === k);
+    });
+    if (k < 0 || !s.guide[k]) { spot.hidden = true; return; }
+    var b = s.guide[k].box;
+    spot.style.left = b[0] + "%"; spot.style.top = b[1] + "%";
+    spot.style.width = b[2] + "%"; spot.style.height = b[3] + "%";
+    spot.hidden = false;
+  }
+  function pick(e) {
+    var el = e.target.closest("[data-k]");
+    if (!el) return;
+    e.stopPropagation();
+    var k = +el.dataset.k;
+    showStep(k === step ? -1 : k);
+  }
+  $("steps").addEventListener("click", pick);
+  $("pins").addEventListener("click", pick);
+
+  function setTab(t) {
+    tab = t === "full" ? "full" : "guide";
+    var g = tab === "guide";
+    document.body.classList.toggle("guide", g);
+    $("tab-guide").setAttribute("aria-selected", String(g));
+    $("tab-full").setAttribute("aria-selected", String(!g));
+    $("panel-guide").hidden = !g;
+    $("script").hidden = g;
+    store("mlmid-tab", tab);
+    render();
+  }
+  $("tab-guide").addEventListener("click", function () { setTab("guide"); });
+  $("tab-full").addEventListener("click", function () { setTab("full"); });
 
   // presenter: whole group or one person
   function setPresenter(m) {
@@ -434,7 +519,7 @@ body.rehearse .watch { display: flex; }
   var running = false, t0 = 0, acc = 0, timer = null;
   function elapsed() { return acc + (running ? (Date.now() - t0) / 1000 : 0); }
   function updateWatch() {
-    var e = elapsed(), s = SLIDES[cur];
+    var e = elapsed(), s = T(SLIDES[cur]);
     $("watch-clock").textContent = mmss(e);
     var d = $("watch-delta");
     if (!running && e === 0) { d.className = "delta"; d.textContent = "Mốc slide này: " + mmss(s.start) + " – " + mmss(s.start + s.dur); return; }
@@ -458,7 +543,9 @@ body.rehearse .watch { display: flex; }
   cur = h !== null ? h : (isNaN(saved) ? 0 : saved);
   cur = Math.max(0, Math.min(N - 1, cur));
   setMode(store("mlmid-mode") === "rehearse" ? "rehearse" : "study");
+  tab = store("mlmid-tab") === "full" ? "full" : "guide";
   setPresenter(store("mlmid-presenter") === "solo" ? "solo" : "group");
+  setTab(tab);
   window.addEventListener("hashchange", function () { var x = fromHash(); if (x !== null) go(x); });
 })();
 </script>

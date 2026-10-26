@@ -1,10 +1,11 @@
-"""Build TRANSCRIPT.md (and optionally the mobile study viewer) from talk_content.json.
+"""Build TRANSCRIPT.md, TRANSCRIPT_THEO_SLIDE.md (and optionally the mobile study viewer)
+from talk_content.json.
 
 talk_content.json is the single source of the spoken script. build_deck.js reads the
 same file for the PPTX speaker notes, so notes, transcript and viewer never drift.
 
 Usage (from presentation/):
-    python3 src/build_talk.py                     # writes TRANSCRIPT.md
+    python3 src/build_talk.py                     # writes TRANSCRIPT.md and TRANSCRIPT_THEO_SLIDE.md
     python3 src/build_talk.py --viewer OUT_DIR    # also builds the study viewer into OUT_DIR
 
 The viewer renders slide images from midterm_presentation.pdf, so rebuild the PDF first.
@@ -41,6 +42,16 @@ for i, s in enumerate(SLIDES, 1):
 TOTAL = t
 TOTAL_WORDS = sum(s["words"] for s in SLIDES)
 
+# short, slide-anchored version ("guide")
+t = 0.0
+for s in SLIDES:
+    s["gwords"] = sum(len(g["say"].split()) for g in s["guide"])
+    s["gdur"] = s["gwords"] / WPM * 60
+    s["gstart"] = t
+    t += s["gdur"]
+GTOTAL = t
+GWORDS = sum(s["gwords"] for s in SLIDES)
+
 
 def build_transcript():
     by = {}
@@ -53,6 +64,7 @@ def build_transcript():
         f"**Thời lượng:** tổng lời thoại {TOTAL_WORDS} từ, đọc ở nhịp ~{WPM} từ/phút ≈ **{mmss(TOTAL)}**; phần còn lại của slot 10 phút dành cho chuyển slide và hỏi đáp.  ",
         "**Cách trình bày:** lời thoại không gắn tên người nói, nên dùng nguyên văn được cho cả hai trường hợp: **một người trình bày cả 14 slide**, hoặc **cả nhóm chia phần** theo gợi ý bên dưới (khi đó thêm câu chuyển lời ở slide 7 và 11).",
         "",
+        f"> Cần bản ngắn hơn, nói theo từng vùng trên slide? Xem `TRANSCRIPT_THEO_SLIDE.md` ({GWORDS} từ ≈ {mmss(GTOTAL)}).",
         "> File này được sinh từ `src/talk_content.json` bằng `python3 src/build_talk.py`; speaker notes trong `midterm_presentation.pptx` dùng cùng nguồn.",
         "> Muốn sửa lời thoại thì sửa file JSON rồi dựng lại, đừng sửa trực tiếp file này. Số liệu đã đối chiếu với `../results/*.json`.",
         "",
@@ -104,16 +116,41 @@ def build_transcript():
     return "\n".join(L)
 
 
+def build_guide():
+    L = [
+        "# Nói theo slide — bản ngắn",
+        "",
+        f"Mỗi slide có 2–5 bước. Mỗi bước bắt đầu bằng **vùng cần chỉ trên slide**, sau đó là câu để nói. Tổng {GWORDS} từ, đọc ở ~{WPM} từ/phút ≈ **{mmss(GTOTAL)}**.",
+        "",
+        "Cách dùng: nhìn slide, chỉ vào vùng in đậm, nói câu bên cạnh. Bản đầy đủ có giải thích \"vì sao\" nằm ở `TRANSCRIPT.md`.",
+        "Lời thoại không gắn tên người nói; khi cả nhóm chia phần, thêm câu chuyển lời ở slide 7 và 11.",
+        "",
+        "> File này được sinh từ `src/talk_content.json` (trường `guide`) bằng `python3 src/build_talk.py`.",
+        "",
+    ]
+    for s in SLIDES:
+        L += [f"## {s['n']}. {s['title']}", f"Bắt đầu {mmss(s['gstart'])} · ~{int(round(s['gdur']))}s", ""]
+        for i, g in enumerate(s["guide"], 1):
+            L.append(f"{i}. **{g['at']}** — {g['say']}")
+        if s.get("handoff"):
+            L += ["", f"*Chỉ khi chia phần:* “{s['handoff']}”"]
+        L.append("")
+    return "\n".join(L)
+
+
 def build_viewer(out):
     from PIL import Image
 
     keys = ["n", "eyebrow", "title", "speaker", "speakerFull", "script", "key", "points", "trap", "refs"]
-    data = [dict({k: s[k] for k in keys}, handoff=s.get("handoff", ""), start=round(s["start"]), dur=round(s["dur"]))
+    data = [dict({k: s[k] for k in keys}, guide=s["guide"], handoff=s.get("handoff", ""),
+                 start=round(s["start"]), dur=round(s["dur"]), gstart=round(s["gstart"]), gdur=round(s["gdur"]))
             for s in SLIDES]
     tpl = open(os.path.join(SRC, "study_viewer.html"), encoding="utf-8").read()
     html = (tpl.replace("__DATA__", json.dumps(data, ensure_ascii=False).replace("</", "<\\/"))
                .replace("__TOTAL__", mmss(TOTAL))
-               .replace("__WORDS__", str(TOTAL_WORDS)))
+               .replace("__WORDS__", str(TOTAL_WORDS))
+               .replace("__GTOTAL__", mmss(GTOTAL))
+               .replace("__GWORDS__", str(GWORDS)))
     os.makedirs(os.path.join(out, "slides"), exist_ok=True)
     os.makedirs(os.path.join(out, "thumbs"), exist_ok=True)
     open(os.path.join(out, "index.html"), "w", encoding="utf-8").write(html)
@@ -134,6 +171,7 @@ if __name__ == "__main__":
     ap.add_argument("--viewer", metavar="OUT_DIR", help="also build the study viewer into OUT_DIR")
     a = ap.parse_args()
     open(os.path.join(PRES, "TRANSCRIPT.md"), "w", encoding="utf-8").write(build_transcript())
+    open(os.path.join(PRES, "TRANSCRIPT_THEO_SLIDE.md"), "w", encoding="utf-8").write(build_guide())
     if a.viewer:
         build_viewer(a.viewer)
-    print(f"slides: {len(SLIDES)} | words: {TOTAL_WORDS} | runtime: {mmss(TOTAL)}")
+    print(f"slides: {len(SLIDES)} | full: {TOTAL_WORDS} words, {mmss(TOTAL)} | theo slide: {GWORDS} words, {mmss(GTOTAL)}")

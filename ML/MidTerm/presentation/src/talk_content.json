@@ -1,5 +1,5 @@
 {
-  "_about": "Single source for the spoken script (PPTX speaker notes, TRANSCRIPT.md) and the study notes of the mobile study viewer. Scripts avoid naming the speaker so one person can present the whole deck; 'handoff' holds the optional line used only when the group splits the talk. Numbers are checked against ../results/*.json. Inline math uses $...$ (TeX); **bold** and `code` are allowed.",
+  "_about": "Single source for the spoken script (PPTX speaker notes, TRANSCRIPT.md) and the study notes of the mobile study viewer. Scripts avoid naming the speaker so one person can present the whole deck; 'handoff' holds the optional line used only when the group splits the talk. Numbers are checked against ../results/*.json. Inline math uses $...$ (TeX); **bold** and `code` are allowed. 'guide' is the short slide-anchored version: each step names a region of the slide, its box [x, y, w, h] in % of the slide, and one line to say.",
   "wpm": 150,
   "speakers": {
     "Tiến": "Ngô Lâm Tiến",
@@ -12,6 +12,28 @@
       "title": "Hồi quy & Phân loại",
       "speaker": "Tiến",
       "script": "Kính thưa thầy và các bạn. Nhóm em xin trình bày báo cáo giữa kỳ môn Introduction to Machine Learning, đề tài Hồi quy và Phân loại. Câu một tự cài đặt hồi quy tuyến tính và logistic bằng Gradient Descent. Câu hai so sánh 14 bộ phân loại trên bộ dữ liệu credit-g của OpenML.",
+      "guide": [
+        {
+          "at": "Tiêu đề",
+          "box": [
+            4,
+            21,
+            72,
+            17
+          ],
+          "say": "Kính thưa thầy và các bạn, nhóm em trình bày đề tài Hồi quy và Phân loại."
+        },
+        {
+          "at": "Dòng phụ",
+          "box": [
+            4,
+            39,
+            72,
+            8
+          ],
+          "say": "Câu một tự cài Gradient Descent cho hồi quy tuyến tính và logistic; câu hai so sánh 14 bộ phân loại trên OpenML."
+        }
+      ],
       "key": "Hai câu của đề là hai dạng học có giám sát: **hồi quy** (đích là số thực) và **phân loại** (đích là nhãn rời rạc).",
       "points": [
         "Một bài ML gồm ba phần: **dữ liệu**, **dạng mô hình** và **thuật toán học**. Câu 1 tự viết cả thuật toán học bằng NumPy. Câu 2 dùng thư viện để so sánh nhiều mô hình trên dữ liệu thật.",
@@ -26,6 +48,48 @@
       "title": "Ba phần, ba người trình bày",
       "speaker": "Tiến",
       "script": "Bài gồm ba phần. Câu một tự cài đặt hai mô hình hồi quy, từ hàm mất mát, gradient đến kết quả. Câu hai đi từ dữ liệu credit-g, quy trình chống rò rỉ đến cách chọn mô hình. Phần cuối là đọc kết quả, overfitting và kết luận. Câu hỏi xuyên suốt là: mô hình học được gì, và làm sao biết nó tổng quát hóa sang dữ liệu mới?",
+      "guide": [
+        {
+          "at": "Mục 01",
+          "box": [
+            4,
+            21,
+            76,
+            11
+          ],
+          "say": "Câu một: tự cài hai mô hình hồi quy, từ hàm mất mát, gradient đến kết quả."
+        },
+        {
+          "at": "Mục 02",
+          "box": [
+            4,
+            36,
+            76,
+            11
+          ],
+          "say": "Câu hai: dữ liệu credit-g, quy trình chống rò rỉ và cách chọn mô hình."
+        },
+        {
+          "at": "Mục 03",
+          "box": [
+            4,
+            51,
+            76,
+            11
+          ],
+          "say": "Phần cuối: đọc kết quả, overfitting và kết luận."
+        },
+        {
+          "at": "Câu hỏi dưới cùng",
+          "box": [
+            4,
+            71,
+            92,
+            8
+          ],
+          "say": "Cả bài trả lời một câu: mô hình học được gì, và có tổng quát hóa sang dữ liệu mới không?"
+        }
+      ],
       "key": "Câu hỏi xuyên suốt là **tổng quát hóa**: điểm trên dữ liệu chưa từng thấy mới là thước đo thật.",
       "points": [
         "Khi học, ta cực tiểu **rủi ro thực nghiệm** trên tập train: $R_{\\text{emp}}(h)=\\frac1N\\sum_{i=1}^{N}L\\big(y_i,h(x_i)\\big)$. Nhưng thứ ta thật sự muốn nhỏ là **rủi ro kỳ vọng** trên toàn bộ phân phối dữ liệu.",
@@ -42,6 +106,48 @@
       "title": "Mô hình và hàm mất mát",
       "speaker": "Tiến",
       "script": "Hồi quy tuyến tính dự đoán một số thực bằng tổng có trọng số của các đặc trưng cộng hệ số chặn: một đặc trưng là đường thẳng, nhiều đặc trưng là siêu phẳng. Nhóm học w và b bằng cách cực tiểu trung bình bình phương sai số, nhân một phần hai. Bình phương phạt nặng sai số lớn, nên mô hình nhạy với ngoại lai. Chia cho n để mất mát không phụ thuộc cỡ mẫu. Hệ số một phần hai chỉ giúp đạo hàm gọn, không đổi điểm cực tiểu. Dữ liệu là 600 mẫu tổng hợp từ một quan hệ tuyến tính đã biết, nên kiểm tra được kết quả.",
+      "guide": [
+        {
+          "at": "Trái · dự đoán",
+          "box": [
+            4,
+            22,
+            47,
+            18
+          ],
+          "say": "Công thức trên: ŷ bằng tổng có trọng số của đặc trưng cộng b. Đầu ra là số thực nên đây là hồi quy."
+        },
+        {
+          "at": "Trái · mất mát",
+          "box": [
+            4,
+            41,
+            47,
+            12
+          ],
+          "say": "Bên dưới là hàm mất mát: trung bình bình phương sai số, nhân một phần hai."
+        },
+        {
+          "at": "Phải · giải thích",
+          "box": [
+            53,
+            21,
+            44,
+            40
+          ],
+          "say": "Bên phải giải thích từng chi tiết: bình phương phạt nặng sai số lớn, chia n để lấy trung bình, ½ chỉ cho đạo hàm gọn."
+        },
+        {
+          "at": "Dòng dữ liệu",
+          "box": [
+            4,
+            67,
+            92,
+            9
+          ],
+          "say": "Dòng cuối: 600 mẫu tổng hợp sinh từ công thức đã biết, nên kiểm tra được mô hình học đúng hay sai."
+        }
+      ],
       "key": "Dự đoán số thực bằng tổ hợp tuyến tính $\\hat y=w^\\top x+b$, học bằng cách cực tiểu $\\text{MSE}/2$.",
       "points": [
         "Mô hình: $\\hat y_i=w^\\top x_i+b$. Nếu thêm một cột hằng số 1 vào $X$ thì $b$ được gộp vào $w$ và viết gọn $\\hat y=Xw$.",
@@ -61,6 +167,48 @@
       "title": "Dẫn xuất gradient và vòng lặp Gradient Descent",
       "speaker": "Tiến",
       "script": "Theo quy tắc chuỗi, gọi e là phần dư. Gradient theo w j là trung bình của e nhân x j, theo b là trung bình của e; dạng ma trận là một phần n nhân X chuyển vị nhân phần dư. Gradient Descent đi ngược hướng gradient một bước eta, cập nhật w và b cùng lúc. Nhóm khởi tạo bằng 0, eta bằng 0.3, dừng khi chuẩn gradient dưới 10 mũ trừ 8, chỉ dựa trên dữ liệu train. Mô hình dừng sau 1175 vòng. Gradient được kiểm chứng bằng sai phân trung tâm, sai khác dưới 10 mũ trừ 6.",
+      "guide": [
+        {
+          "at": "Trái · đạo hàm",
+          "box": [
+            4,
+            22,
+            47,
+            26
+          ],
+          "say": "Gọi e là phần dư. Theo quy tắc chuỗi, gradient là trung bình e nhân x, viết gọn thành một phần n Xᵀ nhân phần dư."
+        },
+        {
+          "at": "Trái · cập nhật",
+          "box": [
+            4,
+            49,
+            47,
+            11
+          ],
+          "say": "Dòng cập nhật: đi ngược gradient một bước η, cập nhật w và b cùng lúc."
+        },
+        {
+          "at": "Phải · thông số",
+          "box": [
+            51,
+            21,
+            46,
+            35
+          ],
+          "say": "Bên phải là thông số chạy: khởi tạo 0, η bằng 0.3, dừng khi gradient nhỏ hơn 10⁻⁸, hội tụ sau 1175 vòng, gradient đã kiểm bằng sai phân."
+        },
+        {
+          "at": "Ghi chú dưới",
+          "box": [
+            4,
+            66,
+            56,
+            9
+          ],
+          "say": "Ghi chú dưới: mỗi vòng dùng cả tập train, và không dùng test để quyết định dừng."
+        }
+      ],
       "key": "Gradient chỉ hướng loss tăng nhanh nhất. Gradient Descent đi **ngược** hướng đó từng bước nhỏ $\\eta$.",
       "points": [
         "Quy tắc chuỗi, với $e_i=\\hat y_i-y_i$: $\\frac{\\partial J}{\\partial w_j}=\\frac1n\\sum_i e_i\\,\\frac{\\partial \\hat y_i}{\\partial w_j}=\\frac1n\\sum_i e_i\\,x_{ij}$ và $\\frac{\\partial J}{\\partial b}=\\frac1n\\sum_i e_i$.",
@@ -79,6 +227,48 @@
       "title": "Xác suất, cross-entropy và gradient",
       "speaker": "Tiến",
       "script": "Logistic đưa cùng điểm tuyến tính z qua hàm sigmoid để ra xác suất từ 0 đến 1. Log odds vẫn tuyến tính, nên biên quyết định tại p bằng 0.5 là một siêu phẳng. Hàm mất mát là cross-entropy, tức âm log-likelihood Bernoulli, phạt rất nặng dự đoán tự tin mà sai. Đạo hàm sigmoid là p nhân một trừ p, triệt tiêu mẫu số của cross-entropy, nên gradient chỉ còn p trừ y, cùng dạng với hồi quy tuyến tính. Nhóm dùng eta 0.5, tối đa 5000 vòng; mô hình chạm giới hạn trước khi đạt dung sai, nên chưa hội tụ chặt.",
+      "guide": [
+        {
+          "at": "Trái · mô hình",
+          "box": [
+            4,
+            23,
+            47,
+            19
+          ],
+          "say": "Điểm z tuyến tính đi qua sigmoid thành xác suất p. Log-odds vẫn tuyến tính nên biên quyết định là đường thẳng."
+        },
+        {
+          "at": "Trái · mất mát",
+          "box": [
+            4,
+            43,
+            47,
+            11
+          ],
+          "say": "Hàm mất mát là cross-entropy: dự đoán càng tự tin mà sai thì phạt càng nặng."
+        },
+        {
+          "at": "Phải · gradient",
+          "box": [
+            57,
+            23,
+            40,
+            33
+          ],
+          "say": "Bên phải: đạo hàm sigmoid triệt tiêu mẫu số, gradient chỉ còn p trừ y, nên công thức cập nhật giống hồi quy tuyến tính."
+        },
+        {
+          "at": "Ba dòng dưới",
+          "box": [
+            4,
+            62,
+            92,
+            15
+          ],
+          "say": "Ba dòng dưới: η bằng 0.5, tối đa 5000 vòng, chạm giới hạn trước khi hội tụ chặt; tính toán được viết ổn định số học."
+        }
+      ],
       "key": "Logistic là tuyến tính cộng sigmoid để ra xác suất. Học bằng cross-entropy, và gradient vẫn gọn: $(p-y)\\,x$.",
       "points": [
         "$\\sigma(z)=\\frac{1}{1+e^{-z}}$ ép mọi số thực về khoảng $(0,1)$, và $P(y=1\\mid x)=p=\\sigma(w^\\top x+b)$.",
@@ -99,6 +289,38 @@
       "title": "Hồi quy tuyến tính: học đúng quan hệ sinh dữ liệu",
       "speaker": "Tiến",
       "script": "Kết quả hồi quy tuyến tính: mất mát giảm đơn điệu từ 30.9 xuống 0.126, tức tốc độ học phù hợp, không phân kỳ. Trên 120 mẫu test, các điểm bám sát đường chéo. RMSE 0.51, xấp xỉ độ lệch chuẩn của nhiễu là 0.5, nghĩa là phần sai còn lại gần như chỉ là nhiễu. R bình phương 0.995. Trọng số học được 2.99, trừ 2.01 và 1.49, rất gần giá trị thật 3, trừ 2 và 1.5. Nhưng dữ liệu sinh tuyến tính, nên đây chỉ chứng minh cài đặt đúng, chưa nói gì về dữ liệu thực.",
+      "guide": [
+        {
+          "at": "Trái · đường loss",
+          "box": [
+            10,
+            21,
+            40,
+            53
+          ],
+          "say": "Biểu đồ trái: mất mát giảm đều từ 30.9 xuống 0.126, không dao động, nên tốc độ học hợp lý."
+        },
+        {
+          "at": "Phải · dự đoán vs thật",
+          "box": [
+            51,
+            21,
+            45,
+            53
+          ],
+          "say": "Biểu đồ phải: trên 120 mẫu test, các điểm nằm sát đường chéo, tức dự đoán gần đúng giá trị thật."
+        },
+        {
+          "at": "Ba số dưới",
+          "box": [
+            4,
+            74,
+            92,
+            11
+          ],
+          "say": "Ba số dưới: RMSE 0.51, gần bằng nhiễu 0.5; R² 0.995; trọng số học được gần như trùng giá trị thật 3, −2, 1.5. Kết luận: cài đặt đúng."
+        }
+      ],
       "key": "Kết quả khớp với \"đáp án\" đã biết, nên cài đặt là đúng.",
       "points": [
         "**Hình trái** dùng trục y thang log. Đường giảm đơn điệu rồi đi ngang, cho thấy $\\eta=0.3$ phù hợp.",
@@ -118,6 +340,38 @@
       "title": "Hồi quy logistic: biên hợp lý, nhưng còn 30 ca sai",
       "speaker": "Tiến",
       "script": "Với logistic, hai lớp chồng lấn nên không thể tách hoàn hảo. Cross-entropy bắt đầu ở 0.693, đúng bằng log 2 của mô hình đoán 0.5 cho mọi mẫu, rồi giảm xuống 0.45. Trên 160 mẫu test: accuracy 81.25 phần trăm, F1 lớp dương 0.85, AUC 0.86. Accuracy và F1 dùng ngưỡng 0.5, còn AUC tóm tắt mọi ngưỡng. Các vòng tròn là 30 ca sai, nằm ở vùng chồng lấn quanh biên: đó là giới hạn của dữ liệu, không phải lỗi tối ưu. Tiếp theo là câu hai, trên dữ liệu thật.",
+      "guide": [
+        {
+          "at": "Trái · đường loss",
+          "box": [
+            9,
+            21,
+            41,
+            53
+          ],
+          "say": "Biểu đồ trái: cross-entropy bắt đầu ở 0.693, bằng log 2, tức đoán 0.5 cho mọi mẫu, rồi giảm còn 0.45."
+        },
+        {
+          "at": "Phải · biên quyết định",
+          "box": [
+            51,
+            21,
+            40,
+            53
+          ],
+          "say": "Biểu đồ phải: đường chéo là biên p bằng 0.5. Các vòng tròn là 30 ca sai, nằm đúng vùng hai lớp chồng lấn."
+        },
+        {
+          "at": "Bốn số dưới",
+          "box": [
+            4,
+            74,
+            90,
+            11
+          ],
+          "say": "Bốn số dưới: accuracy 81.25%, F1 0.85, AUC 0.86, và ma trận nhầm lẫn 44, 18, 12, 86."
+        }
+      ],
       "key": "Logistic học được một biên hợp lý. 30 lỗi còn lại nằm ở vùng hai lớp chồng lấn.",
       "points": [
         "Loss ban đầu: $w=0$ nên $p=0.5$ cho mọi mẫu, và $J=-\\log 0.5=\\log 2\\approx0.6931$.",
@@ -136,6 +390,38 @@
       "title": "OpenML credit-g: 1000 hồ sơ, 20 biến, lệch lớp",
       "speaker": "Thành",
       "script": "Câu hai dùng bộ credit-g, mã 31 trên OpenML: 1000 hồ sơ vay, 20 biến, gồm 7 biến số và 13 biến phân loại. Lớp dương là bad, lớp cần phát hiện. Tỷ lệ 70 trên 30 nên dữ liệu mất cân bằng: luôn đoán good đã đạt 70 phần trăm accuracy mà không bắt được hồ sơ xấu nào. Biểu đồ phải cho thấy số tiền vay lệch phải và hai lớp chồng lấn mạnh. Dữ liệu không có ô thiếu, dòng trùng hay giá trị lạ, nên giữ đủ 1000 hồ sơ; sau min–max và one-hot có 61 đặc trưng.",
+      "guide": [
+        {
+          "at": "Trái · số lớp",
+          "box": [
+            9,
+            21,
+            28,
+            43
+          ],
+          "say": "Biểu đồ trái: 560 good so với 240 bad, lệch 70/30. Luôn đoán good đã được 70% accuracy."
+        },
+        {
+          "at": "Phải · credit amount",
+          "box": [
+            38,
+            21,
+            58,
+            45
+          ],
+          "say": "Biểu đồ phải: số tiền vay lệch phải và hai lớp chồng lên nhau, không biến nào tự tách được."
+        },
+        {
+          "at": "Bốn số dưới",
+          "box": [
+            4,
+            70,
+            92,
+            11
+          ],
+          "say": "Bốn số dưới: bộ OpenML mã 31; không thiếu, không trùng; chia 800 và 200 phân tầng; 61 đặc trưng sau min–max và one-hot."
+        }
+      ],
       "key": "credit-g nhỏ, nhiều biến phân loại và lệch lớp 70/30, nên accuracy không đủ tin. Cần chỉ số tính theo từng lớp.",
       "points": [
         "Lớp dương = **bad (1)**, vì đây là lớp cần phát hiện.",
@@ -154,6 +440,58 @@
       "title": "Chống rò rỉ dữ liệu bằng thiết kế, không bằng lời hứa",
       "speaker": "Thành",
       "script": "Điểm nhóm chú trọng nhất là chống rò rỉ dữ liệu. Một, tách 200 hồ sơ test phân tầng ngay từ đầu. Hai, chuẩn hóa và one-hot nằm trong pipeline, nên mỗi fold chỉ học min, max và danh mục từ phần train của fold đó. Nếu chuẩn hóa trước rồi mới chia, thông tin validation đã lọt vào train và điểm sẽ đẹp giả tạo. Ba, mọi mô hình dùng chung năm fold phân tầng, chọn theo macro F1. Bốn, chốt xong mọi lựa chọn mới chạy test, đúng một lần.",
+      "guide": [
+        {
+          "at": "Ô 01",
+          "box": [
+            5,
+            25,
+            20,
+            25
+          ],
+          "say": "Bước một: tách 200 hồ sơ test ngay từ đầu và khóa lại."
+        },
+        {
+          "at": "Ô 02",
+          "box": [
+            28,
+            25,
+            20,
+            25
+          ],
+          "say": "Bước hai: chuẩn hóa nằm trong từng fold, chỉ học từ phần train của fold đó."
+        },
+        {
+          "at": "Ô 03",
+          "box": [
+            51,
+            25,
+            21,
+            25
+          ],
+          "say": "Bước ba: cùng 5 fold phân tầng cho mọi mô hình, chọn theo macro F1."
+        },
+        {
+          "at": "Ô 04",
+          "box": [
+            75,
+            25,
+            21,
+            25
+          ],
+          "say": "Bước bốn: chốt hết lựa chọn rồi mới chạy test, đúng một lần."
+        },
+        {
+          "at": "Bốn dòng dưới",
+          "box": [
+            4,
+            56,
+            92,
+            25
+          ],
+          "say": "Bốn dòng dưới tóm lại: so sánh công bằng, giữ ngoại lai hợp lệ, và baseline 0.412 làm mốc."
+        }
+      ],
       "key": "Mọi thứ học từ dữ liệu, kể cả min/max và danh mục one-hot, chỉ được học từ **phần train hiện tại**.",
       "points": [
         "**Rò rỉ dữ liệu**: thông tin của phần dùng để đánh giá lọt vào lúc huấn luyện, làm điểm đẹp giả tạo.",
@@ -173,6 +511,48 @@
       "title": "14 mô hình và một baseline, chọn bằng cross-validation",
       "speaker": "Thành",
       "script": "Nhóm so sánh 14 mô hình và một baseline trên cùng bộ fold, từ mô hình tuyến tính, kNN, Naive Bayes, cây, SVM, MLP đến ensemble; ba kernel SVM chỉ là ba biến thể của một họ. MLP dẫn đầu với macro F1 0.696, Bernoulli NB 0.694. Nhưng độ lệch chuẩn giữa các fold khoảng 0.06, lớn hơn nhiều khoảng cách 0.002, nên nhóm không kết luận MLP vượt trội. kNN chọn k bằng 1 và khớp hoàn hảo trên train, một dấu hiệu overfitting. Điểm CV đã dùng để chọn tham số, nên không phải đánh giá độc lập.",
+      "guide": [
+        {
+          "at": "Biểu đồ cột",
+          "box": [
+            10,
+            21,
+            45,
+            61
+          ],
+          "say": "Biểu đồ: macro F1 trung bình 5 fold của 14 mô hình và baseline. MLP màu cam đứng đầu."
+        },
+        {
+          "at": "Hai thanh đầu",
+          "box": [
+            21,
+            25,
+            30,
+            7
+          ],
+          "say": "Nhìn hai thanh đầu: MLP 0.696, Bernoulli NB 0.694. Thanh lỗi ±0.06 rộng hơn khoảng cách, nên chưa nói được ai hơn."
+        },
+        {
+          "at": "Phải · ghi chú",
+          "box": [
+            56,
+            22,
+            41,
+            36
+          ],
+          "say": "Bên phải: ba kernel SVM chỉ là một họ; kNN chọn k bằng 1, một dấu hiệu overfitting."
+        },
+        {
+          "at": "Ghi chú dưới",
+          "box": [
+            56,
+            72,
+            41,
+            9
+          ],
+          "say": "Ghi chú dưới: điểm CV đã dùng để chọn, nên cần tập test để đánh giá độc lập."
+        }
+      ],
       "key": "Chọn mô hình bằng điểm CV trung bình. Khi khoảng cách nhỏ hơn độ dao động giữa các fold, chưa thể kết luận mô hình nào hơn.",
       "points": [
         "Các họ mô hình: **tuyến tính** (logistic tự cài, perceptron, linear SVM) · **láng giềng** (kNN) · **xác suất** (Gaussian NB, Bernoulli NB) · **cây** (decision tree) · **SVM kernel** (RBF, polynomial) · **mạng nơ-ron** (MLP) · **ensemble** (bagging, random forest, AdaBoost, gradient boosting).",
@@ -191,6 +571,48 @@
       "title": "Trên 200 hồ sơ chưa từng thấy, khoảng cách rất hẹp",
       "speaker": "Thành",
       "script": "Đánh giá độc lập là 200 hồ sơ test. MLP đạt accuracy 0.79, macro F1 0.73, AUC 0.81. Đáng chú ý, logistic tự cài đặt từ câu một cũng đạt macro F1 0.730, gần như bằng MLP: trên một bảng dữ liệu nhỏ, mô hình phức tạp hơn không mang lại lợi ích rõ ràng. Cả 14 mô hình đều vượt baseline về macro F1, nhưng nhóm dẫn đầu chỉ chênh nhau vài phần nghìn, nên không nên đọc bảng này như bảng xếp hạng. Tiếp theo, ta đọc kỹ hơn con số accuracy này.",
+      "guide": [
+        {
+          "at": "Bảng · baseline",
+          "box": [
+            5,
+            30,
+            60,
+            6
+          ],
+          "say": "Hàng đầu bảng là baseline: accuracy 0.70 nhưng macro F1 chỉ 0.41."
+        },
+        {
+          "at": "Bảng · MLP",
+          "box": [
+            5,
+            69,
+            60,
+            8
+          ],
+          "say": "Hàng cuối là MLP được chọn: accuracy 0.79, macro F1 0.73, AUC 0.81."
+        },
+        {
+          "at": "Bảng · logistic tự cài",
+          "box": [
+            5,
+            53,
+            60,
+            6
+          ],
+          "say": "So với hàng logistic tự cài: macro F1 cũng 0.730. Mô hình phức tạp hơn không hơn rõ."
+        },
+        {
+          "at": "Phải · ghi chú",
+          "box": [
+            66,
+            22,
+            31,
+            40
+          ],
+          "say": "Bên phải: cả 14 mô hình vượt baseline, nhưng chỉ chênh vài phần nghìn, nên đừng đọc như bảng xếp hạng."
+        }
+      ],
       "key": "Trên test, mô hình đơn giản (logistic tự cài) ngang với MLP. Phức tạp hơn không đồng nghĩa với tốt hơn.",
       "points": [
         "MLP: accuracy 0.790 · macro F1 0.7305 · AUC 0.813. Logistic tự cài: 0.780 · 0.7301 · 0.801. Macro F1 chỉ chênh 0.0004.",
@@ -209,6 +631,48 @@
       "title": "Một con số accuracy đẹp có thể che mất lỗi quan trọng",
       "speaker": "Tâm",
       "script": "Đây là bài học chính của câu hai. Ma trận nhầm lẫn có hàng là nhãn thật, cột là dự đoán. MLP đúng 158 trên 200, nhưng trong 60 hồ sơ xấu, mô hình bỏ sót 28, nên recall lớp bad chỉ 0.533. Lớp đa số đã kéo accuracy lên. Gaussian NB thì ngược lại: recall bad 0.65 nhưng precision chỉ 0.51. Chọn bên nào là quyết định nghiệp vụ, tùy chi phí bỏ sót so với báo nhầm. Muốn hạ ngưỡng thì phải chọn trên validation; hạ sau khi xem test là dùng test để tinh chỉnh.",
+      "guide": [
+        {
+          "at": "Ma trận nhầm lẫn",
+          "box": [
+            18,
+            24,
+            20,
+            33
+          ],
+          "say": "Ma trận của MLP: hàng là nhãn thật, cột là dự đoán. Đường chéo 126 cộng 32 là 158 trên 200 đúng."
+        },
+        {
+          "at": "Hàng bad",
+          "box": [
+            18,
+            41,
+            20,
+            16
+          ],
+          "say": "Nhưng nhìn hàng bad: 28 hồ sơ xấu bị bỏ sót, recall lớp bad chỉ 0.533."
+        },
+        {
+          "at": "Phải · ROC",
+          "box": [
+            44,
+            21,
+            48,
+            48
+          ],
+          "say": "Đường ROC: ba mô hình đầu gần như chồng nhau, AUC từ 0.78 đến 0.81."
+        },
+        {
+          "at": "Dòng dưới",
+          "box": [
+            4,
+            69,
+            92,
+            17
+          ],
+          "say": "Dòng dưới: Gaussian NB bắt được nhiều bad hơn nhưng báo nhầm nhiều hơn. Chọn bên nào là quyết định nghiệp vụ."
+        }
+      ],
       "key": "Accuracy 0.79 che mất việc bỏ sót gần nửa số hồ sơ xấu. Luôn đọc chỉ số của từng lớp.",
       "points": [
         "Ma trận (hàng = thật, cột = dự đoán): **TN 126** (good đoán đúng) · **FP 14** (good bị báo là bad) · **FN 28** (bad bị bỏ sót) · **TP 32** (bad bắt đúng).",
@@ -227,6 +691,48 @@
       "title": "Bằng chứng: cây càng sâu, khoảng cách càng lớn",
       "speaker": "Tâm",
       "script": "Overfitting là khi mô hình học thuộc cả nhiễu của train, nên gặp dữ liệu mới thì kém; nhóm đo nó bằng khoảng cách train trừ validation. Ở biểu đồ trái, tăng độ sâu thì điểm train leo lên 1, còn validation chỉ tăng đến độ sâu khoảng 6 rồi giảm. Cây không giới hạn đạt 1.00 trên train nhưng 0.614 trên validation. Giới hạn độ sâu 6 và tối thiểu 5 mẫu mỗi lá, khoảng cách giảm từ 0.386 xuống 0.121. Nhưng random forest vẫn còn 0.324: ensemble giảm phương sai, không tự hết overfitting. Biện pháp chung là giới hạn độ phức tạp, chọn bằng validation và giữ test riêng.",
+      "guide": [
+        {
+          "at": "Trái · độ sâu cây",
+          "box": [
+            11,
+            21,
+            39,
+            47
+          ],
+          "say": "Biểu đồ trái: tăng độ sâu, đường train màu xanh leo lên 1, đường validation màu cam đạt đỉnh ở độ sâu 6 rồi giảm. Đó là overfitting."
+        },
+        {
+          "at": "Phải · khoảng cách",
+          "box": [
+            51,
+            21,
+            39,
+            47
+          ],
+          "say": "Biểu đồ phải: thanh xám là khoảng cách train–CV ban đầu, thanh xanh là sau khi chọn tham số. Cây giảm từ 0.39 xuống 0.12."
+        },
+        {
+          "at": "Ba số dưới",
+          "box": [
+            4,
+            70,
+            86,
+            12
+          ],
+          "say": "Ba số dưới: cây không giới hạn đạt 1.00 trên train mà chỉ 0.614 trên validation; random forest vẫn còn 0.324."
+        },
+        {
+          "at": "Dòng cuối",
+          "box": [
+            4,
+            83,
+            86,
+            6
+          ],
+          "say": "Dòng cuối là cách chữa: giới hạn độ phức tạp, chọn bằng validation, giữ test riêng."
+        }
+      ],
       "key": "Overfitting là khoảng cách train–validation lớn. Cách chữa: giới hạn độ phức tạp và chọn tham số bằng validation.",
       "points": [
         "**Underfit** (high bias): train và validation đều thấp, như cây độ sâu 1–2. **Overfit** (high variance): train rất cao nhưng validation giảm, như cây độ sâu từ 8 trở lên.",
@@ -246,6 +752,48 @@
       "title": "Điều nhóm làm được, điều còn hạn chế",
       "speaker": "Tâm",
       "script": "Tóm lại, câu một cho thấy hai mô hình tự cài đặt học đúng: gradient khớp kiểm tra sai phân, sai số xấp xỉ mức nhiễu. Câu hai cho thấy trên dữ liệu nhỏ và mất cân bằng, mô hình phức tạp nhất không vượt trội rõ rệt, và accuracy có thể che lỗi ở lớp thiểu số. Hạn chế: một bộ dữ liệu, một lần chia test, lưới tham số nhỏ; logistic và MLP chưa hội tụ hoàn toàn; và chưa có kiểm định thống kê. Nhóm em xin cảm ơn thầy và các bạn đã lắng nghe.",
+      "guide": [
+        {
+          "at": "Cột 1 · kết quả",
+          "box": [
+            4,
+            22,
+            30,
+            43
+          ],
+          "say": "Cột một: hai mô hình tự cài học đúng; MLP được chọn với macro F1 0.73; accuracy 0.79 vẫn bỏ sót 28 hồ sơ xấu."
+        },
+        {
+          "at": "Cột 2 · bài học",
+          "box": [
+            35,
+            22,
+            30,
+            47
+          ],
+          "say": "Cột hai: chuẩn hóa trong fold là điều kiện để so sánh đáng tin; chênh nhỏ hơn dao động fold thì chưa kết luận."
+        },
+        {
+          "at": "Cột 3 · hạn chế",
+          "box": [
+            66,
+            22,
+            31,
+            36
+          ],
+          "say": "Cột ba: một bộ dữ liệu, một lần chia test, chưa hội tụ hoàn toàn, chưa có kiểm định thống kê."
+        },
+        {
+          "at": "Lời cảm ơn",
+          "box": [
+            4,
+            79,
+            92,
+            9
+          ],
+          "say": "Nhóm em xin cảm ơn thầy và các bạn đã lắng nghe."
+        }
+      ],
       "key": "Ba điều cần nhớ: cài đặt đúng đã được kiểm chứng; quy trình chống rò rỉ là điều kiện để so sánh đáng tin; accuracy có thể đánh lừa trên dữ liệu lệch lớp.",
       "points": [
         "Hướng cải thiện tương ứng với từng hạn chế: chạy nhiều seed hoặc lặp lại CV; dùng kiểm định t ghép cặp; chọn ngưỡng trên validation theo chi phí nghiệp vụ; tăng số vòng lặp cho logistic và MLP.",

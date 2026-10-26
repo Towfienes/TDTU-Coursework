@@ -4,6 +4,7 @@
 **Thời lượng:** tổng lời thoại 1341 từ, đọc ở nhịp ~150 từ/phút ≈ **8:56**; phần còn lại của slot 10 phút dành cho chuyển slide và hỏi đáp.  
 **Cách trình bày:** lời thoại không gắn tên người nói, nên dùng nguyên văn được cho cả hai trường hợp: **một người trình bày cả 14 slide**, hoặc **cả nhóm chia phần** theo gợi ý bên dưới (khi đó thêm câu chuyển lời ở slide 7 và 11).
 
+> Cần bản ngắn hơn, nói theo từng vùng trên slide? Xem `TRANSCRIPT_THEO_SLIDE.md` (1026 từ ≈ 6:50).
 > File này được sinh từ `src/talk_content.json` bằng `python3 src/build_talk.py`; speaker notes trong `midterm_presentation.pptx` dùng cùng nguồn.
 > Muốn sửa lời thoại thì sửa file JSON rồi dựng lại, đừng sửa trực tiếp file này. Số liệu đã đối chiếu với `../results/*.json`.
 
