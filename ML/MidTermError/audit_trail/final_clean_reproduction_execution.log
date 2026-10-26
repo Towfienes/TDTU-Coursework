@@ -1,0 +1,10 @@
+{"check": "data", "command": ["/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python", "-m", "src.data"], "returncode": 0, "elapsed_seconds": 0.6896270320003168}
+{"check": "tests_before", "command": ["/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python", "-m", "unittest", "discover", "-s", "tests", "-v"], "returncode": 0, "elapsed_seconds": 2.009834776000389}
+{"check": "notebooks", "command": ["/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python", "notebooks/execute.py"], "returncode": 0, "elapsed_seconds": 15.272421418000704}
+{"check": "q1", "command": ["/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python", "-m", "src.q1_models"], "returncode": 0, "elapsed_seconds": 1.6150969450000048}
+{"check": "q2", "command": ["/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python", "-m", "src.q2_classification"], "returncode": 0, "elapsed_seconds": 12.697346984999967}
+{"check": "report", "command": ["/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python", "-m", "src.build_report"], "returncode": 0, "elapsed_seconds": 1.607721505999507}
+{"check": "tests_after", "command": ["/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python", "-m", "unittest", "discover", "-s", "tests", "-v"], "returncode": 0, "elapsed_seconds": 2.067263552999975}
+{"check": "lint", "command": ["/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python", "-m", "ruff", "check", "src", "tests", "notebooks/execute.py"], "returncode": 0, "elapsed_seconds": 0.022616399000071397}
+{"check": "syntax", "command": ["/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python", "-m", "compileall", "-q", "src", "tests", "notebooks/execute.py"], "returncode": 0, "elapsed_seconds": 0.0436628670004211}
+PASS: clean extraction, environment, all executions and numerical comparisons

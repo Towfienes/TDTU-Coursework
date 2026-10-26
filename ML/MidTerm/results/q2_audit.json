@@ -1,0 +1,130 @@
+{
+  "rows": 1000,
+  "predictors": 20,
+  "numeric": [
+    "duration",
+    "credit_amount",
+    "installment_commitment",
+    "residence_since",
+    "age",
+    "existing_credits",
+    "num_dependents"
+  ],
+  "categorical": [
+    "checking_status",
+    "credit_history",
+    "purpose",
+    "savings_status",
+    "employment",
+    "personal_status",
+    "other_parties",
+    "property_magnitude",
+    "other_payment_plans",
+    "housing",
+    "job",
+    "own_telephone",
+    "foreign_worker"
+  ],
+  "missing_cells": 0,
+  "duplicate_rows": 0,
+  "nonfinite_numeric": 0,
+  "class_counts": {
+    "good": 700,
+    "bad": 300
+  },
+  "arff_sha256": "768be84ef749110d5fcac109a6541f2df190e8c6987e1dc432c0a4f29d0642f5",
+  "arff_md5": "9a475053fed0c26ee95cd4525e50074c",
+  "source": "https://www.openml.org/d/31",
+  "id": 31,
+  "version": 1,
+  "development_class_counts": {
+    "0": 560,
+    "1": 240
+  },
+  "test_class_counts": {
+    "0": 140,
+    "1": 60
+  },
+  "numeric_summary_development": {
+    "duration": {
+      "count": 800.0,
+      "mean": 20.77,
+      "std": 11.81732463173517,
+      "min": 4.0,
+      "25%": 12.0,
+      "50%": 18.0,
+      "75%": 24.0,
+      "max": 60.0
+    },
+    "credit_amount": {
+      "count": 800.0,
+      "mean": 3189.59125,
+      "std": 2673.5473698060196,
+      "min": 276.0,
+      "25%": 1353.0,
+      "50%": 2317.0,
+      "75%": 3933.0,
+      "max": 15945.0
+    },
+    "installment_commitment": {
+      "count": 800.0,
+      "mean": 2.94125,
+      "std": 1.1244460463441204,
+      "min": 1.0,
+      "25%": 2.0,
+      "50%": 3.0,
+      "75%": 4.0,
+      "max": 4.0
+    },
+    "residence_since": {
+      "count": 800.0,
+      "mean": 2.83,
+      "std": 1.1113702937870844,
+      "min": 1.0,
+      "25%": 2.0,
+      "50%": 3.0,
+      "75%": 4.0,
+      "max": 4.0
+    },
+    "age": {
+      "count": 800.0,
+      "mean": 35.32375,
+      "std": 11.04531278895067,
+      "min": 19.0,
+      "25%": 27.0,
+      "50%": 33.0,
+      "75%": 41.0,
+      "max": 75.0
+    },
+    "existing_credits": {
+      "count": 800.0,
+      "mean": 1.4075,
+      "std": 0.5673147782069183,
+      "min": 1.0,
+      "25%": 1.0,
+      "50%": 1.0,
+      "75%": 2.0,
+      "max": 4.0
+    },
+    "num_dependents": {
+      "count": 800.0,
+      "mean": 1.16,
+      "std": 0.36683539941345433,
+      "min": 1.0,
+      "25%": 1.0,
+      "50%": 1.0,
+      "75%": 1.0,
+      "max": 2.0
+    }
+  },
+  "iqr_outlier_counts_development": {
+    "duration": 50,
+    "credit_amount": 58,
+    "installment_commitment": 0,
+    "residence_since": 0,
+    "age": 25,
+    "existing_credits": 4,
+    "num_dependents": 128
+  },
+  "encoded_features": 61
+}

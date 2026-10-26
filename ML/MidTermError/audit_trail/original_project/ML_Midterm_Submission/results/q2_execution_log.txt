@@ -1,0 +1,117 @@
+Q2 successful: train-only stratified CV, final held-out test evaluation.
+               model  cv_macro_f1_mean  cv_macro_f1_std  train_accuracy  test_accuracy  test_precision_macro  test_recall_macro  test_f1_macro  train_test_accuracy_gap
+Gaussian Naive Bayes             0.981            0.023           0.981          0.911                 0.916              0.911          0.911                    0.070
+          Linear SVM             0.981            0.023           0.981          0.867                 0.871              0.867          0.868                    0.114
+ Logistic Regression             0.981            0.023           0.981          0.911                 0.916              0.911          0.911                    0.070
+         Extra Trees             0.971            0.038           1.000          0.911                 0.916              0.911          0.911                    0.089
+                 LDA             0.971            0.038           0.981          0.978                 0.979              0.978          0.978                    0.003
+           SVM (RBF)             0.971            0.038           0.971          0.911                 0.916              0.911          0.911                    0.060
+                 QDA             0.971            0.023           0.981          0.978                 0.979              0.978          0.978                    0.003
+           KNN (k=5)             0.970            0.024           0.981          0.911                 0.930              0.911          0.910                    0.070
+   Gradient Boosting             0.961            0.037           1.000          0.933                 0.935              0.933          0.933                    0.067
+            AdaBoost             0.952            0.052           1.000          0.933                 0.935              0.933          0.933                    0.067
+       Decision Tree             0.952            0.052           1.000          0.911                 0.911              0.911          0.911                    0.089
+       Random Forest             0.952            0.052           1.000          0.911                 0.916              0.911          0.911                    0.089
+    Dummy (majority)             0.168            0.002           0.337          0.333                 0.111              0.333          0.167                    0.003
+{
+  "openml_dataset_id": 61,
+  "openml_dataset_url": "https://www.openml.org/d/61",
+  "data_origin": "Bundled offline mirror (scikit-learn Fisher Iris); OpenML dataset 61",
+  "original_rows": 150,
+  "duplicates_removed": 1,
+  "missing_values_original": 0,
+  "missing_numeric_after_cleaning": 0,
+  "cleaned_rows": 149,
+  "train_rows": 104,
+  "test_rows": 45,
+  "train_class_counts": {
+    "versicolor": 35,
+    "setosa": 35,
+    "virginica": 34
+  },
+  "test_class_counts": {
+    "virginica": 15,
+    "versicolor": 15,
+    "setosa": 15
+  },
+  "class_counts_cleaned": {
+    "setosa": 50,
+    "versicolor": 50,
+    "virginica": 49
+  },
+  "features": [
+    "sepallength",
+    "sepalwidth",
+    "petallength",
+    "petalwidth"
+  ],
+  "target": "class",
+  "cv_folds": 5,
+  "random_state": 42,
+  "champion_selected_by_train_cv": "Gaussian Naive Bayes",
+  "champion_test_accuracy": 0.9111111111111111,
+  "champion_test_macro_f1": 0.9107142857142857,
+  "champion_confusion_matrix_label_order": [
+    "setosa",
+    "versicolor",
+    "virginica"
+  ],
+  "champion_confusion_matrix": [
+    [
+      15,
+      0,
+      0
+    ],
+    [
+      0,
+      14,
+      1
+    ],
+    [
+      0,
+      3,
+      12
+    ]
+  ],
+  "classification_report": {
+    "setosa": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 15.0
+    },
+    "versicolor": {
+      "precision": 0.8235294117647058,
+      "recall": 0.9333333333333333,
+      "f1-score": 0.875,
+      "support": 15.0
+    },
+    "virginica": {
+      "precision": 0.9230769230769231,
+      "recall": 0.8,
+      "f1-score": 0.8571428571428571,
+      "support": 15.0
+    },
+    "accuracy": 0.9111111111111111,
+    "macro avg": {
+      "precision": 0.9155354449472096,
+      "recall": 0.9111111111111111,
+      "f1-score": 0.9107142857142857,
+      "support": 45.0
+    },
+    "weighted avg": {
+      "precision": 0.9155354449472096,
+      "recall": 0.9111111111111111,
+      "f1-score": 0.9107142857142857,
+      "support": 45.0
+    }
+  },
+  "overfitting_mitigation": {
+    "selected_max_depth_using_cv": "3",
+    "unpruned_train_macro_f1": 1.0,
+    "unpruned_test_macro_f1": 0.9111111111111111,
+    "pruned_train_macro_f1": 0.9806722689075631,
+    "pruned_test_macro_f1": 0.9326599326599326,
+    "important_note": "Depth selected with training CV only; both held-out test scores reported after selection."
+  }
+}

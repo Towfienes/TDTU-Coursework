@@ -1,0 +1,6 @@
+\contentsline {figure}{\numberline {2.5.1}{\ignorespaces Scratch linear regression: training loss and test predictions.\relax }}{8}{figure.caption.26}%
+\contentsline {figure}{\numberline {2.6.1}{\ignorespaces Scratch logistic regression: training loss and test decision boundary.\relax }}{10}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.2.1}{\ignorespaces Development-set class balance, numeric distributions and checking status.\relax }}{13}{figure.caption.35}%
+\contentsline {figure}{\numberline {3.6.1}{\ignorespaces Cross-validation and held-out macro F1 for all classifier entries.\relax }}{22}{figure.caption.47}%
+\contentsline {figure}{\numberline {3.6.2}{\ignorespaces MLP test confusion matrix and ROC curves of the three leading CV entries.\relax }}{23}{figure.caption.48}%
+\contentsline {figure}{\numberline {4.2.1}{\ignorespaces Tree depth: fold-training performance rises while validation eventually declines.\relax }}{26}{figure.caption.53}%

@@ -1,0 +1,25 @@
+\begin{longtable}{@{}p{3.6cm}rrrrrr@{}}
+\caption{Held-out test metrics; positive class is bad.}\label{tab:test}\\
+\toprule
+Model & Acc. & $P_1$ & $R_1$ & $F_{1,1}$ & $F_M$ & AUC \\
+\midrule\endfirsthead
+\toprule
+Model & Acc. & $P_1$ & $R_1$ & $F_{1,1}$ & $F_M$ & AUC \\
+\midrule\endhead
+\bottomrule\endfoot
+Majority baseline & 0.700 & 0.000 & 0.000 & 0.000 & 0.412 & 0.500 \\
+Scratch logistic & 0.780 & 0.648 & 0.583 & 0.614 & 0.730 & 0.801 \\
+Perceptron & 0.700 & 0.500 & 0.483 & 0.492 & 0.639 & 0.720 \\
+kNN & 0.720 & 0.533 & 0.533 & 0.533 & 0.667 & 0.667 \\
+Gaussian NB & 0.710 & 0.513 & 0.650 & 0.574 & 0.677 & 0.744 \\
+Bernoulli NB & 0.735 & 0.556 & 0.583 & 0.569 & 0.689 & 0.778 \\
+Decision tree & 0.645 & 0.429 & 0.550 & 0.482 & 0.606 & 0.692 \\
+Linear SVM & 0.760 & 0.625 & 0.500 & 0.556 & 0.696 & 0.775 \\
+RBF SVM & 0.745 & 0.576 & 0.567 & 0.571 & 0.695 & 0.799 \\
+Polynomial SVM & 0.775 & 0.660 & 0.517 & 0.579 & 0.713 & 0.799 \\
+MLP & 0.790 & 0.696 & 0.533 & 0.604 & 0.730 & 0.813 \\
+Bagging & 0.730 & 0.568 & 0.417 & 0.481 & 0.649 & 0.752 \\
+Random forest & 0.770 & 0.684 & 0.433 & 0.531 & 0.689 & 0.803 \\
+AdaBoost & 0.785 & 0.681 & 0.533 & 0.598 & 0.726 & 0.790 \\
+Gradient boosting & 0.775 & 0.660 & 0.517 & 0.579 & 0.713 & 0.783 \\
+\end{longtable}

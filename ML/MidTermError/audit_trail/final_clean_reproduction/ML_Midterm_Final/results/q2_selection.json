@@ -1,0 +1,262 @@
+{
+  "primary_metric": "f1_macro",
+  "champion": "HistGradientBoosting",
+  "rule": "Maximum training-only CV mean macro-F1; alphabetical tie-break; baseline excluded",
+  "selected_before_test": true,
+  "capacity_studies": [
+    {
+      "family": "Decision Tree",
+      "original": {
+        "family": "Decision Tree",
+        "configuration": "depth=None,leaf=1",
+        "full_train_macro_f1": 1.0,
+        "cv_macro_f1_mean": 0.6128467944862603,
+        "cv_macro_f1_std": 0.014783894191411106,
+        "fold_train_macro_f1_mean": 1.0,
+        "fold_generalization_gap": 0.3871532055137397
+      },
+      "selected": {
+        "family": "Decision Tree",
+        "configuration": "depth=None,leaf=15",
+        "full_train_macro_f1": 0.7521582556361304,
+        "cv_macro_f1_mean": 0.659387074431019,
+        "cv_macro_f1_std": 0.026929299869238737,
+        "fold_train_macro_f1_mean": 0.7473046847438878,
+        "fold_generalization_gap": 0.0879176103128688
+      },
+      "validation_change": 0.04654027994475862,
+      "gap_change": -0.29923559520087095
+    },
+    {
+      "family": "KNN",
+      "original": {
+        "family": "KNN",
+        "configuration": "k=1",
+        "full_train_macro_f1": 1.0,
+        "cv_macro_f1_mean": 0.6265492255130298,
+        "cv_macro_f1_std": 0.01567975684764297,
+        "fold_train_macro_f1_mean": 1.0,
+        "fold_generalization_gap": 0.37345077448697017
+      },
+      "selected": {
+        "family": "KNN",
+        "configuration": "k=5",
+        "full_train_macro_f1": 0.7545648997770917,
+        "cv_macro_f1_mean": 0.6315961484068564,
+        "cv_macro_f1_std": 0.04833651601336403,
+        "fold_train_macro_f1_mean": 0.7414971557294299,
+        "fold_generalization_gap": 0.10990100732257355
+      },
+      "validation_change": 0.0050469228938265775,
+      "gap_change": -0.2635497671643966
+    },
+    {
+      "family": "RBF SVM",
+      "original": {
+        "family": "RBF SVM",
+        "configuration": "C=100,gamma=1.0",
+        "full_train_macro_f1": 1.0,
+        "cv_macro_f1_mean": 0.4201016199837869,
+        "cv_macro_f1_std": 0.012438139832107719,
+        "fold_train_macro_f1_mean": 1.0,
+        "fold_generalization_gap": 0.5798983800162132
+      },
+      "selected": {
+        "family": "RBF SVM",
+        "configuration": "C=10.0,gamma=0.1",
+        "full_train_macro_f1": 0.9985101283338207,
+        "cv_macro_f1_mean": 0.6687879120762538,
+        "cv_macro_f1_std": 0.05507220678640501,
+        "fold_train_macro_f1_mean": 0.9996274206740775,
+        "fold_generalization_gap": 0.3308395085978237
+      },
+      "validation_change": 0.24868629209246684,
+      "gap_change": -0.2490588714183895
+    }
+  ],
+  "candidate_parameters": {
+    "Dummy majority": {
+      "constant": "None",
+      "random_state": "None",
+      "strategy": "most_frequent"
+    },
+    "Logistic Regression": {
+      "C": "1.0",
+      "class_weight": "None",
+      "dual": "False",
+      "fit_intercept": "True",
+      "intercept_scaling": "1",
+      "l1_ratio": "0.0",
+      "max_iter": "3000",
+      "n_jobs": "None",
+      "penalty": "deprecated",
+      "random_state": "42",
+      "solver": "lbfgs",
+      "tol": "0.0001",
+      "verbose": "0",
+      "warm_start": "False"
+    },
+    "KNN": {
+      "algorithm": "auto",
+      "leaf_size": "30",
+      "metric": "minkowski",
+      "metric_params": "None",
+      "n_jobs": "None",
+      "n_neighbors": "5",
+      "p": "2",
+      "weights": "uniform"
+    },
+    "Gaussian Naive Bayes": {
+      "priors": "None",
+      "var_smoothing": "1e-09"
+    },
+    "Decision Tree": {
+      "ccp_alpha": "0.0",
+      "class_weight": "None",
+      "criterion": "gini",
+      "max_depth": "None",
+      "max_features": "None",
+      "max_leaf_nodes": "None",
+      "min_impurity_decrease": "0.0",
+      "min_samples_leaf": "1",
+      "min_samples_split": "2",
+      "min_weight_fraction_leaf": "0.0",
+      "monotonic_cst": "None",
+      "random_state": "42",
+      "splitter": "best"
+    },
+    "Random Forest": {
+      "bootstrap": "True",
+      "ccp_alpha": "0.0",
+      "class_weight": "None",
+      "criterion": "gini",
+      "max_depth": "None",
+      "max_features": "sqrt",
+      "max_leaf_nodes": "None",
+      "max_samples": "None",
+      "min_impurity_decrease": "0.0",
+      "min_samples_leaf": "1",
+      "min_samples_split": "2",
+      "min_weight_fraction_leaf": "0.0",
+      "monotonic_cst": "None",
+      "n_estimators": "150",
+      "n_jobs": "1",
+      "oob_score": "False",
+      "random_state": "42",
+      "verbose": "0",
+      "warm_start": "False"
+    },
+    "Extra Trees": {
+      "bootstrap": "False",
+      "ccp_alpha": "0.0",
+      "class_weight": "None",
+      "criterion": "gini",
+      "max_depth": "None",
+      "max_features": "sqrt",
+      "max_leaf_nodes": "None",
+      "max_samples": "None",
+      "min_impurity_decrease": "0.0",
+      "min_samples_leaf": "1",
+      "min_samples_split": "2",
+      "min_weight_fraction_leaf": "0.0",
+      "monotonic_cst": "None",
+      "n_estimators": "150",
+      "n_jobs": "1",
+      "oob_score": "False",
+      "random_state": "42",
+      "verbose": "0",
+      "warm_start": "False"
+    },
+    "Linear SVM": {
+      "C": "1.0",
+      "class_weight": "None",
+      "dual": "auto",
+      "fit_intercept": "True",
+      "intercept_scaling": "1",
+      "loss": "squared_hinge",
+      "max_iter": "20000",
+      "multi_class": "ovr",
+      "penalty": "l2",
+      "random_state": "42",
+      "tol": "0.0001",
+      "verbose": "0"
+    },
+    "RBF SVM": {
+      "C": "1.0",
+      "break_ties": "False",
+      "cache_size": "200",
+      "class_weight": "None",
+      "coef0": "0.0",
+      "decision_function_shape": "ovr",
+      "degree": "3",
+      "gamma": "scale",
+      "kernel": "rbf",
+      "max_iter": "-1",
+      "probability": "deprecated",
+      "random_state": "42",
+      "shrinking": "True",
+      "tol": "0.001",
+      "verbose": "False"
+    },
+    "Gradient Boosting": {
+      "ccp_alpha": "0.0",
+      "criterion": "deprecated",
+      "init": "None",
+      "learning_rate": "0.1",
+      "loss": "log_loss",
+      "max_depth": "3",
+      "max_features": "None",
+      "max_leaf_nodes": "None",
+      "min_impurity_decrease": "0.0",
+      "min_samples_leaf": "1",
+      "min_samples_split": "2",
+      "min_weight_fraction_leaf": "0.0",
+      "n_estimators": "100",
+      "n_iter_no_change": "None",
+      "random_state": "42",
+      "subsample": "1.0",
+      "tol": "0.0001",
+      "validation_fraction": "0.1",
+      "verbose": "0",
+      "warm_start": "False"
+    },
+    "HistGradientBoosting": {
+      "categorical_features": "from_dtype",
+      "class_weight": "None",
+      "early_stopping": "auto",
+      "interaction_cst": "None",
+      "l2_regularization": "0.0",
+      "learning_rate": "0.1",
+      "loss": "log_loss",
+      "max_bins": "255",
+      "max_depth": "None",
+      "max_features": "1.0",
+      "max_iter": "100",
+      "max_leaf_nodes": "31",
+      "min_samples_leaf": "20",
+      "monotonic_cst": "None",
+      "n_iter_no_change": "10",
+      "random_state": "42",
+      "scoring": "loss",
+      "tol": "1e-07",
+      "validation_fraction": "0.1",
+      "verbose": "0",
+      "warm_start": "False"
+    },
+    "AdaBoost": {
+      "estimator": "None",
+      "learning_rate": "0.5",
+      "n_estimators": "100",
+      "random_state": "42"
+    },
+    "LDA": {
+      "covariance_estimator": "None",
+      "n_components": "None",
+      "priors": "None",
+      "shrinkage": "None",
+      "solver": "svd",
+      "store_covariance": "False",
+      "tol": "0.0001"
+    }
+  }
+}

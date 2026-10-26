@@ -1,0 +1,50 @@
+word/document.xml
+Introduction to Machine Learning
+Middle Exam
+Question 1
+ 
+(
+5
+ points)
+: 
+Training
+ model: 
+Linear Regression and Logistic Regression
+For each model, complete the following tasks:
+Describe the model, its prediction formula, and the problem it solves.
+Define an appropriate loss function.
+Derive the gradients of the loss with respect to the model parameters.
+Present the training algorithm using Gradient Descent.
+Implement the model from scratch in Python using a real or synthetic dataset. Split the data into training and test sets, plot the training loss, and evaluate the model using appropriate metrics.
+ 
+ 
+Question 2 (
+5
+ points): Classification
+Perform a classification task using a dataset from 
+OpenML
+.
+(
+ 
+https://www.openml.org/search?type=data&status=active
+)
+Complete the following steps:
+Data preparation
+Preprocess the data.
+Visualize the data to understand its characteristics.
+Clean the data.
+Transform
+ data
+Scale the features.
+Model training and evaluation
+Apply classification algorithms
+/methods (as many as possible) 
+Evaluate
+ 
+Compare the results across algorithms (models).
+Present Overfitting and How to solve the overfitting over the above models
+Lưu ý:
+ 
+Nộp file pdf trình bày các vấn đề lý thuyết, trình bày bài toán, dữ liệu và giải pháp và kết quả thực nghiệm; 
+Nộp file code
+Tất cả các thành viên trong nhóm đều phải nộp bài.

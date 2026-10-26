@@ -1,0 +1,259 @@
+============================================================
+TOPIC 13 – SECURITY IN CLIENT-SERVER ANDROID APPLICATIONS
+
+PRESENTER:
+Võ Huỳnh Duy Tân (Student ID: 524H0187)
+
+ASSIGNED SLIDES:
+Slides 8 → 12
+
+TARGET TIME:
+Approximately 5.5 – 6.0 minutes
+============================================================
+
+------------------------------------------------------------
+SECTION 1 — ROLE
+------------------------------------------------------------
+Your role is to bring the presentation to an impactful academic conclusion by evaluating security impacts, presenting a concrete architectural defense blueprint, and introducing the team's upcoming practical demonstration.
+
+You take over from Thành to analyze how Intent Redirection and plaintext storage harm the CIA Triad (Confidentiality, Integrity, and Availability). You then introduce our 3-Layer Defense Blueprint covering Manifest hygiene, Intent sanitization, and cryptographic data storage. 
+
+Next, you deliver the centerpiece of your section: Slide 10, explaining our upcoming final project demonstration where we intercept client-server chat traffic using Burp Suite in a controlled educational lab and mitigate it using Certificate Pinning. Finally, you summarize the five core takeaways, acknowledge our authoritative standards, and open the seminar to Q&A.
+
+
+------------------------------------------------------------
+SECTION 2 — SLIDE-BY-SLIDE PRESENTATION PLAN
+------------------------------------------------------------
+
+SLIDE 8 — Security Impact: The CIA Triad (Risk Evaluation & Impact)
+- Target time: 1 minute 00 seconds
+- Purpose: Map mobile vulnerabilities to the classic security triad: Confidentiality, Integrity, and Availability.
+- Must explain:
+  1. Confidentiality: Theft of plaintext JWT bearer tokens from SQLite and exposure of private personal information (PII) leading to account takeover.
+  2. Integrity: Confused Deputy execution modifying app state, database record tampering, or forging backend transactions with hijacked credentials.
+  3. Availability: Intent fuzzing with malformed parcels causing continuous crash loops (DoS), resource starvation, and battery drain.
+  4. Note on Severity: The labels 'High Impact', 'Critical Impact', and 'Moderate Impact' represent qualitative potential-impact evaluations based on application context, not calculated CVSS scores.
+- Main takeaway: Insecure Intent handling and plaintext storage threaten all three CIA dimensions, with impacts ranging from data breaches to total operational denial-of-service.
+- Do not say: Do not claim these are "official CVSS scores" or that mobile attacks only ever affect confidentiality.
+
+SLIDE 9 — Defense Strategy: Multi-Layered Hardening (Defensive Engineering)
+- Target time: 1 minute 45 seconds
+- Purpose: Present a practical 3-layer defensive engineering blueprint.
+- Must explain:
+  1. Layer 1 (Manifest & Permissions): Keep internal components non-exported by default (exported="false"), audit permissions under least privilege, gate sensitive endpoints with signature permissions, and configure modern backup / data-extraction rules (Android 12+ dataExtractionRules) to exclude sensitive assets.
+  2. Layer 2 (Intent Security & IPC): Mandate explicit Intents for known internal targets, validate incoming actions and URIs, enforce component allowlists before forwarding nested Intents, and set FLAG_IMMUTABLE on PendingIntents.
+  3. Layer 3 (Storage Security): Minimize persisted secrets, use app-private storage, protect cryptographic keys using the hardware-backed Android Keystore (TEE/SE), and deploy SQLCipher page-level AES-256 encryption where local SQLite encryption is required.
+- Main takeaway: Robust Android security requires multi-layered defense: closing unnecessary manifest attack surfaces, validating IPC at trust boundaries, and encrypting sensitive local data at rest.
+- Do not say: Do not recommend the deprecated EncryptedSharedPreferences library, and do not present allowBackup="false" as the sole modern backup defense.
+
+SLIDE 10 — Final Demo: MITM Interception & Certificate Pinning (Practical Plan)
+- Target time: 2 minutes 00 seconds
+- Purpose: Detail the team's upcoming final laboratory demonstration.
+- Must explain:
+  1. The Context: Authorized Educational Lab environment demonstrating client-server transit security.
+  2. Phase 1 (Baseline MITM - Vulnerable Setup):
+     - Modern Android apps do NOT trust user-installed CAs by default.
+     - For the lab, our debug test build explicitly configures a Network Security Configuration to trust the Burp user CA.
+     - Traffic is proxied through Burp Suite on port 8080, decrypting HTTPS and capturing plaintext chat credentials and tokens in transit.
+  3. Phase 2 (Certificate Pinning Defense - Hardened Setup):
+     - The client enforces an application-specific trust restriction using OkHttp CertificatePinner or network security config, pinning the expected server public-key SHA-256 hash.
+     - When Burp presents its proxy interception certificate, the public key hash does not match the pinned hash.
+     - The TLS handshake is rejected immediately (throwing SSLPeerUnverifiedException) before sensitive chat payloads or tokens are exchanged!
+  4. Core Distinction (MUST SAY): "Certificate pinning adds an application-specific trust restriction on top of normal TLS validation."
+  5. 5-step lab methodology across the bottom.
+- Main takeaway: While normal TLS trusts any valid CA, Certificate Pinning restricts trust to the server's exact expected public key, preventing proxy interception even when a custom CA is installed.
+- Do not say: DO NOT claim that Android trusts Burp by default, DO NOT claim that "MITM is permanently 100% blocked forever in all contexts", and DO NOT claim that HTTPS and Certificate Pinning are identical.
+
+SLIDE 11 — Key Takeaways & Conclusion (Executive Summary)
+- Target time: 1 minute 00 seconds
+- Purpose: Deliver five punchy, memorable conclusions synthesizing the entire presentation.
+- Must explain:
+  1. Sandboxing provides application isolation, but exposed components require access control.
+  2. Untrusted IPC requires destination validation at trust boundaries.
+  3. Access control is not encryption at rest; sensitive data requires cryptographic defense-in-depth.
+  4. Security requires defense-in-depth across Manifest, IPC, Storage, and Network transit.
+  5. Midterm theory directly establishes the foundation for our upcoming final laboratory demonstration.
+- Main takeaway: True mobile security is achieved through defense-in-depth across all system layers.
+- Do not say: Do not introduce any new technical topics on this slide.
+
+SLIDE 12 — References & Standards (Academic Sources)
+- Target time: 15 seconds
+- Purpose: Acknowledge authoritative literature and open the floor to questions.
+- Must explain: Research is grounded in official Android Developers guides, OWASP MASVS v2.0, MASTG, and NIST SP 800-163.
+- Main takeaway: Our analysis follows industry standards and official platform documentation.
+- Do not say: Do not read out URLs or citations line by line!
+
+
+------------------------------------------------------------
+SECTION 3 — RECOMMENDED SPEAKING SCRIPT
+------------------------------------------------------------
+
+[SLIDE 8 — SECURITY IMPACT: THE CIA TRIAD (~1 minute 00 seconds)]
+"Thank you, Thành. 
+
+My name is Võ Huỳnh Duy Tân, and in this final section, I will evaluate the security impacts of these vulnerabilities, present our defensive blueprint, and introduce our upcoming practical demonstration.
+
+When evaluating mobile vulnerabilities, we must examine their consequences across the classic CIA Triad: Confidentiality, Integrity, and Availability.
+
+First, Confidentiality: As Thành demonstrated, storing unencrypted bearer tokens, API secrets, or chat messages in local SQLite databases creates a severe exposure risk. An attacker exploiting secondary paths can exfiltrate session JWTs, resulting in full user account takeover.
+
+Second, Integrity: Through Intent Redirection, an attacker can manipulate application workflow via Confused Deputy actions. They can force the app to execute hidden administrative functions, alter local database records through ContentProviders, or forge authenticated transactions against backend APIs.
+
+Third, Availability: Mobile security often overlooks availability, but Intent fuzzing represents a major denial-of-service vector. An attacker dispatching malformed parcelable extras can trigger unhandled runtime exceptions—such as BadParcelableException—forcing the app into continuous crash loops and exhausting battery resources.
+
+Please note that our severity labels—High, Critical, and Moderate—are qualitative potential-impact indicators based on application context, rather than formal CVSS scores."
+
+
+[SLIDE 9 — DEFENSE STRATEGY: MULTI-LAYERED HARDENING (~1 minute 45 seconds)]
+"To mitigate these vulnerabilities, we propose a comprehensive, three-layer hardening blueprint.
+
+In Layer 1, Manifest and Permissions:
+We enforce least privilege by keeping components non-exported by default with android:exported='false'. 
+We audit all requested permissions, eliminate unnecessary declarations, and gate sensitive inter-app endpoints using Signature-level permissions. 
+Furthermore, rather than relying on legacy flags, we configure modern data-extraction rules—supported in Android 12 and above—to strictly exclude sensitive application data from cloud backups and device-to-device transfers.
+
+In Layer 2, Intent Security and IPC:
+We mandate Explicit Intents for all internal navigation to eliminate interception risks. 
+Crucially, when receiving incoming Intents, we treat them as untrusted input: we validate actions, URIs, and extras, and we strictly enforce an allowlist of permitted destination classes before forwarding any nested Intent. 
+We also apply FLAG_IMMUTABLE to PendingIntents by default to prevent intent hijacking.
+
+In Layer 3, Storage Security:
+Our primary rule is to minimize stored secrets—never persist high-value credentials locally if they can be retrieved transiently. 
+When sensitive data must be persisted, we store it exclusively in internal directories, generate cryptographic master keys inside the hardware-backed Android Keystore, and deploy SQLCipher transparent page-level AES-256 encryption for SQLite databases.
+
+The previous defenses protect application components and local data. Our final project extends this defense-in-depth approach to the network layer."
+
+
+[SLIDE 10 — FINAL DEMO: MITM INTERCEPTION & CERTIFICATE PINNING (~2 minutes 00 seconds)]
+"This brings us to Slide 10, which outlines the practical laboratory demonstration we will execute for our final project later this semester.
+
+Our objective is to evaluate transit channel security in an authorized educational lab environment across two distinct phases.
+
+In Phase 1, we establish a baseline vulnerable setup. 
+Modern Android operating systems do not trust user-installed Certificate Authorities by default. Therefore, to simulate a vulnerable application in our controlled lab, we configure a debug Network Security Configuration that explicitly trusts user-installed certificates.
+When client traffic is routed through Burp Suite proxy on port 8080, Burp dynamically generates and signs a TLS certificate for the backend. Because the debug configuration trusts the Burp CA, the application accepts the certificate, enabling Burp to decrypt HTTPS traffic in real time and capture plaintext login credentials and chat tokens.
+
+In Phase 2, we implement our defense: Certificate Pinning.
+Here is the core technical concept: normal HTTPS validates that the server's certificate is signed by ANY trusted Certificate Authority. Certificate Pinning adds an application-specific trust restriction on top of normal TLS validation, requiring the server's certificate or public key to match an exact expected identity.
+In our chat application, we implement OkHttp's CertificatePinner, hardcoding the SHA-256 cryptographic hash of the server's public key.
+When client traffic is routed through Burp Suite, Burp presents its proxy certificate. The application validates the public key hash against its configured pin. Because Burp's public key does not match, the application immediately throws an SSLPeerUnverifiedException and aborts the TLS handshake! 
+The connection is terminated before any sensitive application payload or authentication token can be transmitted.
+
+At the bottom of the slide, you can see our five-step lab methodology: developing the chat app, configuring debug CA trust, intercepting baseline traffic in Burp, implementing CertificatePinner, and empirically verifying handshake rejection."
+
+
+[SLIDE 11 — KEY TAKEAWAYS & CONCLUSION (~1 minute 00 seconds)]
+"To conclude our seminar, let us summarize the five core architectural takeaways:
+
+First: Sandboxing provides essential application isolation, but exposed components require robust application-level access control.
+Second: Intents form formal trust boundaries; any untrusted IPC must be strictly validated before reaching privileged functionality.
+Third: Access control is fundamentally different from encryption at rest; sensitive tokens require cryptographic defense to survive secondary leaks.
+Fourth: Mobile security requires coordinated defense-in-depth across the Manifest, IPC messaging, local storage, and network transit.
+And fifth: Our midterm theoretical research directly drives our practical engineering, establishing the exact foundation for our upcoming Burp Suite and SSL Pinning laboratory demonstration."
+
+
+[SLIDE 12 — REFERENCES & STANDARDS (~15 seconds)]
+"Our research is grounded in official Android developer specifications, the OWASP Mobile Application Security Verification Standard version 2.0, the OWASP MASTG testing guide, and NIST guidelines.
+
+Thank you very much Dr. Huynh Ngoc Tu and fellow students for your attention. My teammates and I are now ready to take your questions."
+
+
+------------------------------------------------------------
+SECTION 4 — WHAT TO POINT AT ON THE SLIDE
+------------------------------------------------------------
+
+SLIDE 8:
+- Point sequentially across the 3 CIA columns:
+  - Confidentiality (Red card): Point to 'Auth Token Theft' and 'Plaintext JWT'.
+  - Integrity (Amber card): Point to 'Confused Deputy Execution' and 'Local Data Tampering'.
+  - Availability (Cyan card): Point to 'Intent Fuzzing Crashes' and 'App Denial of Service'.
+- Bottom: Briefly gesture to the disclaimer note clarifying qualitative potential impact.
+
+SLIDE 9:
+- Layer 1 (Green card): Point to the code snippet showing `android:exported="false"`.
+- Layer 2 (Cyan card): Point to the code snippet showing the destination allowlist verification: `if (allowedClasses.contains(target.className))`.
+- Layer 3 (Amber card): Point to the SQLCipher code snippet showing `SQLiteDatabase.openOrCreateDatabase(...)`.
+
+SLIDE 10:
+- Phase 1 (Left card): Point to the flow `Android Client -> Debug Network Config -> Burp Proxy -> Backend`, emphasizing the red callout showing credentials captured in transit.
+- Phase 2 (Right card): Point to `[SHA-256 Pin Check] ✖ Proxy Rejected`, emphasizing the green callout showing TLS handshake terminated immediately.
+- Bottom Box: Run through the 5 steps of the lab methodology.
+
+SLIDE 11:
+- Point down the five distinct horizontal takeaway cards from 1 to 5 to give a structured, impactful closing.
+
+SLIDE 12:
+- Gesture generally toward the authoritative standards (Android Developers, OWASP, NIST) without reading them individually.
+
+
+------------------------------------------------------------
+SECTION 5 — TRANSITIONS
+------------------------------------------------------------
+
+OPENING TRANSITION (Taking over from Nguyễn Công Thành at Slide 8):
+"Thank you, Thành. My name is Võ Huỳnh Duy Tân, and in this final section, I will evaluate the security impacts of these vulnerabilities, present our defensive blueprint, and introduce our upcoming practical demonstration."
+
+CRITICAL TRANSITION BEFORE SLIDE 10 (Moving from Local Defenses to Network Demo):
+"The previous defenses protect application components and local data. Our final project extends this defense-in-depth approach to the network layer."
+
+CLOSING TRANSITION (Ending Slide 12 and opening Q&A):
+"Thank you very much Dr. Huynh Ngoc Tu and fellow students for your attention. My teammates and I are now ready to take your questions."
+
+
+------------------------------------------------------------
+SECTION 6 — LIKELY QUESTIONS & SHORT ANSWERS
+------------------------------------------------------------
+
+Q1: Does modern Android trust user-installed Certificate Authorities by default?
+A1: No. Since Android 7.0 (API level 24), Android applications targeting modern API levels trust only system-installed root CAs by default. User-installed CAs are ignored unless the application explicitly opts in using a custom Network Security Configuration file in debug mode.
+
+Q2: What is the fundamental difference between standard HTTPS/TLS and Certificate Pinning?
+A2: Standard HTTPS validates the server's certificate against ANY trusted Certificate Authority in the device's trust store. Certificate Pinning adds an application-specific trust restriction on top of normal TLS, requiring the server's certificate or public-key SHA-256 hash to match a specific expected identity, bypassing rogue or compromised CAs.
+
+Q3: Why is pinning the public key (SHA-256) preferred over pinning the entire leaf certificate?
+A3: Leaf certificates expire frequently (often annually or every 90 days), which would force app updates whenever a certificate renews. Pinning the public key SubjectPublicKeyInfo (SPKI) hash allows the server certificate to be renewed using the same key pair without breaking mobile client connectivity.
+
+Q4: What happens if a server certificate expires or rotates and the app doesn't have a backup pin?
+A4: If the public key changes and no matching backup pin was configured in the app, all mobile clients will reject the TLS connection (SSLPeerUnverifiedException), causing a complete application-wide denial of service until an updated app build is published and installed. This is why production pinning requires backup pins and key rotation strategies.
+
+Q5: Does Certificate Pinning permanently prevent all Man-in-the-Middle attacks on rooted test devices?
+A5: In a production environment on normal consumer devices, yes, it effectively prevents proxy interception. However, on a rooted test device under the tester's control, pinning can be bypassed using runtime instrumentation tools like Frida, Objection, or Xposed by hooking the certificate verification methods in memory.
+
+Q6: Why is Jetpack EncryptedSharedPreferences not recommended as the modern solution on Slide 9?
+A6: EncryptedSharedPreferences has been deprecated in recent AndroidX Security releases due to underlying bugs and performance overhead. Modern Android security emphasizes using the hardware-backed Android Keystore directly to protect cryptographic keys and applying application-level encryption for sensitive assets.
+
+Q7: What is the purpose of android:dataExtractionRules introduced in Android 12?
+A7: Historically, android:allowBackup="false" was an all-or-nothing flag. Android 12 introduced dataExtractionRules, an XML configuration allowing developers to define granular policies specifying exactly which directories or files are excluded from cloud backups and device-to-device migration transfers.
+
+
+------------------------------------------------------------
+SECTION 7 — IMPORTANT THINGS NOT TO SAY
+------------------------------------------------------------
+
+1. DO NOT SAY: "Android trusts the Burp CA by default on any phone."
+   CORRECT PHRASING: "Modern Android does not trust user CAs by default; our controlled educational lab uses a debug Network Security Configuration to explicitly trust the Burp user CA."
+
+2. DO NOT SAY: "HTTPS and Certificate Pinning are the exact same thing."
+   CORRECT PHRASING: "Certificate Pinning adds an application-specific trust restriction on top of normal TLS validation."
+
+3. DO NOT SAY: "Certificate Pinning completely blocks 100% of all MITM attacks forever."
+   CORRECT PHRASING: "Certificate Pinning prevents proxy interception over the network, though dynamic instrumentation on rooted test devices can hook validation functions."
+
+4. DO NOT SAY: "We use EncryptedSharedPreferences for our modern storage defense."
+   CORRECT PHRASING: "We protect cryptographic keys using the hardware-backed Android Keystore and encrypt sensitive SQLite data using SQLCipher."
+
+5. DO NOT SAY: "Slide 8 shows official CVSS 3.1 scores."
+   CORRECT PHRASING: "Slide 8 presents qualitative potential-impact evaluations across Confidentiality, Integrity, and Availability."
+
+
+------------------------------------------------------------
+SECTION 8 — EMERGENCY SHORT VERSION
+------------------------------------------------------------
+If the group is running behind schedule, compress your section to approximately 3.5 minutes:
+
+- Slide 8 (~45s): State: "Vulnerabilities impact all three CIA dimensions: Confidentiality via token leakage and account takeover; Integrity via Confused Deputy state tampering; and Availability via Intent fuzzing crash loops and denial of service. Severity is context-dependent."
+- Slide 9 (~60s): State: "Our defense blueprint covers three layers: First, Manifest hygiene—closing components with exported='false' and configuring modern dataExtractionRules. Second, IPC security—using explicit intents, validating input, and enforcing allowlists. Third, Storage security—storing master keys in the hardware Keystore and encrypting SQLite pages with SQLCipher."
+- Slide 10 (~75s): State: "For our final project, we demonstrate transit defense in an authorized lab. Modern Android does not trust user CAs by default, so we configure a debug build to trust Burp CA, capturing baseline credentials in transit. We then implement OkHttp CertificatePinner, validating the server's public key SHA-256 hash. When Burp's certificate fails the pin check, the TLS handshake aborts immediately, blocking unauthorized data transfer."
+- Slide 11 (~20s): State: "In summary: Sandboxing is necessary but not sufficient; untrusted IPC requires validation; and access control must be paired with encryption. Midterm theory directly informs our practical lab demonstration."
+- Slide 12 (~10s): State: "Our research follows official Android Developers, OWASP, and NIST standards. Thank you, and we welcome your questions."
+============================================================

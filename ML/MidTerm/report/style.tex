@@ -1,0 +1,103 @@
+\documentclass[a4paper]{article}
+\usepackage[left=3.5cm,right=2cm,top=3.5cm,bottom=3cm]{geometry}
+\usepackage{fontspec,amsmath,unicode-math}
+\setmainfont{Times New Roman}
+\setmonofont{Times New Roman}
+\setmathfont{Cambria Math}
+\usepackage{graphicx,tikz,eso-pic,titlesec,tocloft,caption,booktabs,array,longtable,float,enumitem}
+\usepackage[hidelinks,unicode]{hyperref}
+\hypersetup{pdftitle={Introduction to Machine Learning - Midterm Report},pdfauthor={Ngô Lâm Tiến; Nguyễn Công Thành; Nguyễn Lê Nhật Tâm}}
+\newif\ifshownum\shownumfalse
+\newcommand{\pagesize}{13}
+\hypersetup{hypertexnames=false}
+\AddToShipoutPictureFG{\ifshownum\AtPageUpperLeft{\setlength{\unitlength}{1bp}\put(318.9,-49.5){\makebox(0,0){\fontsize{\pagesize}{16}\selectfont\thepage}}}\fi}
+\pagestyle{empty}
+\setlength{\parindent}{1.27cm}
+\setlength{\parskip}{0pt}
+\setlength{\topskip}{13.4bp}
+\makeatletter
+\renewcommand{\normalsize}{\@setfontsize\normalsize{13}{22.44}}
+\let\ps@plain\ps@empty
+\makeatother
+\AtBeginDocument{\normalsize}
+\DeclareMathSizes{13}{13}{9}{7}
+\newcounter{chapter}
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\newcommand{\chapter}[1]{\par\vspace{14pt}\refstepcounter{chapter}\setcounter{section}{0}\setcounter{figure}{0}\noindent{\fontsize{16}{24}\selectfont\bfseries CHAPTER \arabic{chapter}. #1}\par\nobreak\vspace{6pt}\addcontentsline{toc}{chapter}{CHAPTER \arabic{chapter}. #1}}
+\titleformat{\section}{\fontsize{14}{21}\selectfont\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\fontsize{14}{21}\selectfont\bfseries\itshape}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{9pt}{4pt}
+\newcommand{\fronttitle}[1]{\noindent\makebox[\linewidth][c]{\fontsize{16}{24}\selectfont\bfseries #1}\par\vspace{20pt}}
+\renewcommand{\contentsname}{TABLE OF CONTENT}
+\renewcommand{\listfigurename}{LIST OF FIGURES}
+\makeatletter
+\newcommand{\l@chapter}[2]{\vspace{3pt}\noindent\textbf{#1}\nobreak\leaders\hbox{$\m@th\mkern\@dotsep mu\hbox{.}\mkern\@dotsep mu$}\hfill\nobreak\hb@xt@\@pnumwidth{\hfil\textbf{#2}}\par}
+\makeatother
+\setlength{\cftbeforesecskip}{2pt}
+\setlength{\cftsecindent}{0pt}\setlength{\cftsecnumwidth}{2.4em}
+\renewcommand{\cfttoctitlefont}{\hfill\fontsize{16}{24}\selectfont\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftloftitlefont}{\hfill\fontsize{16}{24}\selectfont\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill}
+\setlength{\cftbeforetoctitleskip}{0pt}\setlength{\cftaftertoctitleskip}{20pt}
+\setlength{\cftbeforeloftitleskip}{0pt}\setlength{\cftafterloftitleskip}{20pt}
+\renewcommand{\cftsecdotsep}{1.5}\renewcommand{\cftfigdotsep}{1.5}
+\renewcommand{\cftfigpresnum}{Figure }\renewcommand{\cftfigaftersnum}{: }
+\setlength{\cftfigindent}{0pt}\setlength{\cftfignumwidth}{7.2em}
+\counterwithin{figure}{section}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\captionsetup{font=normalsize,labelfont=normalfont,labelsep=colon,justification=centering}
+\setlist{itemsep=0pt,topsep=4pt,leftmargin=1.27cm}
+\setlength{\emergencystretch}{2em}
+\widowpenalty=10000
+\clubpenalty=10000
+\brokenpenalty=10000
+\newcommand{\coverline}[4]{\node[anchor=base,inner sep=0pt,font=\fontsize{#2}{#2}\selectfont #3] at (318.9,-#1) {#4};}
+\newcommand{\cover}[1]{\null\begin{tikzpicture}[remember picture,overlay,x=1bp,y=1bp]\begin{scope}[shift={(current page.north west)}]
+\ifnum#1=1
+\node[anchor=base west,inner sep=0pt,font=\fontsize{13}{13}\selectfont] at (135.26,-111.2) {VIETNAM GENERAL CONFEDERATION OF LABOR};
+\else\coverline{112.3}{14}{}{VIETNAM GENERAL CONFEDERATION OF LABOR}\fi
+\coverline{134.5}{14}{\bfseries}{TON DUC THANG UNIVERSITY}
+\coverline{156.6}{14}{\bfseries}{FACULTY OF INFORMATION TECHNOLOGY}
+\node[anchor=north west,inner sep=0pt] at (260.38,-184.14) {\includegraphics[width=117.05bp,height=64.8bp]{assets/tdtu-logo.png}};
+\ifnum#1=1
+\coverline{295.54}{14}{\bfseries}{NGÔ LÂM TIẾN -- 524H0195}
+\coverline{311.64}{14}{\bfseries}{NGUYỄN CÔNG THÀNH -- 524H0191}
+\coverline{327.74}{14}{\bfseries}{NGUYỄN LÊ NHẬT TÂM -- 524H0186}
+\coverline{409.16}{24}{\bfseries}{MIDTERM REPORT}
+\coverline{479.83}{22}{\bfseries}{INTRODUCTION TO}
+\coverline{508.83}{22}{\bfseries}{MACHINE LEARNING}
+\else
+\coverline{299.86}{14}{\bfseries}{NGÔ LÂM TIẾN -- 524H0195}
+\coverline{315.96}{14}{\bfseries}{NGUYỄN CÔNG THÀNH -- 524H0191}
+\coverline{332.06}{14}{\bfseries}{NGUYỄN LÊ NHẬT TÂM -- 524H0186}
+\coverline{412.28}{24}{\bfseries}{MIDTERM REPORT}
+\coverline{482.95}{22}{\bfseries}{INTRODUCTION TO}
+\coverline{511.95}{22}{\bfseries}{MACHINE LEARNING}
+\fi
+\ifnum#1=2
+\coverline{643.28}{14}{}{Advised by}
+\coverline{665.3}{14}{\bfseries}{Lê Anh Cường, Ph.D.}
+\coverline{710.78}{14}{\bfseries}{HO CHI MINH CITY, 2026}
+\else\coverline{649.7}{14}{\bfseries}{HO CHI MINH CITY, 2026}\fi
+\end{scope}\end{tikzpicture}\clearpage}
+\newcommand{\signblock}{\par\vspace{24pt}\noindent\hspace*{0.5\linewidth}\begin{minipage}{0.5\linewidth}\centering\textit{Ho Chi Minh City,}\\\textit{October 14, 2026}\\\textit{Authors}\\Ngô Lâm Tiến\\Nguyễn Công Thành\\Nguyễn Lê Nhật Tâm\end{minipage}}
+\counterwithin{table}{section}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\setlength{\tabcolsep}{4pt}
+\setlength{\LTleft}{0pt}\setlength{\LTright}{\fill}
+\newcommand{\plot}[3]{\begin{figure}[H]\centering\includegraphics[width=\linewidth]{../results/figures/#1}\caption{#2}\label{#3}\end{figure}}
+\newcommand{\refentry}[1]{\par\noindent\hangindent=1.27cm\hangafter=1 #1\par\vspace{6pt}}
+\newcommand{\source}[1]{\textit{Course source: #1}}
+\setcounter{tocdepth}{1}
+
+\makeatletter
+\renewcommand{\tableofcontents}{\fronttitle{TABLE OF CONTENT}\@starttoc{toc}}
+\renewcommand{\listoffigures}{\fronttitle{LIST OF FIGURES}\@starttoc{lof}}
+\makeatother
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+\renewcommand{\cftsecleader}{\normalfont\cftdotfill{\cftsecdotsep}}
+\setlength{\LTcapwidth}{\linewidth}

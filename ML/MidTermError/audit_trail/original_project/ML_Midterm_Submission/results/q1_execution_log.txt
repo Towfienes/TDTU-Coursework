@@ -1,0 +1,55 @@
+Q1 successful: finite-difference gradient checks passed.
+{
+  "linear": {
+    "dataset": "Synthetic linear regression, seed=42; y=4+3*x1-2*x2+N(0,0.65^2)",
+    "n_train": 288,
+    "n_test": 72,
+    "epochs": 1200,
+    "learning_rate": 0.08,
+    "train_loss_first": 13.728956347781212,
+    "train_loss_last": 0.20977085928071595,
+    "mse": 0.41759428722908903,
+    "rmse": 0.6462153566954975,
+    "mae": 0.5040398082742661,
+    "r2": 0.9654916280448091,
+    "grad_check_max_abs_diff": 2.226696160789743e-09,
+    "weights_standardized": [
+      3.0398898337660416,
+      -1.989364585542428
+    ],
+    "bias_standardized": 3.976867235945094
+  },
+  "logistic": {
+    "dataset": "Synthetic binary classification, make_classification, seed=27",
+    "n_train": 480,
+    "n_test": 120,
+    "epochs": 2400,
+    "learning_rate": 0.13,
+    "train_loss_first": 0.6931471805599453,
+    "train_loss_last": 0.2346856461409855,
+    "accuracy": 0.8833333333333333,
+    "precision": 0.8333333333333334,
+    "recall": 0.9259259259259259,
+    "f1": 0.8771929824561403,
+    "roc_auc": 0.9250841750841751,
+    "confusion_matrix": [
+      [
+        56,
+        10
+      ],
+      [
+        4,
+        50
+      ]
+    ],
+    "grad_check_max_abs_diff": 8.302217247013743e-11,
+    "weights_standardized": [
+      -0.8712815779081683,
+      -3.4226629568895195,
+      0.18929504421826598,
+      -1.6440620632804075,
+      -0.8594169451576541
+    ],
+    "bias_standardized": -0.8734550158787172
+  }
+}

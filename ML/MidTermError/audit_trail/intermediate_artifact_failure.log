@@ -1,0 +1,37 @@
+test_executed_notebooks_have_real_outputs (test_artifacts.TestArtifacts.test_executed_notebooks_have_real_outputs) ... ok
+test_figure_and_numeric_trace (test_artifacts.TestArtifacts.test_figure_and_numeric_trace) ... FAIL
+test_report_values_and_fonts (test_artifacts.TestArtifacts.test_report_values_and_fonts) ... ok
+test_determinism_shapes_and_convergence (test_q1.TestScratch.test_determinism_shapes_and_convergence) ... ok
+test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) ... ok
+test_invalid_inputs (test_q1.TestScratch.test_invalid_inputs) ... ok
+test_one_step_and_formulas (test_q1.TestScratch.test_one_step_and_formulas) ... ok
+test_stability (test_q1.TestScratch.test_stability) ... ok
+test_cv_determinism (test_q2.TestCredit.test_cv_determinism) ... ok
+test_fold_specific_preprocessing_and_unknown_categories (test_q2.TestCredit.test_fold_specific_preprocessing_and_unknown_categories) ... ok
+test_metrics_recomputed_from_predictions (test_q2.TestCredit.test_metrics_recomputed_from_predictions) ... ok
+test_provenance_and_schema (test_q2.TestCredit.test_provenance_and_schema) ... ok
+test_split_and_folds (test_q2.TestCredit.test_split_and_folds) ... ok
+test_training_only_selection_and_studies (test_q2.TestCredit.test_training_only_selection_and_studies) ... ok
+
+======================================================================
+FAIL: test_figure_and_numeric_trace (test_artifacts.TestArtifacts.test_figure_and_numeric_trace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_artifacts.py", line 81, in test_figure_and_numeric_trace
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        fig["sha256"],
+        ^^^^^^^^^^^^^^
+        hashlib.sha256((ROOT / fig["file"]).read_bytes()).hexdigest(),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: 'e3b9e935fb5c6f490edf1031ca8db095308f28496090754e67dd627760ffcb07' != '3224a779f2ebdd09de034a4e4ada1d0288e4a2440c81bb1b4fef06ea55389e2e'
+- e3b9e935fb5c6f490edf1031ca8db095308f28496090754e67dd627760ffcb07
++ 3224a779f2ebdd09de034a4e4ada1d0288e4a2440c81bb1b4fef06ea55389e2e
+
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.905s
+
+FAILED (failures=1)

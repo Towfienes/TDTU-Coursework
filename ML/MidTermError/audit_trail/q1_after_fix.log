@@ -1,0 +1,10 @@
+test_determinism_shapes_and_convergence (test_q1.TestScratch.test_determinism_shapes_and_convergence) ... ok
+test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) ... ok
+test_invalid_inputs (test_q1.TestScratch.test_invalid_inputs) ... ok
+test_one_step_and_formulas (test_q1.TestScratch.test_one_step_and_formulas) ... ok
+test_stability (test_q1.TestScratch.test_stability) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.131s
+
+OK

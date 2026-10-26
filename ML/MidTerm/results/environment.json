@@ -1,0 +1,10 @@
+{
+  "python": "3.14.7",
+  "numpy": "2.5.3",
+  "pandas": "3.0.6",
+  "scipy": "1.18.1",
+  "scikit_learn": "1.9.1",
+  "matplotlib": "3.11.2",
+  "seed": 42,
+  "elapsed_seconds": 36.394334315999004
+}

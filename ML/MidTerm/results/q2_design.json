@@ -1,0 +1,208 @@
+{
+  "selection_metric": "macro_f1",
+  "seed": 42,
+  "folds": 5,
+  "design": [
+    {
+      "model": "Majority baseline",
+      "base_parameters": "{'constant': None, 'random_state': None, 'strategy': 'most_frequent'}",
+      "grid": {}
+    },
+    {
+      "model": "Scratch logistic",
+      "base_parameters": "{'epochs': 4000, 'learning_rate': 0.5}",
+      "grid": {
+        "model__epochs": [
+          1500,
+          4000
+        ]
+      }
+    },
+    {
+      "model": "Perceptron",
+      "base_parameters": "{'alpha': 0.0001, 'class_weight': None, 'early_stopping': False, 'eta0': 1.0, 'fit_intercept': True, 'l1_ratio': 0.15, 'max_iter': 300, 'n_iter_no_change': 5, 'n_jobs': None, 'penalty': None, 'random_state': 42, 'shuffle': True, 'tol': None, 'validation_fraction': 0.1, 'verbose': 0, 'warm_start': False}",
+      "grid": {
+        "model__eta0": [
+          0.01,
+          0.1,
+          1.0
+        ]
+      }
+    },
+    {
+      "model": "kNN",
+      "base_parameters": "{'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': None, 'n_neighbors': 5, 'p': 2, 'weights': 'uniform'}",
+      "grid": {
+        "model__n_neighbors": [
+          1,
+          5,
+          11,
+          21,
+          41
+        ]
+      }
+    },
+    {
+      "model": "Gaussian NB",
+      "base_parameters": "{'priors': None, 'var_smoothing': 1e-09}",
+      "grid": {
+        "model__var_smoothing": [
+          1e-09,
+          1e-05,
+          0.01
+        ]
+      }
+    },
+    {
+      "model": "Bernoulli NB",
+      "base_parameters": "{'alpha': 1.0, 'binarize': 0.5, 'class_prior': None, 'fit_prior': True, 'force_alpha': True}",
+      "grid": {
+        "model__alpha": [
+          0.5,
+          1.0,
+          2.0
+        ]
+      }
+    },
+    {
+      "model": "Decision tree",
+      "base_parameters": "{'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': None, 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'monotonic_cst': None, 'random_state': 42, 'splitter': 'best'}",
+      "grid": {
+        "model__criterion": [
+          "gini",
+          "entropy"
+        ],
+        "model__max_depth": [
+          3,
+          6,
+          null
+        ],
+        "model__min_samples_leaf": [
+          1,
+          5
+        ]
+      }
+    },
+    {
+      "model": "Linear SVM",
+      "base_parameters": "{'C': 1.0, 'break_ties': False, 'cache_size': 200, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 'scale', 'kernel': 'linear', 'max_iter': -1, 'probability': 'deprecated', 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}",
+      "grid": {
+        "model__C": [
+          0.1,
+          1.0,
+          10.0
+        ]
+      }
+    },
+    {
+      "model": "RBF SVM",
+      "base_parameters": "{'C': 1.0, 'break_ties': False, 'cache_size': 200, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 'scale', 'kernel': 'rbf', 'max_iter': -1, 'probability': 'deprecated', 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}",
+      "grid": {
+        "model__C": [
+          0.1,
+          1.0,
+          10.0
+        ],
+        "model__gamma": [
+          "scale",
+          0.1
+        ]
+      }
+    },
+    {
+      "model": "Polynomial SVM",
+      "base_parameters": "{'C': 1.0, 'break_ties': False, 'cache_size': 200, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 2, 'gamma': 'scale', 'kernel': 'poly', 'max_iter': -1, 'probability': 'deprecated', 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}",
+      "grid": {
+        "model__C": [
+          0.1,
+          1.0,
+          10.0
+        ],
+        "model__degree": [
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "model": "MLP",
+      "base_parameters": "{'activation': 'tanh', 'alpha': 0.0, 'batch_size': 'auto', 'beta_1': 0.9, 'beta_2': 0.999, 'early_stopping': False, 'epsilon': 1e-08, 'hidden_layer_sizes': (16,), 'learning_rate': 'constant', 'learning_rate_init': 0.001, 'max_fun': 15000, 'max_iter': 500, 'momentum': 0.0, 'n_iter_no_change': 501, 'nesterovs_momentum': False, 'power_t': 0.5, 'random_state': 42, 'shuffle': True, 'solver': 'sgd', 'tol': 0.0, 'validation_fraction': 0.1, 'verbose': False, 'warm_start': False}",
+      "grid": {
+        "model__hidden_layer_sizes": [
+          [
+            16
+          ],
+          [
+            32
+          ]
+        ],
+        "model__learning_rate_init": [
+          0.01,
+          0.05
+        ]
+      }
+    },
+    {
+      "model": "Bagging",
+      "base_parameters": "{'bootstrap': True, 'bootstrap_features': False, 'estimator__ccp_alpha': 0.0, 'estimator__class_weight': None, 'estimator__criterion': 'gini', 'estimator__max_depth': None, 'estimator__max_features': None, 'estimator__max_leaf_nodes': None, 'estimator__min_impurity_decrease': 0.0, 'estimator__min_samples_leaf': 1, 'estimator__min_samples_split': 2, 'estimator__min_weight_fraction_leaf': 0.0, 'estimator__monotonic_cst': None, 'estimator__random_state': 42, 'estimator__splitter': 'best', 'estimator': DecisionTreeClassifier(random_state=42), 'max_features': 1.0, 'max_samples': None, 'n_estimators': 50, 'n_jobs': 1, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}",
+      "grid": {
+        "model__estimator__max_depth": [
+          4,
+          null
+        ],
+        "model__estimator__min_samples_leaf": [
+          1,
+          5
+        ]
+      }
+    },
+    {
+      "model": "Random forest",
+      "base_parameters": "{'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'monotonic_cst': None, 'n_estimators': 150, 'n_jobs': 1, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}",
+      "grid": {
+        "model__max_depth": [
+          6,
+          10,
+          null
+        ],
+        "model__min_samples_leaf": [
+          1,
+          5
+        ]
+      }
+    },
+    {
+      "model": "AdaBoost",
+      "base_parameters": "{'estimator__ccp_alpha': 0.0, 'estimator__class_weight': None, 'estimator__criterion': 'gini', 'estimator__max_depth': 1, 'estimator__max_features': None, 'estimator__max_leaf_nodes': None, 'estimator__min_impurity_decrease': 0.0, 'estimator__min_samples_leaf': 1, 'estimator__min_samples_split': 2, 'estimator__min_weight_fraction_leaf': 0.0, 'estimator__monotonic_cst': None, 'estimator__random_state': 42, 'estimator__splitter': 'best', 'estimator': DecisionTreeClassifier(max_depth=1, random_state=42), 'learning_rate': 1.0, 'n_estimators': 50, 'random_state': 42}",
+      "grid": {
+        "model__n_estimators": [
+          50,
+          150
+        ],
+        "model__learning_rate": [
+          0.1,
+          1.0
+        ]
+      }
+    },
+    {
+      "model": "Gradient boosting",
+      "base_parameters": "{'ccp_alpha': 0.0, 'criterion': 'deprecated', 'init': None, 'learning_rate': 0.1, 'loss': 'log_loss', 'max_depth': 3, 'max_features': None, 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 100, 'n_iter_no_change': None, 'random_state': 42, 'subsample': 1.0, 'tol': 0.0001, 'validation_fraction': 0.1, 'verbose': 0, 'warm_start': False}",
+      "grid": {
+        "model__n_estimators": [
+          50,
+          150
+        ],
+        "model__learning_rate": [
+          0.05,
+          0.1
+        ],
+        "model__max_depth": [
+          1,
+          3
+        ]
+      }
+    }
+  ],
+  "test_used_for_selection": false
+}

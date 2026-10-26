@@ -1,0 +1,319 @@
+FEEEEEEEEEEEEEEEE/home/towfienes/.local/lib/python3.14/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/home/towfienes/.local/lib/python3.14/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py:27: RuntimeWarning: invalid value encountered in divide
+  return float(np.mean(err**2)/2), X.T @ err/len(y), float(np.mean(err))
+FF/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py:26: RuntimeWarning: invalid value encountered in subtract
+  err = X @ w + b - y
+FEFF.
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=0, n=1, d=1, model='LinearRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 26, in _loss_grad
+    err = X @ w + b - y
+          ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=0, n=1, d=1, model='LogisticRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 54, in _loss_grad
+    z=X @ w+b
+      ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=0, n=7, d=1, model='LinearRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 26, in _loss_grad
+    err = X @ w + b - y
+          ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=0, n=7, d=1, model='LogisticRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 54, in _loss_grad
+    z=X @ w+b
+      ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=1, n=1, d=1, model='LinearRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 26, in _loss_grad
+    err = X @ w + b - y
+          ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=1, n=1, d=1, model='LogisticRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 54, in _loss_grad
+    z=X @ w+b
+      ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=1, n=7, d=1, model='LinearRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 26, in _loss_grad
+    err = X @ w + b - y
+          ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=1, n=7, d=1, model='LogisticRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 54, in _loss_grad
+    z=X @ w+b
+      ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=2, n=1, d=1, model='LinearRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 26, in _loss_grad
+    err = X @ w + b - y
+          ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=2, n=1, d=1, model='LogisticRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 54, in _loss_grad
+    z=X @ w+b
+      ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=2, n=7, d=1, model='LinearRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 26, in _loss_grad
+    err = X @ w + b - y
+          ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=2, n=7, d=1, model='LogisticRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 54, in _loss_grad
+    z=X @ w+b
+      ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=3, n=1, d=1, model='LinearRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 26, in _loss_grad
+    err = X @ w + b - y
+          ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=3, n=1, d=1, model='LogisticRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 54, in _loss_grad
+    z=X @ w+b
+      ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=3, n=7, d=1, model='LinearRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 26, in _loss_grad
+    err = X @ w + b - y
+          ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_gradients_multiple_shapes (test_q1.TestScratch.test_gradients_multiple_shapes) (seed=3, n=7, d=1, model='LogisticRegressionGD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 15, in test_gradients_multiple_shapes
+    self.assertLess(gradient_check(model, X, y), 1e-7)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 79, in gradient_check
+    _,dw,db=model._loss_grad(X,y,w,b)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 54, in _loss_grad
+    z=X @ w+b
+      ~~^~~
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 1)
+
+======================================================================
+ERROR: test_invalid_inputs (test_q1.TestScratch.test_invalid_inputs) (cls=<class 'src.q1_models.LinearRegressionGD'>, X=[1, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 47, in test_invalid_inputs
+    with self.assertRaises(ValueError): cls().fit(X, y)
+                                        ~~~~~~~~~^^^^^^
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/src/q1_models.py", line 30, in fit
+    self.weights_ = np.zeros(X.shape[1]); self.bias_ = 0.
+                             ~~~~~~~^^^
+IndexError: tuple index out of range
+
+======================================================================
+FAIL: test_determinism_shapes_and_convergence (test_q1.TestScratch.test_determinism_shapes_and_convergence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 62, in test_determinism_shapes_and_convergence
+    with self.assertRaises(ValueError): log.predict(X, threshold=2)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_inputs (test_q1.TestScratch.test_invalid_inputs) (cls=<class 'src.q1_models.LinearRegressionGD'>, X=array([], shape=(0, 2), dtype=float64))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 47, in test_invalid_inputs
+    with self.assertRaises(ValueError): cls().fit(X, y)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_inputs (test_q1.TestScratch.test_invalid_inputs) (cls=<class 'src.q1_models.LinearRegressionGD'>, X=[[nan]])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 47, in test_invalid_inputs
+    with self.assertRaises(ValueError): cls().fit(X, y)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_inputs (test_q1.TestScratch.test_invalid_inputs) (cls=<class 'src.q1_models.LinearRegressionGD'>, X=[[1]])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 47, in test_invalid_inputs
+    with self.assertRaises(ValueError): cls().fit(X, y)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_inputs (test_q1.TestScratch.test_invalid_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 49, in test_invalid_inputs
+    with self.assertRaises(ValueError): cls(learning_rate=lr, epochs=epochs).fit([[1.]], [0.])
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_one_step_and_formulas (test_q1.TestScratch.test_one_step_and_formulas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/towfienes/TDTU/ML/MidTerm/ML_Midterm_Final/tests/test_q1.py", line 25, in test_one_step_and_formulas
+    self.assertEqual(len(model.loss_history_), 2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.120s
+
+FAILED (failures=6, errors=17)

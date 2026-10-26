@@ -1,0 +1,41 @@
+\contentsline {chapter}{CHAPTER 1. INTRODUCTION}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Objectives and scope}{1}{section.2}%
+\contentsline {section}{\numberline {1.2}Experimental principles}{1}{section.3}%
+\contentsline {chapter}{CHAPTER 2. QUESTION 1: GRADIENT DESCENT}{2}{chapter.4}%
+\contentsline {section}{\numberline {2.1}Notation and data preparation}{2}{section.5}%
+\contentsline {section}{\numberline {2.2}Linear regression}{2}{section.6}%
+\contentsline {subsection}{\numberline {2.2.1}Model, prediction and task}{2}{subsection.7}%
+\contentsline {subsection}{\numberline {2.2.2}Loss function}{3}{subsection.8}%
+\contentsline {subsection}{\numberline {2.2.3}Derivation of the gradients}{3}{subsection.9}%
+\contentsline {subsection}{\numberline {2.2.4}Training algorithm}{3}{subsection.10}%
+\contentsline {section}{\numberline {2.3}Logistic regression}{4}{section.11}%
+\contentsline {subsection}{\numberline {2.3.1}Model, prediction and task}{4}{subsection.12}%
+\contentsline {subsection}{\numberline {2.3.2}Appropriate loss and likelihood}{4}{subsection.13}%
+\contentsline {subsection}{\numberline {2.3.3}Derivation of the gradients}{5}{subsection.14}%
+\contentsline {subsection}{\numberline {2.3.4}Training and stable computation}{6}{subsection.15}%
+\contentsline {section}{\numberline {2.4}Python implementation and verification}{6}{section.16}%
+\contentsline {section}{\numberline {2.5}Linear regression experiment}{7}{section.22}%
+\contentsline {subsection}{\numberline {2.5.1}Dataset and training setup}{7}{subsection.23}%
+\contentsline {subsection}{\numberline {2.5.2}Metrics and results}{8}{subsection.24}%
+\contentsline {section}{\numberline {2.6}Logistic regression experiment}{9}{section.27}%
+\contentsline {subsection}{\numberline {2.6.1}Dataset and training setup}{9}{subsection.28}%
+\contentsline {subsection}{\numberline {2.6.2}Metrics and results}{9}{subsection.29}%
+\contentsline {chapter}{CHAPTER 3. QUESTION 2: CLASSIFICATION}{12}{chapter.32}%
+\contentsline {section}{\numberline {3.1}Dataset and prediction task}{12}{section.33}%
+\contentsline {section}{\numberline {3.2}Data audit, cleaning and visualization}{12}{section.34}%
+\contentsline {section}{\numberline {3.3}Transformation, scaling and leakage control}{14}{section.36}%
+\contentsline {section}{\numberline {3.4}Classification methods}{15}{section.37}%
+\contentsline {subsection}{\numberline {3.4.1}Linear classifiers and nearest neighbors}{15}{subsection.38}%
+\contentsline {subsection}{\numberline {3.4.2}Naive Bayes and decision trees}{15}{subsection.39}%
+\contentsline {subsection}{\numberline {3.4.3}Support vector machines and neural network}{16}{subsection.40}%
+\contentsline {subsection}{\numberline {3.4.4}Ensemble classifiers and scope of comparison}{17}{subsection.41}%
+\contentsline {section}{\numberline {3.5}Validation protocol and parameter selection}{18}{section.42}%
+\contentsline {section}{\numberline {3.6}Test evaluation and comparison}{21}{section.45}%
+\contentsline {chapter}{CHAPTER 4. OVERFITTING AND REMEDIES}{24}{chapter.49}%
+\contentsline {section}{\numberline {4.1}Definition and experimental evidence}{24}{section.50}%
+\contentsline {section}{\numberline {4.2}Decision-tree capacity experiment}{25}{section.52}%
+\contentsline {section}{\numberline {4.3}Model-specific remedies and remaining risks}{26}{section.54}%
+\contentsline {chapter}{CHAPTER 5. REPRODUCIBILITY AND FINDINGS}{29}{chapter.55}%
+\contentsline {section}{\numberline {5.1}Files and execution}{29}{section.56}%
+\contentsline {section}{\numberline {5.2}Findings and limits}{29}{section.57}%
+\contentsline {chapter}{REFERENCES}{31}{section.57}%

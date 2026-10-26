@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TDTU Machine Learning — Mobile Slide Viewer</title>
+  <script src="qrcode.min.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(22, 27, 40, 0.85);
+      --border: rgba(255, 255, 255, 0.1);
+      --accent: #2563eb;
+      --accent-glow: rgba(37, 99, 235, 0.35);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Bar */
+    header {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand img { height: 28px; width: auto; }
+    .brand-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-action {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-action:hover, .btn-action.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      position: relative;
+    }
+
+    /* iPhone Frame (on Desktop) */
+    .device-wrapper {
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 100%;
+      max-width: 420px;
+    }
+    .device-wrapper.landscape {
+      max-width: 860px;
+    }
+    .device-wrapper.full-desktop {
+      max-width: 1100px;
+    }
+    .device-wrapper.full-desktop .phone-frame {
+      border: none;
+      border-radius: 12px;
+      padding: 0;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    }
+    .device-wrapper.full-desktop .dynamic-island,
+    .device-wrapper.full-desktop .status-bar {
+      display: none;
+    }
+
+    .phone-frame {
+      background: #000;
+      border: 10px solid #27272a;
+      border-radius: 54px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      aspect-ratio: 9 / 19.5;
+    }
+    .device-wrapper.landscape .phone-frame {
+      aspect-ratio: 19.5 / 9;
+      border-radius: 40px;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 20;
+      color: #fff;
+      background: #000;
+      user-select: none;
+    }
+    .dynamic-island {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 28px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+    }
+    .camera-lens {
+      width: 10px;
+      height: 10px;
+      background: #111;
+      border-radius: 50%;
+      border: 1px solid #222;
+      box-shadow: inset 0 0 2px #0a192f;
+    }
+    .sensor {
+      width: 10px;
+      height: 10px;
+      background: #050b14;
+      border-radius: 50%;
+    }
+
+    /* Slide Stage inside Device */
+    .screen-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #111;
+      position: relative;
+      overflow: hidden;
+    }
+    .viewport-box {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    .slide-render {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1279.97px;
+      height: 720.00px;
+      transform-origin: top left;
+      display: none;
+      background: #fff;
+    }
+    .slide-render.active {
+      display: block;
+    }
+
+    /* Touch Tap Zones */
+    .tap-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 25%;
+      z-index: 15;
+      cursor: pointer;
+    }
+    .tap-left { left: 0; }
+    .tap-right { right: 0; }
+
+    /* Progress bar */
+    .progress-bar-container {
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      width: 100%;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      width: 7.14%;
+      transition: width 0.3s ease;
+    }
+
+    /* Control Bar under slide */
+    .deck-controls {
+      background: #18181b;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 20;
+    }
+    .ctrl-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ctrl-btn:hover {
+      background: var(--accent);
+    }
+    .slide-indicator {
+      font-size: 13px;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Notes Drawer (Bottom Sheet) */
+    .notes-drawer {
+      flex: 1;
+      background: #12141a;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 14px 16px;
+    }
+    .speaker-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .speaker-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-tien { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid #3b82f6; }
+    .badge-thanh { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+    .badge-tam { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid #a855f7; }
+    
+    .time-badge {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .slide-title-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .speech-box {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid #3b82f6;
+      padding: 10px 12px;
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin-bottom: 12px;
+    }
+    .tts-btn {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid #3b82f6;
+      color: #60a5fa;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      align-self: flex-start;
+    }
+
+    /* Modal QR Code */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: #18181b;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .qr-container {
+      background: #fff;
+      padding: 14px;
+      border-radius: 12px;
+      display: inline-block;
+      margin: 16px 0;
+    }
+    .qr-container img, .qr-container canvas {
+      display: block;
+      width: 180px;
+      height: 180px;
+    }
+    .url-chip {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 12px;
+      color: #38bdf8;
+      word-break: break-all;
+    }
+
+    /* NATIVE MOBILE OVERRIDES (on actual phone) */
+    @media (max-width: 768px) {
+      body { background: #000; }
+      header { padding: 8px 12px; }
+      .brand-title { font-size: 12px; }
+      .brand-sub { display: none; }
+      .btn-mode, .btn-rotate { display: none; }
+      main { padding: 0; align-items: stretch; }
+      .device-wrapper {
+        max-width: 100% !important;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .phone-frame {
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        aspect-ratio: auto !important;
+        flex: 1;
+      }
+      .status-bar, .dynamic-island { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="brand">
+      <img src="figures/tdtu-logo.png" alt="TDTU">
+      <div>
+        <div class="brand-title">TDTU · MACHINE LEARNING</div>
+        <div class="brand-sub">Báo cáo Giữa kỳ · Slide & Lời thoại Thuyết trình</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-action btn-mode" id="btnMode" onclick="toggleMode()">
+        <span>💻</span> Màn hình rộng
+      </button>
+      <button class="btn-action btn-rotate" id="btnRotate" onclick="toggleRotate()">
+        <span>🔄</span> Xoay ngang
+      </button>
+      <button class="btn-action" style="background:#0284c7;border-color:#0284c7;" onclick="openQR()">
+        <span>📲</span> Mở trên điện thoại
+      </button>
+    </div>
+  </header>
+
+  <!-- Main View -->
+  <main>
+    <div class="device-wrapper" id="deviceWrapper">
+      <div class="phone-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <span id="liveClock">09:41</span>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <span>5G</span>
+            <span>100%</span>
+          </div>
+        </div>
+        <div class="dynamic-island">
+          <div class="sensor"></div>
+          <div class="camera-lens"></div>
+        </div>
+
+        <!-- Phone Screen Content -->
+        <div class="screen-content">
+          
+          <!-- Slide Stage -->
+          <div class="viewport-box" id="viewportBox">
+            <div class="tap-zone tap-left" onclick="prevSlide()"></div>
+            <div class="tap-zone tap-right" onclick="nextSlide()"></div>
+            <div class="slide-render active" id="slide-1">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  
+  
+  
+  <div style="position:absolute;left:70.08px;top:165.12px;width:864.00px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:2.9333333333333336px;line-height:1.22;white-space:pre-wrap;">BÁO CÁO GIỮA KỲ  ·  INTRODUCTION TO MACHINE LEARNING</div>
+<div style="position:absolute;left:70.08px;top:203.52px;width:1056.00px;height:91.20px;font-size:61.33px;color:#111111;font-weight:700;line-height:1.22;white-space:pre-wrap;">Hồi quy & Phân loại</div>
+<div style="position:absolute;left:70.08px;top:292.80px;width:1017.60px;height:48.00px;font-size:26.67px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;">Từ Gradient Descent tự cài đặt đến so sánh 14 bộ phân loại trên OpenML</div>
+<div style="position:absolute;left:70.08px;top:366.72px;width:403.20px;height:1.4px;background:#2B2B2B;"></div>
+<div style="position:absolute;left:70.08px;top:385.92px;width:595.20px;height:30.72px;font-size:18.67px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;">Giảng viên hướng dẫn</div>
+<div style="position:absolute;left:70.08px;top:416.64px;width:595.20px;height:34.56px;font-size:22.67px;color:#111111;line-height:1.22;white-space:pre-wrap;">Lê Anh Cường, Ph.D.</div>
+<div style="position:absolute;left:686.40px;top:385.92px;width:518.40px;height:30.72px;font-size:18.67px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;">Sinh viên thực hiện</div>
+<div style="position:absolute;left:686.40px;top:416.64px;width:518.40px;height:96.00px;font-size:20.00px;color:#111111;line-height:1.45;white-space:pre-wrap;">Ngô Lâm Tiến — 524H0195
+Nguyễn Công Thành — 524H0191
+Nguyễn Lê Nhật Tâm — 524H0186</div>
+<div style="position:absolute;left:70.08px;top:549.12px;width:595.20px;height:30.72px;font-size:17.33px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;">Tháng 10 năm 2026</div>
+
+            </div>
+            <div class="slide-render" id="slide-2">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">2 / 14</div>
+  <div class="eyebrow">NỘI DUNG</div>
+  <div class="title">Ba phần, ba người trình bày</div>
+  <div style="position:absolute;left:70.08px;top:255.36px;width:1139.52px;height:1px;background:#D5D5D5;"></div><div style="position:absolute;left:70.08px;top:167.04px;font-size:34.67px;font-weight:700;color:#C9C9C9;">01</div><div style="position:absolute;left:161.28px;top:165.12px;width:784.32px;font-size:25.33px;font-weight:700;">Câu 1 · Gradient Descent tự cài đặt</div><div style="position:absolute;left:161.28px;top:201.60px;width:784.32px;font-size:17.33px;color:#6B6B6B;line-height:1.15;">Hồi quy tuyến tính và logistic: mô hình, mất mát, dẫn xuất gradient, kết quả</div><div style="position:absolute;left:955.20px;top:170.88px;width:254.40px;text-align:right;font-size:17.33px;">Ngô Lâm Tiến</div><div style="position:absolute;left:70.08px;top:362.88px;width:1139.52px;height:1px;background:#D5D5D5;"></div><div style="position:absolute;left:70.08px;top:274.56px;font-size:34.67px;font-weight:700;color:#C9C9C9;">02</div><div style="position:absolute;left:161.28px;top:272.64px;width:784.32px;font-size:25.33px;font-weight:700;">Câu 2 · Phân loại trên OpenML credit-g</div><div style="position:absolute;left:161.28px;top:309.12px;width:784.32px;font-size:17.33px;color:#6B6B6B;line-height:1.15;">Tiền xử lý, quy trình chống rò rỉ dữ liệu, 14 mô hình và baseline</div><div style="position:absolute;left:955.20px;top:278.40px;width:254.40px;text-align:right;font-size:17.33px;">Nguyễn Công Thành</div><div style="position:absolute;left:70.08px;top:382.08px;font-size:34.67px;font-weight:700;color:#C9C9C9;">03</div><div style="position:absolute;left:161.28px;top:380.16px;width:784.32px;font-size:25.33px;font-weight:700;">Overfitting và cách khắc phục</div><div style="position:absolute;left:161.28px;top:416.64px;width:784.32px;font-size:17.33px;color:#6B6B6B;line-height:1.15;">Bằng chứng thực nghiệm, các biện pháp, kết luận và hạn chế của bài làm</div><div style="position:absolute;left:955.20px;top:385.92px;width:254.40px;text-align:right;font-size:17.33px;">Nguyễn Lê Nhật Tâm</div>
+<div style="position:absolute;left:70.08px;top:520.32px;width:1139.52px;height:1px;background:#D5D5D5;"></div>
+<div style="position:absolute;left:70.08px;top:537.60px;width:1139.52px;height:38.40px;font-size:21.33px;color:#6B6B6B;font-style:italic;line-height:1.22;white-space:pre-wrap;">Câu hỏi xuyên suốt: mô hình học được gì từ dữ liệu, và làm sao biết nó thật sự tổng quát hóa?</div>
+
+            </div>
+            <div class="slide-render" id="slide-3">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">3 / 14</div>
+  <div class="eyebrow">CÂU 1 · HỒI QUY TUYẾN TÍNH</div>
+  <div class="title">Mô hình và hàm mất mát</div>
+  <div style="position:absolute;left:70.08px;top:176.64px;width:576.00px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;">Dự đoán</div>
+<div style="position:absolute;left:70.08px;top:205.44px;width:585.60px;height:48.00px;font-size:30.67px;color:#111111;line-height:1.3;"><span style="">ŷ</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> = w</span><span style="vertical-align:super;font-size:0.66em">T</span><span style="">x</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> + b</span></div>
+<div style="position:absolute;left:70.08px;top:255.36px;width:585.60px;height:38.40px;font-size:20.00px;color:#6B6B6B;line-height:1.3;"><span style="">một đặc trưng → đường thẳng · nhiều đặc trưng → siêu phẳng</span></div>
+<div style="position:absolute;left:70.08px;top:320.64px;width:576.00px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;">Mất mát: trung bình bình phương sai số</div>
+<div style="position:absolute;left:70.08px;top:349.44px;width:585.60px;height:57.60px;font-size:28.00px;color:#111111;line-height:1.3;"><span style="">J(w, b) = (1/2n) · Σ</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> (ŷ</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> − y</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style="">)</span><span style="vertical-align:super;font-size:0.66em">2</span></div>
+<div style="position:absolute;left:667.20px;top:170.88px;width:1px;height:292.80px;background:#D5D5D5;"></div>
+<div style="position:absolute;left:696.00px;top:170.88px;width:513.60px;font-size:22.67px;color:#111111;line-height:1.25;"><div style="position:relative;padding-left:22px;margin-bottom:16px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Đầu ra là số thực</span><span style=""> — bài toán hồi quy, không phải phân loại.</span></div><div style="position:relative;padding-left:22px;margin-bottom:16px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Hệ số ½</span><span style=""> chỉ để đạo hàm gọn; nghiệm tối ưu không đổi.</span></div><div style="position:relative;padding-left:22px;margin-bottom:16px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Bình phương</span><span style=""> khiến sai số lớn bị phạt nặng.</span></div><div style="position:relative;padding-left:22px;margin-bottom:16px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Chia cho n</span><span style=""> để mất mát là trung bình, so sánh được giữa các cỡ mẫu.</span></div></div>
+<div style="position:absolute;left:70.08px;top:497.28px;width:1139.52px;height:1px;background:#D5D5D5;"></div>
+<div style="position:absolute;left:70.08px;top:512.64px;width:1139.52px;height:76.80px;font-size:18.67px;color:#6B6B6B;line-height:1.3;"><span style="">Dữ liệu tổng hợp: 600 mẫu, 3 đặc trưng độc lập đều trên [−3, 3];  y = 4 + 3x</span><span style="vertical-align:sub;font-size:0.66em">1</span><span style=""> − 2x</span><span style="vertical-align:sub;font-size:0.66em">2</span><span style=""> + 1.5x</span><span style="vertical-align:sub;font-size:0.66em">3</span><span style=""> + ε,  ε ~ N(0, 0.5</span><span style="vertical-align:super;font-size:0.66em">2</span><span style="">).</span></div>
+
+            </div>
+            <div class="slide-render" id="slide-4">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">4 / 14</div>
+  <div class="eyebrow">CÂU 1 · HỒI QUY TUYẾN TÍNH</div>
+  <div class="title">Dẫn xuất gradient và vòng lặp Gradient Descent</div>
+  <div style="position:absolute;left:70.08px;top:176.64px;width:614.40px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;">Đạo hàm riêng</div>
+<div style="position:absolute;left:70.08px;top:205.44px;width:633.60px;height:38.40px;font-size:24.00px;color:#111111;line-height:1.3;"><span style="">đặt  e</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> = ŷ</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> − y</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style="">  ⇒  ∂e</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> / ∂w</span><span style="vertical-align:sub;font-size:0.66em">j</span><span style=""> = x</span><span style="vertical-align:sub;font-size:0.66em">ij</span></div>
+<div style="position:absolute;left:70.08px;top:251.52px;width:633.60px;height:43.20px;font-size:26.67px;color:#111111;line-height:1.3;"><span style="">∂J/∂w</span><span style="vertical-align:sub;font-size:0.66em">j</span><span style=""> = (1/n) Σ</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> e</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style="">x</span><span style="vertical-align:sub;font-size:0.66em">ij</span><span style="">        ∂J/∂b = (1/n) Σ</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> e</span><span style="vertical-align:sub;font-size:0.66em">i</span></div>
+<div style="position:absolute;left:70.08px;top:303.36px;width:633.60px;height:43.20px;font-size:26.67px;color:#111111;line-height:1.3;"><span style="">∇</span><span style="vertical-align:sub;font-size:0.66em">w</span><span style="">J = (1/n) X</span><span style="vertical-align:super;font-size:0.66em">T</span><span style="">(ŷ − y)</span></div>
+<div style="position:absolute;left:70.08px;top:366.72px;width:614.40px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;">Cập nhật đồng thời</div>
+<div style="position:absolute;left:70.08px;top:395.52px;width:662.40px;height:48.00px;font-size:26.67px;color:#111111;line-height:1.3;"><span style="">w</span><span style="vertical-align:super;font-size:0.66em">(t+1)</span><span style=""> = w</span><span style="vertical-align:super;font-size:0.66em">(t)</span><span style=""> − η · (1/n) X</span><span style="vertical-align:super;font-size:0.66em">T</span><span style="">e</span><span style="vertical-align:super;font-size:0.66em">(t)</span></div>
+<div style="position:absolute;left:667.20px;top:170.88px;width:1px;height:292.80px;background:#D5D5D5;"></div>
+<div style="position:absolute;left:696.00px;top:170.88px;width:513.60px;font-size:22.67px;color:#111111;line-height:1.25;"><div style="position:relative;padding-left:22px;margin-bottom:15px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="">Khởi tạo </span><span style="font-weight:700">w = 0, b = 0</span><span style="">; tốc độ học </span><span style="font-weight:700">η = 0.3</span></div><div style="position:relative;padding-left:22px;margin-bottom:15px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="">Dừng khi </span><span style="font-weight:700">chuẩn gradient ≤ 10</span><span style="vertical-align:super;font-size:0.66em">−8</span><span style=""> — chỉ dùng dữ liệu huấn luyện</span></div><div style="position:relative;padding-left:22px;margin-bottom:15px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="">Hội tụ sau </span><span style="font-weight:700">1175 vòng</span><span style=""> trên 480 mẫu train</span></div><div style="position:relative;padding-left:22px;margin-bottom:15px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="">Gradient được kiểm chứng bằng </span><span style="font-weight:700">sai phân trung tâm</span><span style="">, dung sai 10</span><span style="vertical-align:super;font-size:0.66em">−6</span></div></div>
+<div style="position:absolute;left:70.08px;top:484.80px;width:662.40px;height:86.40px;font-size:18.67px;color:#6B6B6B;line-height:1.3;white-space:pre-wrap;">Cả hai gradient được tính trước khi cập nhật tham số (full-batch). Không bao giờ dùng chỉ số test để quyết định dừng.</div>
+
+            </div>
+            <div class="slide-render" id="slide-5">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">5 / 14</div>
+  <div class="eyebrow">CÂU 1 · HỒI QUY LOGISTIC</div>
+  <div class="title">Xác suất, cross-entropy và gradient</div>
+  <div style="position:absolute;left:70.08px;top:176.64px;width:614.40px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;">Mô hình xác suất</div>
+<div style="position:absolute;left:70.08px;top:205.44px;width:691.20px;height:43.20px;font-size:28.00px;color:#111111;line-height:1.3;"><span style="">z = w</span><span style="vertical-align:super;font-size:0.66em">T</span><span style="">x + b     ⇒     p = σ(z) = 1 / (1 + e</span><span style="vertical-align:super;font-size:0.66em">−z</span><span style="">)</span></div>
+<div style="position:absolute;left:70.08px;top:261.12px;width:672.00px;height:38.40px;font-size:22.67px;color:#6B6B6B;line-height:1.3;"><span style="">log (p / (1 − p)) = w</span><span style="vertical-align:super;font-size:0.66em">T</span><span style="">x + b   →   biên quyết định tuyến tính</span></div>
+<div style="position:absolute;left:70.08px;top:320.64px;width:614.40px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;">Mất mát: cross-entropy nhị phân</div>
+<div style="position:absolute;left:70.08px;top:349.44px;width:691.20px;height:48.00px;font-size:25.33px;color:#111111;line-height:1.3;"><span style="">J = −(1/n) Σ</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> [ y</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> log p</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style=""> + (1 − y</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style="">) log (1 − p</span><span style="vertical-align:sub;font-size:0.66em">i</span><span style="">) ]</span></div>
+<div style="position:absolute;left:724.80px;top:170.88px;width:1px;height:251.52px;background:#D5D5D5;"></div>
+<div style="position:absolute;left:753.60px;top:174.72px;width:460.80px;height:38.40px;font-size:22.67px;color:#111111;line-height:1.3;"><span style="">σ′(z) = σ(z)(1 − σ(z))</span></div>
+<div style="position:absolute;left:753.60px;top:222.72px;width:460.80px;height:38.40px;font-size:25.33px;color:#111111;line-height:1.3;"><span style="">⇒  ∂ℓ/∂z = p − y</span></div>
+<div style="position:absolute;left:753.60px;top:272.64px;width:460.80px;height:43.20px;font-size:24.00px;color:#111111;line-height:1.3;"><span style="">∇</span><span style="vertical-align:sub;font-size:0.66em">w</span><span style="">J = (1/n) X</span><span style="vertical-align:super;font-size:0.66em">T</span><span style="">(p − y)</span></div>
+<div style="position:absolute;left:753.60px;top:336.00px;width:460.80px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;">Cập nhật</div>
+<div style="position:absolute;left:753.60px;top:364.80px;width:460.80px;height:43.20px;font-size:24.00px;color:#111111;line-height:1.3;"><span style="">w</span><span style="vertical-align:super;font-size:0.66em">(t+1)</span><span style=""> = w</span><span style="vertical-align:super;font-size:0.66em">(t)</span><span style=""> − η·(1/n)X</span><span style="vertical-align:super;font-size:0.66em">T</span><span style="">(p − y)</span></div>
+<div style="position:absolute;left:70.08px;top:443.52px;width:1139.52px;height:1px;background:#D5D5D5;"></div>
+<div style="position:absolute;left:70.08px;top:458.88px;width:1139.52px;font-size:20.67px;color:#111111;line-height:1.25;"><div style="position:relative;padding-left:22px;margin-bottom:8px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Mẫu số p(1 − p) triệt tiêu</span><span style="">, nên gradient giống hồi quy tuyến tính nhưng thay ŷ bằng p.</span></div><div style="position:relative;padding-left:22px;margin-bottom:8px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">η = 0.5, tối đa 5000 vòng</span><span style=""> — dừng theo ngân sách, chuẩn gradient cuối ≈ 1.55 × 10</span><span style="vertical-align:super;font-size:0.66em">−4</span><span style="">.</span></div><div style="position:relative;padding-left:22px;margin-bottom:8px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Sigmoid và logaddexp</span><span style=""> dạng ổn định số học; ngưỡng cố định 0.5, ROC-AUC dùng xác suất.</span></div></div>
+
+            </div>
+            <div class="slide-render" id="slide-6">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">6 / 14</div>
+  <div class="eyebrow">CÂU 1 · KẾT QUẢ</div>
+  <div class="title">Hồi quy tuyến tính: học đúng quan hệ sinh dữ liệu</div>
+  <img src="figures/fig_q1_linear.png" style="position:absolute;left:121.58px;top:155.52px;width:1036.80px;height:374.40px;">
+<div style="position:absolute;left:70.08px;top:539.52px;width:352.96px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">0.5114</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">RMSE trên tập test</div></div><div style="position:absolute;left:449.92px;top:539.52px;width:352.96px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">0.9947</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">R² trên tập test</div></div><div style="position:absolute;left:829.76px;top:539.52px;width:352.96px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">2.99  ·  −2.01  ·  1.49</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Trọng số học được (thật: 3 · −2 · 1.5)</div></div>
+
+            </div>
+            <div class="slide-render" id="slide-7">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">7 / 14</div>
+  <div class="eyebrow">CÂU 1 · KẾT QUẢ</div>
+  <div class="title">Hồi quy logistic: biên hợp lý, nhưng còn 30 ca sai</div>
+  <img src="figures/fig_q1_logistic.png" style="position:absolute;left:121.58px;top:155.52px;width:1036.80px;height:374.40px;">
+<div style="position:absolute;left:70.08px;top:539.52px;width:258.00px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">0.8125</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Accuracy trên tập test</div></div><div style="position:absolute;left:354.96px;top:539.52px;width:258.00px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">0.8515</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">F1 của lớp dương (p ≥ 0.5)</div></div><div style="position:absolute;left:639.84px;top:539.52px;width:258.00px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">0.8576</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">ROC-AUC</div></div><div style="position:absolute;left:924.72px;top:539.52px;width:258.00px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">44/18/12/86</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Ma trận nhầm lẫn (TN/FP/FN/TP)</div></div>
+
+            </div>
+            <div class="slide-render" id="slide-8">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">8 / 14</div>
+  <div class="eyebrow">CÂU 2 · DỮ LIỆU</div>
+  <div class="title">OpenML credit-g: 1000 hồ sơ, 20 biến, lệch lớp</div>
+  <img src="figures/fig_q2_eda.png" style="position:absolute;left:111.98px;top:155.52px;width:1056.00px;height:321.60px;">
+<div style="position:absolute;left:70.08px;top:506.88px;width:258.00px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">ID 31 · v1</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Nguồn gốc, MD5 đã kiểm tra</div></div><div style="position:absolute;left:354.96px;top:506.88px;width:258.00px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">0 · 0 · 0</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Ô thiếu · dòng trùng · giá trị lạ</div></div><div style="position:absolute;left:639.84px;top:506.88px;width:258.00px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">800 / 200</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Development / test, phân tầng, seed 42</div></div><div style="position:absolute;left:924.72px;top:506.88px;width:258.00px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;">61</div><div style="font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Đặc trưng sau min–max và one-hot</div></div>
+
+            </div>
+            <div class="slide-render" id="slide-9">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">9 / 14</div>
+  <div class="eyebrow">CÂU 2 · QUY TRÌNH</div>
+  <div class="title">Chống rò rỉ dữ liệu bằng thiết kế, không bằng lời hứa</div>
+  <div style="position:absolute;left:70.08px;top:187.20px;width:247.44px;height:170.88px;border:1px solid #8C8C8C;background:#fff;"><div style="position:absolute;left:15.36px;top:11.52px;font-size:14.67px;color:#6B6B6B;letter-spacing:1px;">01</div><div style="position:absolute;left:15.36px;top:40.32px;width:216.72px;font-size:20.67px;font-weight:700;line-height:1.1;">Chia tập trước</div><div style="position:absolute;left:15.36px;top:97.92px;width:216.72px;font-size:14.67px;color:#6B6B6B;line-height:1.15;">800 development / 200 test, phân tầng, seed 42</div></div><div style="position:absolute;left:317.52px;top:249.60px;width:49.92px;text-align:center;font-size:26.67px;color:#6B6B6B;">→</div><div style="position:absolute;left:367.44px;top:187.20px;width:247.44px;height:170.88px;border:1px solid #8C8C8C;background:#fff;"><div style="position:absolute;left:15.36px;top:11.52px;font-size:14.67px;color:#6B6B6B;letter-spacing:1px;">02</div><div style="position:absolute;left:15.36px;top:40.32px;width:216.72px;font-size:20.67px;font-weight:700;line-height:1.1;">Chuẩn hóa trong từng fold</div><div style="position:absolute;left:15.36px;top:97.92px;width:216.72px;font-size:14.67px;color:#6B6B6B;line-height:1.15;">min–max + one-hot, chỉ fit trên train của fold</div></div><div style="position:absolute;left:614.88px;top:249.60px;width:49.92px;text-align:center;font-size:26.67px;color:#6B6B6B;">→</div><div style="position:absolute;left:664.80px;top:187.20px;width:247.44px;height:170.88px;border:1px solid #8C8C8C;background:#fff;"><div style="position:absolute;left:15.36px;top:11.52px;font-size:14.67px;color:#6B6B6B;letter-spacing:1px;">03</div><div style="position:absolute;left:15.36px;top:40.32px;width:216.72px;font-size:20.67px;font-weight:700;line-height:1.1;">5-fold stratified CV</div><div style="position:absolute;left:15.36px;top:97.92px;width:216.72px;font-size:14.67px;color:#6B6B6B;line-height:1.15;">cùng chỉ số fold cho mọi ứng viên, chọn theo macro F1</div></div><div style="position:absolute;left:912.24px;top:249.60px;width:49.92px;text-align:center;font-size:26.67px;color:#6B6B6B;">→</div><div style="position:absolute;left:962.16px;top:187.20px;width:247.44px;height:170.88px;border:1px solid #8C8C8C;background:#fff;"><div style="position:absolute;left:15.36px;top:11.52px;font-size:14.67px;color:#6B6B6B;letter-spacing:1px;">04</div><div style="position:absolute;left:15.36px;top:40.32px;width:216.72px;font-size:20.67px;font-weight:700;line-height:1.1;">Test đúng một lần</div><div style="position:absolute;left:15.36px;top:97.92px;width:216.72px;font-size:14.67px;color:#6B6B6B;line-height:1.15;">refit trên 800 hồ sơ rồi mới dự đoán 200 hồ sơ</div></div>
+<div style="position:absolute;left:70.08px;top:399.36px;width:1139.52px;height:1px;background:#D5D5D5;"></div>
+<div style="position:absolute;left:70.08px;top:416.64px;width:1139.52px;font-size:23.33px;color:#111111;line-height:1.25;"><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Toàn bộ lựa chọn hoàn tất trước khi sinh bất kỳ dự đoán test nào</span><span style="">.</span></div><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Mọi mô hình dùng chung một phép biến đổi</span><span style="">, nên so sánh giữa chúng là công bằng.</span></div><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Giữ nguyên ngoại lai hợp lệ</span><span style=""> — cờ IQR chỉ là mô tả, không phải bằng chứng dữ liệu sai.</span></div><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Baseline đa số</span><span style=""> đạt macro F1 0.412 trên test, dùng làm mốc tham chiếu.</span></div></div>
+
+            </div>
+            <div class="slide-render" id="slide-10">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">10 / 14</div>
+  <div class="eyebrow">CÂU 2 · CHỌN MÔ HÌNH</div>
+  <div class="title">14 mô hình và một baseline, chọn bằng cross-validation</div>
+  <img src="figures/fig_q2_cv.png" style="position:absolute;left:70.08px;top:155.52px;width:624.00px;height:436.80px;">
+<div style="position:absolute;left:724.80px;top:170.88px;width:484.80px;font-size:22.00px;color:#111111;line-height:1.25;"><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Ba kernel SVM</span><span style=""> là ba biến thể của một họ, không phải ba họ độc lập.</span></div><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="">Dẫn đầu: MLP </span><span style="font-weight:700">0.696</span><span style=""> · Bernoulli NB </span><span style="font-weight:700">0.694</span></div><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="">Chênh lệch top 2 nhỏ hơn độ lệch chuẩn giữa các fold (±</span><span style="font-weight:700">0.06</span><span style="">) ⇒ chưa thể nói hơn kém.</span></div><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">kNN chọn k = 1</span><span style=""> dù khoảng cách train–CV lớn: giữ đúng tiêu chí đã khai báo.</span></div></div>
+<div style="position:absolute;left:724.80px;top:508.80px;width:484.80px;height:1px;background:#D5D5D5;"></div>
+<div style="position:absolute;left:724.80px;top:524.16px;width:484.80px;height:76.80px;font-size:18.67px;color:#6B6B6B;line-height:1.3;white-space:pre-wrap;">Điểm CV dùng để chọn tham số nên không phải đánh giá độc lập; tập test giữ vai trò đó.</div>
+
+            </div>
+            <div class="slide-render" id="slide-11">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">11 / 14</div>
+  <div class="eyebrow">CÂU 2 · KẾT QUẢ TEST</div>
+  <div class="title">Trên 200 hồ sơ chưa từng thấy, khoảng cách rất hẹp</div>
+  <table style="position:absolute;left:70.08px;top:172.80px;border-collapse:collapse;table-layout:fixed;"><tr><td style="width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:700;background:#F2F2F2;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">Mô hình</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#F2F2F2;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">Accuracy</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#F2F2F2;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">Macro F1</td><td style="width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#F2F2F2;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">AUC</td></tr><tr><td style="width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">Majority baseline</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.700</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.412</td><td style="width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.500</td></tr><tr><td style="width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">Perceptron</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.700</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.639</td><td style="width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.720</td></tr><tr><td style="width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">kNN (k = 1)</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.720</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.667</td><td style="width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.667</td></tr><tr><td style="width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">Decision tree</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.645</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.606</td><td style="width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.692</td></tr><tr><td style="width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">Scratch logistic</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.780</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.730</td><td style="width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.801</td></tr><tr><td style="width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">Polynomial SVM</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.775</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.713</td><td style="width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.799</td></tr><tr><td style="width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">AdaBoost</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.785</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.726</td><td style="width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.790</td></tr><tr><td style="width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:700;background:#E8E8E8;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">MLP  (được chọn)</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#E8E8E8;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.790</td><td style="width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#E8E8E8;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.730</td><td style="width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#E8E8E8;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;">0.813</td></tr></table>
+<div style="position:absolute;left:70.08px;top:572.16px;width:1139.52px;height:48.00px;font-size:18.00px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;">Chênh lệch giữa các mô hình dẫn đầu chỉ vài phần nghìn — nhỏ hơn dao động giữa các fold (±0.064), nên không đọc thành xếp hạng.</div>
+<div style="position:absolute;left:849.60px;top:174.72px;width:360.00px;font-size:21.33px;color:#111111;line-height:1.25;"><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="">MLP </span><span style="font-weight:700">0.7305</span><span style=""> ≈ hồi quy logistic tự cài đặt </span><span style="font-weight:700">0.7301</span><span style=""> — mô hình phức tạp không tạo khác biệt rõ.</span></div><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="">Accuracy cao </span><span style="font-weight:700">0.79</span><span style=""> nhưng phải đọc kèm chỉ số theo lớp, vì lớp bad chỉ chiếm 30%.</span></div><div style="position:relative;padding-left:22px;margin-bottom:14px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">16 mô hình đều vượt baseline</span><span style="">, kể cả cây quyết định có accuracy thấp hơn.</span></div></div>
+
+            </div>
+            <div class="slide-render" id="slide-12">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">12 / 14</div>
+  <div class="eyebrow">CÂU 2 · ĐỌC KẾT QUẢ</div>
+  <div class="title">Một con số accuracy đẹp có thể che mất lỗi quan trọng</div>
+  <img src="figures/fig_q2_test.png" style="position:absolute;left:102.38px;top:155.52px;width:1075.20px;height:321.60px;">
+<div style="position:absolute;left:70.08px;top:501.12px;width:1139.52px;height:44.16px;font-size:25.33px;color:#111111;line-height:1.22;white-space:pre-wrap;"><span style="">158/200 dự đoán đúng, nhưng </span><span style="font-weight:700">bỏ sót 28/60 hồ sơ “bad”</span><span style=""> → recall lớp bad chỉ 0.533.</span></div>
+<div style="position:absolute;left:70.08px;top:554.88px;width:1139.52px;font-size:20.67px;color:#111111;line-height:1.25;"><div style="position:relative;padding-left:22px;margin-bottom:8px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="">Gaussian NB có recall bad cao nhất </span><span style="font-weight:700">0.650</span><span style="">, nhưng precision chỉ 0.513: bắt được nhiều hơn, báo nhầm cũng nhiều hơn.</span></div><div style="position:relative;padding-left:22px;margin-bottom:8px;"><span style="position:absolute;left:4px;top:0;color:#111111">–</span><span style="font-weight:700">Đánh đổi này là quyết định nghiệp vụ</span><span style="">, không phải lỗi kỹ thuật — và nhóm không hạ ngưỡng sau khi đã xem test.</span></div></div>
+
+            </div>
+            <div class="slide-render" id="slide-13">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">13 / 14</div>
+  <div class="eyebrow">OVERFITTING</div>
+  <div class="title">Bằng chứng: cây càng sâu, khoảng cách càng lớn</div>
+  <img src="figures/fig_overfit.png" style="position:absolute;left:140.78px;top:155.52px;width:998.40px;height:336.00px;">
+<div style="position:absolute;left:70.08px;top:514.56px;width:341.44px;"><div style="font-size:26.67px;font-weight:700;color:#111111;">0.386  →  0.121</div><div style="font-size:16.00px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Khoảng cách train − CV của cây quyết định sau khi giới hạn độ sâu 6 và tối thiểu 5 mẫu/lá.</div></div><div style="position:absolute;left:449.92px;top:514.56px;width:341.44px;"><div style="font-size:26.67px;font-weight:700;color:#111111;">1.00 / 0.614</div><div style="font-size:16.00px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Cây không giới hạn: hoàn hảo trên train nhưng validation thấp hơn cây bị giới hạn.</div></div><div style="position:absolute;left:829.76px;top:514.56px;width:341.44px;"><div style="font-size:26.67px;font-weight:700;color:#111111;">0.324</div><div style="font-size:16.00px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;">Random forest vẫn còn khoảng cách lớn — ensemble không tự chữa được overfitting.</div></div>
+<div style="position:absolute;left:70.08px;top:604.80px;width:1139.52px;height:38.40px;font-size:18.67px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;">Biện pháp chung: giới hạn độ phức tạp · chọn tham số bằng validation · giữ tập test riêng · báo cáo cả điểm train và validation.</div>
+
+            </div>
+            <div class="slide-render" id="slide-14">
+
+  <img class="logo" src="figures/tdtu-logo.png">
+  <div class="rule"></div>
+  <div class="footer">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>
+  <div class="pageno">14 / 14</div>
+  <div class="eyebrow">KẾT LUẬN</div>
+  <div class="title">Điều nhóm làm được, điều còn hạn chế</div>
+  <div style="position:absolute;left:70.08px;top:170.88px;width:344.64px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:20.00px;font-weight:700;margin-top:11.52px;">Kết quả chính</div><div style="font-size:19.33px;line-height:1.32;margin-top:15.36px;"><div style="position:relative;padding-left:20px;margin-bottom:18px;"><span style="position:absolute;left:2px;top:0;">–</span>Câu 1: hai mô hình tự cài đặt, gradient khớp sai phân trung tâm, RMSE xấp xỉ nhiễu sinh dữ liệu.</div><div style="position:relative;padding-left:20px;margin-bottom:18px;"><span style="position:absolute;left:2px;top:0;">–</span>Câu 2: 14 mô hình trên cùng bộ fold; MLP được chọn với macro F1 test 0.7305.</div><div style="position:relative;padding-left:20px;margin-bottom:18px;"><span style="position:absolute;left:2px;top:0;">–</span>Chi phí của accuracy: bỏ sót 28/60 hồ sơ xấu dù accuracy 0.79.</div></div></div><div style="position:absolute;left:467.52px;top:170.88px;width:344.64px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:20.00px;font-weight:700;margin-top:11.52px;">Bài học</div><div style="font-size:19.33px;line-height:1.32;margin-top:15.36px;"><div style="position:relative;padding-left:20px;margin-bottom:18px;"><span style="position:absolute;left:2px;top:0;">–</span>Tách test trước và chuẩn hóa trong fold là điều kiện của một so sánh đáng tin.</div><div style="position:relative;padding-left:20px;margin-bottom:18px;"><span style="position:absolute;left:2px;top:0;">–</span>Chênh lệch nhỏ hơn dao động giữa các fold thì chưa kết luận được hơn kém.</div><div style="position:relative;padding-left:20px;margin-bottom:18px;"><span style="position:absolute;left:2px;top:0;">–</span>Overfitting đo được bằng khoảng cách train − validation, và giảm được bằng giới hạn độ phức tạp.</div></div></div><div style="position:absolute;left:864.96px;top:170.88px;width:344.64px;"><div style="height:1px;background:#2B2B2B;"></div><div style="font-size:20.00px;font-weight:700;margin-top:11.52px;">Hạn chế</div><div style="font-size:19.33px;line-height:1.32;margin-top:15.36px;"><div style="position:relative;padding-left:20px;margin-bottom:18px;"><span style="position:absolute;left:2px;top:0;">–</span>Một bộ dữ liệu, một lần chia test, lưới tham số nhỏ.</div><div style="position:relative;padding-left:20px;margin-bottom:18px;"><span style="position:absolute;left:2px;top:0;">–</span>Hồi quy logistic chạm 5000 vòng, MLP chạm 500 epoch: chưa hội tụ.</div><div style="position:relative;padding-left:20px;margin-bottom:18px;"><span style="position:absolute;left:2px;top:0;">–</span>Không có kiểm định thống kê hay lặp lại với nhiều seed.</div></div></div>
+<div style="position:absolute;left:70.08px;top:580.80px;width:1139.52px;height:1.2px;background:#2B2B2B;"></div>
+<div style="position:absolute;left:70.08px;top:595.20px;width:1139.52px;height:38.40px;font-size:21.33px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;">Cảm ơn thầy và các bạn đã lắng nghe — nhóm sẵn sàng nhận câu hỏi.</div>
+
+            </div>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar"></div>
+          </div>
+
+          <!-- Slide Controls Bar -->
+          <div class="deck-controls">
+            <button class="ctrl-btn" onclick="prevSlide()" title="Slide trước">◀</button>
+            <div class="slide-indicator">
+              <span id="slideNum">Slide 1</span>
+              <span style="color:#64748b;">/ 14</span>
+            </div>
+            <button class="ctrl-btn" onclick="nextSlide()" title="Slide sau">▶</button>
+          </div>
+
+          <!-- Notes & Speech Drawer -->
+          <div class="notes-drawer" id="notesDrawer">
+            <div class="speaker-meta">
+              <div class="speaker-badge badge-tien" id="speakerBadge">🔵 Ngô Lâm Tiến</div>
+              <div class="time-badge" id="timeBadge">⏱️ 0:00 (~24s)</div>
+            </div>
+            <div class="slide-title-label" id="slideTitleLabel">Trang bìa</div>
+            <div class="speech-box" id="speechBox">
+              Kính thưa thầy và các bạn. Nhóm em gồm ba thành viên xin trình bày báo cáo giữa kỳ môn Introduction to Machine Learning...
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="tts-btn" onclick="speakCurrentSlide()">
+                <span>🔊</span> Đọc lời thoại (Speech)
+              </button>
+              <a href="../output/pdf/midterm_report.pdf" target="_blank" class="tts-btn" style="background:rgba(16,185,129,0.15);border-color:#10b981;color:#34d399;text-decoration:none;">
+                <span>📄</span> Mở PDF Báo cáo
+              </a>
+              <a href="midterm_presentation.pptx" download class="tts-btn" style="background:rgba(245,158,11,0.15);border-color:#f59e0b;color:#fbbf24;text-decoration:none;">
+                <span>📊</span> Tải PPTX
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- QR Code Modal -->
+  <div class="modal-overlay" id="qrModal" onclick="closeQR(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeQR()">&times;</button>
+      <h3 style="font-size:16px;margin-bottom:6px;">Quét mã mở trên Điện thoại</h3>
+      <p style="font-size:12px;color:var(--text-muted);">Kết nối chung Wi-Fi và mở máy ảnh điện thoại quét mã QR bên dưới:</p>
+      <div class="qr-container">
+        <img src="figures/qr_code.png" alt="QR Code">
+      </div>
+      <div class="url-chip">http://192.168.1.29:8888/</div>
+      <p style="font-size:11px;color:#64748b;margin-top:10px;">Vuốt tay trái/phải để chuyển slide · Có sẵn kịch bản nói tiếng Việt</p>
+    </div>
+  </div>
+
+  <script>
+    const slidesData = [{"index": 1, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  \n  \n  \n  <div style=\"position:absolute;left:70.08px;top:165.12px;width:864.00px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:2.9333333333333336px;line-height:1.22;white-space:pre-wrap;\">BÁO CÁO GIỮA KỲ  ·  INTRODUCTION TO MACHINE LEARNING</div>\n<div style=\"position:absolute;left:70.08px;top:203.52px;width:1056.00px;height:91.20px;font-size:61.33px;color:#111111;font-weight:700;line-height:1.22;white-space:pre-wrap;\">Hồi quy & Phân loại</div>\n<div style=\"position:absolute;left:70.08px;top:292.80px;width:1017.60px;height:48.00px;font-size:26.67px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;\">Từ Gradient Descent tự cài đặt đến so sánh 14 bộ phân loại trên OpenML</div>\n<div style=\"position:absolute;left:70.08px;top:366.72px;width:403.20px;height:1.4px;background:#2B2B2B;\"></div>\n<div style=\"position:absolute;left:70.08px;top:385.92px;width:595.20px;height:30.72px;font-size:18.67px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;\">Giảng viên hướng dẫn</div>\n<div style=\"position:absolute;left:70.08px;top:416.64px;width:595.20px;height:34.56px;font-size:22.67px;color:#111111;line-height:1.22;white-space:pre-wrap;\">Lê Anh Cường, Ph.D.</div>\n<div style=\"position:absolute;left:686.40px;top:385.92px;width:518.40px;height:30.72px;font-size:18.67px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;\">Sinh viên thực hiện</div>\n<div style=\"position:absolute;left:686.40px;top:416.64px;width:518.40px;height:96.00px;font-size:20.00px;color:#111111;line-height:1.45;white-space:pre-wrap;\">Ngô Lâm Tiến — 524H0195\nNguyễn Công Thành — 524H0191\nNguyễn Lê Nhật Tâm — 524H0186</div>\n<div style=\"position:absolute;left:70.08px;top:549.12px;width:595.20px;height:30.72px;font-size:17.33px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;\">Tháng 10 năm 2026</div>\n", "title": "Trang bìa", "speaker": "Tiến", "start": "0:00", "duration": "24s", "script": "Kính thưa thầy và các bạn. Nhóm em gồm ba thành viên xin trình bày báo cáo giữa kỳ môn Introduction to Machine Learning. Bài gồm hai câu: câu một tự cài đặt hồi quy tuyến tính và logistic bằng Gradient Descent; câu hai so sánh các bộ phân loại trên bộ credit-g của OpenML. Phần trình bày khoảng mười phút."}, {"index": 2, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">2 / 14</div>\n  <div class=\"eyebrow\">NỘI DUNG</div>\n  <div class=\"title\">Ba phần, ba người trình bày</div>\n  <div style=\"position:absolute;left:70.08px;top:255.36px;width:1139.52px;height:1px;background:#D5D5D5;\"></div><div style=\"position:absolute;left:70.08px;top:167.04px;font-size:34.67px;font-weight:700;color:#C9C9C9;\">01</div><div style=\"position:absolute;left:161.28px;top:165.12px;width:784.32px;font-size:25.33px;font-weight:700;\">Câu 1 · Gradient Descent tự cài đặt</div><div style=\"position:absolute;left:161.28px;top:201.60px;width:784.32px;font-size:17.33px;color:#6B6B6B;line-height:1.15;\">Hồi quy tuyến tính và logistic: mô hình, mất mát, dẫn xuất gradient, kết quả</div><div style=\"position:absolute;left:955.20px;top:170.88px;width:254.40px;text-align:right;font-size:17.33px;\">Ngô Lâm Tiến</div><div style=\"position:absolute;left:70.08px;top:362.88px;width:1139.52px;height:1px;background:#D5D5D5;\"></div><div style=\"position:absolute;left:70.08px;top:274.56px;font-size:34.67px;font-weight:700;color:#C9C9C9;\">02</div><div style=\"position:absolute;left:161.28px;top:272.64px;width:784.32px;font-size:25.33px;font-weight:700;\">Câu 2 · Phân loại trên OpenML credit-g</div><div style=\"position:absolute;left:161.28px;top:309.12px;width:784.32px;font-size:17.33px;color:#6B6B6B;line-height:1.15;\">Tiền xử lý, quy trình chống rò rỉ dữ liệu, 14 mô hình và baseline</div><div style=\"position:absolute;left:955.20px;top:278.40px;width:254.40px;text-align:right;font-size:17.33px;\">Nguyễn Công Thành</div><div style=\"position:absolute;left:70.08px;top:382.08px;font-size:34.67px;font-weight:700;color:#C9C9C9;\">03</div><div style=\"position:absolute;left:161.28px;top:380.16px;width:784.32px;font-size:25.33px;font-weight:700;\">Overfitting và cách khắc phục</div><div style=\"position:absolute;left:161.28px;top:416.64px;width:784.32px;font-size:17.33px;color:#6B6B6B;line-height:1.15;\">Bằng chứng thực nghiệm, các biện pháp, kết luận và hạn chế của bài làm</div><div style=\"position:absolute;left:955.20px;top:385.92px;width:254.40px;text-align:right;font-size:17.33px;\">Nguyễn Lê Nhật Tâm</div>\n<div style=\"position:absolute;left:70.08px;top:520.32px;width:1139.52px;height:1px;background:#D5D5D5;\"></div>\n<div style=\"position:absolute;left:70.08px;top:537.60px;width:1139.52px;height:38.40px;font-size:21.33px;color:#6B6B6B;font-style:italic;line-height:1.22;white-space:pre-wrap;\">Câu hỏi xuyên suốt: mô hình học được gì từ dữ liệu, và làm sao biết nó thật sự tổng quát hóa?</div>\n", "title": "Ba phần, ba người trình bày", "speaker": "Tiến", "start": "0:24", "duration": "28s", "script": "Bài chia ba phần. Em trình bày câu một: tự cài đặt hai mô hình hồi quy, dẫn xuất gradient và đánh giá. Bạn Thành trình bày câu hai: dữ liệu credit-g, quy trình chống rò rỉ và so sánh mười bốn mô hình cùng baseline. Bạn Tâm trình bày overfitting và kết luận. Câu hỏi xuyên suốt: mô hình học được gì, và làm sao biết nó tổng quát hóa?"}, {"index": 3, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">3 / 14</div>\n  <div class=\"eyebrow\">CÂU 1 · HỒI QUY TUYẾN TÍNH</div>\n  <div class=\"title\">Mô hình và hàm mất mát</div>\n  <div style=\"position:absolute;left:70.08px;top:176.64px;width:576.00px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;\">Dự đoán</div>\n<div style=\"position:absolute;left:70.08px;top:205.44px;width:585.60px;height:48.00px;font-size:30.67px;color:#111111;line-height:1.3;\"><span style=\"\">ŷ</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> = w</span><span style=\"vertical-align:super;font-size:0.66em\">T</span><span style=\"\">x</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> + b</span></div>\n<div style=\"position:absolute;left:70.08px;top:255.36px;width:585.60px;height:38.40px;font-size:20.00px;color:#6B6B6B;line-height:1.3;\"><span style=\"\">một đặc trưng → đường thẳng · nhiều đặc trưng → siêu phẳng</span></div>\n<div style=\"position:absolute;left:70.08px;top:320.64px;width:576.00px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;\">Mất mát: trung bình bình phương sai số</div>\n<div style=\"position:absolute;left:70.08px;top:349.44px;width:585.60px;height:57.60px;font-size:28.00px;color:#111111;line-height:1.3;\"><span style=\"\">J(w, b) = (1/2n) · Σ</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> (ŷ</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> − y</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\">)</span><span style=\"vertical-align:super;font-size:0.66em\">2</span></div>\n<div style=\"position:absolute;left:667.20px;top:170.88px;width:1px;height:292.80px;background:#D5D5D5;\"></div>\n<div style=\"position:absolute;left:696.00px;top:170.88px;width:513.60px;font-size:22.67px;color:#111111;line-height:1.25;\"><div style=\"position:relative;padding-left:22px;margin-bottom:16px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Đầu ra là số thực</span><span style=\"\"> — bài toán hồi quy, không phải phân loại.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:16px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Hệ số ½</span><span style=\"\"> chỉ để đạo hàm gọn; nghiệm tối ưu không đổi.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:16px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Bình phương</span><span style=\"\"> khiến sai số lớn bị phạt nặng.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:16px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Chia cho n</span><span style=\"\"> để mất mát là trung bình, so sánh được giữa các cỡ mẫu.</span></div></div>\n<div style=\"position:absolute;left:70.08px;top:497.28px;width:1139.52px;height:1px;background:#D5D5D5;\"></div>\n<div style=\"position:absolute;left:70.08px;top:512.64px;width:1139.52px;height:76.80px;font-size:18.67px;color:#6B6B6B;line-height:1.3;\"><span style=\"\">Dữ liệu tổng hợp: 600 mẫu, 3 đặc trưng độc lập đều trên [−3, 3];  y = 4 + 3x</span><span style=\"vertical-align:sub;font-size:0.66em\">1</span><span style=\"\"> − 2x</span><span style=\"vertical-align:sub;font-size:0.66em\">2</span><span style=\"\"> + 1.5x</span><span style=\"vertical-align:sub;font-size:0.66em\">3</span><span style=\"\"> + ε,  ε ~ N(0, 0.5</span><span style=\"vertical-align:super;font-size:0.66em\">2</span><span style=\"\">).</span></div>\n", "title": "Mô hình và hàm mất mát", "speaker": "Tiến", "start": "0:52", "duration": "36s", "script": "Hồi quy tuyến tính dự đoán một số thực bằng tổng có trọng số của các đặc trưng cộng hệ số chặn. Vì đầu ra là số thực nên đây là bài toán hồi quy. Hàm mất mát là trung bình bình phương sai số, chia đôi. Hệ số một phần hai chỉ để khi đạo hàm, số hai triệt tiêu, không đổi nghiệm tối ưu. Chia cho n giúp mất mát là trung bình, so sánh được giữa các cỡ mẫu. Còn bình phương khiến sai số lớn bị phạt nặng."}, {"index": 4, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">4 / 14</div>\n  <div class=\"eyebrow\">CÂU 1 · HỒI QUY TUYẾN TÍNH</div>\n  <div class=\"title\">Dẫn xuất gradient và vòng lặp Gradient Descent</div>\n  <div style=\"position:absolute;left:70.08px;top:176.64px;width:614.40px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;\">Đạo hàm riêng</div>\n<div style=\"position:absolute;left:70.08px;top:205.44px;width:633.60px;height:38.40px;font-size:24.00px;color:#111111;line-height:1.3;\"><span style=\"\">đặt  e</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> = ŷ</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> − y</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\">  ⇒  ∂e</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> / ∂w</span><span style=\"vertical-align:sub;font-size:0.66em\">j</span><span style=\"\"> = x</span><span style=\"vertical-align:sub;font-size:0.66em\">ij</span></div>\n<div style=\"position:absolute;left:70.08px;top:251.52px;width:633.60px;height:43.20px;font-size:26.67px;color:#111111;line-height:1.3;\"><span style=\"\">∂J/∂w</span><span style=\"vertical-align:sub;font-size:0.66em\">j</span><span style=\"\"> = (1/n) Σ</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> e</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\">x</span><span style=\"vertical-align:sub;font-size:0.66em\">ij</span><span style=\"\">        ∂J/∂b = (1/n) Σ</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> e</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span></div>\n<div style=\"position:absolute;left:70.08px;top:303.36px;width:633.60px;height:43.20px;font-size:26.67px;color:#111111;line-height:1.3;\"><span style=\"\">∇</span><span style=\"vertical-align:sub;font-size:0.66em\">w</span><span style=\"\">J = (1/n) X</span><span style=\"vertical-align:super;font-size:0.66em\">T</span><span style=\"\">(ŷ − y)</span></div>\n<div style=\"position:absolute;left:70.08px;top:366.72px;width:614.40px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;\">Cập nhật đồng thời</div>\n<div style=\"position:absolute;left:70.08px;top:395.52px;width:662.40px;height:48.00px;font-size:26.67px;color:#111111;line-height:1.3;\"><span style=\"\">w</span><span style=\"vertical-align:super;font-size:0.66em\">(t+1)</span><span style=\"\"> = w</span><span style=\"vertical-align:super;font-size:0.66em\">(t)</span><span style=\"\"> − η · (1/n) X</span><span style=\"vertical-align:super;font-size:0.66em\">T</span><span style=\"\">e</span><span style=\"vertical-align:super;font-size:0.66em\">(t)</span></div>\n<div style=\"position:absolute;left:667.20px;top:170.88px;width:1px;height:292.80px;background:#D5D5D5;\"></div>\n<div style=\"position:absolute;left:696.00px;top:170.88px;width:513.60px;font-size:22.67px;color:#111111;line-height:1.25;\"><div style=\"position:relative;padding-left:22px;margin-bottom:15px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"\">Khởi tạo </span><span style=\"font-weight:700\">w = 0, b = 0</span><span style=\"\">; tốc độ học </span><span style=\"font-weight:700\">η = 0.3</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:15px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"\">Dừng khi </span><span style=\"font-weight:700\">chuẩn gradient ≤ 10</span><span style=\"vertical-align:super;font-size:0.66em\">−8</span><span style=\"\"> — chỉ dùng dữ liệu huấn luyện</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:15px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"\">Hội tụ sau </span><span style=\"font-weight:700\">1175 vòng</span><span style=\"\"> trên 480 mẫu train</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:15px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"\">Gradient được kiểm chứng bằng </span><span style=\"font-weight:700\">sai phân trung tâm</span><span style=\"\">, dung sai 10</span><span style=\"vertical-align:super;font-size:0.66em\">−6</span></div></div>\n<div style=\"position:absolute;left:70.08px;top:484.80px;width:662.40px;height:86.40px;font-size:18.67px;color:#6B6B6B;line-height:1.3;white-space:pre-wrap;\">Cả hai gradient được tính trước khi cập nhật tham số (full-batch). Không bao giờ dùng chỉ số test để quyết định dừng.</div>\n", "title": "Dẫn xuất gradient và vòng lặp Gradient Descent", "speaker": "Tiến", "start": "1:28", "duration": "41s", "script": "Đạo hàm theo quy tắc chuỗi: gọi e là phần dư, đạo hàm của e theo trọng số chính là giá trị đặc trưng. Vậy gradient theo trọng số là trung bình của phần dư nhân đặc trưng, gradient theo hệ số chặn là trung bình phần dư. Viết dạng ma trận được công thức ở giữa. Thực nghiệm khởi tạo bằng không, tốc độ học không phẩy ba, dừng khi chuẩn gradient nhỏ hơn mười mũ trừ tám, sau một nghìn một trăm bảy mươi lăm vòng. Nhóm kiểm chứng lại gradient bằng sai phân trung tâm, dung sai mười mũ trừ sáu."}, {"index": 5, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">5 / 14</div>\n  <div class=\"eyebrow\">CÂU 1 · HỒI QUY LOGISTIC</div>\n  <div class=\"title\">Xác suất, cross-entropy và gradient</div>\n  <div style=\"position:absolute;left:70.08px;top:176.64px;width:614.40px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;\">Mô hình xác suất</div>\n<div style=\"position:absolute;left:70.08px;top:205.44px;width:691.20px;height:43.20px;font-size:28.00px;color:#111111;line-height:1.3;\"><span style=\"\">z = w</span><span style=\"vertical-align:super;font-size:0.66em\">T</span><span style=\"\">x + b     ⇒     p = σ(z) = 1 / (1 + e</span><span style=\"vertical-align:super;font-size:0.66em\">−z</span><span style=\"\">)</span></div>\n<div style=\"position:absolute;left:70.08px;top:261.12px;width:672.00px;height:38.40px;font-size:22.67px;color:#6B6B6B;line-height:1.3;\"><span style=\"\">log (p / (1 − p)) = w</span><span style=\"vertical-align:super;font-size:0.66em\">T</span><span style=\"\">x + b   →   biên quyết định tuyến tính</span></div>\n<div style=\"position:absolute;left:70.08px;top:320.64px;width:614.40px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;\">Mất mát: cross-entropy nhị phân</div>\n<div style=\"position:absolute;left:70.08px;top:349.44px;width:691.20px;height:48.00px;font-size:25.33px;color:#111111;line-height:1.3;\"><span style=\"\">J = −(1/n) Σ</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> [ y</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> log p</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\"> + (1 − y</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\">) log (1 − p</span><span style=\"vertical-align:sub;font-size:0.66em\">i</span><span style=\"\">) ]</span></div>\n<div style=\"position:absolute;left:724.80px;top:170.88px;width:1px;height:251.52px;background:#D5D5D5;\"></div>\n<div style=\"position:absolute;left:753.60px;top:174.72px;width:460.80px;height:38.40px;font-size:22.67px;color:#111111;line-height:1.3;\"><span style=\"\">σ′(z) = σ(z)(1 − σ(z))</span></div>\n<div style=\"position:absolute;left:753.60px;top:222.72px;width:460.80px;height:38.40px;font-size:25.33px;color:#111111;line-height:1.3;\"><span style=\"\">⇒  ∂ℓ/∂z = p − y</span></div>\n<div style=\"position:absolute;left:753.60px;top:272.64px;width:460.80px;height:43.20px;font-size:24.00px;color:#111111;line-height:1.3;\"><span style=\"\">∇</span><span style=\"vertical-align:sub;font-size:0.66em\">w</span><span style=\"\">J = (1/n) X</span><span style=\"vertical-align:super;font-size:0.66em\">T</span><span style=\"\">(p − y)</span></div>\n<div style=\"position:absolute;left:753.60px;top:336.00px;width:460.80px;height:28.80px;font-size:14.67px;color:#6B6B6B;letter-spacing:1.6px;\">Cập nhật</div>\n<div style=\"position:absolute;left:753.60px;top:364.80px;width:460.80px;height:43.20px;font-size:24.00px;color:#111111;line-height:1.3;\"><span style=\"\">w</span><span style=\"vertical-align:super;font-size:0.66em\">(t+1)</span><span style=\"\"> = w</span><span style=\"vertical-align:super;font-size:0.66em\">(t)</span><span style=\"\"> − η·(1/n)X</span><span style=\"vertical-align:super;font-size:0.66em\">T</span><span style=\"\">(p − y)</span></div>\n<div style=\"position:absolute;left:70.08px;top:443.52px;width:1139.52px;height:1px;background:#D5D5D5;\"></div>\n<div style=\"position:absolute;left:70.08px;top:458.88px;width:1139.52px;font-size:20.67px;color:#111111;line-height:1.25;\"><div style=\"position:relative;padding-left:22px;margin-bottom:8px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Mẫu số p(1 − p) triệt tiêu</span><span style=\"\">, nên gradient giống hồi quy tuyến tính nhưng thay ŷ bằng p.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:8px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">η = 0.5, tối đa 5000 vòng</span><span style=\"\"> — dừng theo ngân sách, chuẩn gradient cuối ≈ 1.55 × 10</span><span style=\"vertical-align:super;font-size:0.66em\">−4</span><span style=\"\">.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:8px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Sigmoid và logaddexp</span><span style=\"\"> dạng ổn định số học; ngưỡng cố định 0.5, ROC-AUC dùng xác suất.</span></div></div>\n", "title": "Xác suất, cross-entropy và gradient", "speaker": "Tiến", "start": "2:09", "duration": "41s", "script": "Hồi quy logistic đưa cùng một điểm tuyến tính qua sigmoid để ra xác suất trong khoảng không đến một. Logit của xác suất là hàm tuyến tính nên biên vẫn là siêu phẳng. Mất mát là cross-entropy, tức âm log hợp lý Bernoulli, phạt rất nặng dự đoán tự tin mà sai. Khi đạo hàm, đạo hàm sigmoid là p nhân một trừ p, triệt tiêu mẫu số của cross-entropy, nên gradient chỉ còn p trừ y, rất gọn. Nhóm dùng tốc độ học không phẩy năm, tối đa năm nghìn vòng, và vòng lặp chạm ngân sách trước khi đạt dung sai."}, {"index": 6, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">6 / 14</div>\n  <div class=\"eyebrow\">CÂU 1 · KẾT QUẢ</div>\n  <div class=\"title\">Hồi quy tuyến tính: học đúng quan hệ sinh dữ liệu</div>\n  <img src=\"figures/fig_q1_linear.png\" style=\"position:absolute;left:121.58px;top:155.52px;width:1036.80px;height:374.40px;\">\n<div style=\"position:absolute;left:70.08px;top:539.52px;width:352.96px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">0.5114</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">RMSE trên tập test</div></div><div style=\"position:absolute;left:449.92px;top:539.52px;width:352.96px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">0.9947</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">R² trên tập test</div></div><div style=\"position:absolute;left:829.76px;top:539.52px;width:352.96px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">2.99  ·  −2.01  ·  1.49</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Trọng số học được (thật: 3 · −2 · 1.5)</div></div>\n", "title": "Hồi quy tuyến tính: học đúng quan hệ sinh dữ liệu", "speaker": "Tiến", "start": "2:50", "duration": "42s", "script": "Đây là kết quả chạy thật. Mất mát giảm từ ba mươi phẩy chín xuống không phẩy một hai sáu sau một nghìn một trăm bảy mươi lăm vòng, đơn điệu nên không phân kỳ. Trên một trăm hai mươi mẫu test, các điểm bám sát đường chéo. RMSE không phẩy năm một, đúng bằng độ lệch chuẩn của nhiễu, R bình phương không phẩy chín chín bốn bảy. Trọng số học được rất gần giá trị thật ba, trừ hai, một phẩy năm. Nhưng đây là dữ liệu tổng hợp tuyến tính, nên điểm cao là kỳ vọng, không phải bằng chứng cho dữ liệu thực."}, {"index": 7, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">7 / 14</div>\n  <div class=\"eyebrow\">CÂU 1 · KẾT QUẢ</div>\n  <div class=\"title\">Hồi quy logistic: biên hợp lý, nhưng còn 30 ca sai</div>\n  <img src=\"figures/fig_q1_logistic.png\" style=\"position:absolute;left:121.58px;top:155.52px;width:1036.80px;height:374.40px;\">\n<div style=\"position:absolute;left:70.08px;top:539.52px;width:258.00px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">0.8125</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Accuracy trên tập test</div></div><div style=\"position:absolute;left:354.96px;top:539.52px;width:258.00px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">0.8515</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">F1 của lớp dương (p ≥ 0.5)</div></div><div style=\"position:absolute;left:639.84px;top:539.52px;width:258.00px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">0.8576</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">ROC-AUC</div></div><div style=\"position:absolute;left:924.72px;top:539.52px;width:258.00px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">44/18/12/86</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Ma trận nhầm lẫn (TN/FP/FN/TP)</div></div>\n", "title": "Hồi quy logistic: biên hợp lý, nhưng còn 30 ca sai", "speaker": "Tiến", "start": "3:32", "duration": "41s", "script": "Với logistic, nhãn sinh ngẫu nhiên nên hai lớp chồng lấn. Cross-entropy giảm từ không phẩy sáu chín ba một, đúng bằng log hai của mô hình đoán ngẫu nhiên, xuống không phẩy bốn năm hai. Trên tập test, mô hình đúng một trăm ba mươi trên một trăm sáu mươi, tức tám mươi mốt phẩy hai lăm phần trăm, F1 lớp dương không phẩy tám năm một, AUC không phẩy tám năm bảy. Các vòng tròn là mẫu phân loại sai, tập trung đúng ở vùng chồng lấn. Phần câu một đến đây là hết, em mời bạn Thành trình bày câu hai."}, {"index": 8, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">8 / 14</div>\n  <div class=\"eyebrow\">CÂU 2 · DỮ LIỆU</div>\n  <div class=\"title\">OpenML credit-g: 1000 hồ sơ, 20 biến, lệch lớp</div>\n  <img src=\"figures/fig_q2_eda.png\" style=\"position:absolute;left:111.98px;top:155.52px;width:1056.00px;height:321.60px;\">\n<div style=\"position:absolute;left:70.08px;top:506.88px;width:258.00px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">ID 31 · v1</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Nguồn gốc, MD5 đã kiểm tra</div></div><div style=\"position:absolute;left:354.96px;top:506.88px;width:258.00px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">0 · 0 · 0</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Ô thiếu · dòng trùng · giá trị lạ</div></div><div style=\"position:absolute;left:639.84px;top:506.88px;width:258.00px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">800 / 200</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Development / test, phân tầng, seed 42</div></div><div style=\"position:absolute;left:924.72px;top:506.88px;width:258.00px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:32.00px;font-weight:700;color:#111111;margin-top:7.68px;\">61</div><div style=\"font-size:14.67px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Đặc trưng sau min–max và one-hot</div></div>\n", "title": "OpenML credit-g: 1000 hồ sơ, 20 biến, lệch lớp", "speaker": "Thành", "start": "4:13", "duration": "39s", "script": "Dữ liệu là credit-g, mã 31 phiên bản một trên OpenML: một nghìn hồ sơ, hai mươi biến, trong đó bảy biến số và mười ba biến phân loại. Nhãn gồm bảy trăm good và ba trăm bad, nên đây là bài toán mất cân bằng. Một mô hình luôn đoán good đã đạt bảy mươi phần trăm accuracy mà không phát hiện hồ sơ xấu nào, vì vậy nhóm không dùng accuracy làm tiêu chí chính. Kiểm tra dữ liệu sạch: không ô thiếu, không dòng trùng, không giá trị lạ, nên giữ nguyên một nghìn hồ sơ."}, {"index": 9, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">9 / 14</div>\n  <div class=\"eyebrow\">CÂU 2 · QUY TRÌNH</div>\n  <div class=\"title\">Chống rò rỉ dữ liệu bằng thiết kế, không bằng lời hứa</div>\n  <div style=\"position:absolute;left:70.08px;top:187.20px;width:247.44px;height:170.88px;border:1px solid #8C8C8C;background:#fff;\"><div style=\"position:absolute;left:15.36px;top:11.52px;font-size:14.67px;color:#6B6B6B;letter-spacing:1px;\">01</div><div style=\"position:absolute;left:15.36px;top:40.32px;width:216.72px;font-size:20.67px;font-weight:700;line-height:1.1;\">Chia tập trước</div><div style=\"position:absolute;left:15.36px;top:97.92px;width:216.72px;font-size:14.67px;color:#6B6B6B;line-height:1.15;\">800 development / 200 test, phân tầng, seed 42</div></div><div style=\"position:absolute;left:317.52px;top:249.60px;width:49.92px;text-align:center;font-size:26.67px;color:#6B6B6B;\">→</div><div style=\"position:absolute;left:367.44px;top:187.20px;width:247.44px;height:170.88px;border:1px solid #8C8C8C;background:#fff;\"><div style=\"position:absolute;left:15.36px;top:11.52px;font-size:14.67px;color:#6B6B6B;letter-spacing:1px;\">02</div><div style=\"position:absolute;left:15.36px;top:40.32px;width:216.72px;font-size:20.67px;font-weight:700;line-height:1.1;\">Chuẩn hóa trong từng fold</div><div style=\"position:absolute;left:15.36px;top:97.92px;width:216.72px;font-size:14.67px;color:#6B6B6B;line-height:1.15;\">min–max + one-hot, chỉ fit trên train của fold</div></div><div style=\"position:absolute;left:614.88px;top:249.60px;width:49.92px;text-align:center;font-size:26.67px;color:#6B6B6B;\">→</div><div style=\"position:absolute;left:664.80px;top:187.20px;width:247.44px;height:170.88px;border:1px solid #8C8C8C;background:#fff;\"><div style=\"position:absolute;left:15.36px;top:11.52px;font-size:14.67px;color:#6B6B6B;letter-spacing:1px;\">03</div><div style=\"position:absolute;left:15.36px;top:40.32px;width:216.72px;font-size:20.67px;font-weight:700;line-height:1.1;\">5-fold stratified CV</div><div style=\"position:absolute;left:15.36px;top:97.92px;width:216.72px;font-size:14.67px;color:#6B6B6B;line-height:1.15;\">cùng chỉ số fold cho mọi ứng viên, chọn theo macro F1</div></div><div style=\"position:absolute;left:912.24px;top:249.60px;width:49.92px;text-align:center;font-size:26.67px;color:#6B6B6B;\">→</div><div style=\"position:absolute;left:962.16px;top:187.20px;width:247.44px;height:170.88px;border:1px solid #8C8C8C;background:#fff;\"><div style=\"position:absolute;left:15.36px;top:11.52px;font-size:14.67px;color:#6B6B6B;letter-spacing:1px;\">04</div><div style=\"position:absolute;left:15.36px;top:40.32px;width:216.72px;font-size:20.67px;font-weight:700;line-height:1.1;\">Test đúng một lần</div><div style=\"position:absolute;left:15.36px;top:97.92px;width:216.72px;font-size:14.67px;color:#6B6B6B;line-height:1.15;\">refit trên 800 hồ sơ rồi mới dự đoán 200 hồ sơ</div></div>\n<div style=\"position:absolute;left:70.08px;top:399.36px;width:1139.52px;height:1px;background:#D5D5D5;\"></div>\n<div style=\"position:absolute;left:70.08px;top:416.64px;width:1139.52px;font-size:23.33px;color:#111111;line-height:1.25;\"><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Toàn bộ lựa chọn hoàn tất trước khi sinh bất kỳ dự đoán test nào</span><span style=\"\">.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Mọi mô hình dùng chung một phép biến đổi</span><span style=\"\">, nên so sánh giữa chúng là công bằng.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Giữ nguyên ngoại lai hợp lệ</span><span style=\"\"> — cờ IQR chỉ là mô tả, không phải bằng chứng dữ liệu sai.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Baseline đa số</span><span style=\"\"> đạt macro F1 0.412 trên test, dùng làm mốc tham chiếu.</span></div></div>\n", "title": "Chống rò rỉ dữ liệu bằng thiết kế, không bằng lời hứa", "speaker": "Thành", "start": "4:52", "duration": "35s", "script": "Điểm nhóm muốn nhấn mạnh là quy trình. Tập test tách ngay từ đầu và chỉ dùng một lần, sau khi mọi lựa chọn xong. Trong tám trăm hồ sơ development, nhóm chạy năm fold phân tầng, và chuẩn hóa nằm trong pipeline nên mỗi fold chỉ học min–max từ train của chính nó. Nếu chuẩn hóa trước rồi mới chia fold thì thông tin validation đã rò rỉ và điểm sẽ đẹp giả tạo. Tiêu chí chọn là macro F1 vì cho hai lớp trọng số ngang nhau."}, {"index": 10, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">10 / 14</div>\n  <div class=\"eyebrow\">CÂU 2 · CHỌN MÔ HÌNH</div>\n  <div class=\"title\">14 mô hình và một baseline, chọn bằng cross-validation</div>\n  <img src=\"figures/fig_q2_cv.png\" style=\"position:absolute;left:70.08px;top:155.52px;width:624.00px;height:436.80px;\">\n<div style=\"position:absolute;left:724.80px;top:170.88px;width:484.80px;font-size:22.00px;color:#111111;line-height:1.25;\"><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Ba kernel SVM</span><span style=\"\"> là ba biến thể của một họ, không phải ba họ độc lập.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"\">Dẫn đầu: MLP </span><span style=\"font-weight:700\">0.696</span><span style=\"\"> · Bernoulli NB </span><span style=\"font-weight:700\">0.694</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"\">Chênh lệch top 2 nhỏ hơn độ lệch chuẩn giữa các fold (±</span><span style=\"font-weight:700\">0.06</span><span style=\"\">) ⇒ chưa thể nói hơn kém.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">kNN chọn k = 1</span><span style=\"\"> dù khoảng cách train–CV lớn: giữ đúng tiêu chí đã khai báo.</span></div></div>\n<div style=\"position:absolute;left:724.80px;top:508.80px;width:484.80px;height:1px;background:#D5D5D5;\"></div>\n<div style=\"position:absolute;left:724.80px;top:524.16px;width:484.80px;height:76.80px;font-size:18.67px;color:#6B6B6B;line-height:1.3;white-space:pre-wrap;\">Điểm CV dùng để chọn tham số nên không phải đánh giá độc lập; tập test giữ vai trò đó.</div>\n", "title": "14 mô hình và một baseline, chọn bằng cross-validation", "speaker": "Thành", "start": "5:27", "duration": "39s", "script": "Nhóm so sánh mười bốn mô hình cùng một baseline trên cùng bộ fold. Ba kernel SVM là ba biến thể của một họ, không phải ba họ thuật toán. MLP dẫn đầu với macro F1 không phẩy sáu chín sáu, Bernoulli NB bám sát không phẩy sáu chín bốn, polynomial SVM không phẩy sáu tám sáu. Nhưng độ lệch chuẩn giữa các fold khoảng không phẩy không sáu, lớn hơn khoảng cách hai mô hình đầu, nên nhóm không tuyên bố MLP vượt trội. Điểm CV đã dùng để chọn tham số nên không phải đánh giá độc lập."}, {"index": 11, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">11 / 14</div>\n  <div class=\"eyebrow\">CÂU 2 · KẾT QUẢ TEST</div>\n  <div class=\"title\">Trên 200 hồ sơ chưa từng thấy, khoảng cách rất hẹp</div>\n  <table style=\"position:absolute;left:70.08px;top:172.80px;border-collapse:collapse;table-layout:fixed;\"><tr><td style=\"width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:700;background:#F2F2F2;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">Mô hình</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#F2F2F2;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">Accuracy</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#F2F2F2;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">Macro F1</td><td style=\"width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#F2F2F2;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">AUC</td></tr><tr><td style=\"width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">Majority baseline</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.700</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.412</td><td style=\"width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.500</td></tr><tr><td style=\"width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">Perceptron</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.700</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.639</td><td style=\"width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.720</td></tr><tr><td style=\"width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">kNN (k = 1)</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.720</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.667</td><td style=\"width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.667</td></tr><tr><td style=\"width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">Decision tree</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.645</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.606</td><td style=\"width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.692</td></tr><tr><td style=\"width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">Scratch logistic</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.780</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.730</td><td style=\"width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.801</td></tr><tr><td style=\"width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">Polynomial SVM</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.775</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.713</td><td style=\"width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.799</td></tr><tr><td style=\"width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">AdaBoost</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.785</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.726</td><td style=\"width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:400;background:#FFFFFF;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.790</td></tr><tr><td style=\"width:307.20px;height:42.24px;padding:0 6.72px;text-align:left;font-weight:700;background:#E8E8E8;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">MLP  (được chọn)</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#E8E8E8;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.790</td><td style=\"width:153.60px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#E8E8E8;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.730</td><td style=\"width:144.00px;height:42.24px;padding:0 6.72px;text-align:right;font-weight:700;background:#E8E8E8;border:0.5px solid #D5D5D5;font-size:18.67px;vertical-align:middle;\">0.813</td></tr></table>\n<div style=\"position:absolute;left:70.08px;top:572.16px;width:1139.52px;height:48.00px;font-size:18.00px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;\">Chênh lệch giữa các mô hình dẫn đầu chỉ vài phần nghìn — nhỏ hơn dao động giữa các fold (±0.064), nên không đọc thành xếp hạng.</div>\n<div style=\"position:absolute;left:849.60px;top:174.72px;width:360.00px;font-size:21.33px;color:#111111;line-height:1.25;\"><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"\">MLP </span><span style=\"font-weight:700\">0.7305</span><span style=\"\"> ≈ hồi quy logistic tự cài đặt </span><span style=\"font-weight:700\">0.7301</span><span style=\"\"> — mô hình phức tạp không tạo khác biệt rõ.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"\">Accuracy cao </span><span style=\"font-weight:700\">0.79</span><span style=\"\"> nhưng phải đọc kèm chỉ số theo lớp, vì lớp bad chỉ chiếm 30%.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:14px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">16 mô hình đều vượt baseline</span><span style=\"\">, kể cả cây quyết định có accuracy thấp hơn.</span></div></div>\n", "title": "Trên 200 hồ sơ chưa từng thấy, khoảng cách rất hẹp", "speaker": "Thành", "start": "6:06", "duration": "40s", "script": "Đây là kết quả trên hai trăm hồ sơ test chưa từng dùng để chọn mô hình. MLP có accuracy không phẩy bảy chín, macro F1 không phẩy bảy ba không, AUC không phẩy tám một ba. Đáng chú ý: hồi quy logistic tự cài đặt ở câu một đạt macro F1 không phẩy bảy ba không một, gần như bằng MLP. Trong bài toán nhỏ này, mô hình phức tạp hơn không mang lại lợi ích rõ rệt. Mọi mô hình học đều vượt baseline, nhưng chênh lệch chỉ vài phần nghìn. Em mời bạn Tâm trình bày phần overfitting."}, {"index": 12, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">12 / 14</div>\n  <div class=\"eyebrow\">CÂU 2 · ĐỌC KẾT QUẢ</div>\n  <div class=\"title\">Một con số accuracy đẹp có thể che mất lỗi quan trọng</div>\n  <img src=\"figures/fig_q2_test.png\" style=\"position:absolute;left:102.38px;top:155.52px;width:1075.20px;height:321.60px;\">\n<div style=\"position:absolute;left:70.08px;top:501.12px;width:1139.52px;height:44.16px;font-size:25.33px;color:#111111;line-height:1.22;white-space:pre-wrap;\"><span style=\"\">158/200 dự đoán đúng, nhưng </span><span style=\"font-weight:700\">bỏ sót 28/60 hồ sơ “bad”</span><span style=\"\"> → recall lớp bad chỉ 0.533.</span></div>\n<div style=\"position:absolute;left:70.08px;top:554.88px;width:1139.52px;font-size:20.67px;color:#111111;line-height:1.25;\"><div style=\"position:relative;padding-left:22px;margin-bottom:8px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"\">Gaussian NB có recall bad cao nhất </span><span style=\"font-weight:700\">0.650</span><span style=\"\">, nhưng precision chỉ 0.513: bắt được nhiều hơn, báo nhầm cũng nhiều hơn.</span></div><div style=\"position:relative;padding-left:22px;margin-bottom:8px;\"><span style=\"position:absolute;left:4px;top:0;color:#111111\">–</span><span style=\"font-weight:700\">Đánh đổi này là quyết định nghiệp vụ</span><span style=\"\">, không phải lỗi kỹ thuật — và nhóm không hạ ngưỡng sau khi đã xem test.</span></div></div>\n", "title": "Một con số accuracy đẹp có thể che mất lỗi quan trọng", "speaker": "Tâm", "start": "6:46", "duration": "43s", "script": "Bức tranh này là bài học chính của câu hai. MLP đúng một trăm năm mươi tám trên hai trăm, nghe rất tốt. Nhưng trong sáu mươi hồ sơ thực sự xấu, mô hình bỏ sót hai mươi tám, tức recall lớp bad chỉ không phẩy năm ba ba. Đây là cái bẫy của dữ liệu mất cân bằng: lớp đa số kéo accuracy lên trong khi lớp cần phát hiện bị bỏ qua. Nếu là bài toán tín dụng thật, bỏ sót hồ sơ xấu thường tốn kém hơn báo nhầm. Nhóm không hạ ngưỡng sau khi xem test, vì làm vậy là dùng test để tinh chỉnh."}, {"index": 13, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">13 / 14</div>\n  <div class=\"eyebrow\">OVERFITTING</div>\n  <div class=\"title\">Bằng chứng: cây càng sâu, khoảng cách càng lớn</div>\n  <img src=\"figures/fig_overfit.png\" style=\"position:absolute;left:140.78px;top:155.52px;width:998.40px;height:336.00px;\">\n<div style=\"position:absolute;left:70.08px;top:514.56px;width:341.44px;\"><div style=\"font-size:26.67px;font-weight:700;color:#111111;\">0.386  →  0.121</div><div style=\"font-size:16.00px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Khoảng cách train − CV của cây quyết định sau khi giới hạn độ sâu 6 và tối thiểu 5 mẫu/lá.</div></div><div style=\"position:absolute;left:449.92px;top:514.56px;width:341.44px;\"><div style=\"font-size:26.67px;font-weight:700;color:#111111;\">1.00 / 0.614</div><div style=\"font-size:16.00px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Cây không giới hạn: hoàn hảo trên train nhưng validation thấp hơn cây bị giới hạn.</div></div><div style=\"position:absolute;left:829.76px;top:514.56px;width:341.44px;\"><div style=\"font-size:26.67px;font-weight:700;color:#111111;\">0.324</div><div style=\"font-size:16.00px;color:#6B6B6B;line-height:1.2;margin-top:5.76px;\">Random forest vẫn còn khoảng cách lớn — ensemble không tự chữa được overfitting.</div></div>\n<div style=\"position:absolute;left:70.08px;top:604.80px;width:1139.52px;height:38.40px;font-size:18.67px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;\">Biện pháp chung: giới hạn độ phức tạp · chọn tham số bằng validation · giữ tập test riêng · báo cáo cả điểm train và validation.</div>\n", "title": "Bằng chứng: cây càng sâu, khoảng cách càng lớn", "speaker": "Tâm", "start": "7:29", "duration": "44s", "script": "Biểu đồ bên trái tách riêng ảnh hưởng của độ sâu cây: độ sâu tăng thì điểm train leo lên một, nhưng validation chỉ tăng đến khoảng độ sâu sáu rồi giảm. Cây không giới hạn đạt một phẩy không trên train nhưng chỉ không phẩy sáu một bốn trên validation. Giới hạn độ sâu sáu và tối thiểu năm mẫu mỗi lá, khoảng cách thu hẹp từ không phẩy ba tám sáu xuống không phẩy một hai một, điểm validation tăng. Nhưng random forest sau khi chọn tham số vẫn còn khoảng cách không phẩy ba hai bốn. Ensemble giảm phương sai nhưng không miễn nhiễm với việc ghi nhớ dữ liệu."}, {"index": 14, "html": "\n  <img class=\"logo\" src=\"figures/tdtu-logo.png\">\n  <div class=\"rule\"></div>\n  <div class=\"footer\">Introduction to Machine Learning  ·  Báo cáo giữa kỳ  ·  Ngô Lâm Tiến 524H0195 · Nguyễn Công Thành 524H0191 · Nguyễn Lê Nhật Tâm 524H0186</div>\n  <div class=\"pageno\">14 / 14</div>\n  <div class=\"eyebrow\">KẾT LUẬN</div>\n  <div class=\"title\">Điều nhóm làm được, điều còn hạn chế</div>\n  <div style=\"position:absolute;left:70.08px;top:170.88px;width:344.64px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:20.00px;font-weight:700;margin-top:11.52px;\">Kết quả chính</div><div style=\"font-size:19.33px;line-height:1.32;margin-top:15.36px;\"><div style=\"position:relative;padding-left:20px;margin-bottom:18px;\"><span style=\"position:absolute;left:2px;top:0;\">–</span>Câu 1: hai mô hình tự cài đặt, gradient khớp sai phân trung tâm, RMSE xấp xỉ nhiễu sinh dữ liệu.</div><div style=\"position:relative;padding-left:20px;margin-bottom:18px;\"><span style=\"position:absolute;left:2px;top:0;\">–</span>Câu 2: 14 mô hình trên cùng bộ fold; MLP được chọn với macro F1 test 0.7305.</div><div style=\"position:relative;padding-left:20px;margin-bottom:18px;\"><span style=\"position:absolute;left:2px;top:0;\">–</span>Chi phí của accuracy: bỏ sót 28/60 hồ sơ xấu dù accuracy 0.79.</div></div></div><div style=\"position:absolute;left:467.52px;top:170.88px;width:344.64px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:20.00px;font-weight:700;margin-top:11.52px;\">Bài học</div><div style=\"font-size:19.33px;line-height:1.32;margin-top:15.36px;\"><div style=\"position:relative;padding-left:20px;margin-bottom:18px;\"><span style=\"position:absolute;left:2px;top:0;\">–</span>Tách test trước và chuẩn hóa trong fold là điều kiện của một so sánh đáng tin.</div><div style=\"position:relative;padding-left:20px;margin-bottom:18px;\"><span style=\"position:absolute;left:2px;top:0;\">–</span>Chênh lệch nhỏ hơn dao động giữa các fold thì chưa kết luận được hơn kém.</div><div style=\"position:relative;padding-left:20px;margin-bottom:18px;\"><span style=\"position:absolute;left:2px;top:0;\">–</span>Overfitting đo được bằng khoảng cách train − validation, và giảm được bằng giới hạn độ phức tạp.</div></div></div><div style=\"position:absolute;left:864.96px;top:170.88px;width:344.64px;\"><div style=\"height:1px;background:#2B2B2B;\"></div><div style=\"font-size:20.00px;font-weight:700;margin-top:11.52px;\">Hạn chế</div><div style=\"font-size:19.33px;line-height:1.32;margin-top:15.36px;\"><div style=\"position:relative;padding-left:20px;margin-bottom:18px;\"><span style=\"position:absolute;left:2px;top:0;\">–</span>Một bộ dữ liệu, một lần chia test, lưới tham số nhỏ.</div><div style=\"position:relative;padding-left:20px;margin-bottom:18px;\"><span style=\"position:absolute;left:2px;top:0;\">–</span>Hồi quy logistic chạm 5000 vòng, MLP chạm 500 epoch: chưa hội tụ.</div><div style=\"position:relative;padding-left:20px;margin-bottom:18px;\"><span style=\"position:absolute;left:2px;top:0;\">–</span>Không có kiểm định thống kê hay lặp lại với nhiều seed.</div></div></div>\n<div style=\"position:absolute;left:70.08px;top:580.80px;width:1139.52px;height:1.2px;background:#2B2B2B;\"></div>\n<div style=\"position:absolute;left:70.08px;top:595.20px;width:1139.52px;height:38.40px;font-size:21.33px;color:#6B6B6B;line-height:1.22;white-space:pre-wrap;\">Cảm ơn thầy và các bạn đã lắng nghe — nhóm sẵn sàng nhận câu hỏi.</div>\n", "title": "Điều nhóm làm được, điều còn hạn chế", "speaker": "Tâm", "start": "8:13", "duration": "40s", "script": "Tóm lại, câu một cho thấy hai mô hình tự cài đặt học đúng: gradient khớp kiểm tra sai phân, sai số xấp xỉ mức nhiễu. Câu hai cho thấy trên dữ liệu nhỏ và mất cân bằng, mô hình phức tạp nhất không vượt trội rõ rệt, và accuracy có thể che mất lỗi ở lớp thiểu số. Hạn chế: một bộ dữ liệu, một lần chia test, lưới tham số nhỏ; logistic và MLP đều chạm ngân sách vòng lặp nên chưa hội tụ; không có kiểm định thống kê. Em xin kết thúc và cảm ơn thầy, các bạn.\n\n## Câu hỏi dự kiến và người trả lời\n\n| Câu hỏi | Người trả lời | Ý chính |\n|---|---|---|\n| Vì sao dùng ½ trong hàm mất mát? | Tiến | Triệt tiêu hệ số 2 khi đạo hàm; nghiệm tối ưu không đổi. |\n| Vì sao chuẩn hóa phải nằm trong fold? | Thành | Nếu fit trước khi chia fold, min/max của validation đã rò rỉ vào train. |\n| Vì sao chọn macro F1 thay vì accuracy? | Thành | Hai lớp trọng số ngang nhau; accuracy bị lớp good 70% chi phối. |\n| MLP có thực sự tốt hơn logistic không? | Tâm | Không kết luận được: chênh 0.0004, nhỏ hơn SD giữa các fold ±0.064. |\n| Sao không hạ ngưỡng để tăng recall lớp bad? | Tâm | Có thể, nhưng phải chọn ngưỡng trên validation; hạ sau khi xem test là dùng test để tinh chỉnh. |\n| Gradient đúng chưa? | Tiến | Đã kiểm chứng bằng sai phân trung tâm, dung sai 1e−6, cả hai mô hình. |\n| Vì sao chỉ 14 mô hình mà không phải deep learning? | Thành | credit-g là bảng nhỏ 1000 dòng, không có biểu diễn ảnh/chuỗi; CNN/RNN sẽ áp một biểu diễn tùy ý. |\n\n## Ghi chú trung thực học thuật\n\n- Mọi con số trong slide lấy từ `results/` và được script `presentation/src/make_deck_figures.py` kiểm tra lại trước khi vẽ.\n- Không có kết quả nào được chạy riêng cho slide.\n- Bài làm có sử dụng hỗ trợ AI trong soạn thảo và kiểm tra; nhóm đã rà lại toàn bộ."}];
+    let currentSlide = 1;
+    const totalSlides = slidesData.length;
+
+    // Responsive Scale Calculation
+    function updateSlideScale() {
+      const box = document.getElementById('viewportBox');
+      if (!box) return;
+      const w = box.clientWidth;
+      const scale = w / 1279.97;
+      document.querySelectorAll('.slide-render').forEach(el => {
+        el.style.transform = 'scale(' + scale + ')';
+      });
+    }
+
+    window.addEventListener('resize', updateSlideScale);
+    window.addEventListener('DOMContentLoaded', updateSlideScale);
+
+    function showSlide(index) {
+      if (index < 1 || index > totalSlides) return;
+      currentSlide = index;
+
+      document.querySelectorAll('.slide-render').forEach((el, idx) => {
+        el.classList.toggle('active', (idx + 1) === currentSlide);
+      });
+
+      document.getElementById('slideNum').textContent = 'Slide ' + currentSlide;
+      document.getElementById('progressBar').style.width = ((currentSlide / totalSlides) * 100) + '%';
+
+      const data = slidesData[currentSlide - 1];
+      document.getElementById('slideTitleLabel').textContent = data.title;
+      document.getElementById('speechBox').textContent = data.script;
+      document.getElementById('timeBadge').textContent = '⏱️ ' + data.start + ' (~' + data.duration + ')';
+
+      const badge = document.getElementById('speakerBadge');
+      badge.textContent = '🎤 ' + data.speaker;
+      badge.className = 'speaker-badge ' + (
+        data.speaker.includes('Tiến') ? 'badge-tien' :
+        data.speaker.includes('Thành') ? 'badge-thanh' : 'badge-tam'
+      );
+
+      updateSlideScale();
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) showSlide(currentSlide + 1);
+    }
+    function prevSlide() {
+      if (currentSlide > 1) showSlide(currentSlide - 1);
+    }
+
+    // Touch Swipe Support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const viewportBox = document.getElementById('viewportBox');
+
+    viewportBox.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    viewportBox.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) nextSlide();
+        else prevSlide();
+      }
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      }
+    });
+
+    // View Modes
+    let isLandscape = false;
+    let isFullDesktop = false;
+
+    function toggleRotate() {
+      const wrapper = document.getElementById('deviceWrapper');
+      isLandscape = !isLandscape;
+      wrapper.classList.toggle('landscape', isLandscape);
+      document.getElementById('btnRotate').classList.toggle('active', isLandscape);
+      setTimeout(updateSlideScale, 300);
+    }
+
+    function toggleMode() {
+      const wrapper = document.getElementById('deviceWrapper');
+      isFullDesktop = !isFullDesktop;
+      wrapper.classList.toggle('full-desktop', isFullDesktop);
+      document.getElementById('btnMode').classList.toggle('active', isFullDesktop);
+      document.getElementById('btnMode').innerHTML = isFullDesktop ? 
+        '<span>📱</span> Khung điện thoại' : '<span>💻</span> Màn hình rộng';
+      setTimeout(updateSlideScale, 300);
+    }
+
+    // QR Modal
+    function openQR() {
+      document.getElementById('qrModal').classList.add('open');
+    }
+    function closeQR() {
+      document.getElementById('qrModal').classList.remove('open');
+    }
+
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('liveClock').textContent = hrs + ':' + mins;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Text to Speech
+    function speakCurrentSlide() {
+      if (!('speechSynthesis' in window)) {
+        alert('Trình duyệt không hỗ trợ Text-to-Speech.');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const text = document.getElementById('speechBox').textContent;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'vi-VN';
+      utterance.rate = 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Init
+    showSlide(1);
+    setTimeout(updateSlideScale, 100);
+  </script>
+</body>
+</html>

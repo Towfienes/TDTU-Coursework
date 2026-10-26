@@ -1,0 +1,227 @@
+============================================================
+TOPIC 13 – SECURITY IN CLIENT-SERVER ANDROID APPLICATIONS
+
+PRESENTER:
+Nguyễn Công Thành (Student ID: 524H0191)
+
+ASSIGNED SLIDES:
+Slides 5 → 7
+
+TARGET TIME:
+Approximately 5.0 – 5.5 minutes
+============================================================
+
+------------------------------------------------------------
+SECTION 1 — ROLE
+------------------------------------------------------------
+Your role is the technical core of the presentation: explaining how Android vulnerabilities actually occur in practice. 
+
+You bridge the gap between architectural theory and real-world exploitation. You explain how components communicate across process boundaries using Intents, why crossing process boundaries creates a security trust boundary, and how unvalidated nested Intents enable Intent Redirection via the Confused Deputy attack. 
+
+You then move to local data storage, debunking the misconception that ordinary apps can directly steal private SQLite databases, while demonstrating why unencrypted local storage remains dangerous due to secondary exposure paths.
+
+By the end of your section, the audience will understand the exact technical root causes of both IPC and local storage vulnerabilities.
+
+
+------------------------------------------------------------
+SECTION 2 — SLIDE-BY-SLIDE PRESENTATION PLAN
+------------------------------------------------------------
+
+SLIDE 5 — Android Intents & IPC Mechanics (Inter-Process Communication)
+- Target time: 1 minute 30 seconds
+- Purpose: Demystify Intent objects and explain IPC trust boundaries.
+- Must explain:
+  1. Explicit Intent: Directly specifies the target class (e.g., Intent(context, TargetActivity::class.java)). Commonly used for internal navigation, but can also target known components in another application. Avoids dynamic resolution, significantly reducing interception risk.
+  2. Implicit Intent: Declares an Action (e.g., ACTION_VIEW) and Data URI without naming a destination class. Android Package Manager dynamically matches the Intent against declared <intent-filter> tags across all installed apps. Carries risks of eavesdropping, spoofing, or hijacking.
+  3. Anatomy of an Intent: Action (requested operation), Data & Type (URI/target data), and Extras Bundle (key-value parameters that can carry serialized Nested Intents).
+  4. Core Principle: Crossing application boundaries via Intents creates a formal Trust Boundary. Any Intent received from an external application must be treated as untrusted input!
+- Main takeaway: Explicit Intents reduce resolution and interception risk, but whenever Intent data crosses an application boundary, all externally controlled fields must be treated as untrusted input.
+- Do not say: Do not claim that Explicit Intents are "100% immune to interception" or that Explicit Intents can only ever be used inside the same application.
+
+SLIDE 6 — Attack #1: Intent Injection & Redirection (Confused Deputy Exploitation)
+- Target time: 2 minutes 00 seconds
+- Purpose: Walk through the step-by-step technical mechanics of the Confused Deputy vulnerability.
+- Must explain:
+  1. The 4-step attack pipeline:
+     - 1. Attacker App: Crafts a malicious Intent with a nested target Intent extra.
+     - 2. Trust Boundary: Dispatched to the victim application's exported proxy activity.
+     - 3. Vulnerability Point: The proxy extracts the nested Intent without destination validation.
+     - 4. Execution: Invoking startActivity(next) launches an unexported, privileged internal activity!
+  2. The Vulnerable Kotlin Code:
+     - val next = intent.getParcelableExtra<Intent>("next_intent")
+     - startActivity(next)
+  3. The Confused Deputy Concept: The attacker cannot launch an unexported component directly because the OS blocks it. However, the victim app CAN launch its own internal components. The attacker tricks the victim into using its legitimate authority on the attacker's behalf!
+  4. Technical Root Cause: The security failure occurs when externally controlled IPC is trusted without sufficient authorization, destination validation, or input sanitization.
+- Main takeaway: Intent Redirection is a Confused Deputy vulnerability where an exported component acts as an unwitting proxy, launching internal private components using the victim app's own UID privileges.
+- Do not say: Do not say that every exported component is vulnerable; it is vulnerable only when it blindly forwards unvalidated Intent destinations.
+
+SLIDE 7 — Attack #2: Sensitive Data in Local Storage (Plaintext SQLite Databases)
+- Target time: 1 minute 30 seconds
+- Purpose: Clarify the nuance of local storage security, distinguishing access control from encryption.
+- Must explain:
+  1. The Plaintext Threat: Storing plaintext authentication tokens (JWTs), API secrets, and user session records in SQLite (e.g., user_session.db).
+  2. The Academic Nuance (MUST SAY CLEARLY): "An ordinary malicious application cannot simply read another application's private SQLite database." Linux UID sandboxing (0700 file mode) isolates app directories.
+  3. Real-World Secondary Exposure Vectors (Why plaintext is still dangerous):
+     - Exported ContentProviders with SQL injection or directory traversal flaws.
+     - Misconfigured backup or data-transfer rules (Android 12+ dataExtractionRules).
+     - Compromised or rooted devices (root UID 0 overrides sandboxing).
+     - Debuggable test builds allowing adb run-as extraction.
+  4. Access Control vs. Encryption at Rest:
+     - Access control (Linux sandbox) controls WHO can open the file handle at the OS layer.
+     - Encryption at rest (SQLCipher / Android Keystore) controls WHAT can be read from raw storage bytes if files become accessible.
+  5. Nuanced Resilience: Encryption at rest provides an additional confidentiality layer, but a fully compromised runtime can still threaten protected data.
+- Main takeaway: Sandboxing enforces file access control, but encryption at rest is essential to protect data confidentiality if secondary exposure paths or physical access occur.
+- Do not say: DO NOT claim that any ordinary malicious app can read private SQLite databases, DO NOT claim that allowBackup="true" allows ADB extraction without root on modern Android, and DO NOT claim that encryption survives every runtime root compromise.
+
+
+------------------------------------------------------------
+SECTION 3 — RECOMMENDED SPEAKING SCRIPT
+------------------------------------------------------------
+
+[SLIDE 5 — ANDROID INTENTS & IPC MECHANICS (~1 minute 30 seconds)]
+"Thank you, Tiến. 
+
+My name is Nguyễn Công Thành, and I will now explain how Android components communicate, and how vulnerabilities arise across these communication channels.
+
+Inter-process communication in Android relies primarily on message-passing objects called Intents. As shown in the top comparison, Intents fall into two main categories: Explicit and Implicit.
+
+An Explicit Intent specifies the exact target component class—for example, targeting 'TargetActivity::class.java'. While commonly used for internal navigation, explicit intents can also target a known component in another application. Because there is no dynamic resolution, explicit intents significantly reduce the risk of intent interception.
+
+Conversely, an Implicit Intent declares a general Action—such as ACTION_VIEW—and a data URI without naming a specific recipient class. The Android Package Manager resolves implicit intents dynamically by matching them against intent filters declared across all installed applications. This creates a security risk: an untrusted third-party app can register a matching filter to eavesdrop on sensitive parameters or spoof legitimate flows.
+
+Looking at the middle diagram, an Intent encapsulates an Action, a Data URI, and an Extras Bundle. That Extras Bundle is crucial: it carries key-value parameters that can serialize complex objects, including other nested Intent objects!
+
+This brings us to the core security principle at the bottom of the slide: whenever an Intent crosses an application boundary, it crosses a formal Trust Boundary. Developers must treat all externally supplied Intent data as untrusted, hostile input."
+
+
+[SLIDE 6 — ATTACK #1: INTENT INJECTION & REDIRECTION (~2 minutes 00 seconds)]
+"Now, let us examine what happens when developers violate that trust boundary. This slide demonstrates our first major vulnerability: Intent Injection and Intent Redirection.
+
+Please look at the four-step attack pipeline across the top:
+In Step 1, an unprivileged attacker application crafts an Intent containing a second, nested Intent inside its Extras bundle.
+In Step 2, the attacker dispatches this Intent across the trust boundary to the victim application's exported proxy activity.
+In Step 3, we reach the vulnerability point: the proxy activity extracts the nested Intent without verifying its destination class or validating its package.
+And in Step 4, the proxy calls 'startActivity(next)'—launching an internal, private activity that was set to exported='false'!
+
+Take a look at the Kotlin code box on the left. Notice how simple this flaw looks:
+The proxy extracts 'next_intent' from the extras, and immediately calls 'startActivity(next)'. 
+
+Why is this so dangerous? This is a classic Confused Deputy attack. 
+Under normal operating system rules, the attacker cannot launch the victim's private InternalAdminActivity directly because the Android OS blocks external component launching. However, the victim application CAN launch its own internal activities. By blindly forwarding the nested Intent, the proxy acts as an unwitting deputy, exercising its own legitimate authority on the attacker's behalf!
+
+The technical root cause is clear: the security failure occurs when externally controlled IPC is trusted without sufficient authorization, destination validation, or input sanitization. An attacker can exploit this to force execution of hidden administrative screens, steal sensitive tokens passed back in result Intents, or trigger internal background services."
+
+
+[SLIDE 7 — ATTACK #2: SENSITIVE DATA IN LOCAL STORAGE (~1 minute 30 seconds)]
+"Our second vulnerability class involves sensitive data stored locally on the device, specifically inside SQLite databases.
+
+On the top left, you see a typical user session database containing plaintext bearer JWT tokens and API secrets. If this data is stored in plaintext, any exposure immediately leads to account takeover.
+
+However, I want to emphasize an essential academic distinction that is frequently misunderstood:
+An ordinary malicious application CANNOT simply open and read another application's private SQLite database.
+As Tiến explained earlier, the Linux sandbox assigns strict 0700 permissions to app-private directories. Other standard apps are blocked at the kernel level.
+
+So why is plaintext SQLite still a critical risk? 
+Look at the top-right box: plaintext data becomes exposed through secondary exposure vectors.
+These include exported ContentProviders that suffer from SQL injection or path traversal;
+Misconfigured backup or data-transfer rules that expose application data;
+Rooted or compromised devices where root user ID 0 overrides Linux file permissions;
+And debug builds with debuggable='true', allowing data extraction via adb run-as.
+
+This highlights the fundamental difference at the bottom of the slide:
+Access Control—provided by the Linux sandbox—controls WHO can open the file handle at the operating system level.
+Encryption at Rest—using SQLCipher and the hardware-backed Android Keystore—controls WHAT can be read from the raw storage bytes if those files are ever extracted.
+
+Encryption at rest provides an indispensable additional layer of confidentiality, although developers must remember that a fully compromised runtime environment can still present threats."
+
+
+------------------------------------------------------------
+SECTION 4 — WHAT TO POINT AT ON THE SLIDE
+------------------------------------------------------------
+
+SLIDE 5:
+- Top Grid: Point first to the green card 'Explicit Intent' (emphasize direct binding to a class), then to the amber card 'Implicit Intent' (point to dynamic resolution via intent filters).
+- Middle Diagram: Point to 'Extras Bundle (Parcelable)' and verbally emphasize that nested Intents can be packed inside here.
+- Bottom Banner: Point to the red warning text emphasizing the 'Trust Boundary'.
+
+SLIDE 6:
+- Top Pipeline: Move your hand or laser pointer step-by-step:
+  1. Attacker App -> 2. Trust Boundary -> 3. Vulnerability Point -> 4. Execution.
+- Code Box: Point directly to the two highlighted lines:
+  - Line 1: `val next = intent.getParcelableExtra<Intent>("next_intent")`
+  - Line 2: `startActivity(next)`
+- Right Card: Point to the phrase 'Confused Deputy Flaw' and 'Missing Destination Validation'.
+
+SLIDE 7:
+- Top Left: Point to the red highlighted values in `user_session.db` (`Plaintext JWT` and `Plaintext Key`).
+- Top Right: Point down the list of secondary vectors: ContentProvider, Backup, Rooted OS, Debug builds.
+- Bottom Comparison: Point left to 'Access Control' (emphasizing "Controls WHO"), then point right to 'Encryption at Rest' (emphasizing "Controls WHAT").
+
+
+------------------------------------------------------------
+SECTION 5 — TRANSITIONS
+------------------------------------------------------------
+
+OPENING TRANSITION (Taking over from Ngô Lâm Tiến):
+"Thank you, Tiến. My name is Nguyễn Công Thành, and I will now explain how Android components communicate, and how vulnerabilities arise across these communication channels."
+
+CLOSING TRANSITION (Handoff to Võ Huỳnh Duy Tân at end of Slide 7):
+"These vulnerabilities affect more than one part of the application. They can directly impact confidentiality, integrity, and availability. The next section evaluates those impacts and explains how the application should be hardened. I now hand over the presentation to Võ Huỳnh Duy Tân."
+
+
+------------------------------------------------------------
+SECTION 6 — LIKELY QUESTIONS & SHORT ANSWERS
+------------------------------------------------------------
+
+Q1: Why is Intent Redirection called a "Confused Deputy" vulnerability?
+A1: Because the victim app holds the legitimate privilege to launch its own unexported, private components. When an attacker sends a nested Intent and the victim blindly forwards it, the victim app acts as a 'deputy' that is tricked or 'confused' into exercising its authority on behalf of an unprivileged attacker.
+
+Q2: Can an Explicit Intent ever target a component in another application?
+A2: Yes. An explicit Intent simply specifies the exact package and class name of the target. If an application knows the explicit component name of an exported activity in another app, it can launch it explicitly. However, it is most commonly used for internal application navigation.
+
+Q3: Can an ordinary malicious app read an app's SQLite database directly on an unrooted phone?
+A3: No. Android's Linux kernel sandbox assigns unique UIDs and 0700 file permissions to app-private storage. A normal app has no OS permission to open another app's private files unless a secondary vulnerability (like an exported ContentProvider) or a device-level compromise exists.
+
+Q4: What is the main difference between Linux sandboxing and SQLite encryption?
+A4: Sandboxing provides OS-level access control—dictating which process can open the file handle. SQLite encryption (e.g., SQLCipher) provides data confidentiality—ensuring that even if the raw database bytes are extracted via backups, physical storage access, or root compromise, the contents remain encrypted AES-256 ciphertext.
+
+Q5: If an app uses SQLCipher encryption, is it completely safe even on a rooted device?
+A5: Not necessarily. While offline data at rest is encrypted, an attacker with root access on a live running device can inspect process memory, hook cryptographic APIs with tools like Frida, or extract the encryption key from memory while the database is open. Encryption provides defense-in-depth, not absolute invulnerability against a compromised runtime.
+
+Q6: How does an exported ContentProvider expose private SQLite data?
+A6: A ContentProvider acts as an IPC database interface. If it is declared with android:exported="true" and lacks permissions, any app can query it. Furthermore, if the provider constructs queries using raw string concatenation, external apps can execute SQL injection to dump the entire SQLite database.
+
+Q7: What is the risk of using Implicit Intents for sensitive internal operations?
+A7: Because implicit intents rely on OS-level intent filter matching rather than an explicit target, any malicious app installed on the device can declare a matching intent filter with high priority to intercept the intent, inspect sensitive extras, or return spoofed result data.
+
+
+------------------------------------------------------------
+SECTION 7 — IMPORTANT THINGS NOT TO SAY
+------------------------------------------------------------
+
+1. DO NOT SAY: "Explicit Intents are completely immune to interception."
+   CORRECT PHRASING: "Explicit Intents target a specific component, avoiding dynamic component resolution and significantly reducing intent-interception risk."
+
+2. DO NOT SAY: "Any malicious app can simply read another app's private SQLite database."
+   CORRECT PHRASING: "App-private storage is normally sandboxed; another exposure path, secondary vulnerability, or device compromise is required to access it."
+
+3. DO NOT SAY: "allowBackup='true' allows anyone to steal data with adb backup on modern phones without root."
+   CORRECT PHRASING: "Misconfigured backup or data-transfer rules may expose sensitive application data. Android 12+ uses dataExtractionRules to configure cloud backup and device transfer policies."
+
+4. DO NOT SAY: "Encryption at rest protects your data even if the phone is fully rooted and running an active attack."
+   CORRECT PHRASING: "Encryption at rest protects data confidentiality if raw storage files become accessible, but a fully compromised runtime can still threaten protected data."
+
+5. DO NOT SAY: "Every exported Activity has an Intent Redirection bug."
+   CORRECT PHRASING: "Intent Redirection specifically requires unvalidated forwarding of externally supplied nested Intents to internal components."
+
+
+------------------------------------------------------------
+SECTION 8 — EMERGENCY SHORT VERSION
+------------------------------------------------------------
+If the group is running behind schedule, compress your section to approximately 3.5 minutes:
+
+- Slide 5 (~60s): State: "Intents provide inter-process communication. Explicit intents designate an exact class, avoiding dynamic resolution and reducing interception risk. Implicit intents declare actions and rely on intent filters across installed apps. When Intent data crosses an app boundary, it creates a formal trust boundary and must be validated."
+- Slide 6 (~90s): State: "Intent Redirection is a Confused Deputy attack. An attacker crafts a nested Intent and sends it to an exported proxy activity. The proxy blindly forwards it via startActivity(next), launching an unexported private activity with the victim's own UID privileges. The root cause is trusting externally controlled IPC without verifying destination components or allowlists."
+- Slide 7 (~60s): State: "For local storage, an ordinary malicious app cannot simply read another app's private SQLite database due to Linux UID sandboxing. However, plaintext data is vulnerable to secondary vectors like exported ContentProviders, backup exposures, or root access. Sandboxing controls WHO can open the file; encryption at rest controls WHAT can be read from raw storage bytes."
+- Transition (~10s): Use the exact handoff sentence to Võ Huỳnh Duy Tân.
+============================================================

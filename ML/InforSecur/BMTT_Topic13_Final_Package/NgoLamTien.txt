@@ -1,0 +1,214 @@
+============================================================
+TOPIC 13 – SECURITY IN CLIENT-SERVER ANDROID APPLICATIONS
+
+PRESENTER:
+Ngô Lâm Tiến (Leader, Student ID: 524H0195)
+
+ASSIGNED SLIDES:
+Slides 1 → 4
+
+TARGET TIME:
+Approximately 4.5 – 5.0 minutes
+============================================================
+
+------------------------------------------------------------
+SECTION 1 — ROLE
+------------------------------------------------------------
+As the team leader and opening presenter, your role is to set a professional academic tone for the entire presentation and explain how Android security is designed to work at an architectural level.
+
+You introduce the project, course, instructor, and team members. You then establish the multi-layered attack surface of modern client-server mobile apps. Finally, you explain the core foundational mechanisms that isolate apps and govern access: the Linux kernel application sandbox, the four core application components, the Android Permission Model, and the authoritative role of AndroidManifest.xml.
+
+By the end of your section, the audience must understand that Android security is not a single perimeter, but a series of distinct boundaries governed by access control and least privilege.
+
+
+------------------------------------------------------------
+SECTION 2 — SLIDE-BY-SLIDE PRESENTATION PLAN
+------------------------------------------------------------
+
+SLIDE 1 — Security in Client-Server Android Applications (Title Slide)
+- Target time: 30 seconds
+- Purpose: Formally introduce the group, topic, and academic context.
+- Must explain: Topic 13 title, course name (Introduction to Information Security), instructor (Huynh Ngoc Tu, Ph.D), group G02, class N05, and the 3 team members.
+- Main takeaway: Today's seminar explores Android security across permissions, Intent IPC, local storage, and client-server network defense.
+- Do not say: Do not apologize for anything, do not read out every line of text, and do not rush through the introductions.
+
+SLIDE 2 — Why Android Security Matters (Threat Landscape & Attack Surface)
+- Target time: 1 minute 00 seconds
+- Purpose: Frame the complete attack surface from mobile client to backend cloud.
+- Must explain:
+  1. The 5-stage pipeline: End User -> Android Client -> Storage/IPC -> HTTPS Transit -> Backend Server.
+  2. The four security boundaries: Permissions Boundary, IPC & Intent Boundary, Storage-at-Rest Boundary, and Network Transit Boundary.
+  3. Why mobile security cannot rely on a single defensive layer.
+- Main takeaway: Android security is not a single perimeter; it requires defense-in-depth across device capabilities, inter-process communication, local storage, and network transit.
+- Do not say: Do not claim that Android has "one main security firewall" or that the client app alone can protect the entire system.
+
+SLIDE 3 — Android Security Foundation (Kernel-Level Sandboxing & Components)
+- Target time: 1 minute 15 seconds
+- Purpose: Explain how Android enforces process isolation and component boundaries.
+- Must explain:
+  1. Linux Application Sandbox: Each app gets a unique, immutable Linux UID (e.g., u0_a142) at install time, running in an isolated process with an independent Android Runtime (ART) instance.
+  2. Kernel File Permissions: App directories (/data/data/<package>) have strict 0700 DAC permissions, preventing ordinary apps from accessing each other's memory or files.
+  3. The 4 Core Components: Activity (visual UI), Service (background work), BroadcastReceiver (async event listener), and ContentProvider (structured data interface for IPC).
+  4. AndroidManifest.xml: Authoritative declarative contract parsed at install time.
+- Main takeaway: Android adapts the multi-tenant Linux OS security model to treat each mobile application as an isolated user with strict process and file boundaries.
+- Do not say: Do not say that Android sandboxing makes applications 100% immune to all vulnerabilities; sandboxing isolates processes, but application-level logic flaws can still be exploited.
+
+SLIDE 4 — Permission Model & AndroidManifest.xml (Access Control & Governance)
+- Target time: 1 minute 30 seconds
+- Purpose: Detail permission protection levels and the security implications of component exposure.
+- Must explain:
+  1. Four Permission Levels:
+     - Normal (install-time, low risk, auto-granted, e.g., INTERNET).
+     - Dangerous (runtime user consent required, high risk, e.g., CAMERA, LOCATION).
+     - Signature (vendor protection, auto-granted only if signed with the exact same developer certificate).
+     - Special / Privileged (system-level capabilities, manual user activation in system settings).
+  2. The android:exported Gateway:
+     - android:exported="false": Component is strictly internal; cannot be reached through normal external launching.
+     - android:exported="true": Component can be reached by other apps, subject to permissions or access controls.
+  3. Android 12+ mandate: Explicit declaration of android:exported is mandatory for components with intent filters.
+  4. Core Nuance: "Exported does not automatically mean vulnerable." A vulnerability occurs only when an exposed endpoint lacks sufficient authorization, permissions, caller checks, or input validation.
+  5. Principle of Least Privilege: Expose only what is strictly required and gate exposed components.
+- Main takeaway: Declaring android:exported="true" opens an external communication gateway, but vulnerability depends on whether the component properly enforces authorization, permissions, and input validation.
+- Do not say: DO NOT SAY that exported="true" means ANY app can launch it unconditionally without restrictions, and DO NOT SAY that an exported component is automatically vulnerable.
+
+
+------------------------------------------------------------
+SECTION 3 — RECOMMENDED SPEAKING SCRIPT
+------------------------------------------------------------
+
+[SLIDE 1 — TITLE SLIDE (~30 seconds)]
+"Good morning Dr. Huynh Ngoc Tu and fellow classmates. 
+
+My name is Ngô Lâm Tiến, and on behalf of group G02 from class N05, I am pleased to present Topic 13: Security in Client-Server Android Applications, focusing on permissions, Intent security, and local data protection. 
+
+Joining me today are my group members, Nguyễn Công Thành and Võ Huỳnh Duy Tân. 
+
+Our presentation examines how Android's security boundaries operate, how subtle implementation flaws in Intent IPC and local SQLite storage create severe security risks, and how we plan to demonstrate network interception and Certificate Pinning in our final laboratory project. Let us begin with the threat landscape."
+
+
+[SLIDE 2 — WHY ANDROID SECURITY MATTERS (~1 minute 00 seconds)]
+"When developers think about mobile security, a common mistake is treating Android as a single perimeter. In reality, a modern client-server application spans multiple distinct operational layers.
+
+If you look at the top flow on this slide, an end user interacts with the Android client, which executes local business logic, reads and writes local storage, dispatches inter-process messages, and communicates with cloud APIs over HTTPS.
+
+Because data and execution flow across these layers, Android establishes four essential security boundaries:
+First, the Permissions Boundary, which gates access to sensitive device hardware like the camera and location.
+Second, the IPC and Intent Boundary, which governs message passing between separate application processes.
+Third, the Storage-at-Rest Boundary, which isolates private databases and files using Linux user IDs.
+And fourth, the Network Transit Boundary, which protects client-server communication across untrusted networks.
+
+Our core takeaway here is simple: Android security requires defense-in-depth across all four boundaries. If any single boundary is misconfigured, the security of the entire application can collapse."
+
+
+[SLIDE 3 — ANDROID SECURITY FOUNDATION (~1 minute 15 seconds)]
+"Now, let us examine how Android implements this security foundation at the operating system level.
+
+Android departs from traditional desktop computing by adapting the multi-tenant Linux OS model. Upon installation, the system assigns each application a unique, immutable Linux User ID—such as u0_a142. Every app executes inside its own dedicated Linux process running an independent instance of the Android Runtime virtual machine. Furthermore, the operating system applies strict discretionary access control permissions—mode 0700—to the application's private directory under /data/data/<package_name>. This ensures that an ordinary third-party app cannot read another app's memory or inspect its private files.
+
+Within this sandbox, applications are built from four core modular components:
+Activities, which render visual interactive screens;
+Services, which handle long-running background tasks without a user interface;
+BroadcastReceivers, which listen asynchronously for system-wide or internal event signals;
+And ContentProviders, which provide structured data access and abstract SQLite databases for inter-process communication.
+
+All of these components and their security policies are declared in a single authoritative blueprint: the AndroidManifest.xml file. Parsed at install time, the manifest defines the application's attack surface through component exposure and permission declarations."
+
+
+[SLIDE 4 — PERMISSION MODEL & ANDROIDMANIFEST.XML (~1 minute 30 seconds)]
+"Because apps often need device resources beyond their isolated sandbox, Android provides a granular Permission Model categorized into four protection levels.
+
+On the left, you can see these four tiers:
+Normal permissions cover low-risk operations like accessing the network state and are automatically granted at install time.
+Dangerous permissions govern sensitive private data—such as camera, contacts, and fine location—and require explicit runtime prompts where the user must give informed consent.
+Signature permissions represent vendor-level trust: Android grants them automatically only if the requesting app is signed with the exact same cryptographic certificate as the declaring app.
+And Special permissions regulate advanced capabilities like system alert windows, requiring users to manually toggle settings.
+
+Now look at the right side of the slide, where the manifest controls component reachability through the android:exported attribute.
+When android:exported is 'false', the component is private and cannot be launched by normal external component launching.
+When android:exported is 'true', external applications may reach the component. 
+
+Here is a critical nuance: exported does not automatically mean vulnerable. An exported component is only vulnerable if it exposes sensitive functionality without verifying caller permissions, enforcing authorization, or validating incoming input. Furthermore, since Android 12, developers must explicitly declare android:exported for any component with intent filters.
+
+This brings us to the Principle of Least Privilege: keep internal components non-exported by default, and strictly protect any necessary public interfaces."
+
+
+------------------------------------------------------------
+SECTION 4 — WHAT TO POINT AT ON THE SLIDE
+------------------------------------------------------------
+
+SLIDE 2:
+- Point along the top pipeline: Start at 'End User', move to 'Android Client', through 'Storage / IPC', across 'HTTPS / Transit', and end at 'Backend Server'.
+- Then point down to the 4 cards: Tap or gesture toward Card 1 (Permissions), Card 2 (IPC), Card 3 (Storage), and Card 4 (Transit) to emphasize the four distinct boundaries.
+
+SLIDE 3:
+- Point to Card 1: Emphasize the Linux UID (u0_a142) and the directory path '/data/data/<pkg>' with '0700' permissions.
+- Point to Card 2: Quickly point down the list of the 4 components: Activity, Service, BroadcastReceiver, ContentProvider.
+- Point to Card 3: Highlight 'AndroidManifest.xml' as the central contract parsed at installation.
+
+SLIDE 4:
+- Left Column: Point sequentially down the 4 permission badges: Cyan (Normal), Red (Dangerous - Runtime), Green (Signature), Amber (Special).
+- Right Column: Point directly to the code snippet showing `android:exported="false"`, emphasizing that closing components by default is the safest baseline.
+
+
+------------------------------------------------------------
+SECTION 5 — TRANSITION
+------------------------------------------------------------
+
+OPENING TRANSITION (Beginning Slide 1):
+"Good morning Dr. Huynh Ngoc Tu and classmates. My name is Ngô Lâm Tiến, and on behalf of Group G02, I will begin our presentation on Topic 13: Security in Client-Server Android Applications."
+
+CLOSING TRANSITION (Handoff to Nguyễn Công Thành at end of Slide 4):
+"Now that we understand Android's security boundaries and component access control, the next section explains how communication through Intents can cross these trust boundaries and become vulnerable. I now hand over the presentation to Nguyễn Công Thành."
+
+
+------------------------------------------------------------
+SECTION 6 — LIKELY QUESTIONS & SHORT ANSWERS
+------------------------------------------------------------
+
+Q1: Why does Android assign a unique Linux UID to every application instead of running all apps under the current mobile user?
+A1: Traditional desktop systems run all user apps under a single user ID, allowing any app to access all user files. Android treats every app as an independent, isolated user in a multi-tenant Linux model. This ensures strict OS-level memory and file isolation via kernel Discretionary Access Control.
+
+Q2: Does setting android:exported="true" automatically make an Activity vulnerable?
+A2: No. Exported simply means the component is externally reachable. It is only vulnerable if it performs sensitive actions without verifying caller identity, enforcing permission checks, or validating incoming Intent parameters.
+
+Q3: What changed regarding android:exported in Android 12?
+A3: In Android 11 and earlier, declaring an <intent-filter> caused android:exported to default to 'true' implicitly, which often led to accidental exposure. Android 12 (API level 31) made it mandatory to explicitly declare android:exported="true" or "false" whenever an intent filter is defined.
+
+Q4: What is the security advantage of Signature permissions over Dangerous runtime permissions?
+A4: Dangerous permissions rely on end-user prompts, which users may click through without understanding. Signature permissions are enforced cryptographically by the OS: only apps signed with the developer's private signing key can obtain the permission, enabling seamless and secure communication between a vendor's own suite of applications.
+
+Q5: Can an unexported component (android:exported="false") ever be reached by another application?
+A5: Under normal direct invocation, no. However, if the victim application has an exported proxy component that blindly forwards external Intents internally, an attacker can indirectly reach the unexported component via a Confused Deputy attack, which Thành will explain next.
+
+Q6: What is the difference between Normal and Dangerous permissions from a user perspective?
+A6: Normal permissions pose minimal risk and are granted silently at installation without prompting the user. Dangerous permissions access private user data or sensitive hardware and require an interactive system prompt at runtime where the user can allow or deny access.
+
+
+------------------------------------------------------------
+SECTION 7 — IMPORTANT THINGS NOT TO SAY
+------------------------------------------------------------
+
+1. DO NOT SAY: "android:exported='true' means any app can launch it unconditionally."
+   CORRECT PHRASING: "android:exported='true' allows the component to be reached by other apps, subject to permissions or access-control requirements."
+
+2. DO NOT SAY: "Exported components are automatically vulnerable."
+   CORRECT PHRASING: "Exported does not automatically mean vulnerable. A vulnerability exists when externally reachable functionality lacks authorization, permissions, or input validation."
+
+3. DO NOT SAY: "Linux sandboxing stops all attacks on mobile devices."
+   CORRECT PHRASING: "Sandboxing enforces OS-level process and file access control, but it cannot prevent application-level logic flaws or improper component exposure."
+
+4. DO NOT SAY: "Dangerous permissions are granted when the user installs the app from Google Play."
+   CORRECT PHRASING: "Since Android 6.0, dangerous permissions must be requested at runtime when the app actually needs the capability."
+
+
+------------------------------------------------------------
+SECTION 8 — EMERGENCY SHORT VERSION
+------------------------------------------------------------
+If the group is running behind schedule, compress your section to approximately 3 minutes by focusing strictly on these core points:
+
+- Slide 1 (~15s): Welcome the instructor, introduce Group G02, your teammates, and state the topic: Android permissions, Intent security, and local data protection.
+- Slide 2 (~45s): State: "Mobile security is not a single perimeter. It spans device permissions, inter-process communication, local storage, and network transit. Defense-in-depth is essential."
+- Slide 3 (~50s): State: "Android treats each app as a separate Linux user with a unique UID and 0700 file permissions, isolating processes and data. Apps interact via four modular components: Activities, Services, BroadcastReceivers, and ContentProviders, all registered in AndroidManifest.xml."
+- Slide 4 (~70s): State: "Permissions gate capabilities from Normal install-time to Dangerous runtime and Signature levels. In the manifest, android:exported controls external reachability. Exported does not automatically mean vulnerable—vulnerabilities occur when exposed endpoints lack validation. Since Android 12, exported must be declared explicitly. Always apply least privilege."
+- Transition (~10s): Use the exact handoff sentence to Nguyễn Công Thành.
+============================================================

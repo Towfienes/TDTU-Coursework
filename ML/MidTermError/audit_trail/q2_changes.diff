@@ -1,0 +1,726 @@
+diff --git a/audit_trail/original_project/ML_Midterm_Submission/src/q2_classification.py b/ML_Midterm_Final/src/q2_classification.py
+index 772d5a1..33e3dab 100644
+--- a/audit_trail/original_project/ML_Midterm_Submission/src/q2_classification.py
++++ b/ML_Midterm_Final/src/q2_classification.py
+@@ -1,214 +1,523 @@
+-"""Q2: Leakage-safe multi-class benchmark for Iris, OpenML dataset ID 61.
+-
+-The bundled CSV is an offline mirror of Fisher's Iris data from scikit-learn.
+-OpenML live re-fetch is optional; do not confuse offline mirror with a
+-successful network download. This program measures actual held-out results.
+-"""
+-from pathlib import Path
+-import json, warnings, argparse
++"""Predeclared credit-g benchmark: train-only selection, one holdout evaluation."""
++
++import json
++import time
+ import numpy as np
+ import pandas as pd
+ import matplotlib
+-matplotlib.use('Agg')
++
++matplotlib.use("Agg")
+ import matplotlib.pyplot as plt
+-import seaborn as sns
+-from sklearn.datasets import load_iris,fetch_openml
+-from sklearn.model_selection import train_test_split,StratifiedKFold,cross_val_score
++from sklearn.base import clone
+ from sklearn.compose import ColumnTransformer
+ from sklearn.pipeline import Pipeline
+-from sklearn.preprocessing import StandardScaler
++from sklearn.preprocessing import StandardScaler, OneHotEncoder
+ from sklearn.impute import SimpleImputer
+-from sklearn.metrics import (accuracy_score,precision_score,recall_score,f1_score,
+- classification_report, confusion_matrix,ConfusionMatrixDisplay)
++from sklearn.model_selection import train_test_split, StratifiedKFold, cross_validate
++from sklearn.metrics import (
++    accuracy_score,
++    precision_score,
++    recall_score,
++    f1_score,
++    balanced_accuracy_score,
++    roc_auc_score,
++    confusion_matrix,
++    ConfusionMatrixDisplay,
++    RocCurveDisplay,
++)
+ from sklearn.dummy import DummyClassifier
+ from sklearn.linear_model import LogisticRegression
+ from sklearn.neighbors import KNeighborsClassifier
+-from sklearn.svm import SVC,LinearSVC
+-from sklearn.tree import DecisionTreeClassifier
+-from sklearn.ensemble import (RandomForestClassifier,ExtraTreesClassifier,
+- GradientBoostingClassifier,AdaBoostClassifier)
+ from sklearn.naive_bayes import GaussianNB
+-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis,QuadraticDiscriminantAnalysis
+-
+-FEATURES=['sepallength','sepalwidth','petallength','petalwidth']
+-LABELS=['setosa','versicolor','virginica']
+-SEED=42
+-
+-def create_offline_openml_mirror(root):
+-    """Bundle the corresponding original Fisher Iris observations locally."""
+-    path=root/'data/iris_openml_61_offline_mirror.csv'
+-    if not path.exists():
+-        raw=load_iris(as_frame=True)
+-        df=pd.DataFrame(raw.data.to_numpy(),columns=FEATURES)
+-        df['class']=[LABELS[i] for i in raw.target]
+-        df.to_csv(path,index=False,float_format='%.1f')
+-    return path
+-
+-def get_data(root,use_openml_live=False):
+-    local=create_offline_openml_mirror(root)
+-    if use_openml_live:
+-        try:
+-            bunch=fetch_openml(data_id=61,as_frame=True,parser='auto')
+-            df=bunch.frame.copy()
+-            keys=list(df.columns)
+-            rename={keys[i]:FEATURES[i] for i in range(4)}
+-            rename[keys[4]]='class'
+-            df=df.rename(columns=rename)
+-            df['class']=df['class'].astype(str).str.lower().str.replace('iris-','',regex=False)
+-            df=df[FEATURES+['class']]
+-            if len(df)!=150 or set(df['class'])!=set(LABELS):
+-                raise ValueError('unexpected OpenML dataset schema')
+-            return df,'Live OpenML data ID 61, version 1'
+-        except Exception as exc:
+-            raise RuntimeError('Requested live OpenML fetch failed; rerun without --use-openml-live to use explicit offline mirror.') from exc
+-    return pd.read_csv(local),'Bundled offline mirror (scikit-learn Fisher Iris); OpenML dataset 61'
+-
+-def make_pipeline(model):
+-    prep=ColumnTransformer([
+-     ('numeric',Pipeline([('impute',SimpleImputer(strategy='median')),
+-                 ('scale',StandardScaler())]),FEATURES)],remainder='drop')
+-    return Pipeline([('preprocess',prep),('model',model)])
++from sklearn.tree import DecisionTreeClassifier
++from sklearn.ensemble import (
++    RandomForestClassifier,
++    ExtraTreesClassifier,
++    GradientBoostingClassifier,
++    HistGradientBoostingClassifier,
++    AdaBoostClassifier,
++)
++from sklearn.svm import SVC, LinearSVC
++from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
++from src.data import ROOT, NUMERIC, load_data
++
++SEED = 42
++PRIMARY_METRIC = "f1_macro"
++plt.rcParams.update(
++    {
++        "font.size": 13,
++        "axes.spines.top": False,
++        "axes.spines.right": False,
++        "axes.labelcolor": "#142A46",
++        "text.color": "#142A46",
++        "savefig.dpi": 190,
++    }
++)
++
++
++def split_data(df):
++    X = df.drop(columns="class")
++    y = (df["class"] == "bad").astype(int)
++    return train_test_split(X, y, test_size=0.2, stratify=y, random_state=SEED)
++
++
++def make_pipeline(model, X):
++    categorical = [c for c in X.columns if c not in NUMERIC]
++    prep = ColumnTransformer(
++        [
++            (
++                "numeric",
++                Pipeline(
++                    [
++                        ("impute", SimpleImputer(strategy="median")),
++                        ("scale", StandardScaler()),
++                    ]
++                ),
++                NUMERIC,
++            ),
++            (
++                "categorical",
++                Pipeline(
++                    [
++                        ("impute", SimpleImputer(strategy="most_frequent")),
++                        (
++                            "encode",
++                            OneHotEncoder(handle_unknown="ignore", sparse_output=False),
++                        ),
++                    ]
++                ),
++                categorical,
++            ),
++        ],
++        sparse_threshold=0,
++    )
++    return Pipeline([("preprocess", prep), ("model", model)])
++
+ 
+ def models():
+     return {
+-     'Dummy (majority)':DummyClassifier(strategy='most_frequent'),
+-     'Logistic Regression':LogisticRegression(max_iter=2000,random_state=SEED),
+-     'KNN (k=5)':KNeighborsClassifier(n_neighbors=5),
+-     'SVM (RBF)':SVC(kernel='rbf',C=1.,gamma='scale',random_state=SEED),
+-     'Linear SVM':LinearSVC(max_iter=20000,random_state=SEED),
+-     'Decision Tree':DecisionTreeClassifier(random_state=SEED),
+-     'Random Forest':RandomForestClassifier(n_estimators=150,random_state=SEED,n_jobs=1),
+-     'Extra Trees':ExtraTreesClassifier(n_estimators=150,random_state=SEED,n_jobs=1),
+-     'Gradient Boosting':GradientBoostingClassifier(random_state=SEED),
+-     'AdaBoost':AdaBoostClassifier(random_state=SEED),
+-     'Gaussian Naive Bayes':GaussianNB(),
+-     'LDA':LinearDiscriminantAnalysis(),
+-     'QDA':QuadraticDiscriminantAnalysis(),
++        "Dummy majority": DummyClassifier(strategy="most_frequent"),
++        "Logistic Regression": LogisticRegression(
++            C=1.0, max_iter=3000, random_state=SEED
++        ),
++        "KNN": KNeighborsClassifier(n_neighbors=5),
++        "Gaussian Naive Bayes": GaussianNB(),
++        "Decision Tree": DecisionTreeClassifier(random_state=SEED),
++        "Random Forest": RandomForestClassifier(
++            n_estimators=150, random_state=SEED, n_jobs=1
++        ),
++        "Extra Trees": ExtraTreesClassifier(
++            n_estimators=150, random_state=SEED, n_jobs=1
++        ),
++        "Linear SVM": LinearSVC(C=1.0, max_iter=20000, random_state=SEED),
++        "RBF SVM": SVC(C=1.0, gamma="scale", random_state=SEED),
++        "Gradient Boosting": GradientBoostingClassifier(
++            n_estimators=100, random_state=SEED
++        ),
++        "HistGradientBoosting": HistGradientBoostingClassifier(
++            max_iter=100, random_state=SEED
++        ),
++        "AdaBoost": AdaBoostClassifier(
++            n_estimators=100, learning_rate=0.5, random_state=SEED
++        ),
++        "LDA": LinearDiscriminantAnalysis(solver="svd"),
+     }
+ 
+-def main(root=None,use_openml_live=False):
+-    root=Path(root or Path(__file__).resolve().parents[1]);(root/'figures').mkdir(exist_ok=True)
+-    (root/'results').mkdir(exist_ok=True);(root/'data').mkdir(exist_ok=True)
+-    data,origin=get_data(root,use_openml_live)
+-    original_rows=len(data); missing_before=int(data.isna().sum().sum()); duplicate_count=int(data.duplicated().sum())
+-    # Remove literal invalid numeric cells, and duplicate rows. Imputation FITS on train only.
+-    data=data.replace([np.inf,-np.inf],np.nan).drop_duplicates().copy()
+-    for col in FEATURES:data[col]=pd.to_numeric(data[col],errors='coerce')
+-    data['class']=data['class'].astype(str).str.strip().str.lower()
+-    data=data[data['class'].isin(LABELS)].dropna(subset=['class'])
+-    assert data[FEATURES].shape[1]==4 and data['class'].nunique()==3
+-    numeric_missing_after=int(data[FEATURES].isna().sum().sum())
+-    X,y=data[FEATURES],data['class']
+-    X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=.30,stratify=y,random_state=SEED)
+-    cv=StratifiedKFold(n_splits=5,shuffle=True,random_state=SEED)
+-    # EDA (descriptive only). Model and imputation/scaling FIT training folds only.
+-    fig,ax=plt.subplots(figsize=(7,4.4));counts=y.value_counts().reindex(LABELS)
+-    bars=ax.bar(counts.index,counts.values,color=['#0891B2','#7C3AED','#F59E0B'])
+-    ax.bar_label(bars,padding=3);ax.set_ylim(0,max(counts)*1.17)
+-    ax.set_title('Q2 - Iris Class Distribution');ax.set_ylabel('Observations');fig.tight_layout()
+-    fig.savefig(root/'figures/q2_class_balance.png',dpi=170);plt.close(fig)
+-    fig,ax=plt.subplots(figsize=(7.4,5.1))
+-    for i,label in enumerate(LABELS):
+-        sub=data[data['class']==label]
+-        ax.scatter(sub['petallength'],sub['petalwidth'],s=34,alpha=.8,label=label,
+-                   color=['#0891B2','#7C3AED','#F59E0B'][i])
+-    ax.set_xlabel('Petal length (cm)');ax.set_ylabel('Petal width (cm)');ax.legend(frameon=False)
+-    ax.set_title('Q2 - Petal Dimensions by Species');fig.tight_layout()
+-    fig.savefig(root/'figures/q2_feature_scatter.png',dpi=170);plt.close(fig)
+-    fig,ax=plt.subplots(figsize=(6.8,5.2))
+-    sns.heatmap(data[FEATURES].corr(),annot=True,fmt='.2f',cmap='RdBu_r',vmin=-1,vmax=1,ax=ax)
+-    ax.set_title('Q2 - Correlation between Raw Numeric Features');fig.tight_layout()
+-    fig.savefig(root/'figures/q2_correlation.png',dpi=170);plt.close(fig)
+-    fig,ax=plt.subplots(figsize=(8,4.7))
+-    sns.boxplot(data=data.melt(id_vars='class',value_vars=FEATURES),x='variable',y='value',ax=ax,color='#B6DDEA')
+-    ax.tick_params(axis='x',labelrotation=12);ax.set_xlabel('Feature');ax.set_ylabel('Value (cm)')
+-    ax.set_title('Q2 - Feature Distributions');fig.tight_layout()
+-    fig.savefig(root/'figures/q2_feature_distributions.png',dpi=170);plt.close(fig)
+-    rows=[]; predictions={}; all_models=models()
+-    for name,model in all_models.items():
+-        pipe=make_pipeline(model)
+-        with warnings.catch_warnings():
+-            warnings.simplefilter('ignore',category=UserWarning)
+-            scores=cross_val_score(pipe,X_train,y_train,scoring='f1_macro',cv=cv,n_jobs=1)
+-            pipe.fit(X_train,y_train)
+-        train_pred=pipe.predict(X_train);test_pred=pipe.predict(X_test)
+-        rows.append(dict(model=name,cv_macro_f1_mean=float(scores.mean()),cv_macro_f1_std=float(scores.std()),
+-          train_accuracy=float(accuracy_score(y_train,train_pred)),
+-          test_accuracy=float(accuracy_score(y_test,test_pred)),
+-          test_precision_macro=float(precision_score(y_test,test_pred,average='macro',zero_division=0)),
+-          test_recall_macro=float(recall_score(y_test,test_pred,average='macro',zero_division=0)),
+-          test_f1_macro=float(f1_score(y_test,test_pred,average='macro',zero_division=0)),
+-          train_test_accuracy_gap=float(accuracy_score(y_train,train_pred)-accuracy_score(y_test,test_pred))))
+-        predictions[name]=pipe
+-    comparison=pd.DataFrame(rows).sort_values(by=['cv_macro_f1_mean','model'],ascending=[False,True]).reset_index(drop=True)
+-    comparison.to_csv(root/'results/q2_model_comparison.csv',index=False,float_format='%.6f')
+-    # Select using 5-fold train-only CV, not observed test performance.
+-    champion_name=comparison.iloc[0]['model'];champion=predictions[champion_name]
+-    champion_pred=champion.predict(X_test)
+-    cm=confusion_matrix(y_test,champion_pred,labels=LABELS)
+-    fig,ax=plt.subplots(figsize=(6.6,5.1));ConfusionMatrixDisplay(cm,display_labels=LABELS).plot(ax=ax,cmap='Blues',colorbar=False)
+-    ax.set_title('Q2 - CV-Selected Model: '+champion_name);fig.tight_layout()
+-    fig.savefig(root/'figures/q2_champion_confusion.png',dpi=170);plt.close(fig)
+-    fig,ax=plt.subplots(figsize=(9,5.9));view=comparison.sort_values('cv_macro_f1_mean')
+-    ax.barh(view['model'],view['cv_macro_f1_mean'],color='#0E7490',alpha=.88)
+-    ax.errorbar(view['cv_macro_f1_mean'],np.arange(len(view)),xerr=view['cv_macro_f1_std'],fmt='none',ecolor='#27334C',capsize=3)
+-    ax.set_xlim(0,1.06);ax.set_xlabel('5-fold CV macro-F1 (training split only)')
+-    ax.set_title('Q2 - Classifier Comparison (mean +/- 1 fold SD)');fig.tight_layout()
+-    fig.savefig(root/'figures/q2_model_comparison.png',dpi=170);plt.close(fig)
+-    # Train-only complexity experiment for a single decision tree.
+-    complexity=[]
+-    for depth in [1,2,3,4,5,7,None]:
+-        pipe=make_pipeline(DecisionTreeClassifier(max_depth=depth,random_state=SEED))
+-        cv_scores=cross_val_score(pipe,X_train,y_train,cv=cv,scoring='f1_macro',n_jobs=1)
+-        pipe.fit(X_train,y_train)
+-        complexity.append({'max_depth':'None' if depth is None else str(depth),
+-           'train_macro_f1':float(f1_score(y_train,pipe.predict(X_train),average='macro')),
+-           'cv_macro_f1':float(cv_scores.mean()),'cv_std':float(cv_scores.std())})
+-    depth_df=pd.DataFrame(complexity)
+-    depth_df.to_csv(root/'results/q2_tree_depth_study.csv',index=False,float_format='%.6f')
+-    fig,ax=plt.subplots(figsize=(8.6,4.8))
+-    xs=np.arange(len(depth_df))
+-    ax.plot(xs,depth_df.train_macro_f1,'o-',lw=2,color='#DC2626',label='Training macro-F1')
+-    ax.plot(xs,depth_df.cv_macro_f1,'s-',lw=2,color='#0E7490',label='5-fold CV macro-F1')
+-    ax.fill_between(xs,(depth_df.cv_macro_f1-depth_df.cv_std).to_numpy(),
+-        (depth_df.cv_macro_f1+depth_df.cv_std).to_numpy(),color='#0E7490',alpha=.15)
+-    ax.set_xticks(xs,depth_df.max_depth);ax.set_xlabel('Tree maximum depth (None = unrestricted)')
+-    ax.set_ylabel('Macro-F1');ax.set_ylim(.45,1.04);ax.grid(alpha=.16);ax.legend()
+-    ax.set_title('Q2 - Overfitting: Model Complexity vs Generalization');fig.tight_layout()
+-    fig.savefig(root/'figures/q2_overfitting.png',dpi=170);plt.close(fig)
+-    # Mitigation: choose depth via CV ONLY and evaluate that depth on the held-out test.
+-    depth_df=depth_df.sort_values(by=['cv_macro_f1','train_macro_f1'],ascending=[False,True])
+-    best_depth_str=depth_df.iloc[0]['max_depth'];best_depth=None if best_depth_str=='None' else int(best_depth_str)
+-    tuned=make_pipeline(DecisionTreeClassifier(max_depth=best_depth,random_state=SEED)).fit(X_train,y_train)
+-    unpruned=make_pipeline(DecisionTreeClassifier(random_state=SEED)).fit(X_train,y_train)
+-    mitigation={
+-      'selected_max_depth_using_cv':best_depth_str,
+-      'unpruned_train_macro_f1':float(f1_score(y_train,unpruned.predict(X_train),average='macro')),
+-      'unpruned_test_macro_f1':float(f1_score(y_test,unpruned.predict(X_test),average='macro')),
+-      'pruned_train_macro_f1':float(f1_score(y_train,tuned.predict(X_train),average='macro')),
+-      'pruned_test_macro_f1':float(f1_score(y_test,tuned.predict(X_test),average='macro')),
+-      'important_note':'Depth selected with training CV only; both held-out test scores reported after selection.'}
+-    summary={'openml_dataset_id':61,'openml_dataset_url':'https://www.openml.org/d/61',
+-      'data_origin':origin,'original_rows':original_rows,'duplicates_removed':duplicate_count,
+-      'missing_values_original':missing_before,'missing_numeric_after_cleaning':numeric_missing_after,
+-      'cleaned_rows':len(data),'train_rows':len(y_train),'test_rows':len(y_test),
+-      'train_class_counts':{k:int(v) for k,v in y_train.value_counts().items()},
+-      'test_class_counts':{k:int(v) for k,v in y_test.value_counts().items()},
+-      'class_counts_cleaned':{k:int(v) for k,v in data['class'].value_counts().items()},
+-      'features':FEATURES,'target':'class','cv_folds':5,'random_state':SEED,
+-      'champion_selected_by_train_cv':champion_name,
+-      'champion_test_accuracy':float(accuracy_score(y_test,champion_pred)),
+-      'champion_test_macro_f1':float(f1_score(y_test,champion_pred,average='macro')),
+-      'champion_confusion_matrix_label_order':LABELS,
+-      'champion_confusion_matrix':cm.tolist(),
+-      'classification_report':classification_report(y_test,champion_pred,labels=LABELS,output_dict=True,zero_division=0),
+-      'overfitting_mitigation':mitigation}
+-    (root/'results/q2_summary.json').write_text(json.dumps(summary,indent=2),encoding='utf-8')
+-    print('Q2 successful: train-only stratified CV, final held-out test evaluation.')
+-    print(comparison.to_string(index=False,float_format=lambda x:f'{x:.3f}'))
+-    print(json.dumps(summary,indent=2))
+-    return summary,comparison
+-
+-if __name__=='__main__':
+-    p=argparse.ArgumentParser();p.add_argument('--use-openml-live',action='store_true');args=p.parse_args()
+-    main(use_openml_live=args.use_openml_live)
++
++def evaluate_cv(model, X, y, folds):
++    scores = cross_validate(
++        make_pipeline(clone(model), X),
++        X,
++        y,
++        cv=folds,
++        scoring=PRIMARY_METRIC,
++        return_train_score=True,
++        n_jobs=1,
++        error_score="raise",
++    )
++    return dict(
++        cv_macro_f1_mean=float(scores["test_score"].mean()),
++        cv_macro_f1_std=float(scores["test_score"].std(ddof=1)),
++        fold_train_macro_f1_mean=float(scores["train_score"].mean()),
++        fold_generalization_gap=float(
++            (scores["train_score"] - scores["test_score"]).mean()
++        ),
++    ), scores
++
++
++def run_studies(X, y, folds):
++    # Configurations fixed before opening holdout results; larger k reduces local flexibility.
++    configs = [
++        (
++            "Decision Tree",
++            f"depth={d},leaf={leaf}",
++            DecisionTreeClassifier(
++                max_depth=d, min_samples_leaf=leaf, random_state=SEED
++            ),
++        )
++        for d, leaf in [
++            (None, 1),
++            (2, 1),
++            (3, 1),
++            (5, 1),
++            (8, 1),
++            (None, 5),
++            (None, 15),
++        ]
++    ]
++    configs += [
++        ("KNN", f"k={k}", KNeighborsClassifier(n_neighbors=k))
++        for k in [1, 3, 5, 11, 21, 41]
++    ]
++    configs += [
++        ("RBF SVM", f"C={c},gamma={g}", SVC(C=c, gamma=g, random_state=SEED))
++        for c, g in [
++            (100, 1.0),
++            (0.1, "scale"),
++            (1.0, "scale"),
++            (10.0, "scale"),
++            (1.0, 0.01),
++            (1.0, 0.1),
++            (10.0, 0.1),
++        ]
++    ]
++    rows, fold_rows = [], []
++    for family, config, model in configs:
++        metrics, scores = evaluate_cv(model, X, y, folds)
++        fitted = make_pipeline(clone(model), X).fit(X, y)
++        rows.append(
++            dict(
++                family=family,
++                configuration=config,
++                full_train_macro_f1=float(
++                    f1_score(y, fitted.predict(X), average="macro")
++                ),
++                **metrics,
++            )
++        )
++        for i, (tr, val) in enumerate(zip(scores["train_score"], scores["test_score"])):
++            fold_rows.append(
++                dict(
++                    stage="study",
++                    model=family,
++                    configuration=config,
++                    fold=i,
++                    train_macro_f1=float(tr),
++                    validation_macro_f1=float(val),
++                )
++            )
++    return pd.DataFrame(rows), fold_rows
++
++
++def savefig(root, name):
++    plt.tight_layout()
++    plt.savefig(root / "figures" / name)
++    plt.close()
++
++
++def exploratory(root, df, Xtr, ytr):
++    categorical = [c for c in Xtr if c not in NUMERIC]
++    iqr = Xtr[NUMERIC].quantile(0.75) - Xtr[NUMERIC].quantile(0.25)
++    low = Xtr[NUMERIC].quantile(0.25) - 1.5 * iqr
++    high = Xtr[NUMERIC].quantile(0.75) + 1.5 * iqr
++    eda = dict(
++        raw_rows=len(df),
++        raw_columns=len(df.columns),
++        missing_cells=int(df.isna().sum().sum()),
++        exact_duplicate_rows=int(df.duplicated().sum()),
++        numeric_count=len(NUMERIC),
++        categorical_count=len(categorical),
++        cleaning="No records removed: valid schema, no missing values, no exact duplicates. Outliers retained as plausible observations.",
++        iqr_outlier_counts_training={
++            c: int(v)
++            for c, v in ((Xtr[NUMERIC] < low) | (Xtr[NUMERIC] > high)).sum().items()
++        },
++        categorical_counts_training={
++            c: {str(k): int(v) for k, v in Xtr[c].value_counts().items()}
++            for c in categorical
++        },
++        categorical_cardinality_training={
++            c: int(Xtr[c].nunique()) for c in categorical
++        },
++    )
++    if eda["exact_duplicate_rows"]:
++        raise ValueError(
++            "Unexpected duplicate records: investigate before defining split"
++        )
++    Xtr[NUMERIC].describe().to_csv(root / "results/q2_numeric_description.csv")
++    (root / "results/q2_eda.json").write_text(json.dumps(eda, indent=2))
++    plt.figure(figsize=(6, 3.6))
++    bars = plt.bar(
++        ["Good (0)", "Bad (1)"],
++        [(ytr == 0).sum(), (ytr == 1).sum()],
++        color=["#142A46", "#0E7490"],
++    )
++    plt.bar_label(bars, padding=3)
++    plt.ylim(0, len(ytr) * 0.8)
++    plt.ylabel("Training records")
++    plt.title("Credit risk labels in development partition")
++    savefig(root, "q2_class_balance.png")
++    fig, axs = plt.subplots(2, 2, figsize=(8.5, 5.8))
++    for ax, c in zip(
++        axs.ravel(), ["duration", "credit_amount", "age", "existing_credits"]
++    ):
++        edges = np.histogram_bin_edges(Xtr[c], bins=14)
++        for label, color, hatch in [(0, "#142A46", ""), (1, "#0E7490", "//")]:
++            ax.hist(
++                Xtr.loc[ytr == label, c],
++                bins=edges,
++                alpha=0.55,
++                color=color,
++                hatch=hatch,
++                label=["Good", "Bad"][label],
++            )
++        ax.set_xlabel(c.replace("_", " "))
++        ax.set_ylabel("Records")
++    axs[0, 0].legend()
++    fig.suptitle("Training feature distributions by credit risk")
++    savefig(root, "q2_numeric_distributions.png")
++    counts = pd.crosstab(Xtr["checking_status"], ytr).rename(
++        columns={0: "Good", 1: "Bad"}
++    )
++    counts.plot.bar(stacked=True, color=["#142A46", "#0E7490"], figsize=(7, 4), rot=0)
++    plt.ylabel("Training records")
++    plt.xlabel("Checking account status")
++    plt.title("A categorical predictor and credit risk")
++    savefig(root, "q2_categorical.png")
++    return eda
++
++
++def main(root=ROOT):
++    started = time.perf_counter()
++    for folder in ["results", "figures", "data/metadata"]:
++        (root / folder).mkdir(parents=True, exist_ok=True)
++    data = load_data(root)
++    Xtr, Xte, ytr, yte = split_data(data)
++    folds = list(
++        StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED).split(Xtr, ytr)
++    )
++    split = dict(
++        seed=SEED,
++        train_indices=Xtr.index.tolist(),
++        test_indices=Xte.index.tolist(),
++        train_class_counts={str(k): int(v) for k, v in ytr.value_counts().items()},
++        test_class_counts={str(k): int(v) for k, v in yte.value_counts().items()},
++    )
++    (root / "data/metadata/split.json").write_text(json.dumps(split, indent=2))
++    (root / "data/metadata/folds.json").write_text(
++        json.dumps([dict(train=a.tolist(), validation=b.tolist()) for a, b in folds])
++    )
++    eda = exploratory(root, data, Xtr, ytr)
++    all_models = models()
++    rows = []
++    fold_rows = []
++    # No Xte/yte passed into CV or capacity studies.
++    for name, model in all_models.items():
++        print("CV:", name, flush=True)
++        metrics, scores = evaluate_cv(model, Xtr, ytr, folds)
++        rows.append(dict(model=name, **metrics))
++        for i, (tr, val) in enumerate(zip(scores["train_score"], scores["test_score"])):
++            fold_rows.append(
++                dict(
++                    stage="benchmark",
++                    model=name,
++                    configuration="predeclared",
++                    fold=i,
++                    train_macro_f1=float(tr),
++                    validation_macro_f1=float(val),
++                )
++            )
++    comparison = (
++        pd.DataFrame(rows)
++        .sort_values(["cv_macro_f1_mean", "model"], ascending=[False, True])
++        .reset_index(drop=True)
++    )
++    champion_name = comparison.loc[comparison.model != "Dummy majority", "model"].iloc[
++        0
++    ]
++    studies, study_folds = run_studies(Xtr, ytr, folds)
++    fold_rows += study_folds
++    studies.to_csv(root / "results/q2_studies.csv", index=False)
++    study_summary = []
++    for family in ["Decision Tree", "KNN", "RBF SVM"]:
++        group = studies[studies.family == family]
++        original = group.iloc[0]
++        best = group.sort_values(
++            ["cv_macro_f1_mean", "fold_generalization_gap"], ascending=[False, True]
++        ).iloc[0]
++        study_summary.append(
++            dict(
++                family=family,
++                original=original.to_dict(),
++                selected=best.to_dict(),
++                validation_change=float(
++                    best.cv_macro_f1_mean - original.cv_macro_f1_mean
++                ),
++                gap_change=float(
++                    best.fold_generalization_gap - original.fold_generalization_gap
++                ),
++            )
++        )
++    selection = dict(
++        primary_metric=PRIMARY_METRIC,
++        champion=champion_name,
++        rule="Maximum training-only CV mean macro-F1; alphabetical tie-break; baseline excluded",
++        selected_before_test=True,
++        capacity_studies=study_summary,
++        candidate_parameters={
++            name: {k: str(v) for k, v in m.get_params().items()}
++            for name, m in all_models.items()
++        },
++    )
++    # Save the decision before any held-out predictions are computed.
++    (root / "results/q2_selection.json").write_text(json.dumps(selection, indent=2))
++    predictions = pd.DataFrame({"row_index": Xte.index, "y_true": yte.to_numpy()})
++    for i, row in comparison.iterrows():
++        name = row["model"]
++        pipe = make_pipeline(clone(all_models[name]), Xtr).fit(Xtr, ytr)
++        pred = pipe.predict(Xte)
++        train_pred = pipe.predict(Xtr)
++        score = (
++            pipe.predict_proba(Xte)[:, 1]
++            if hasattr(pipe, "predict_proba")
++            else pipe.decision_function(Xte)
++        )
++        comparison.loc[i, "full_train_macro_f1"] = f1_score(
++            ytr, train_pred, average="macro"
++        )
++        for key, value in dict(
++            test_accuracy=accuracy_score(yte, pred),
++            test_precision_bad=precision_score(yte, pred, zero_division=0),
++            test_recall_bad=recall_score(yte, pred, zero_division=0),
++            test_precision_macro=precision_score(
++                yte, pred, average="macro", zero_division=0
++            ),
++            test_recall_macro=recall_score(yte, pred, average="macro", zero_division=0),
++            test_macro_f1=f1_score(yte, pred, average="macro"),
++            test_balanced_accuracy=balanced_accuracy_score(yte, pred),
++            test_roc_auc=roc_auc_score(yte, score),
++        ).items():
++            comparison.loc[i, key] = value
++        predictions[name + "__prediction"] = pred
++        predictions[name + "__score"] = score
++        if name == champion_name:
++            champion_cm = confusion_matrix(yte, pred, labels=[0, 1])
++            transformed = pipe.named_steps["preprocess"].transform(Xtr)
++            encoded_features = (
++                pipe.named_steps["preprocess"].get_feature_names_out().tolist()
++            )
++            fig, ax = plt.subplots(figsize=(5.5, 4.4))
++            ConfusionMatrixDisplay(champion_cm, display_labels=["Good", "Bad"]).plot(
++                ax=ax, cmap="Blues", colorbar=False
++            )
++            ax.set_title("CV-selected model: " + name)
++            savefig(root, "q2_champion_confusion.png")
++            fig, ax = plt.subplots(figsize=(5.5, 4.3))
++            RocCurveDisplay.from_predictions(yte, score, ax=ax, name="Selected model")
++            ax.plot([0, 1], [0, 1], "--", color="#777")
++            ax.set_xlabel("False positive rate")
++            ax.set_ylabel("True positive rate")
++            ax.set_title("Test ROC (bad credit = 1)")
++            ax.legend(loc="lower right", fontsize=12)
++            savefig(root, "q2_roc.png")
++    comparison.to_csv(root / "results/q2_model_comparison.csv", index=False)
++    predictions.to_csv(root / "results/q2_predictions.csv", index=False)
++    pd.DataFrame(fold_rows).to_csv(root / "results/q2_fold_scores.csv", index=False)
++    view = comparison.sort_values("cv_macro_f1_mean")
++    fig, ax = plt.subplots(figsize=(8, 4.6))
++    ax.barh(view.model, view.cv_macro_f1_mean, color="#0E7490")
++    ax.errorbar(
++        view.cv_macro_f1_mean,
++        np.arange(len(view)),
++        xerr=view.cv_macro_f1_std,
++        fmt="none",
++        ecolor="#142A46",
++        capsize=3,
++    )
++    ax.set_xlim(0, 1)
++    ax.set_xlabel("Training-only 5-fold macro-F1 (mean +/- sample SD)")
++    ax.set_title("Predeclared classifier comparison")
++    savefig(root, "q2_model_comparison.png")
++    fig, axs = plt.subplots(1, 3, figsize=(12, 4.2))
++    for ax, family in zip(axs, ["Decision Tree", "KNN", "RBF SVM"]):
++        view = studies[studies.family == family]
++        xs = np.arange(len(view))
++        ax.plot(
++            xs,
++            view.fold_train_macro_f1_mean,
++            "o-",
++            label="Fold training",
++            color="#142A46",
++        )
++        ax.errorbar(
++            xs,
++            view.cv_macro_f1_mean,
++            yerr=view.cv_macro_f1_std,
++            fmt="s--",
++            capsize=2,
++            label="Fold validation",
++            color="#0E7490",
++        )
++        ax.set_xticks(xs, view.configuration, rotation=65, ha="right", fontsize=7)
++        ax.set_ylim(0, 1.05)
++        ax.set_title(family)
++        ax.set_ylabel("Macro-F1")
++    axs[0].legend(fontsize=8)
++    savefig(root, "q2_overfitting.png")
++    view = studies[studies.family == "KNN"]
++    ks = [int(s.split("=")[1]) for s in view.configuration]
++    fig, ax = plt.subplots(figsize=(7.5, 3.5))
++    ax.plot(
++        ks, view.fold_train_macro_f1_mean, "o-", label="Fold training", color="#142A46"
++    )
++    ax.errorbar(
++        ks,
++        view.cv_macro_f1_mean,
++        yerr=view.cv_macro_f1_std,
++        fmt="s--",
++        capsize=3,
++        label="Fold validation",
++        color="#0E7490",
++    )
++    ax.set_xticks(ks)
++    ax.set_ylim(0, 1.05)
++    ax.set_xlabel("Neighbor count k")
++    ax.set_ylabel("Macro-F1")
++    ax.legend(fontsize=10)
++    savefig(root, "q2_knn_complexity.png")
++    selected = comparison.loc[comparison.model == champion_name].iloc[0].to_dict()
++    summary = dict(
++        dataset_id=31,
++        dataset_version=1,
++        dataset_name="credit-g",
++        train_rows=len(ytr),
++        test_rows=len(yte),
++        seed=SEED,
++        cv_folds=5,
++        primary_metric=PRIMARY_METRIC,
++        baseline="Dummy majority",
++        predictive_algorithms=12,
++        champion_selected_by_train_cv=champion_name,
++        champion_metrics=selected,
++        champion_confusion_matrix=champion_cm.tolist(),
++        label_order=["good (0)", "bad (1)"],
++        transformed_training_shape=list(transformed.shape),
++        encoded_features=encoded_features,
++        eda=eda,
++        overfitting_studies=study_summary,
++        exclusions={
++            "MLP": "Omitted to bound CPU cost; 12 learning algorithms cover the principal families.",
++            "QDA": "Full one-hot indicators introduce singular within-class covariance; LDA with SVD is included.",
++        },
++        warning_policy="Warnings preserved in execution logs; CV errors raise immediately.",
++        parallelism="n_jobs=1; BLAS/OpenMP capped by documented environment variables",
++        elapsed_seconds=time.perf_counter() - started,
++    )
++    (root / "results/q2_summary.json").write_text(json.dumps(summary, indent=2))
++    print(comparison.to_string(index=False))
++    print(json.dumps(summary, indent=2))
++    return summary, comparison
++
++
++if __name__ == "__main__":
++    main()

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Security in Client-Server Android Applications</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@page {
+  size: 16in 9in;
+  margin: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0B1220;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #F8FAFC;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.slide {
+  width: 16in;
+  height: 9in;
+  max-width: 16in;
+  max-height: 9in;
+  padding: 0.5in 0.8in 0.5in 0.8in;
+  page-break-after: always;
+  background: #0B1220;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Styles */
+.header {
+  margin-bottom: 0.22in;
+}
+
+.tag {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #3DDC84;
+  margin-bottom: 4px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #F8FAFC;
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 15.5px;
+  font-weight: 500;
+  color: #94A3B8;
+  line-height: 1.3;
+}
+
+/* Base Card */
+.card {
+  background: #131C2E;
+  border: 1px solid #1E293B;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 17.5px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-text {
+  font-size: 14.5px;
+  color: #94A3B8;
+  line-height: 1.5;
+}
+
+.card-text b {
+  color: #F8FAFC;
+}
+
+/* Colors */
+.green { color: #3DDC84; }
+.cyan { color: #38BDF8; }
+.amber { color: #FBBF24; }
+.red { color: #F87171; }
+
+.border-green { border-color: #3DDC84 !important; }
+.border-cyan { border-color: #38BDF8 !important; }
+.border-amber { border-color: #FBBF24 !important; }
+.border-red { border-color: #F87171 !important; }
+
+/* Code Block */
+pre, code {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+.code-box {
+  background: #080D18;
+  border: 1px solid #38BDF8;
+  border-radius: 8px;
+  padding: 14px 18px;
+  color: #38BDF8;
+  font-size: 13.5px;
+  line-height: 1.45;
+  white-space: pre;
+}
+
+/* Grids */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.22in;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.22in;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.18in;
+}
+
+/* List items */
+.bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bullet-item {
+  font-size: 14px;
+  color: #94A3B8;
+  line-height: 1.5;
+}
+
+.bullet-item strong {
+  color: #F8FAFC;
+}
+
+/* Bottom Callout */
+.callout {
+  background: #131C2E;
+  border: 1px solid #3DDC84;
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin-top: 0.18in;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #F8FAFC;
+}
+
+/* Pipeline Flow */
+.pipeline-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.2in;
+  gap: 12px;
+}
+
+.pipeline-node {
+  flex: 1;
+  background: #131C2E;
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.pipeline-arrow {
+  color: #38BDF8;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- ========================================================= -->
+<!-- SLIDE 1: Title Slide -->
+<!-- ========================================================= -->
+<div class="slide" style="justify-content: center; align-items: center;">
+  <div class="card" style="width: 100%; max-width: 13.5in; padding: 48px; border: 1.5px solid #1E293B; background: #131C2E; position: relative;">
+    <div style="width: 120px; height: 6px; background: #3DDC84; border-radius: 3px; margin-bottom: 24px;"></div>
+    <div class="tag" style="font-size: 14px; margin-bottom: 12px;">INFORMATION SECURITY MIDTERM THEORY PROJECT &bull; TOPIC 13</div>
+    <h1 style="font-size: 44px; font-weight: 800; color: #F8FAFC; margin-bottom: 12px; line-height: 1.15;">
+      Security in Client-Server Android Applications
+    </h1>
+    <h2 style="font-size: 24px; font-weight: 600; color: #38BDF8; margin-bottom: 36px; line-height: 1.3;">
+      Android Permissions, Intent Security, and Local Data Protection
+    </h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <!-- Left Meta -->
+      <div style="background: #0E1626; border: 1px solid #1E293B; border-radius: 10px; padding: 22px;">
+        <div class="tag" style="margin-bottom: 8px;">ACADEMIC DETAILS</div>
+        <div style="font-size: 16px; color: #F8FAFC; margin-bottom: 6px;"><b>Course:</b> Introduction to Information Security</div>
+        <div style="font-size: 16px; color: #94A3B8; margin-bottom: 8px;"><b>Instructor:</b> Huynh Ngoc Tu, Ph.D</div>
+        <div style="font-size: 15px; color: #38BDF8; font-weight: 600;">Class ID: [Class ID] &nbsp;|&nbsp; Group ID: [Group ID]</div>
+      </div>
+
+      <!-- Right Meta -->
+      <div style="background: #0E1626; border: 1px solid #1E293B; border-radius: 10px; padding: 22px;">
+        <div class="tag" style="margin-bottom: 8px;">PROJECT TEAM (3 MEMBERS)</div>
+        <div style="font-size: 15px; color: #F8FAFC; margin-bottom: 6px;">
+          <b>Student 1:</b> ___________________ &nbsp;|&nbsp; <b>ID:</b> ___________________
+        </div>
+        <div style="font-size: 15px; color: #F8FAFC; margin-bottom: 6px;">
+          <b>Student 2:</b> ___________________ &nbsp;|&nbsp; <b>ID:</b> ___________________
+        </div>
+        <div style="font-size: 15px; color: #F8FAFC;">
+          <b>Student 3:</b> ___________________ &nbsp;|&nbsp; <b>ID:</b> ___________________
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 2: Why Android Security Matters -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Threat Landscape & Attack Surface</div>
+    <div class="title">Why Android Security Matters</div>
+    <div class="subtitle">The Multi-Layered Attack Surface of Mobile Client-Server Systems</div>
+  </div>
+
+  <!-- Pipeline -->
+  <div class="pipeline-container">
+    <div class="pipeline-node border-green" style="border: 1.5px solid #3DDC84;">
+      <div style="font-weight: 700; color: #3DDC84; font-size: 16px;">End User</div>
+      <div style="font-size: 13px; color: #94A3B8; margin-top: 4px;">Device Owner</div>
+    </div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-node border-cyan" style="border: 1.5px solid #38BDF8;">
+      <div style="font-weight: 700; color: #38BDF8; font-size: 16px;">Android Client</div>
+      <div style="font-size: 13px; color: #94A3B8; margin-top: 4px;">Application Logic</div>
+    </div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-node border-amber" style="border: 1.5px solid #FBBF24;">
+      <div style="font-weight: 700; color: #FBBF24; font-size: 16px;">Storage / IPC</div>
+      <div style="font-size: 13px; color: #94A3B8; margin-top: 4px;">SQLite & Intents</div>
+    </div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-node border-cyan" style="border: 1.5px solid #38BDF8;">
+      <div style="font-weight: 700; color: #38BDF8; font-size: 16px;">HTTPS / Transit</div>
+      <div style="font-size: 13px; color: #94A3B8; margin-top: 4px;">Network Channel</div>
+    </div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-node border-green" style="border: 1.5px solid #3DDC84;">
+      <div style="font-weight: 700; color: #3DDC84; font-size: 16px;">Backend Server</div>
+      <div style="font-size: 13px; color: #94A3B8; margin-top: 4px;">Cloud APIs & DB</div>
+    </div>
+  </div>
+
+  <!-- 4 Boundaries Grid -->
+  <div class="grid-4" style="flex: 1;">
+    <div class="card" style="border-top: 4px solid #3DDC84; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title green">1. Permissions Boundary</div>
+        <div class="card-text">
+          Gates sensitive device hardware, location, contacts, and privileged system APIs.<br><br>
+          <b>Vulnerability:</b> Over-privilege, requesting unnecessary dangerous permissions, and failing to handle runtime revocations.
+        </div>
+      </div>
+      <div style="font-size: 12px; color: #3DDC84; font-weight: 600;">Governs Device Capabilities</div>
+    </div>
+
+    <div class="card" style="border-top: 4px solid #38BDF8; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title cyan">2. IPC & Intent Boundary</div>
+        <div class="card-text">
+          Governs message passing between distinct application processes and components.<br><br>
+          <b>Vulnerability:</b> Exported components blindly trusting unvalidated Intent extras and forwarding nested payloads.
+        </div>
+      </div>
+      <div style="font-size: 12px; color: #38BDF8; font-weight: 600;">Mediates Inter-App Trust</div>
+    </div>
+
+    <div class="card" style="border-top: 4px solid #FBBF24; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title amber">3. Storage-at-Rest Boundary</div>
+        <div class="card-text">
+          Isolates private SQLite databases, cached tokens, and preferences via Linux UIDs.<br><br>
+          <b>Vulnerability:</b> Plaintext data exposed via Android backups, rooted devices, or exported ContentProviders.
+        </div>
+      </div>
+      <div style="font-size: 12px; color: #FBBF24; font-weight: 600;">Protects Local Assets</div>
+    </div>
+
+    <div class="card" style="border-top: 4px solid #F87171; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title red">4. Network Transit Boundary</div>
+        <div class="card-text">
+          Secures client-server REST API payloads and authentication headers over HTTPS.<br><br>
+          <b>Vulnerability:</b> Man-in-the-Middle (MITM) traffic decryption if user-installed root CAs are trusted without pinning.
+        </div>
+      </div>
+      <div style="font-size: 12px; color: #F87171; font-weight: 600;">Secures Remote Transit</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    KEY TAKEAWAY: Android security is not a single perimeter &mdash; it requires defense-in-depth across all four boundaries.
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 3: Android Security Foundation -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">System Architecture</div>
+    <div class="title">Android Security Foundation</div>
+    <div class="subtitle">Kernel-Level Sandboxing & Component-Based Isolation</div>
+  </div>
+
+  <div class="grid-3" style="flex: 1;">
+    <!-- Card 1 -->
+    <div class="card border-green" style="border: 1.5px solid #3DDC84; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title green">Linux Application Sandbox</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><strong>Per-App Linux UID:</strong> Each app is assigned an immutable Linux UID (e.g. <code>u0_a142</code>) at installation.</div>
+          <div class="bullet-item"><strong>Process Isolation:</strong> Applications execute inside dedicated processes running isolated Android Runtime (ART) instances.</div>
+          <div class="bullet-item"><strong>Kernel File Security:</strong> Internal data directories (<code>/data/data/&lt;pkg&gt;</code>) are assigned strict <code>0700</code> file permissions.</div>
+          <div class="bullet-item"><strong>First Security Boundary:</strong> Prevents ordinary apps from directly reading another app's memory or private disk files.</div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top: 14px; background: #0E1626; border-color: #3DDC84; padding: 10px 14px; font-size: 12.5px;">
+        Core Principle: Multi-tenant Linux OS model applied to mobile apps.
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card border-cyan" style="border: 1.5px solid #38BDF8; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title cyan">The 4 Core Components</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><strong>Activity:</strong> Visual UI screens handling rendering and direct touch interaction.</div>
+          <div class="bullet-item"><strong>Service:</strong> Background worker performing long-running tasks without UI (network sync, music).</div>
+          <div class="bullet-item"><strong>BroadcastReceiver:</strong> Asynchronous listener reacting to system-wide or app broadcasts.</div>
+          <div class="bullet-item"><strong>ContentProvider:</strong> Structured data management interface abstracting SQLite access for IPC.</div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top: 14px; background: #0E1626; border-color: #38BDF8; padding: 10px 14px; font-size: 12.5px;">
+        Every component has distinct lifecycle and IPC semantics.
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card border-amber" style="border: 1.5px solid #FBBF24; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title amber">AndroidManifest.xml Authority</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><strong>Authoritative Blueprint:</strong> Root XML file declaring all app components, permissions, and security parameters.</div>
+          <div class="bullet-item"><strong>Component Exposure:</strong> The critical <code>android:exported</code> attribute dictates public accessibility to external apps.</div>
+          <div class="bullet-item"><strong>Permission Binding:</strong> Enforces required capabilities (<code>&lt;uses-permission&gt;</code>) and custom signature security gates.</div>
+          <div class="bullet-item"><strong>Security Sensitivity:</strong> A single misconfiguration here can compromise the entire sandbox boundary!</div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top: 14px; background: #0E1626; border-color: #FBBF24; padding: 10px 14px; font-size: 12.5px;">
+        Single authoritative security contract parsed at install time.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 4: Android Permission Model & Manifest -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Access Control & Governance</div>
+    <div class="title">Permission Model & AndroidManifest.xml</div>
+    <div class="subtitle">Granular Access Governance & The Principle of Least Privilege</div>
+  </div>
+
+  <div class="grid-2" style="flex: 1;">
+    <!-- Left Column: 4 Sub-cards -->
+    <div style="display: flex; flex-direction: column; gap: 12px; justify-content: space-between;">
+      <div class="card" style="padding: 14px 18px; border-left: 4px solid #38BDF8;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <span style="font-weight: 700; color: #38BDF8; font-size: 15px;">Normal (Install-Time)</span>
+          <span class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38BDF8;">Low Risk</span>
+        </div>
+        <div style="font-size: 13px; color: #94A3B8;">Minimal risk (<code>INTERNET</code>, <code>ACCESS_NETWORK_STATE</code>). Auto-granted upon installation without prompting user.</div>
+      </div>
+
+      <div class="card" style="padding: 14px 18px; border-left: 4px solid #F87171;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <span style="font-weight: 700; color: #F87171; font-size: 15px;">Dangerous (Runtime)</span>
+          <span class="badge" style="background: rgba(248, 113, 113, 0.2); color: #F87171;">High Risk</span>
+        </div>
+        <div style="font-size: 13px; color: #94A3B8;">Accesses sensitive personal data (<code>CAMERA</code>, <code>READ_CONTACTS</code>, <code>FINE_LOCATION</code>). Requires explicit user prompt approval at runtime.</div>
+      </div>
+
+      <div class="card" style="padding: 14px 18px; border-left: 4px solid #3DDC84;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <span style="font-weight: 700; color: #3DDC84; font-size: 15px;">Signature</span>
+          <span class="badge" style="background: rgba(61, 220, 132, 0.2); color: #3DDC84;">Vendor Protected</span>
+        </div>
+        <div style="font-size: 13px; color: #94A3B8;">Highest security. Granted automatically ONLY if requesting app is signed by the exact same developer certificate.</div>
+      </div>
+
+      <div class="card" style="padding: 14px 18px; border-left: 4px solid #FBBF24;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <span style="font-weight: 700; color: #FBBF24; font-size: 15px;">Special / Privileged</span>
+          <span class="badge" style="background: rgba(251, 191, 36, 0.2); color: #FBBF24;">System Level</span>
+        </div>
+        <div style="font-size: 13px; color: #94A3B8;">System-level capabilities (<code>SYSTEM_ALERT_WINDOW</code>, <code>WRITE_SETTINGS</code>). Requires manual user activation in system settings.</div>
+      </div>
+    </div>
+
+    <!-- Right Column: Manifest & exported -->
+    <div class="card border-green" style="border: 1.5px solid #3DDC84; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title green">The android:exported Gateway</div>
+        <div class="bullet-list" style="margin-bottom: 14px; gap: 10px;">
+          <div class="bullet-item"><strong style="color: #3DDC84;">exported="false":</strong> Component is strictly private. Only reachable by internal app logic or apps sharing the exact same Linux UID.</div>
+          <div class="bullet-item"><strong style="color: #F87171;">exported="true":</strong> Component is public to the entire OS. ANY third-party application can send Intents to launch it.</div>
+          <div class="bullet-item"><strong style="color: #FBBF24;">The Intent Filter Trap:</strong> Declaring an <code>&lt;intent-filter&gt;</code> historically defaulted exported to true! In Android 12+, developers MUST declare exported explicitly.</div>
+        </div>
+      </div>
+
+      <div class="code-box">
+&lt;!-- Secure Internal Component Declaration --&gt;
+&lt;activity
+    android:name=".InternalAdminActivity"
+    android:exported="false" /&gt;
+      </div>
+
+      <div style="background: #0E1626; border: 1px solid #1E293B; border-radius: 8px; padding: 12px 16px;">
+        <div style="font-size: 13px; color: #38BDF8; font-weight: 700;">Principle of Least Privilege:</div>
+        <div style="font-size: 12.5px; color: #94A3B8; margin-top: 3px;">Request only the minimal permissions strictly required, and keep all internal components non-exported.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 5: How Android Intents Work -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Inter-Process Communication</div>
+    <div class="title">Android Intents & IPC Mechanics</div>
+    <div class="subtitle">Message-Passing Channels Crossing Security Trust Boundaries</div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom: 0.18in;">
+    <!-- Explicit -->
+    <div class="card border-green" style="border: 1.5px solid #3DDC84;">
+      <div class="card-title green">Explicit Intent (Internal / Targeted)</div>
+      <div class="bullet-list" style="gap: 8px;">
+        <div class="bullet-item"><strong>Direct Binding:</strong> Designates exact target class: <code>Intent(context, TargetActivity::class.java)</code>.</div>
+        <div class="bullet-item">Delivered exclusively to the specified component within the application.</div>
+        <div class="bullet-item"><strong>Highly Secure:</strong> No dynamic resolution; immune to third-party interception.</div>
+      </div>
+    </div>
+
+    <!-- Implicit -->
+    <div class="card border-amber" style="border: 1.5px solid #FBBF24;">
+      <div class="card-title amber">Implicit Intent (Public / Dynamic)</div>
+      <div class="bullet-list" style="gap: 8px;">
+        <div class="bullet-item"><strong>Dynamic Resolution:</strong> Specifies Action (e.g. <code>ACTION_VIEW</code>) and Data URI, but no target class.</div>
+        <div class="bullet-item">Package Manager matches against declared <code>&lt;intent-filter&gt;</code> tags.</div>
+        <div class="bullet-item"><strong style="color: #F87171;">Security Risk:</strong> Malicious apps can register matching filters to hijack data.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Anatomy Visual Diagram -->
+  <div class="card" style="background: #0E1626; border: 1px solid #1E293B; margin-bottom: 0.18in; padding: 18px;">
+    <div class="card-title cyan" style="margin-bottom: 12px;">Intent Object Structure</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 14px;">
+      <div style="background: #131C2E; border: 1px solid #1E293B; border-radius: 8px; padding: 14px;">
+        <div style="font-weight: 700; color: #38BDF8; font-size: 14px;">Action</div>
+        <div style="font-size: 12.5px; color: #94A3B8; margin-top: 4px;">e.g. <code>ACTION_SEND</code>, <code>ACTION_VIEW</code>. Defines requested operation.</div>
+      </div>
+      <div style="background: #131C2E; border: 1px solid #1E293B; border-radius: 8px; padding: 14px;">
+        <div style="font-weight: 700; color: #38BDF8; font-size: 14px;">Data & Type (URI)</div>
+        <div style="font-size: 12.5px; color: #94A3B8; margin-top: 4px;">e.g. <code>content://</code>, <code>https://</code>. Specifies the data target.</div>
+      </div>
+      <div style="background: #131C2E; border: 1px solid #FBBF24; border-radius: 8px; padding: 14px;">
+        <div style="font-weight: 700; color: #FBBF24; font-size: 14px;">Extras Bundle (Parcelable)</div>
+        <div style="font-size: 12.5px; color: #94A3B8; margin-top: 4px;">Key-value parameters. Can carry serialized <b>Nested Intents</b>!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warning Banner -->
+  <div style="background: #1A1524; border: 1.5px solid #F87171; border-radius: 8px; padding: 14px 20px;">
+    <div style="color: #F87171; font-weight: 700; font-size: 14px; line-height: 1.45;">
+      CRITICAL SECURITY PRINCIPLE: Crossing application boundaries via Intents creates a formal Trust Boundary. Any Intent received from an external application must be treated as hostile, untrusted user input!
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 6: Attack #1: Intent Injection / Redirection -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Vulnerability Mechanics</div>
+    <div class="title">Attack #1: Intent Injection & Redirection</div>
+    <div class="subtitle">Confused Deputy Exploitation via Unvalidated Intent Forwarding</div>
+  </div>
+
+  <!-- Flow Steps -->
+  <div class="pipeline-container" style="margin-bottom: 0.18in;">
+    <div class="pipeline-node border-red" style="border: 1.5px solid #F87171;">
+      <div style="font-weight: 700; color: #F87171; font-size: 14px;">1. Attacker App</div>
+      <div style="font-size: 11.5px; color: #94A3B8; margin-top: 3px;">Crafts malicious Intent with nested target Intent</div>
+    </div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-node border-amber" style="border: 1.5px solid #FBBF24;">
+      <div style="font-weight: 700; color: #FBBF24; font-size: 14px;">2. Trust Boundary</div>
+      <div style="font-size: 11.5px; color: #94A3B8; margin-top: 3px;">Sent to exported Victim Proxy Activity</div>
+    </div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-node border-red" style="border: 1.5px solid #F87171;">
+      <div style="font-weight: 700; color: #F87171; font-size: 14px;">3. Vulnerability Point</div>
+      <div style="font-size: 11.5px; color: #94A3B8; margin-top: 3px;">Proxy extracts nested extra without validation</div>
+    </div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-node border-cyan" style="border: 1.5px solid #38BDF8;">
+      <div style="font-weight: 700; color: #38BDF8; font-size: 14px;">4. Execution</div>
+      <div style="font-size: 11.5px; color: #94A3B8; margin-top: 3px;">startActivity(next) runs internal private activity!</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="flex: 1;">
+    <!-- Left: Code Box + Explanations -->
+    <div style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div class="code-box">
+// VULNERABLE PROXY COMPONENT (Exported Activity)
+class ProxyActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        // 1. Attacker controls 'next_intent' in Extras
+        val next = intent.getParcelableExtra&lt;Intent&gt;("next_intent")
+        
+        // 2. VULNERABILITY POINT: Blind forwarding!
+        // Launches unexported activity with Victim's UID!
+        startActivity(next)
+    }
+}
+      </div>
+
+      <div style="background: #0E1626; border: 1px solid #1E293B; border-radius: 8px; padding: 14px 18px;">
+        <div style="font-size: 13.5px; color: #F87171; font-weight: 700;">How Exploitation Works:</div>
+        <div style="font-size: 13px; color: #94A3B8; margin-top: 4px; line-height: 1.45;">
+          Attacker embeds an Intent targeting <code>InternalAdminActivity</code> (which has <code>exported="false"</code>). When <code>ProxyActivity</code> invokes <code>startActivity(next)</code>, it launches with the victim app's own UID privileges!
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Root Causes -->
+    <div class="card border-red" style="border: 1.5px solid #F87171; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title red">Technical Root Causes & Mechanics</div>
+        <div class="bullet-list" style="gap: 12px;">
+          <div class="bullet-item"><strong>The 'Confused Deputy' Flaw:</strong> The victim app acts as a proxy, executing privileged actions on behalf of an unprivileged attacker.</div>
+          <div class="bullet-item"><strong>Bypassing Access Control:</strong> Internal activities set to <code>exported="false"</code> cannot be launched directly by outside apps, but CAN be launched internally by the victim app itself!</div>
+          <div class="bullet-item"><strong>Lack of Sanitization:</strong> The victim app fails to inspect <code>next.component</code>, fails to verify destination package name, and maintains no component allowlist.</div>
+          <div class="bullet-item"><strong>Severe Security Impact:</strong> Attacker can force execution of hidden administrative screens, steal sensitive tokens passed in result Intents, or trigger internal background services.</div>
+        </div>
+      </div>
+      <div class="callout" style="background: #1A1524; border-color: #F87171; color: #F87171; padding: 10px 14px; font-size: 13px;">
+        Severity: CRITICAL &bull; Complete access control bypass
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 7: Attack #2: Insecure Local Storage / SQLite -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Data at Rest Vulnerabilities</div>
+    <div class="title">Attack #2: Sensitive Data in Local Storage</div>
+    <div class="subtitle">Plaintext SQLite Databases & Secondary Exposure Vectors</div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom: 0.18in;">
+    <!-- DB Table -->
+    <div class="card border-amber" style="border: 1.5px solid #FBBF24;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span class="card-title amber" style="margin-bottom: 0;">SQLite: user_session.db</span>
+        <span class="badge" style="background: rgba(248, 113, 113, 0.2); color: #F87171;">PLAINTEXT AT REST</span>
+      </div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7; color: #F8FAFC;">
+        <div>&bull; <b>id:</b> 10482</div>
+        <div>&bull; <b>user_email:</b> student@tdtu.edu.vn</div>
+        <div>&bull; <b>auth_token:</b> <span style="color: #F87171;">eyJhbGciOiJIUzI1Ni... (Plaintext JWT)</span></div>
+        <div>&bull; <b>api_secret:</b> <span style="color: #F87171;">sec_live_98234ab8... (Plaintext Key)</span></div>
+      </div>
+    </div>
+
+    <!-- Exposure Vectors -->
+    <div class="card border-red" style="border: 1.5px solid #F87171;">
+      <div class="card-title red" style="margin-bottom: 8px;">Real-World Secondary Exposure Vectors</div>
+      <div class="bullet-list" style="gap: 6px;">
+        <div class="bullet-item"><strong>Exported ContentProvider:</strong> SQL injection or traversal leaks raw DB files.</div>
+        <div class="bullet-item"><strong>Insecure Backup:</strong> <code>allowBackup="true"</code> enables <code>adb backup</code> extraction.</div>
+        <div class="bullet-item"><strong>Compromised / Rooted OS:</strong> Root UID (UID 0) overrides sandbox isolation.</div>
+        <div class="bullet-item"><strong>Debug Builds & Logs:</strong> <code>debuggable="true"</code> permits run-as extraction.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Academic Nuance: 2 Comparison Columns -->
+  <div class="grid-2" style="flex: 1;">
+    <div class="card border-amber" style="border: 1.5px solid #FBBF24; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title amber">Access Control (Linux Sandbox)</div>
+        <div class="bullet-list" style="gap: 10px;">
+          <div class="bullet-item"><strong>Mechanism:</strong> Restricts file system read/write permissions at the OS layer via Linux UIDs (<code>0700</code> file mode).</div>
+          <div class="bullet-item"><strong>Limitation:</strong> Protects only against ordinary unprivileged third-party apps under uncompromised OS conditions.</div>
+          <div class="bullet-item"><strong style="color: #F87171;">Failure Mode:</strong> Completely fails if root access, backup tools, or secondary file-reading bugs exist.</div>
+        </div>
+      </div>
+      <div style="font-size: 13px; color: #FBBF24; font-weight: 700; margin-top: 10px;">Controls WHO can open the file handle at OS level</div>
+    </div>
+
+    <div class="card border-cyan" style="border: 1.5px solid #38BDF8; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title cyan">Encryption at Rest (SQLCipher / Keystore)</div>
+        <div class="bullet-list" style="gap: 10px;">
+          <div class="bullet-item"><strong>Mechanism:</strong> Cryptographically encrypts 4KB SQLite pages using AES-256 before writing to storage.</div>
+          <div class="bullet-item"><strong>Key Protection:</strong> Master keys generated and stored inside hardware-backed Android Keystore (TEE/SE).</div>
+          <div class="bullet-item"><strong style="color: #3DDC84;">Resilience:</strong> Protects data confidentiality even under total physical extraction or root-level compromise!</div>
+        </div>
+      </div>
+      <div style="font-size: 13px; color: #38BDF8; font-weight: 700; margin-top: 10px;">Controls WHAT can be read from raw storage bytes</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 8: Security Impact: The CIA Triad -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Risk Evaluation & Impact</div>
+    <div class="title">Security Impact: The CIA Triad</div>
+    <div class="subtitle">Evaluating Systemic Harm in Mobile Client-Server Environments</div>
+  </div>
+
+  <div class="grid-3" style="flex: 1;">
+    <!-- C -->
+    <div class="card border-red" style="border: 1.5px solid #F87171; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 20px; font-weight: 800; color: #F87171;">CONFIDENTIALITY</span>
+          <span class="badge" style="background: rgba(248, 113, 113, 0.2); color: #F87171;">SEVERITY: HIGH</span>
+        </div>
+        <div class="bullet-list" style="margin-top: 14px; gap: 12px;">
+          <div class="bullet-item"><strong>Bearer Token Theft:</strong> Extraction of plaintext JWT session tokens from unencrypted SQLite databases or SharedPreferences.</div>
+          <div class="bullet-item"><strong>Private PII Exposure:</strong> Leakage of user chat messages, contact lists, financial details, and personal records.</div>
+          <div class="bullet-item"><strong>API Secret Leaks:</strong> Exfiltration of proprietary cloud backend API keys and cryptographic signing keys stored in client code.</div>
+        </div>
+      </div>
+      <div class="callout" style="background: #0E1626; border-color: #F87171; color: #F87171; padding: 10px 14px; font-size: 13px;">
+        Risk: Direct Account Takeover & Cloud Abuse
+      </div>
+    </div>
+
+    <!-- I -->
+    <div class="card border-amber" style="border: 1.5px solid #FBBF24; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 20px; font-weight: 800; color: #FBBF24;">INTEGRITY</span>
+          <span class="badge" style="background: rgba(251, 191, 36, 0.2); color: #FBBF24;">SEVERITY: CRITICAL</span>
+        </div>
+        <div class="bullet-list" style="margin-top: 14px; gap: 12px;">
+          <div class="bullet-item"><strong>Confused Deputy Actions:</strong> Maliciously invoking internal administrative activities via Intent Redirection to alter settings or transfer funds.</div>
+          <div class="bullet-item"><strong>Local Data Tampering:</strong> Modifying local SQLite database records via exported ContentProviders or backup injections.</div>
+          <div class="bullet-item"><strong>Forged API Requests:</strong> Replaying or forging backend transactions using hijacked credentials with full user authorization.</div>
+        </div>
+      </div>
+      <div class="callout" style="background: #0E1626; border-color: #FBBF24; color: #FBBF24; padding: 10px 14px; font-size: 13px;">
+        Risk: Unauthorized State Changes & Transaction Forgery
+      </div>
+    </div>
+
+    <!-- A -->
+    <div class="card border-cyan" style="border: 1.5px solid #38BDF8; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 20px; font-weight: 800; color: #38BDF8;">AVAILABILITY</span>
+          <span class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38BDF8;">SEVERITY: MODERATE</span>
+        </div>
+        <div class="bullet-list" style="margin-top: 14px; gap: 12px;">
+          <div class="bullet-item"><strong>Intent Fuzzing Crashes:</strong> Sending malformed extras or unparseable parcels causing NullPointerException or BadParcelableException.</div>
+          <div class="bullet-item"><strong>Background Service DoS:</strong> Spamming exported Services to cause resource starvation and system battery drain.</div>
+          <div class="bullet-item"><strong>Database Lockout:</strong> Corrupting SQLite journal files, rendering the application unusable upon subsequent launches.</div>
+        </div>
+      </div>
+      <div class="callout" style="background: #0E1626; border-color: #38BDF8; color: #38BDF8; padding: 10px 14px; font-size: 13px;">
+        Risk: App Denial of Service & Device Battery Drain
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 9: Defense Strategy (3-Layered Model) -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Defensive Engineering</div>
+    <div class="title">Defense Strategy: Multi-Layered Hardening</div>
+    <div class="subtitle">A Comprehensive Architectural Blueprint for Secure Android Apps</div>
+  </div>
+
+  <div class="grid-3" style="flex: 1;">
+    <!-- Layer 1 -->
+    <div class="card border-green" style="border: 1.5px solid #3DDC84; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title green">Layer 1: Manifest & Access</div>
+        <div class="bullet-list" style="gap: 10px;">
+          <div class="bullet-item"><strong>Explicit exported="false":</strong> Declare every internal Activity, Service, and Receiver as private by default.</div>
+          <div class="bullet-item"><strong>Least Privilege:</strong> Audit and eliminate unnecessary <code>&lt;uses-permission&gt;</code> tags. Request runtime permissions just-in-time.</div>
+          <div class="bullet-item"><strong>Signature Permissions:</strong> Gate inter-app endpoints using <code>protectionLevel="signature"</code>.</div>
+          <div class="bullet-item"><strong>Disable Backups:</strong> Set <code>android:allowBackup="false"</code> to prevent ADB extraction.</div>
+        </div>
+      </div>
+      <div class="code-box" style="font-size: 11.5px; padding: 12px;">
+&lt;activity
+    android:name=".InternalUI"
+    android:exported="false" /&gt;
+      </div>
+    </div>
+
+    <!-- Layer 2 -->
+    <div class="card border-cyan" style="border: 1.5px solid #38BDF8; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title cyan">Layer 2: Intent Security & IPC</div>
+        <div class="bullet-list" style="gap: 10px;">
+          <div class="bullet-item"><strong>Mandate Explicit Intents:</strong> Use explicit class bindings for all internal application communication.</div>
+          <div class="bullet-item"><strong>Component Whitelisting:</strong> Before forwarding nested Intents, verify <code>intent.component</code> matches allowed classes!</div>
+          <div class="bullet-item"><strong>IntentSanitizer:</strong> Filter allowed actions, categories, and extras via AndroidX.</div>
+          <div class="bullet-item"><strong>FLAG_IMMUTABLE:</strong> Always enforce on PendingIntents to prevent rewriting.</div>
+        </div>
+      </div>
+      <div class="code-box" style="font-size: 11.5px; padding: 12px;">
+val safeIntent = IntentSanitizer.Builder()
+    .allowComponent(allowedClass)
+    .build().sanitize(untrustedIntent)
+      </div>
+    </div>
+
+    <!-- Layer 3 -->
+    <div class="card border-amber" style="border: 1.5px solid #FBBF24; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title amber">Layer 3: Storage Cryptography</div>
+        <div class="bullet-list" style="gap: 10px;">
+          <div class="bullet-item"><strong>Zero Plaintext at Rest:</strong> Never persist unencrypted auth tokens or credentials in local SQLite or SharedPreferences.</div>
+          <div class="bullet-item"><strong>Deploy SQLCipher:</strong> Encrypt SQLite database pages with AES-256 transparent encryption.</div>
+          <div class="bullet-item"><strong>EncryptedSharedPreferences:</strong> Encrypt key-value pairs using Google Jetpack Security.</div>
+          <div class="bullet-item"><strong>Android Keystore:</strong> Store master keys in hardware TEE / Secure Element.</div>
+        </div>
+      </div>
+      <div class="code-box" style="font-size: 11.5px; padding: 12px;">
+EncryptedSharedPreferences.create(
+    context, "secure_prefs", masterKey,
+    PrefKeyEnc.AES256_SIV, PrefValEnc.AES256_GCM)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 10: Final Project Demonstration Plan -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Practical Demonstration Plan</div>
+    <div class="title">Final Demo: MITM Interception & SSL Pinning</div>
+    <div class="subtitle">Securing the Client-Server Transit Channel in a Controlled Lab</div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom: 0.18in; flex: 1;">
+    <!-- Phase 1 -->
+    <div class="card border-red" style="border: 1.5px solid #F87171; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title red">Phase 1: Baseline MITM (Vulnerable)</div>
+        <div style="background: #0E1626; border-radius: 8px; padding: 10px; margin-bottom: 12px; font-size: 13.5px; text-align: center;">
+          <span style="color: #38BDF8;">Android App</span> &nbsp;&rarr;&nbsp; 
+          <span style="color: #F87171; font-weight: 700;">Burp Proxy (CA Trusted)</span> &nbsp;&rarr;&nbsp; 
+          <span style="color: #3DDC84;">Backend Server</span>
+        </div>
+        <div class="bullet-list" style="gap: 10px;">
+          <div class="bullet-item"><strong>Vulnerable Setup:</strong> Test configuration trusts user-installed Certificate Authority (CA) certificates or default network trust.</div>
+          <div class="bullet-item"><strong>Proxy Interception:</strong> Client traffic is routed through Burp Suite on port 8080; Burp generates a dynamic TLS cert for the backend.</div>
+          <div class="bullet-item"><strong>Outcome in Lab:</strong> HTTPS traffic is decrypted in real time. Plaintext login credentials, chat messages, and API tokens are captured!</div>
+        </div>
+      </div>
+      <div class="callout" style="background: #1A1524; border-color: #F87171; color: #F87171; padding: 10px; font-size: 12.5px;">
+        Result: Plaintext credentials & tokens captured in transit
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="card border-green" style="border: 1.5px solid #3DDC84; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div class="card-title green">Phase 2: Certificate Pinning (Hardened)</div>
+        <div style="background: #0E1626; border-radius: 8px; padding: 10px; margin-bottom: 12px; font-size: 13.5px; text-align: center;">
+          <span style="color: #38BDF8;">Android App</span> &nbsp;&rarr;&nbsp; 
+          <span style="color: #3DDC84; font-weight: 700;">[Pin Check] &#10006; Burp Rejected</span>
+        </div>
+        <div class="bullet-list" style="gap: 10px;">
+          <div class="bullet-item"><strong>Pinning Mechanism:</strong> Client validates server's public key SHA-256 hash using OkHttp <code>CertificatePinner</code> or <code>network_security_config.xml</code>.</div>
+          <div class="bullet-item"><strong>Immediate Handshake Abort:</strong> When Burp presents its proxy certificate, the public key hash does NOT match the pinned hash.</div>
+          <div class="bullet-item"><strong>Outcome in Lab:</strong> <code>SSLPeerUnverifiedException</code> is thrown; handshake is terminated before any HTTP payload is transmitted!</div>
+        </div>
+      </div>
+      <div class="callout" style="background: #0E1626; border-color: #3DDC84; color: #3DDC84; padding: 10px; font-size: 12.5px;">
+        Result: TLS handshake terminated immediately &bull; Zero data leak
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="background: #0E1626; border: 1px solid #1E293B; padding: 14px 18px;">
+    <div class="tag" style="margin-bottom: 4px; font-size: 12px;">AUTHORIZED EDUCATIONAL LAB METHODOLOGY</div>
+    <div style="font-size: 13.5px; color: #F8FAFC; line-height: 1.5;">
+      1. Develop simple chat app &nbsp;&rarr;&nbsp; 
+      2. Route traffic via Burp Suite &nbsp;&rarr;&nbsp; 
+      3. Capture & analyze baseline credentials &nbsp;&rarr;&nbsp; 
+      4. Implement OkHttp CertificatePinner &nbsp;&rarr;&nbsp; 
+      5. Empirically verify SSL handshake rejection.
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 11: Key Takeaways & Conclusion -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Executive Summary</div>
+    <div class="title">Key Takeaways & Conclusion</div>
+    <div class="subtitle">Core Architectural Principles for Secure Mobile Engineering</div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px; flex: 1; justify-content: space-around;">
+    <div class="card" style="padding: 15px 20px; display: flex; align-items: center; gap: 16px; border-left: 5px solid #3DDC84;">
+      <div style="font-size: 14px; color: #F8FAFC; line-height: 1.45;">
+        <strong style="color: #3DDC84;">1. Sandboxing is Necessary, Not Sufficient:</strong> Linux UID process isolation protects internal files, but misconfigured component exposure (<code>android:exported="true"</code>) completely bypasses it.
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px 20px; display: flex; align-items: center; gap: 16px; border-left: 5px solid #38BDF8;">
+      <div style="font-size: 14px; color: #F8FAFC; line-height: 1.45;">
+        <strong style="color: #38BDF8;">2. Intents Form Trust Boundaries:</strong> Every Intent crossing an application boundary is untrusted input. Always validate actions, URIs, and allowlist nested Intent destinations.
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px 20px; display: flex; align-items: center; gap: 16px; border-left: 5px solid #FBBF24;">
+      <div style="font-size: 14px; color: #F8FAFC; line-height: 1.45;">
+        <strong style="color: #FBBF24;">3. Access Control &ne; Cryptographic Security:</strong> Sandbox permissions only control file access. Sensitive tokens in SQLite require encryption at rest (SQLCipher / Keystore) to survive device-level leaks.
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px 20px; display: flex; align-items: center; gap: 16px; border-left: 5px solid #38BDF8;">
+      <div style="font-size: 14px; color: #F8FAFC; line-height: 1.45;">
+        <strong style="color: #38BDF8;">4. Defense-in-Depth Across All Layers:</strong> Secure mobile systems require simultaneous hardening across the Manifest, IPC validation, local cryptographic storage, and network transit.
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px 20px; display: flex; align-items: center; gap: 16px; border-left: 5px solid #3DDC84;">
+      <div style="font-size: 14px; color: #F8FAFC; line-height: 1.45;">
+        <strong style="color: #3DDC84;">5. Theory Drives Practice:</strong> Our midterm theoretical findings establish the exact architectural foundation for our upcoming final laboratory demonstration with Burp Suite and SSL Pinning.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="border-color: #3DDC84; color: #3DDC84; font-size: 14.5px; margin-top: 14px;">
+    Thank you for your attention! We welcome any questions from the instructor and class.
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- SLIDE 12: References & Standards -->
+<!-- ========================================================= -->
+<div class="slide">
+  <div class="header">
+    <div class="tag">Academic Sources</div>
+    <div class="title">References & Industry Standards</div>
+    <div class="subtitle">Authoritative Literature, Frameworks & Specifications</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1;">
+    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="font-weight: 700; color: #3DDC84; font-size: 14.5px; margin-bottom: 4px;">[1] Google Android Developers (2024)</div>
+        <div style="font-weight: 600; color: #F8FAFC; font-size: 14px; margin-bottom: 4px;">Permissions on Android & Protection Levels</div>
+        <div style="font-size: 12.5px; color: #94A3B8;">Official Android Security Guides. https://developer.android.com/guide/topics/permissions/overview</div>
+      </div>
+      <div style="font-size: 11px; color: #38BDF8; font-weight: 600; margin-top: 6px;">Protection Levels & Runtime Permissions</div>
+    </div>
+
+    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="font-weight: 700; color: #3DDC84; font-size: 14.5px; margin-bottom: 4px;">[2] Google Android Developers (2024)</div>
+        <div style="font-weight: 600; color: #F8FAFC; font-size: 14px; margin-bottom: 4px;">Intents and Intent Filters Documentation</div>
+        <div style="font-size: 12.5px; color: #94A3B8;">Core Component IPC Architecture. https://developer.android.com/guide/components/intents-filters</div>
+      </div>
+      <div style="font-size: 11px; color: #38BDF8; font-weight: 600; margin-top: 6px;">IPC & Component Resolution Architecture</div>
+    </div>
+
+    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="font-weight: 700; color: #3DDC84; font-size: 14.5px; margin-bottom: 4px;">[3] Google Android Developers (2023)</div>
+        <div style="font-weight: 600; color: #F8FAFC; font-size: 14px; margin-bottom: 4px;">Remediating Intent Redirection Vulnerability</div>
+        <div style="font-size: 12.5px; color: #94A3B8;">Android Privacy & Security Risk Advisory. https://developer.android.com/privacy-and-security/risks/intent-redirection</div>
+      </div>
+      <div style="font-size: 11px; color: #F87171; font-weight: 600; margin-top: 6px;">Vulnerability Mechanics & Remediation Guidance</div>
+    </div>
+
+    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="font-weight: 700; color: #3DDC84; font-size: 14.5px; margin-bottom: 4px;">[4] OWASP Foundation (2023)</div>
+        <div style="font-weight: 600; color: #F8FAFC; font-size: 14px; margin-bottom: 4px;">Mobile Application Security Verification Standard (MASVS v2.0)</div>
+        <div style="font-size: 12.5px; color: #94A3B8;">Industry Benchmark for Mobile Security Architecture & Storage. https://mas.owasp.org/</div>
+      </div>
+      <div style="font-size: 11px; color: #FBBF24; font-weight: 600; margin-top: 6px;">MASVS-STORAGE & MASVS-IPC Verification Standard</div>
+    </div>
+
+    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="font-weight: 700; color: #3DDC84; font-size: 14.5px; margin-bottom: 4px;">[5] OWASP Foundation (2024)</div>
+        <div style="font-weight: 600; color: #F8FAFC; font-size: 14px; margin-bottom: 4px;">Mobile Application Security Testing Guide (MASTG)</div>
+        <div style="font-size: 12.5px; color: #94A3B8;">Technical Guide for Storage & IPC Security Verification (MASTG-STORAGE-0037). https://mas.owasp.org/</div>
+      </div>
+      <div style="font-size: 11px; color: #FBBF24; font-weight: 600; margin-top: 6px;">Testing Local Storage & SQLite Security Procedures</div>
+    </div>
+
+    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="font-weight: 700; color: #3DDC84; font-size: 14.5px; margin-bottom: 4px;">[6] NIST (2019)</div>
+        <div style="font-weight: 600; color: #F8FAFC; font-size: 14px; margin-bottom: 4px;">Vetting the Security of Mobile Applications</div>
+        <div style="font-size: 12.5px; color: #94A3B8;">NIST Special Publication 800-163 Rev. 1. https://doi.org/10.6028/NIST.SP.800-163r1</div>
+      </div>
+      <div style="font-size: 11px; color: #38BDF8; font-weight: 600; margin-top: 6px;">Federal Guidelines for Mobile Application Vetting</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

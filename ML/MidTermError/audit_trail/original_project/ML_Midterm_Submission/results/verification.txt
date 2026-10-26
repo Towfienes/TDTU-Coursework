@@ -1,0 +1,11 @@
+Machine Learning Midterm — verification summary
+Date: 2026-10-08
+
+- Python training code executed for Q1 (Linear Regression + Logistic Regression).
+- Analytic gradients independently checked against two-sided numerical finite differences for both models.
+- Q2 offline experiment executed on the bundled Fisher Iris copy of the dataset registered at OpenML ID 61.
+- 13 classifier methods benchmarked with 5-fold train-only stratified cross-validation.
+- Jupyter notebooks for Q1 linear, Q1 logistic and Q2 executed; saved notebooks have no code-cell errors.
+- Regression test suite: 7 tests passed (see tests/test_submission.py).
+- PDF: 13 A4 pages, rendered and inspected; comparison chart/caption stays on the same page.
+- Direct OpenML HTTP retrieval: NOT verified in this runtime (offline mirror used; direct retrieval is an optional switch).

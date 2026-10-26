@@ -1,0 +1,25 @@
+\begin{longtable}{@{}p{3.6cm}rrrr@{}}
+\caption{Base and selected configurations on identical folds.}\label{tab:overfit}\\
+\toprule
+Model & \shortstack{Base\\train} & \shortstack{Base\\CV} & \shortstack{Selected\\train} & \shortstack{Selected\\CV} \\
+\midrule\endfirsthead
+\toprule
+Model & \shortstack{Base\\train} & \shortstack{Base\\CV} & \shortstack{Selected\\train} & \shortstack{Selected\\CV} \\
+\midrule\endhead
+\bottomrule\endfoot
+Majority baseline & 0.412 & 0.412 & 0.412 & 0.412 \\
+Scratch logistic & 0.731 & 0.665 & 0.731 & 0.666 \\
+Perceptron & 0.623 & 0.590 & 0.623 & 0.590 \\
+kNN & 0.750 & 0.610 & 1.000 & 0.627 \\
+Gaussian NB & 0.656 & 0.616 & 0.707 & 0.662 \\
+Bernoulli NB & 0.717 & 0.685 & 0.716 & 0.694 \\
+Decision tree & 1.000 & 0.614 & 0.777 & 0.656 \\
+Linear SVM & 0.733 & 0.656 & 0.740 & 0.665 \\
+RBF SVM & 0.805 & 0.645 & 0.990 & 0.669 \\
+Polynomial SVM & 0.815 & 0.656 & 0.911 & 0.686 \\
+MLP & 0.451 & 0.437 & 0.760 & 0.696 \\
+Bagging & 1.000 & 0.672 & 0.901 & 0.680 \\
+Random forest & 1.000 & 0.641 & 0.976 & 0.651 \\
+AdaBoost & 0.713 & 0.646 & 0.736 & 0.664 \\
+Gradient boosting & 0.911 & 0.641 & 0.882 & 0.665 \\
+\end{longtable}

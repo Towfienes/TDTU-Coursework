@@ -1,0 +1,754 @@
+{
+  "status": "READY FOR STUDENT REVIEW",
+  "generated_at_utc": "2026-10-09T13:35:43.730412+00:00",
+  "dataset": {
+    "status": "VERIFIED",
+    "official_url": "https://www.openml.org/d/31",
+    "api_url": "https://www.openml.org/api/v1/json/data/31",
+    "raw_download_url": "https://openml.org/data/v1/download/31/credit-g.arff",
+    "dataset_id": 31,
+    "dataset_version": 1,
+    "dataset_name": "credit-g",
+    "license": "Public",
+    "rows": 1000,
+    "feature_count": 20,
+    "target": "class",
+    "class_counts": {
+      "good": 700,
+      "bad": 300
+    },
+    "numerical_features": [
+      "duration",
+      "credit_amount",
+      "installment_commitment",
+      "residence_since",
+      "age",
+      "existing_credits",
+      "num_dependents"
+    ],
+    "categorical_features": [
+      "checking_status",
+      "credit_history",
+      "purpose",
+      "savings_status",
+      "employment",
+      "personal_status",
+      "other_parties",
+      "property_magnitude",
+      "other_payment_plans",
+      "housing",
+      "job",
+      "own_telephone",
+      "foreign_worker"
+    ],
+    "retrieved_at_utc": "2026-10-09T13:00:45.773055+00:00",
+    "retrieval_method": "urllib.request.urlopen: official OpenML v1 JSON API, then API-provided ARFF URL; scipy.io.arff parser",
+    "raw_sha256": "768be84ef749110d5fcac109a6541f2df190e8c6987e1dc432c0a4f29d0642f5",
+    "raw_md5": "9a475053fed0c26ee95cd4525e50074c",
+    "official_md5": "9a475053fed0c26ee95cd4525e50074c",
+    "bytes": 162291,
+    "software": {
+      "python": "3.14.7",
+      "numpy": "2.5.3",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "sklearn": "1.9.1"
+    }
+  },
+  "seeds": {
+    "q1_linear": 42,
+    "q1_logistic_generation": 27,
+    "holdout": 42,
+    "q2_models": 42,
+    "q2_folds": 42,
+    "gradient_probe": 73
+  },
+  "budget": {
+    "device": "CPU",
+    "OMP_NUM_THREADS": 1,
+    "OPENBLAS_NUM_THREADS": 1,
+    "MKL_NUM_THREADS": 1,
+    "estimator_n_jobs": 1,
+    "cv_folds": 5,
+    "predictive_algorithms": 12,
+    "baseline_algorithms": 1,
+    "capacity_configurations": 20,
+    "benchmark_fold_fits": 65,
+    "capacity_fold_fits": 100
+  },
+  "q1": {
+    "linear": {
+      "dataset": "Synthetic linear regression, seed=42; y=4+3*x1-2*x2+N(0,0.65^2)",
+      "n_train": 288,
+      "n_test": 72,
+      "epochs": 1200,
+      "learning_rate": 0.08,
+      "train_loss_first": 13.728956347781212,
+      "train_loss_last": 0.20977085928071595,
+      "mse": 0.41759428722908903,
+      "rmse": 0.6462153566954975,
+      "mae": 0.5040398082742661,
+      "r2": 0.9654916280448091,
+      "grad_check_max_abs_diff": 1.1996528215263424e-09,
+      "weights_standardized": [
+        3.0398898337660416,
+        -1.989364585542428
+      ],
+      "bias_standardized": 3.976867235945094,
+      "final_gradient_norm": 3.639432274417654e-15,
+      "reference_prediction_max_abs_diff": 7.105427357601002e-15,
+      "reference_method": "sklearn LinearRegression least squares; validation only"
+    },
+    "logistic": {
+      "dataset": "Synthetic binary classification, make_classification, seed=27",
+      "n_train": 480,
+      "n_test": 120,
+      "epochs": 2400,
+      "learning_rate": 0.13,
+      "train_loss_first": 0.6931471805599453,
+      "train_loss_last": 0.2346856322496315,
+      "accuracy": 0.8833333333333333,
+      "precision": 0.8333333333333334,
+      "recall": 0.9259259259259259,
+      "f1": 0.8771929824561403,
+      "roc_auc": 0.9250841750841751,
+      "confusion_matrix": [
+        [
+          56,
+          10
+        ],
+        [
+          4,
+          50
+        ]
+      ],
+      "grad_check_max_abs_diff": 3.606420717616743e-11,
+      "weights_standardized": [
+        -0.8712815779081683,
+        -3.4226629568895195,
+        0.18929504421826598,
+        -1.6440620632804075,
+        -0.8594169451576541
+      ],
+      "bias_standardized": -0.8734550158787172,
+      "final_gradient_norm": 0.0003264776191688905,
+      "reference_training_loss": 0.23468148173309383,
+      "reference_probability_max_abs_diff": 0.0019908022840458006,
+      "reference_method": "sklearn unregularized LogisticRegression LBFGS; validation only"
+    }
+  },
+  "q2": {
+    "dataset_id": 31,
+    "dataset_version": 1,
+    "dataset_name": "credit-g",
+    "train_rows": 800,
+    "test_rows": 200,
+    "seed": 42,
+    "cv_folds": 5,
+    "primary_metric": "f1_macro",
+    "baseline": "Dummy majority",
+    "predictive_algorithms": 12,
+    "champion_selected_by_train_cv": "HistGradientBoosting",
+    "champion_metrics": {
+      "model": "HistGradientBoosting",
+      "cv_macro_f1_mean": 0.6844363171616397,
+      "cv_macro_f1_std": 0.040336952421247026,
+      "fold_train_macro_f1_mean": 1.0,
+      "fold_generalization_gap": 0.3155636828383603,
+      "full_train_macro_f1": 1.0,
+      "test_accuracy": 0.755,
+      "test_precision_bad": 0.6170212765957447,
+      "test_recall_bad": 0.48333333333333334,
+      "test_precision_macro": 0.7072034487553887,
+      "test_recall_macro": 0.6773809523809524,
+      "test_macro_f1": 0.6874102899429044,
+      "test_balanced_accuracy": 0.6773809523809524,
+      "test_roc_auc": 0.7678571428571429
+    },
+    "champion_confusion_matrix": [
+      [
+        122,
+        18
+      ],
+      [
+        31,
+        29
+      ]
+    ],
+    "label_order": [
+      "good (0)",
+      "bad (1)"
+    ],
+    "transformed_training_shape": [
+      800,
+      61
+    ],
+    "encoded_features": [
+      "numeric__duration",
+      "numeric__credit_amount",
+      "numeric__installment_commitment",
+      "numeric__residence_since",
+      "numeric__age",
+      "numeric__existing_credits",
+      "numeric__num_dependents",
+      "categorical__checking_status_0<=X<200",
+      "categorical__checking_status_<0",
+      "categorical__checking_status_>=200",
+      "categorical__checking_status_no checking",
+      "categorical__credit_history_all paid",
+      "categorical__credit_history_critical/other existing credit",
+      "categorical__credit_history_delayed previously",
+      "categorical__credit_history_existing paid",
+      "categorical__credit_history_no credits/all paid",
+      "categorical__purpose_business",
+      "categorical__purpose_domestic appliance",
+      "categorical__purpose_education",
+      "categorical__purpose_furniture/equipment",
+      "categorical__purpose_new car",
+      "categorical__purpose_other",
+      "categorical__purpose_radio/tv",
+      "categorical__purpose_repairs",
+      "categorical__purpose_retraining",
+      "categorical__purpose_used car",
+      "categorical__savings_status_100<=X<500",
+      "categorical__savings_status_500<=X<1000",
+      "categorical__savings_status_<100",
+      "categorical__savings_status_>=1000",
+      "categorical__savings_status_no known savings",
+      "categorical__employment_1<=X<4",
+      "categorical__employment_4<=X<7",
+      "categorical__employment_<1",
+      "categorical__employment_>=7",
+      "categorical__employment_unemployed",
+      "categorical__personal_status_female div/dep/mar",
+      "categorical__personal_status_male div/sep",
+      "categorical__personal_status_male mar/wid",
+      "categorical__personal_status_male single",
+      "categorical__other_parties_co applicant",
+      "categorical__other_parties_guarantor",
+      "categorical__other_parties_none",
+      "categorical__property_magnitude_car",
+      "categorical__property_magnitude_life insurance",
+      "categorical__property_magnitude_no known property",
+      "categorical__property_magnitude_real estate",
+      "categorical__other_payment_plans_bank",
+      "categorical__other_payment_plans_none",
+      "categorical__other_payment_plans_stores",
+      "categorical__housing_for free",
+      "categorical__housing_own",
+      "categorical__housing_rent",
+      "categorical__job_high qualif/self emp/mgmt",
+      "categorical__job_skilled",
+      "categorical__job_unemp/unskilled non res",
+      "categorical__job_unskilled resident",
+      "categorical__own_telephone_none",
+      "categorical__own_telephone_yes",
+      "categorical__foreign_worker_no",
+      "categorical__foreign_worker_yes"
+    ],
+    "eda": {
+      "raw_rows": 1000,
+      "raw_columns": 21,
+      "missing_cells": 0,
+      "exact_duplicate_rows": 0,
+      "numeric_count": 7,
+      "categorical_count": 13,
+      "cleaning": "No records removed: valid schema, no missing values, no exact duplicates. Outliers retained as plausible observations.",
+      "iqr_outlier_counts_training": {
+        "duration": 50,
+        "credit_amount": 58,
+        "installment_commitment": 0,
+        "residence_since": 0,
+        "age": 25,
+        "existing_credits": 4,
+        "num_dependents": 128
+      },
+      "categorical_counts_training": {
+        "checking_status": {
+          "no checking": 316,
+          "<0": 219,
+          "0<=X<200": 214,
+          ">=200": 51
+        },
+        "credit_history": {
+          "existing paid": 416,
+          "critical/other existing credit": 240,
+          "delayed previously": 72,
+          "all paid": 41,
+          "no credits/all paid": 31
+        },
+        "purpose": {
+          "radio/tv": 215,
+          "new car": 194,
+          "furniture/equipment": 149,
+          "used car": 84,
+          "business": 79,
+          "education": 40,
+          "repairs": 18,
+          "domestic appliance": 10,
+          "other": 6,
+          "retraining": 5
+        },
+        "savings_status": {
+          "<100": 475,
+          "no known savings": 144,
+          "100<=X<500": 90,
+          "500<=X<1000": 50,
+          ">=1000": 41
+        },
+        "employment": {
+          "1<=X<4": 271,
+          ">=7": 206,
+          "<1": 143,
+          "4<=X<7": 139,
+          "unemployed": 41
+        },
+        "personal_status": {
+          "male single": 430,
+          "female div/dep/mar": 249,
+          "male mar/wid": 80,
+          "male div/sep": 41
+        },
+        "other_parties": {
+          "none": 729,
+          "guarantor": 37,
+          "co applicant": 34
+        },
+        "property_magnitude": {
+          "car": 267,
+          "real estate": 225,
+          "life insurance": 184,
+          "no known property": 124
+        },
+        "other_payment_plans": {
+          "none": 649,
+          "bank": 112,
+          "stores": 39
+        },
+        "housing": {
+          "own": 570,
+          "rent": 144,
+          "for free": 86
+        },
+        "job": {
+          "skilled": 511,
+          "unskilled resident": 158,
+          "high qualif/self emp/mgmt": 115,
+          "unemp/unskilled non res": 16
+        },
+        "own_telephone": {
+          "none": 475,
+          "yes": 325
+        },
+        "foreign_worker": {
+          "yes": 769,
+          "no": 31
+        }
+      },
+      "categorical_cardinality_training": {
+        "checking_status": 4,
+        "credit_history": 5,
+        "purpose": 10,
+        "savings_status": 5,
+        "employment": 5,
+        "personal_status": 4,
+        "other_parties": 3,
+        "property_magnitude": 4,
+        "other_payment_plans": 3,
+        "housing": 3,
+        "job": 4,
+        "own_telephone": 2,
+        "foreign_worker": 2
+      }
+    },
+    "overfitting_studies": [
+      {
+        "family": "Decision Tree",
+        "original": {
+          "family": "Decision Tree",
+          "configuration": "depth=None,leaf=1",
+          "full_train_macro_f1": 1.0,
+          "cv_macro_f1_mean": 0.6128467944862603,
+          "cv_macro_f1_std": 0.014783894191411106,
+          "fold_train_macro_f1_mean": 1.0,
+          "fold_generalization_gap": 0.3871532055137397
+        },
+        "selected": {
+          "family": "Decision Tree",
+          "configuration": "depth=None,leaf=15",
+          "full_train_macro_f1": 0.7521582556361304,
+          "cv_macro_f1_mean": 0.659387074431019,
+          "cv_macro_f1_std": 0.026929299869238737,
+          "fold_train_macro_f1_mean": 0.7473046847438878,
+          "fold_generalization_gap": 0.0879176103128688
+        },
+        "validation_change": 0.04654027994475862,
+        "gap_change": -0.29923559520087095
+      },
+      {
+        "family": "KNN",
+        "original": {
+          "family": "KNN",
+          "configuration": "k=1",
+          "full_train_macro_f1": 1.0,
+          "cv_macro_f1_mean": 0.6265492255130298,
+          "cv_macro_f1_std": 0.01567975684764297,
+          "fold_train_macro_f1_mean": 1.0,
+          "fold_generalization_gap": 0.37345077448697017
+        },
+        "selected": {
+          "family": "KNN",
+          "configuration": "k=5",
+          "full_train_macro_f1": 0.7545648997770917,
+          "cv_macro_f1_mean": 0.6315961484068564,
+          "cv_macro_f1_std": 0.04833651601336403,
+          "fold_train_macro_f1_mean": 0.7414971557294299,
+          "fold_generalization_gap": 0.10990100732257355
+        },
+        "validation_change": 0.0050469228938265775,
+        "gap_change": -0.2635497671643966
+      },
+      {
+        "family": "RBF SVM",
+        "original": {
+          "family": "RBF SVM",
+          "configuration": "C=100,gamma=1.0",
+          "full_train_macro_f1": 1.0,
+          "cv_macro_f1_mean": 0.4201016199837869,
+          "cv_macro_f1_std": 0.012438139832107719,
+          "fold_train_macro_f1_mean": 1.0,
+          "fold_generalization_gap": 0.5798983800162132
+        },
+        "selected": {
+          "family": "RBF SVM",
+          "configuration": "C=10.0,gamma=0.1",
+          "full_train_macro_f1": 0.9985101283338207,
+          "cv_macro_f1_mean": 0.6687879120762538,
+          "cv_macro_f1_std": 0.05507220678640501,
+          "fold_train_macro_f1_mean": 0.9996274206740775,
+          "fold_generalization_gap": 0.3308395085978237
+        },
+        "validation_change": 0.24868629209246684,
+        "gap_change": -0.2490588714183895
+      }
+    ],
+    "exclusions": {
+      "MLP": "Omitted to bound CPU cost; 12 learning algorithms cover the principal families.",
+      "QDA": "Full one-hot indicators introduce singular within-class covariance; LDA with SVD is included."
+    },
+    "warning_policy": "Warnings preserved in execution logs; CV errors raise immediately.",
+    "parallelism": "n_jobs=1; BLAS/OpenMP capped by documented environment variables",
+    "elapsed_seconds": 10.945099446000313
+  },
+  "notebooks": [
+    {
+      "notebook": "Q1_Linear_Regression.ipynb",
+      "status": "PASS",
+      "code_cells": 7,
+      "source_sha256": "9622323c0e847bd171760ce29eb19b10d36b584e967c5fc23ee2c8d20fa06563",
+      "executed_at_utc": "2026-10-09T13:29:47.619053+00:00",
+      "python": "3.14.7",
+      "executable": "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+      "elapsed_seconds": 2.068855689999509
+    },
+    {
+      "notebook": "Q1_Logistic_Regression.ipynb",
+      "status": "PASS",
+      "code_cells": 7,
+      "source_sha256": "38a386a833cdfd3f6100fd1bcc206a40e64a7b69906b4f43289e4223e573a797",
+      "executed_at_utc": "2026-10-09T13:29:49.787706+00:00",
+      "python": "3.14.7",
+      "executable": "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+      "elapsed_seconds": 2.1664457950000724
+    },
+    {
+      "notebook": "Q2_Classification.ipynb",
+      "status": "PASS",
+      "code_cells": 7,
+      "source_sha256": "a696384994dd41c2764751a64196f9ecb488886c9adec85e001f174e6394baf6",
+      "executed_at_utc": "2026-10-09T13:30:01.158745+00:00",
+      "python": "3.14.7",
+      "executable": "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+      "elapsed_seconds": 11.364153264999914
+    }
+  ],
+  "tests": {
+    "methods": 14,
+    "gradient_subcases": 32,
+    "status": "PASS"
+  },
+  "pdf": {
+    "pages": 19,
+    "format": "A4",
+    "render_dpi": 160,
+    "all_pages_visually_reviewed": true
+  },
+  "clean_reproduction": {
+    "status": "PASS",
+    "archive": "/home/towfienes/TDTU/ML/MidTerm/audit_trail/submission_candidate.zip",
+    "archive_sha256": "bd17843f73aa1d1368b2120bb6c448e4ec414afa00c780afff5c91765398ee3d",
+    "extraction": "/home/towfienes/TDTU/ML/MidTerm/audit_trail/clean_reproduction",
+    "verified_at_utc": "2026-10-09T13:32:10.070784+00:00",
+    "environment": "All direct pinned dependencies verified in independently installed clean venv",
+    "commands": [
+      {
+        "check": "data",
+        "command": [
+          "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+          "-m",
+          "src.data"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.8447784529998899
+      },
+      {
+        "check": "tests_before",
+        "command": [
+          "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 2.0938746420006282
+      },
+      {
+        "check": "notebooks",
+        "command": [
+          "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+          "notebooks/execute.py"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 15.714181735000238
+      },
+      {
+        "check": "q1",
+        "command": [
+          "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+          "-m",
+          "src.q1_models"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 1.8217774229997303
+      },
+      {
+        "check": "q2",
+        "command": [
+          "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+          "-m",
+          "src.q2_classification"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 12.683665108999776
+      },
+      {
+        "check": "report",
+        "command": [
+          "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+          "-m",
+          "src.build_report"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 1.509330750999652
+      },
+      {
+        "check": "tests_after",
+        "command": [
+          "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 1.989734540000427
+      },
+      {
+        "check": "lint",
+        "command": [
+          "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+          "-m",
+          "ruff",
+          "check",
+          "src",
+          "tests",
+          "notebooks/execute.py"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.02442260499992699
+      },
+      {
+        "check": "syntax",
+        "command": [
+          "/home/towfienes/TDTU/ML/MidTerm/.venv-midterm/bin/python",
+          "-m",
+          "compileall",
+          "-q",
+          "src",
+          "tests",
+          "notebooks/execute.py"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.038564499000131036
+      }
+    ],
+    "numerical_comparison": "Q1 JSON/NPZ, Q2 selection/summary and four CSVs match; floating CSV/array tolerance 1e-12; experiment figures byte-identical; 19 PDF page texts identical"
+  },
+  "files": [
+    {
+      "file": "data/raw/credit-g.arff",
+      "sha256": "768be84ef749110d5fcac109a6541f2df190e8c6987e1dc432c0a4f29d0642f5"
+    },
+    {
+      "file": "figures/finite_difference.png",
+      "sha256": "5edf49d687f852bc17d5969601eb75e08c3b656d5cd0da87753606d1f0bd6817"
+    },
+    {
+      "file": "figures/gd_updates.png",
+      "sha256": "a8e92ffc186ba242d9fb8a6aefa17ba86aac01f827474483bbfb0442517fab8a"
+    },
+    {
+      "file": "figures/linear_derivation.png",
+      "sha256": "d3645fc9e9c4bb82b2bb1dba3b36d4012aa939d5ef147fb3ebceb152ba479be8"
+    },
+    {
+      "file": "figures/logistic_derivation.png",
+      "sha256": "45e7d2931aabc8756beab5656238d45d0930fc2019662c0ccb988fc590806b11"
+    },
+    {
+      "file": "figures/q1_linear_loss.png",
+      "sha256": "ec6f2235d0036b920e4c342a010fa0ae65a5342b1508cd8c6aab5be236721e43"
+    },
+    {
+      "file": "figures/q1_linear_predictions.png",
+      "sha256": "40ed4833411c8f4551f3b784b94d30f93669f0432126b50336443f70a0b29402"
+    },
+    {
+      "file": "figures/q1_linear_residuals.png",
+      "sha256": "a94edef26c424c2f57933930284a592a978c6e31cd2a407d2c2dc65a31adaf92"
+    },
+    {
+      "file": "figures/q1_logistic_confusion.png",
+      "sha256": "a862d8b113f837f57b607f20e939a85b7cb9c7c4cc3d350355d7a0f4822547b8"
+    },
+    {
+      "file": "figures/q1_logistic_loss.png",
+      "sha256": "d38f1ff4a054a298883c1e717da8fb47b9936b402b63182a723588aafb90cd38"
+    },
+    {
+      "file": "figures/q2_categorical.png",
+      "sha256": "8c05573f2b8a18b7cebce224d37156c2a7c1bc36302cc8b4309dbc076a0485fd"
+    },
+    {
+      "file": "figures/q2_champion_confusion.png",
+      "sha256": "d5444ff172374069943c3e450cdc396ade9210b88cda38a5e4492146ac3c2dd3"
+    },
+    {
+      "file": "figures/q2_class_balance.png",
+      "sha256": "4f753fe36bc4144a09384b78e1179186e94c5adaeaf76e541584594e0c0495e8"
+    },
+    {
+      "file": "figures/q2_knn_complexity.png",
+      "sha256": "6161efb556992a931cefc94f639d442aa80848c20a1c7c21fedd9817f3463436"
+    },
+    {
+      "file": "figures/q2_model_comparison.png",
+      "sha256": "733e9f275e10617afb1dd32f1a9f7f39f9849e3be2afc374fd79a7aca95062f9"
+    },
+    {
+      "file": "figures/q2_numeric_distributions.png",
+      "sha256": "864b28942ec3a926f10ee5a7c8ff3a977bf067fe2c86d9c0d1a7b1810bee2e95"
+    },
+    {
+      "file": "figures/q2_overfitting.png",
+      "sha256": "4aa05e89a8fe7f38d46a94d782c681f1b71cafb168de431f681fac27a987f72b"
+    },
+    {
+      "file": "figures/q2_roc.png",
+      "sha256": "491137174d4d1b50708e994666afb8b6bb97ef8cc06d1c1878380a4ace547e30"
+    },
+    {
+      "file": "figures/stable_bce.png",
+      "sha256": "6eaf92a480dd6fedc73d7e159ea2202eea79248a1331f2e52702dc0c5cc581bf"
+    },
+    {
+      "file": "requirements.txt",
+      "sha256": "55902332606544337ca78e8977da7fec0c677d5dfc4d1440bb07d370be6f9156"
+    },
+    {
+      "file": "results/q1_arrays.npz",
+      "sha256": "b1a8c0bb151c3fe7bafdebe3bb346132f4c83b8e0317e8342fca811cd70d232f"
+    },
+    {
+      "file": "results/q1_metrics.json",
+      "sha256": "4cfaf520adfca1d687b6759ec0e6095bf674fcaac7429081a909fdc95c4ead28"
+    },
+    {
+      "file": "results/q2_fold_scores.csv",
+      "sha256": "a3534dd0ead3b56b46f7d63dd3bee106a60877f702a2c37fc23f78a81d9f5bf4"
+    },
+    {
+      "file": "results/q2_model_comparison.csv",
+      "sha256": "58764f537c5147fdc725e24388667a2d1cfce847e8aed7b247cef5d8d9dd1121"
+    },
+    {
+      "file": "results/q2_numeric_description.csv",
+      "sha256": "24393f57203ce0ff2965c89b07bd0c70d74e5ced9d454c47941d07ea66b60bdd"
+    },
+    {
+      "file": "results/q2_predictions.csv",
+      "sha256": "14dedb684a4f88d41a38f83d0bb84ae964e12d13b8ff31e63d5778d9658466f2"
+    },
+    {
+      "file": "results/q2_selection.json",
+      "sha256": "921576141b80fe0d0ef29d399d2e844bdf0aececf1be86915da639073fec3866"
+    },
+    {
+      "file": "results/q2_studies.csv",
+      "sha256": "762d491df8b8e3d23557db00a8c874e851629162b72dc0c03fe7d119599b3e91"
+    },
+    {
+      "file": "results/q2_summary.json",
+      "sha256": "63467d64c507874e816a355a3b70c203a09902899f16078811e5c4bd06425757"
+    },
+    {
+      "file": "src/build_report.py",
+      "sha256": "ff1fc5af3e55eb9d48dd3b14e202bc57a15c3121f232f45ebc722059c459e48a"
+    },
+    {
+      "file": "src/data.py",
+      "sha256": "1253e23add05a4f09f0d5e0224cd5cc289be8cbb134dbba626c300d9fea4ff2e"
+    },
+    {
+      "file": "src/q1_models.py",
+      "sha256": "dc1ef6cef6c75544ee767c6663b6cf311adebcb056494be12e9050b78478f479"
+    },
+    {
+      "file": "src/q2_classification.py",
+      "sha256": "c21706c05484d5c0f3ec0258e547c20914d29b097360669d760008023158e0ff"
+    },
+    {
+      "file": "tests/test_artifacts.py",
+      "sha256": "e8d444f485ba64afbf670e9614c76d2325a251805526ea59ef91499f2c053a40"
+    },
+    {
+      "file": "tests/test_q1.py",
+      "sha256": "4c6739d609edb5d780001021f40d8245177678abe8068e489b364a27ce960470"
+    },
+    {
+      "file": "tests/test_q2.py",
+      "sha256": "247d0f2c5bed0138034c29540dd7452653148a69256ffd49b8b8ed065a6e145a"
+    }
+  ],
+  "limits": [
+    "Capacity selection reuses CV folds; no nested CV or significance claim",
+    "One historical credit dataset and one holdout split",
+    "No fairness, calibration, asymmetric-cost optimization or deployment assessment",
+    "Section information not supplied; student uploads required"
+  ]
+}

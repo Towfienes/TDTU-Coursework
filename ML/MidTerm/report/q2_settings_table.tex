@@ -1,0 +1,25 @@
+\begin{longtable}{@{}p{3.6cm}p{10.9cm}@{}}
+\caption{Selected settings, refitted on 800 records.}\label{tab:settings}\\
+\toprule
+Model & Configuration \\
+\midrule\endfirsthead
+\toprule
+Model & Configuration \\
+\midrule\endhead
+\bottomrule\endfoot
+Majority baseline & Always predicts good; no tuned parameter. \\
+Scratch logistic & $\eta=0.5$, 1,500 full-batch updates, no penalty. \\
+Perceptron & $\eta=0.01$, 300 passes, shuffled samples. \\
+kNN & $k=1$, Euclidean distance, uniform voting. \\
+Gaussian NB & Variance smoothing $=0.01$; numeric and one-hot inputs. \\
+Bernoulli NB & $\alpha=2$; numeric threshold $0.5$ after scaling. \\
+Decision tree & Gini, maximum depth 6, minimum 5 records per leaf. \\
+Linear SVM & Linear kernel, $C=10$. \\
+RBF SVM & $C=10$; $\gamma=1/(d\,\mathrm{Var}(X_{train}))$. \\
+Polynomial SVM & $C=1$, degree 3, offset 0; scaled $\gamma$. \\
+MLP & One hidden layer of 16 tanh units, SGD step 0.05, 500 epochs. \\
+Bagging & 50 bootstrap trees, unlimited depth, minimum leaf size 5. \\
+Random forest & 150 trees, depth 10, minimum leaf size 1, $\sqrt d$ feature sampling. \\
+AdaBoost & 150 decision stumps, learning rate 1. \\
+Gradient boosting & 150 depth-3 trees, learning rate 0.05. \\
+\end{longtable}

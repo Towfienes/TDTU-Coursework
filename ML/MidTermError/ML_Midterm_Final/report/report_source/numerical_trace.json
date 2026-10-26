@@ -1,0 +1,195 @@
+{
+  "q1": {
+    "linear": {
+      "dataset": "Synthetic linear regression, seed=42; y=4+3*x1-2*x2+N(0,0.65^2)",
+      "n_train": 288,
+      "n_test": 72,
+      "epochs": 1200,
+      "learning_rate": 0.08,
+      "train_loss_first": 13.728956347781212,
+      "train_loss_last": 0.20977085928071595,
+      "mse": 0.41759428722908903,
+      "rmse": 0.6462153566954975,
+      "mae": 0.5040398082742661,
+      "r2": 0.9654916280448091,
+      "grad_check_max_abs_diff": 1.1996528215263424e-09,
+      "weights_standardized": [
+        3.0398898337660416,
+        -1.989364585542428
+      ],
+      "bias_standardized": 3.976867235945094,
+      "final_gradient_norm": 3.639432274417654e-15,
+      "reference_prediction_max_abs_diff": 7.105427357601002e-15,
+      "reference_method": "sklearn LinearRegression least squares; validation only"
+    },
+    "logistic": {
+      "dataset": "Synthetic binary classification, make_classification, seed=27",
+      "n_train": 480,
+      "n_test": 120,
+      "epochs": 2400,
+      "learning_rate": 0.13,
+      "train_loss_first": 0.6931471805599453,
+      "train_loss_last": 0.2346856322496315,
+      "accuracy": 0.8833333333333333,
+      "precision": 0.8333333333333334,
+      "recall": 0.9259259259259259,
+      "f1": 0.8771929824561403,
+      "roc_auc": 0.9250841750841751,
+      "confusion_matrix": [
+        [
+          56,
+          10
+        ],
+        [
+          4,
+          50
+        ]
+      ],
+      "grad_check_max_abs_diff": 3.606420717616743e-11,
+      "weights_standardized": [
+        -0.8712815779081683,
+        -3.4226629568895195,
+        0.18929504421826598,
+        -1.6440620632804075,
+        -0.8594169451576541
+      ],
+      "bias_standardized": -0.8734550158787172,
+      "final_gradient_norm": 0.0003264776191688905,
+      "reference_training_loss": 0.23468148173309383,
+      "reference_probability_max_abs_diff": 0.0019908022840458006,
+      "reference_method": "sklearn unregularized LogisticRegression LBFGS; validation only"
+    }
+  },
+  "selected_q2": {
+    "model": "HistGradientBoosting",
+    "cv_macro_f1_mean": 0.6844363171616397,
+    "cv_macro_f1_std": 0.040336952421247026,
+    "fold_train_macro_f1_mean": 1.0,
+    "fold_generalization_gap": 0.3155636828383603,
+    "full_train_macro_f1": 1.0,
+    "test_accuracy": 0.755,
+    "test_precision_bad": 0.6170212765957447,
+    "test_recall_bad": 0.48333333333333334,
+    "test_precision_macro": 0.7072034487553887,
+    "test_recall_macro": 0.6773809523809524,
+    "test_macro_f1": 0.6874102899429044,
+    "test_balanced_accuracy": 0.6773809523809524,
+    "test_roc_auc": 0.7678571428571429
+  },
+  "provenance": {
+    "status": "VERIFIED",
+    "official_url": "https://www.openml.org/d/31",
+    "api_url": "https://www.openml.org/api/v1/json/data/31",
+    "raw_download_url": "https://openml.org/data/v1/download/31/credit-g.arff",
+    "dataset_id": 31,
+    "dataset_version": 1,
+    "dataset_name": "credit-g",
+    "license": "Public",
+    "rows": 1000,
+    "feature_count": 20,
+    "target": "class",
+    "class_counts": {
+      "good": 700,
+      "bad": 300
+    },
+    "numerical_features": [
+      "duration",
+      "credit_amount",
+      "installment_commitment",
+      "residence_since",
+      "age",
+      "existing_credits",
+      "num_dependents"
+    ],
+    "categorical_features": [
+      "checking_status",
+      "credit_history",
+      "purpose",
+      "savings_status",
+      "employment",
+      "personal_status",
+      "other_parties",
+      "property_magnitude",
+      "other_payment_plans",
+      "housing",
+      "job",
+      "own_telephone",
+      "foreign_worker"
+    ],
+    "retrieved_at_utc": "2026-10-09T13:00:45.773055+00:00",
+    "retrieval_method": "urllib.request.urlopen: official OpenML v1 JSON API, then API-provided ARFF URL; scipy.io.arff parser",
+    "raw_sha256": "768be84ef749110d5fcac109a6541f2df190e8c6987e1dc432c0a4f29d0642f5",
+    "raw_md5": "9a475053fed0c26ee95cd4525e50074c",
+    "official_md5": "9a475053fed0c26ee95cd4525e50074c",
+    "bytes": 162291,
+    "software": {
+      "python": "3.14.7",
+      "numpy": "2.5.3",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "sklearn": "1.9.1"
+    }
+  },
+  "figures": [
+    {
+      "file": "figures/linear_derivation.png",
+      "sha256": "811e0e423989ec2a135df72df784766bfc47bbd43a6c7d1082683486afa8682c"
+    },
+    {
+      "file": "figures/gd_updates.png",
+      "sha256": "d482e57d2f86ebdbc1b92573521b316793f77876e9087008b1a761ff8ba94de0"
+    },
+    {
+      "file": "figures/finite_difference.png",
+      "sha256": "7bf3948e29911864a187f5e618859363a31f84ba7bc12bb8938c58ec539ebfbb"
+    },
+    {
+      "file": "figures/q1_linear_predictions.png",
+      "sha256": "40ed4833411c8f4551f3b784b94d30f93669f0432126b50336443f70a0b29402"
+    },
+    {
+      "file": "figures/q1_linear_residuals.png",
+      "sha256": "a94edef26c424c2f57933930284a592a978c6e31cd2a407d2c2dc65a31adaf92"
+    },
+    {
+      "file": "figures/logistic_derivation.png",
+      "sha256": "d89925b832579adf15b58ceb07ae6b57bb240b1b7e131350e96c9a7d7cc4abb1"
+    },
+    {
+      "file": "figures/stable_bce.png",
+      "sha256": "ea2109a8ef0a9a201350dbfbf297ede49fc6d9c4fa77c9d2193119fccd4b0db8"
+    },
+    {
+      "file": "figures/q1_logistic_loss.png",
+      "sha256": "d38f1ff4a054a298883c1e717da8fb47b9936b402b63182a723588aafb90cd38"
+    },
+    {
+      "file": "figures/q1_logistic_confusion.png",
+      "sha256": "a862d8b113f837f57b607f20e939a85b7cb9c7c4cc3d350355d7a0f4822547b8"
+    },
+    {
+      "file": "figures/q2_numeric_distributions.png",
+      "sha256": "864b28942ec3a926f10ee5a7c8ff3a977bf067fe2c86d9c0d1a7b1810bee2e95"
+    },
+    {
+      "file": "figures/q2_categorical.png",
+      "sha256": "8c05573f2b8a18b7cebce224d37156c2a7c1bc36302cc8b4309dbc076a0485fd"
+    },
+    {
+      "file": "figures/q2_model_comparison.png",
+      "sha256": "733e9f275e10617afb1dd32f1a9f7f39f9849e3be2afc374fd79a7aca95062f9"
+    },
+    {
+      "file": "figures/q2_champion_confusion.png",
+      "sha256": "d5444ff172374069943c3e450cdc396ade9210b88cda38a5e4492146ac3c2dd3"
+    },
+    {
+      "file": "figures/q2_roc.png",
+      "sha256": "491137174d4d1b50708e994666afb8b6bb97ef8cc06d1c1878380a4ace547e30"
+    },
+    {
+      "file": "figures/q2_knn_complexity.png",
+      "sha256": "6161efb556992a931cefc94f639d442aa80848c20a1c7c21fedd9817f3463436"
+    }
+  ]
+}

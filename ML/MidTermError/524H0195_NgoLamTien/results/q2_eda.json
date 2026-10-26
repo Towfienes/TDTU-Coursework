@@ -1,0 +1,115 @@
+{
+  "raw_rows": 1000,
+  "raw_columns": 21,
+  "missing_cells": 0,
+  "exact_duplicate_rows": 0,
+  "numeric_count": 7,
+  "categorical_count": 13,
+  "cleaning": "No records removed: valid schema, no missing values, no exact duplicates. Outliers retained as plausible observations.",
+  "iqr_outlier_counts_training": {
+    "duration": 50,
+    "credit_amount": 58,
+    "installment_commitment": 0,
+    "residence_since": 0,
+    "age": 25,
+    "existing_credits": 4,
+    "num_dependents": 128
+  },
+  "categorical_counts_training": {
+    "checking_status": {
+      "no checking": 316,
+      "<0": 219,
+      "0<=X<200": 214,
+      ">=200": 51
+    },
+    "credit_history": {
+      "existing paid": 416,
+      "critical/other existing credit": 240,
+      "delayed previously": 72,
+      "all paid": 41,
+      "no credits/all paid": 31
+    },
+    "purpose": {
+      "radio/tv": 215,
+      "new car": 194,
+      "furniture/equipment": 149,
+      "used car": 84,
+      "business": 79,
+      "education": 40,
+      "repairs": 18,
+      "domestic appliance": 10,
+      "other": 6,
+      "retraining": 5
+    },
+    "savings_status": {
+      "<100": 475,
+      "no known savings": 144,
+      "100<=X<500": 90,
+      "500<=X<1000": 50,
+      ">=1000": 41
+    },
+    "employment": {
+      "1<=X<4": 271,
+      ">=7": 206,
+      "<1": 143,
+      "4<=X<7": 139,
+      "unemployed": 41
+    },
+    "personal_status": {
+      "male single": 430,
+      "female div/dep/mar": 249,
+      "male mar/wid": 80,
+      "male div/sep": 41
+    },
+    "other_parties": {
+      "none": 729,
+      "guarantor": 37,
+      "co applicant": 34
+    },
+    "property_magnitude": {
+      "car": 267,
+      "real estate": 225,
+      "life insurance": 184,
+      "no known property": 124
+    },
+    "other_payment_plans": {
+      "none": 649,
+      "bank": 112,
+      "stores": 39
+    },
+    "housing": {
+      "own": 570,
+      "rent": 144,
+      "for free": 86
+    },
+    "job": {
+      "skilled": 511,
+      "unskilled resident": 158,
+      "high qualif/self emp/mgmt": 115,
+      "unemp/unskilled non res": 16
+    },
+    "own_telephone": {
+      "none": 475,
+      "yes": 325
+    },
+    "foreign_worker": {
+      "yes": 769,
+      "no": 31
+    }
+  },
+  "categorical_cardinality_training": {
+    "checking_status": 4,
+    "credit_history": 5,
+    "purpose": 10,
+    "savings_status": 5,
+    "employment": 5,
+    "personal_status": 4,
+    "other_parties": 3,
+    "property_magnitude": 4,
+    "other_payment_plans": 3,
+    "housing": 3,
+    "job": 4,
+    "own_telephone": 2,
+    "foreign_worker": 2
+  }
+}

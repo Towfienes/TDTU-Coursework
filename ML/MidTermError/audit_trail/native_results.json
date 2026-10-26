@@ -1,0 +1,63 @@
+[
+  {
+    "task_id": "t1",
+    "status": "success",
+    "changed_files": [
+      "ML_Midterm_Final/src/q1_models.py",
+      "ML_Midterm_Final/tests/test_q1.py"
+    ],
+    "checks": [
+      "5 unittest methods including 32 finite-difference shape/seed subcases passed",
+      "Q1 experiments and independent reference tolerance assertions passed"
+    ],
+    "findings": "One-feature gradient bug repaired; post-update loss now recorded; direct parent execution, provider routing fallback."
+  },
+  {
+    "task_id": "t2",
+    "status": "success",
+    "changed_files": [
+      "ML_Midterm_Final/src/data.py",
+      "ML_Midterm_Final/src/q2_classification.py",
+      "ML_Midterm_Final/tests/test_q2.py"
+    ],
+    "checks": [
+      "Official API and ARFF MD5 matched",
+      "13-model benchmark and 20 capacity configurations executed",
+      "11 unit/integration methods passed across Q1/Q2"
+    ],
+    "findings": "Mixed numeric/categorical credit-g cached from OpenML; predictions/folds persist; model selected before test loop."
+  },
+  {
+    "task_id": "t3",
+    "status": "success",
+    "changed_files": [
+      "ML_Midterm_Final/src/build_report.py",
+      "ML_Midterm_Final/report/report_source/metadata.json",
+      "ML_Midterm_Final/report/Machine_Learning_Midterm_Final.pdf"
+    ],
+    "checks": [
+      "19 A4 pages rendered at 160 DPI; all inspected individually; final changed pages reinspected",
+      "Report key numerical values trace to experiment JSON; metadata confirmed by user"
+    ],
+    "findings": "Three figure layout corrections applied; final report contains scientific limitations, citations and empirical capacity studies."
+  },
+  {
+    "task_id": "t4",
+    "status": "success",
+    "changed_files": [
+      "ML_Midterm_Final/notebooks/execute.py",
+      "ML_Midterm_Final/verification/execution_results.md",
+      "ML_Midterm_Final/verification/requirements_traceability.md",
+      "ML_Midterm_Final/README.md",
+      "ML_Midterm_Final/STUDY_GUIDE.md",
+      "ML_Midterm_Final_Submission.zip"
+    ],
+    "checks": [
+      "14 tests pass; 32 gradient subcases",
+      "3 notebooks / 21 code cells execute in fresh kernels",
+      "Two clean ZIP extractions: all nine execution steps passed and metrics match at 1e-12",
+      "Ruff lint and compileall pass; final ZIP CRC and 86 file hashes pass"
+    ],
+    "findings": "Final technical requirements satisfied, identities confirmed. Every member must upload; section remains explicitly not supplied. No grade or deployment claim."
+  }
+]
