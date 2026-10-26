@@ -9,10 +9,10 @@ report và các artifact thực nghiệm trong `../results/`.
 |---|---|
 | `midterm_presentation.pptx` | Deck chính, 14 slide, 16:9 (13.333 × 7.5 in), có speaker notes tiếng Việt cho từng slide |
 | `midterm_presentation.pdf` | Bản chiếu 14 trang, khổ 960 × 540 pt (đúng 16:9), dùng khi máy trình chiếu không có PowerPoint |
-| `TRANSCRIPT.md` | Lời thoại đầy đủ cho 3 người, mốc thời gian từng slide, bảng câu hỏi dự kiến |
+| `TRANSCRIPT.md` | Lời thoại đã biên tập (1329 từ ≈ 8:52) cho 3 người, câu chốt và mốc thời gian từng slide, bảng câu hỏi dự kiến |
 | `figures/` | 6 hình được vẽ riêng cho slide, đọc trực tiếp từ `../results/` |
 | `src/make_deck_figures.py` | Script vẽ hình + kiểm tra lại 11 con số so với `results/*.json` |
-| `src/build_deck.js` | Script dựng PPTX, sinh luôn `preview.html` và `TRANSCRIPT.md` từ một nguồn duy nhất |
+| `src/build_deck.js` | Script dựng PPTX và `preview.html`; cũng ghi `TRANSCRIPT.md` từ speaker notes cũ (xem ghi chú bên dưới) |
 | `preview.html` | Bản HTML cùng hệ toạ độ với PPTX; đây là nguồn của file PDF |
 
 ## Số slide: 14 cho 10 phút
@@ -32,7 +32,9 @@ report và các artifact thực nghiệm trong `../results/`.
 | 13 | Overfitting và biện pháp | Tâm | 7:28 |
 | 14 | Kết luận, hạn chế, Q&A | Tâm | 8:12 |
 
-Tổng lời thoại **1356 từ ≈ 8:53** khi đọc 150 từ/phút; phần còn lại của 10 phút dành cho chuyển slide và Q&A.
+Mốc thời gian trong bảng trên là của speaker notes cũ (1356 từ). `TRANSCRIPT.md` hiện là bản biên tập lại: **1329 từ ≈ 8:52** khi đọc 150 từ/phút, gọn hơn ở phần đọc số và tập trung vào kiến thức của môn; mốc mới nằm trong file đó.
+
+> **Lưu ý:** speaker notes trong `midterm_presentation.pptx` chưa được cập nhật theo transcript mới. Chạy lại `src/build_deck.js` sẽ ghi đè `TRANSCRIPT.md` bằng notes cũ, nên sao lưu file trước khi dựng lại.
 
 Nếu chỉ được **7 phút**, bỏ slide 2 (nội dung) và gộp 6–7 thành một slide chỉ giữ hình bên trái + 3 chỉ số,
 hoặc bỏ slide 5 và nói logistic bằng lời ở slide 7.
@@ -72,3 +74,4 @@ nên đổi kết quả thực nghiệm rồi dựng lại là slide tự cập 
 - Bullet dùng ký tự en-dash (`–`) qua `bullet.code`; PowerPoint hiển thị đúng, nhưng nếu mở bằng
   Google Slides thì kiểm tra lại thụt lề.
 - Thứ tự slide 6–7 và 10–11 cố ý tách "chọn mô hình" khỏi "kết quả test" để câu chuyện không lẫn.
+- Slide 11 in "16 mô hình đều vượt baseline" (`src/build_deck.js` dòng 336); đúng phải là **14** mô hình học. Transcript đã nói đúng "cả 14 mô hình".
