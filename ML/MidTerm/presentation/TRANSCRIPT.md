@@ -4,8 +4,8 @@
 **Thời lượng:** tổng lời thoại 1329 từ, đọc ở nhịp ~150 từ/phút ≈ **8:52**; phần còn lại của slot 10 phút dành cho chuyển slide và hỏi đáp.  
 **Người trình bày:** Tiến (Câu 1) · Thành (Câu 2: dữ liệu, quy trình, chọn mô hình) · Tâm (đọc kết quả, overfitting, kết luận)
 
-> Bản này được biên tập lại cho gọn và đúng trọng tâm kiến thức của môn; số liệu đã đối chiếu với `../results/*.json`.
-> Speaker notes trong `midterm_presentation.pptx` vẫn là bản cũ. Chạy lại `src/build_deck.js` sẽ **ghi đè** file này bằng notes cũ.
+> File này được sinh từ `src/talk_content.json` bằng `python3 src/build_talk.py`; speaker notes trong `midterm_presentation.pptx` dùng cùng nguồn.
+> Muốn sửa lời thoại thì sửa file JSON rồi dựng lại, đừng sửa trực tiếp file này. Số liệu đã đối chiếu với `../results/*.json`.
 
 ## Phân chia và mốc thời gian
 
@@ -20,7 +20,6 @@
 - Mốc kiểm tra: bắt đầu slide 5 ở **2:16**, slide 8 ở **4:14**, slide 12 ở **6:48**. Trễ hơn 30 giây thì bỏ câu kiểm chứng gradient ở slide 4 và câu về kNN ở slide 10.
 - Không đọc công thức từng ký hiệu: nói ý nghĩa rồi chỉ vào slide.
 - Nói chậm lại ở câu chốt của mỗi slide (dòng **Chốt** bên dưới).
-- Slide 11 in nhầm "16 mô hình đều vượt baseline"; khi nói, nói "cả 14 mô hình".
 
 ## Lời thoại theo slide
 

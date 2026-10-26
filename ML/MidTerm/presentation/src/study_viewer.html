@@ -1,0 +1,433 @@
+<title>ML Midterm Study Deck</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<style>
+/* Layout: lecture-desk. Slide on the left (sticky on top on phones), the speaking script and study notes beside it, a timeline dock at the bottom. Monochrome like the deck; TDTU blue only for state. */
+:root {
+  --bg: #fbfbfa;
+  --surface: #f1f2f3;
+  --ink: #16191d;
+  --muted: #5b636c;
+  --rule: #d8dcdf;
+  --accent: #1458a6;
+  --accent-soft: #e6eef8;
+  --warn: #a93d17;
+  --warn-soft: #fbece5;
+  --slide-frame: #c9ced3;
+  --scrim: rgba(10, 12, 15, .92);
+  --font-body: "Be Vietnam Pro", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --bar-h: 52px;
+  --dock-h: 64px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111417; --surface: #1a1e23; --ink: #e9ebee; --muted: #9aa3ad; --rule: #2b3138;
+    --accent: #79aef0; --accent-soft: #172537; --warn: #f0926c; --warn-soft: #2d1c15;
+    --slide-frame: #3a414a; --scrim: rgba(0, 0, 0, .94); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111417; --surface: #1a1e23; --ink: #e9ebee; --muted: #9aa3ad; --rule: #2b3138;
+  --accent: #79aef0; --accent-soft: #172537; --warn: #f0926c; --warn-soft: #2d1c15;
+  --slide-frame: #3a414a; --scrim: rgba(0, 0, 0, .94); color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+.wrap {
+  max-width: 1320px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* top bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--rule); }
+.bar .wrap { height: var(--bar-h); display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+.brand img { height: 26px; width: auto; flex: none; }
+.brand-text { min-width: 0; line-height: 1.15; }
+.brand-text b { display: block; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.brand-text span { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mode { display: flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; flex: none; }
+.mode button { border: 0; background: transparent; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; }
+.mode button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+/* stage */
+.stage { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 40px; padding-block: 12px calc(var(--dock-h) + env(safe-area-inset-bottom, 0px) + 28px); }
+.slidecol { position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--bar-h)); z-index: 10; background: var(--bg); padding-block: 4px 10px; align-self: start; }
+.figure { position: relative; margin: 0; aspect-ratio: 16 / 9; max-width: 100%; border: 1px solid var(--slide-frame); border-radius: 6px; overflow: hidden; background: #fff; cursor: zoom-in; touch-action: pan-y; }
+.figure img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; }
+.zoom-btn { position: absolute; right: 8px; bottom: 8px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(0,0,0,.15); background: rgba(255,255,255,.92); color: #16191d; display: grid; place-items: center; cursor: pointer; }
+.zoom-btn svg { width: 16px; height: 16px; }
+.slide-caption { display: none; }
+
+.textcol { min-width: 0; max-width: 68ch; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 6px; }
+.who { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; }
+.who i { font-style: normal; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--bg); font-size: 12px; font-weight: 600; }
+.when { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.eyebrow { margin: 16px 0 2px; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+h1.title { margin: 0; font-size: clamp(1.25rem, 1.05rem + 1vw, 1.65rem); line-height: 1.3; font-weight: 700; text-wrap: balance; }
+
+.label { display: flex; align-items: center; gap: 10px; margin: 22px 0 8px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
+.label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+.script { margin: 0; font-size: 1.065rem; line-height: 1.75; }
+body.rehearse .script { font-size: 1.28rem; line-height: 1.7; }
+
+/* study notes */
+.deep { margin-top: 26px; border-top: 1px solid var(--rule); }
+.deep > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0 10px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--accent); }
+.deep > summary::-webkit-details-marker { display: none; }
+.deep > summary .chev { width: 18px; height: 18px; transition: transform .2s ease; }
+.deep[open] > summary .chev { transform: rotate(180deg); }
+.key { margin: 2px 0 14px; padding: 12px 14px; background: var(--accent-soft); border-radius: 6px; font-weight: 500; line-height: 1.6; }
+.key small { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 2px; }
+.points { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.points li { position: relative; padding-left: 18px; line-height: 1.65; }
+.points li::before { content: ""; position: absolute; left: 2px; top: .72em; width: 7px; height: 1.5px; background: var(--muted); }
+.trap { margin-top: 16px; padding: 12px 14px; background: var(--warn-soft); border-radius: 6px; }
+.trap small { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--warn); font-weight: 600; margin-bottom: 4px; }
+.trap p { margin: 0; line-height: 1.6; }
+.trap p + p { margin-top: 6px; }
+.refs { margin-top: 14px; font-size: 13px; color: var(--muted); }
+.refs b { font-weight: 600; }
+code { font-family: var(--font-mono); font-size: .88em; background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+math { font-size: 1.08em; }
+.key math, .trap math { font-size: 1.04em; }
+.points li, .key, .trap p { overflow-x: auto; overflow-y: hidden; }
+
+/* stopwatch (rehearsal) */
+.watch { display: none; align-items: center; gap: 10px; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 8px; flex-wrap: wrap; }
+body.rehearse .watch { display: flex; }
+.watch button { border: 1px solid var(--rule); background: var(--surface); border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.watch .clock { font-family: var(--font-mono); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.watch .delta { font-size: 13px; color: var(--muted); }
+.watch .delta.slow { color: var(--warn); }
+.watch .delta.ok { color: var(--accent); }
+
+/* dock */
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; background: var(--bg); border-top: 1px solid var(--rule); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.dock .wrap { height: var(--dock-h); display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; }
+.navbtn { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--rule); background: var(--bg); display: grid; place-items: center; cursor: pointer; }
+.navbtn:disabled { opacity: .35; cursor: default; }
+.navbtn svg { width: 20px; height: 20px; }
+.picker { min-width: 0; border: 0; background: transparent; cursor: pointer; display: grid; gap: 6px; padding: 6px 4px; text-align: left; }
+.picker-top { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.picker-num { font-family: var(--font-mono); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; flex: none; }
+.picker-title { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.timeline { display: flex; gap: 2px; height: 5px; }
+.timeline span { border-radius: 2px; background: var(--rule); }
+.timeline span.past { background: var(--muted); }
+.timeline span.cur { background: var(--accent); }
+.timeline span.gap { margin-left: 5px; }
+
+/* sheet */
+.sheet { position: fixed; inset: 0; z-index: 40; display: flex; flex-direction: column; justify-content: flex-end; background: rgba(0,0,0,.35); }
+.sheet-panel { background: var(--bg); border-radius: 14px 14px 0 0; max-height: 82vh; max-height: 82dvh; overflow: auto; padding: 8px max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); width: 100%; max-width: 760px; margin: 0 auto; }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; position: sticky; top: -8px; background: var(--bg); padding: 10px 0; z-index: 1; }
+.sheet-head b { font-size: 15px; }
+.sheet-head span { font-size: 12.5px; color: var(--muted); font-family: var(--font-mono); }
+.closebtn { border: 1px solid var(--rule); background: var(--bg); border-radius: 999px; padding: 5px 12px; font-size: 13px; cursor: pointer; }
+.group-h { margin: 14px 0 6px; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.items { display: grid; gap: 6px; }
+.item { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; align-items: center; border: 1px solid transparent; background: transparent; border-radius: 8px; padding: 6px; cursor: pointer; text-align: left; }
+.item:hover { background: var(--surface); }
+.item.cur { border-color: var(--accent); background: var(--accent-soft); }
+.item img { width: 112px; aspect-ratio: 16 / 9; border: 1px solid var(--slide-frame); border-radius: 4px; display: block; background: #fff; }
+.item-t { font-size: 14px; font-weight: 500; line-height: 1.35; }
+.item-m { font-size: 12px; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; }
+
+/* zoom */
+.zoom { position: fixed; inset: 0; z-index: 50; background: var(--scrim); display: flex; flex-direction: column; }
+.zoom-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: calc(env(safe-area-inset-top, 0px) + 10px) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); color: #e9ebee; font-size: 13px; }
+.zoom-bar button { border: 1px solid rgba(255,255,255,.3); background: transparent; color: #fff; border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.zoom-scroll { flex: 1; overflow: auto; display: flex; align-items: center; -webkit-overflow-scrolling: touch; padding: 0 max(8px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(8px, env(safe-area-inset-left, 0px)); }
+.zoom-scroll img { display: block; width: 100%; max-width: none; margin: auto; background: #fff; cursor: zoom-in; }
+.zoom.big .zoom-scroll { align-items: flex-start; }
+.zoom.big .zoom-scroll img { width: 240%; cursor: zoom-out; }
+
+/* wide screens: slide beside the text */
+@media (min-width: 960px) {
+  :root { --dock-h: 68px; }
+  .stage { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); padding-top: 24px; }
+  .slidecol { top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 24px); padding: 0; }
+  .slide-caption { display: block; margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .eyebrow { margin-top: 18px; }
+  .meta { margin-top: 0; }
+}
+@media (max-width: 420px) {
+  .brand-text span { display: none; }
+  .mode button { padding: 5px 10px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<header class="bar">
+  <div class="wrap">
+    <div class="brand">
+      <img src="tdtu-logo.png" alt="Đại học Tôn Đức Thắng">
+      <div class="brand-text"><b>Hồi quy &amp; Phân loại</b><span>Introduction to Machine Learning · Giữa kỳ</span></div>
+    </div>
+    <div class="mode" role="group" aria-label="Chế độ xem">
+      <button type="button" id="mode-study" aria-pressed="true">Học</button>
+      <button type="button" id="mode-rehearse" aria-pressed="false">Tập nói</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap stage">
+  <section class="slidecol" aria-label="Slide">
+    <figure class="figure" id="figure">
+      <img id="slide-img" src="slides/s01.webp" alt="Slide 1" width="1600" height="900">
+      <button type="button" class="zoom-btn" id="zoom-btn" aria-label="Phóng to slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8.5v5M8.5 11h5"/></svg>
+      </button>
+    </figure>
+    <p class="slide-caption">Phím ← → để chuyển slide · bấm vào slide để phóng to</p>
+  </section>
+
+  <article class="textcol" id="text" aria-live="polite">
+    <div class="meta">
+      <span class="who" id="who"><i>T</i>Ngô Lâm Tiến</span>
+      <span class="when" id="when">0:00 · ~23s</span>
+    </div>
+    <div class="watch" id="watch">
+      <button type="button" id="watch-toggle">Bắt đầu</button>
+      <span class="clock" id="watch-clock">0:00</span>
+      <button type="button" id="watch-reset">Đặt lại</button>
+      <span class="delta" id="watch-delta">Mốc slide này: 0:00</span>
+    </div>
+    <p class="eyebrow" id="eyebrow">Mở đầu</p>
+    <h1 class="title" id="title">Hồi quy &amp; Phân loại</h1>
+
+    <div class="label">Lời nói</div>
+    <p class="script" id="script"></p>
+
+    <details class="deep" id="deep" open>
+      <summary>Hiểu sâu<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="key" id="key"></div>
+      <ul class="points" id="points"></ul>
+      <div class="trap" id="trap"></div>
+      <p class="refs" id="refs"></p>
+    </details>
+  </article>
+</main>
+
+<nav class="dock" aria-label="Chuyển slide">
+  <div class="wrap">
+    <button type="button" class="navbtn" id="prev" aria-label="Slide trước">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button type="button" class="picker" id="picker" aria-haspopup="dialog" aria-label="Mở danh sách slide">
+      <span class="picker-top"><span class="picker-num" id="pick-num">1 / 14</span><span class="picker-title" id="pick-title"></span></span>
+      <span class="timeline" id="timeline"></span>
+    </button>
+    <button type="button" class="navbtn" id="next" aria-label="Slide sau">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Danh sách slide" hidden>
+  <div class="sheet-panel">
+    <div class="sheet-head"><div><b>14 slide</b> <span>· lời nói ≈ __TOTAL__ · __WORDS__ từ</span></div><button type="button" class="closebtn" id="sheet-close">Đóng</button></div>
+    <div id="sheet-list"></div>
+  </div>
+</div>
+
+<div class="zoom" id="zoom" role="dialog" aria-modal="true" aria-label="Slide phóng to" hidden>
+  <div class="zoom-bar"><span id="zoom-label">Slide 1</span><button type="button" id="zoom-close">Đóng</button></div>
+  <div class="zoom-scroll" id="zoom-scroll"><img id="zoom-img" src="slides/s01.webp" alt=""></div>
+</div>
+
+<script>
+(function () {
+  var SLIDES = __DATA__;
+  var N = SLIDES.length;
+  var GROUPS = { "Tiến": "Câu 1 · Ngô Lâm Tiến", "Thành": "Câu 2 · Nguyễn Công Thành", "Tâm": "Kết quả và kết luận · Nguyễn Lê Nhật Tâm" };
+  var $ = function (id) { return document.getElementById(id); };
+  var cur = 0;
+
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function mmss(s) { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ":" + pad(s % 60); }
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function inline(s) {
+    return esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>");
+  }
+  function tex(t) {
+    if (window.katex) {
+      try { return katex.renderToString(t, { output: "mathml", throwOnError: false }); } catch (e) {}
+    }
+    return "<code>" + esc(t) + "</code>";
+  }
+  function rich(s) {
+    return s.split(/\$([^$]+)\$/).map(function (part, i) { return i % 2 ? tex(part) : inline(part); }).join("");
+  }
+  function src(i) { return "slides/s" + pad(i + 1) + ".webp"; }
+
+  // timeline + sheet
+  var tl = $("timeline");
+  SLIDES.forEach(function (s, i) {
+    var sp = document.createElement("span");
+    sp.style.flexGrow = s.dur;
+    if (i > 0 && SLIDES[i - 1].speaker !== s.speaker) sp.className = "gap";
+    tl.appendChild(sp);
+  });
+  var list = $("sheet-list"), lastSp = null, box = null;
+  SLIDES.forEach(function (s, i) {
+    if (s.speaker !== lastSp) {
+      var h = document.createElement("p"); h.className = "group-h"; h.textContent = GROUPS[s.speaker];
+      list.appendChild(h);
+      box = document.createElement("div"); box.className = "items"; list.appendChild(box);
+      lastSp = s.speaker;
+    }
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "item"; b.dataset.i = i;
+    b.innerHTML = '<img loading="lazy" alt="" src="thumbs/s' + pad(i + 1) + '.webp" width="384" height="216">' +
+      '<span><span class="item-t">' + s.n + ". " + esc(s.title) + '</span><span class="item-m" style="display:block">' +
+      mmss(s.start) + " · ~" + s.dur + "s</span></span>";
+    b.addEventListener("click", function () { closeSheet(); go(i); });
+    box.appendChild(b);
+  });
+
+  function render() {
+    var s = SLIDES[cur];
+    var img = $("slide-img");
+    img.src = src(cur); img.alt = "Slide " + s.n + ": " + s.title;
+    $("who").innerHTML = "<i>" + s.speaker.charAt(0) + "</i>" + esc(s.speakerFull);
+    $("when").textContent = "Bắt đầu " + mmss(s.start) + " · ~" + s.dur + " giây";
+    $("eyebrow").textContent = s.n + " · " + s.eyebrow;
+    $("title").textContent = s.title;
+    $("script").textContent = s.script;
+    $("key").innerHTML = "<small>Ý chốt</small>" + rich(s.key);
+    $("points").innerHTML = s.points.map(function (p) { return "<li>" + rich(p) + "</li>"; }).join("");
+    var trap = $("trap");
+    trap.hidden = !s.trap.length;
+    trap.innerHTML = s.trap.length ? "<small>Dễ nhầm</small>" + s.trap.map(function (p) { return "<p>" + rich(p) + "</p>"; }).join("") : "";
+    $("refs").innerHTML = "<b>Đối chiếu bài giảng:</b> " + esc(s.refs);
+    $("pick-num").textContent = s.n + " / " + N;
+    $("pick-title").textContent = s.title;
+    $("prev").disabled = cur === 0;
+    $("next").disabled = cur === N - 1;
+    Array.prototype.forEach.call(tl.children, function (el, i) {
+      el.classList.toggle("cur", i === cur); el.classList.toggle("past", i < cur);
+    });
+    Array.prototype.forEach.call(list.querySelectorAll(".item"), function (el) {
+      el.classList.toggle("cur", +el.dataset.i === cur);
+    });
+    updateWatch();
+    [cur - 1, cur + 1].forEach(function (j) { if (j >= 0 && j < N) { var p = new Image(); p.src = src(j); } });
+  }
+
+  function go(i) {
+    i = Math.max(0, Math.min(N - 1, i));
+    if (i === cur && $("script").textContent) return;
+    cur = i;
+    render();
+    store("mlmid-slide", String(cur));
+    try { history.replaceState(null, "", "#s" + (cur + 1)); } catch (e) {}
+    if (window.scrollY > 0) window.scrollTo(0, 0);
+  }
+
+  $("prev").addEventListener("click", function () { go(cur - 1); });
+  $("next").addEventListener("click", function () { go(cur + 1); });
+
+  // swipe on the slide
+  var fig = $("figure"), sx = 0, sy = 0, swiped = false;
+  fig.addEventListener("touchstart", function (e) { var t = e.changedTouches[0]; sx = t.clientX; sy = t.clientY; swiped = false; }, { passive: true });
+  fig.addEventListener("touchend", function (e) {
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > 1.5 * Math.abs(dy)) { swiped = true; go(cur + (dx < 0 ? 1 : -1)); }
+  }, { passive: true });
+
+  // zoom
+  var zoom = $("zoom");
+  function openZoom() {
+    if (swiped) { swiped = false; return; }
+    $("zoom-img").src = src(cur); $("zoom-label").textContent = "Slide " + (cur + 1) + " · chạm để phóng lớn";
+    zoom.classList.remove("big"); zoom.hidden = false; $("zoom-close").focus();
+  }
+  function closeZoom() { zoom.hidden = true; }
+  fig.addEventListener("click", openZoom);
+  $("zoom-btn").addEventListener("click", function (e) { e.stopPropagation(); swiped = false; openZoom(); });
+  $("zoom-close").addEventListener("click", closeZoom);
+  $("zoom-img").addEventListener("click", function () { zoom.classList.toggle("big"); });
+
+  // sheet
+  var sheet = $("sheet");
+  function openSheet() {
+    sheet.hidden = false;
+    var c = list.querySelector(".item.cur"); if (c) c.scrollIntoView({ block: "center" });
+    $("sheet-close").focus();
+  }
+  function closeSheet() { sheet.hidden = true; }
+  $("picker").addEventListener("click", openSheet);
+  $("sheet-close").addEventListener("click", closeSheet);
+  sheet.addEventListener("click", function (e) { if (e.target === sheet) closeSheet(); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { closeZoom(); closeSheet(); return; }
+    if (!zoom.hidden || !sheet.hidden) return;
+    if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+    if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); go(cur + 1); }
+    if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(cur - 1); }
+  });
+
+  // modes
+  function setMode(m) {
+    var r = m === "rehearse";
+    document.body.classList.toggle("rehearse", r);
+    $("mode-study").setAttribute("aria-pressed", String(!r));
+    $("mode-rehearse").setAttribute("aria-pressed", String(r));
+    $("deep").open = !r;
+    store("mlmid-mode", m);
+  }
+  $("mode-study").addEventListener("click", function () { setMode("study"); });
+  $("mode-rehearse").addEventListener("click", function () { setMode("rehearse"); });
+
+  // stopwatch
+  var running = false, t0 = 0, acc = 0, timer = null;
+  function elapsed() { return acc + (running ? (Date.now() - t0) / 1000 : 0); }
+  function updateWatch() {
+    var e = elapsed(), s = SLIDES[cur];
+    $("watch-clock").textContent = mmss(e);
+    var d = $("watch-delta");
+    if (!running && e === 0) { d.className = "delta"; d.textContent = "Mốc slide này: " + mmss(s.start) + " – " + mmss(s.start + s.dur); return; }
+    var end = s.start + s.dur;
+    if (e > end + 5) { d.className = "delta slow"; d.textContent = "Chậm " + Math.round(e - end) + "s so với mốc " + mmss(end); }
+    else if (e < s.start - 5) { d.className = "delta ok"; d.textContent = "Nhanh " + Math.round(s.start - e) + "s so với mốc " + mmss(s.start); }
+    else { d.className = "delta ok"; d.textContent = "Đúng nhịp · mốc " + mmss(s.start) + " – " + mmss(end); }
+  }
+  $("watch-toggle").addEventListener("click", function () {
+    if (running) { acc = elapsed(); running = false; clearInterval(timer); this.textContent = "Tiếp tục"; }
+    else { t0 = Date.now(); running = true; timer = setInterval(updateWatch, 500); this.textContent = "Tạm dừng"; }
+    updateWatch();
+  });
+  $("watch-reset").addEventListener("click", function () {
+    running = false; acc = 0; clearInterval(timer); $("watch-toggle").textContent = "Bắt đầu"; updateWatch();
+  });
+
+  // start
+  function fromHash() { var m = /^#s(\d{1,2})$/.exec(location.hash); return m ? +m[1] - 1 : null; }
+  var h = fromHash(), saved = parseInt(store("mlmid-slide"), 10);
+  cur = h !== null ? h : (isNaN(saved) ? 0 : saved);
+  cur = Math.max(0, Math.min(N - 1, cur));
+  setMode(store("mlmid-mode") === "rehearse" ? "rehearse" : "study");
+  render();
+  window.addEventListener("hashchange", function () { var x = fromHash(); if (x !== null) go(x); });
+})();
+</script>

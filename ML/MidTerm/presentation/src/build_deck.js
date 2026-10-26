@@ -1,5 +1,6 @@
 /**
- * Build the midterm presentation: PPTX + a pixel-matched HTML preview + transcript.
+ * Build the midterm presentation: PPTX + a pixel-matched HTML preview.
+ * Speaker notes are read from src/talk_content.json (see src/build_talk.py).
  *
  * One slide spec feeds both renderers, so what the preview shows is what the
  * PPTX contains. Every number is read from results/*.json — nothing is typed
@@ -82,7 +83,6 @@ slide({
       text: "Ngô Lâm Tiến — 524H0195\nNguyễn Công Thành — 524H0191\nNguyễn Lê Nhật Tâm — 524H0186" },
     { k: "text", x: GUT, y: 5.72, w: 6.2, h: 0.32, size: 13, color: MUTED, text: "Tháng 10 năm 2026" },
   ],
-  notes: "Kính thưa thầy và các bạn. Nhóm em gồm ba thành viên xin trình bày báo cáo giữa kỳ môn Introduction to Machine Learning. Bài gồm hai câu: câu một tự cài đặt hồi quy tuyến tính và logistic bằng Gradient Descent; câu hai so sánh các bộ phân loại trên bộ credit-g của OpenML. Phần trình bày khoảng mười phút.",
 });
 
 // ------------------------------------------------------------------- slide 2
@@ -106,7 +106,6 @@ slide({
     { k: "text", x: GUT, y: 5.6, w: COLW, h: 0.4, size: 16, italic: true, color: MUTED,
       text: "Câu hỏi xuyên suốt: mô hình học được gì từ dữ liệu, và làm sao biết nó thật sự tổng quát hóa?" },
   ],
-  notes: "Bài chia ba phần. Em trình bày câu một: tự cài đặt hai mô hình hồi quy, dẫn xuất gradient và đánh giá. Bạn Thành trình bày câu hai: dữ liệu credit-g, quy trình chống rò rỉ và so sánh mười bốn mô hình cùng baseline. Bạn Tâm trình bày overfitting và kết luận. Câu hỏi xuyên suốt: mô hình học được gì, và làm sao biết nó tổng quát hóa?",
 });
 
 // ------------------------------------------------------------------- slide 3
@@ -135,7 +134,6 @@ slide({
       runs: ["Dữ liệu tổng hợp: 600 mẫu, 3 đặc trưng độc lập đều trên [−3, 3];  y = 4 + 3x", sub("1"),
              " − 2x", sub("2"), " + 1.5x", sub("3"), " + ε,  ε ~ N(0, 0.5", sup("2"), ")."] },
   ],
-  notes: "Hồi quy tuyến tính dự đoán một số thực bằng tổng có trọng số của các đặc trưng cộng hệ số chặn. Vì đầu ra là số thực nên đây là bài toán hồi quy. Hàm mất mát là trung bình bình phương sai số, chia đôi. Hệ số một phần hai chỉ để khi đạo hàm, số hai triệt tiêu, không đổi nghiệm tối ưu. Chia cho n giúp mất mát là trung bình, so sánh được giữa các cỡ mẫu. Còn bình phương khiến sai số lớn bị phạt nặng.",
 });
 
 // ------------------------------------------------------------------- slide 4
@@ -167,7 +165,6 @@ slide({
     { k: "text", x: GUT, y: 5.05, w: 6.9, h: 0.9, size: 14, color: MUTED, lineSpacing: 1.3,
       text: "Cả hai gradient được tính trước khi cập nhật tham số (full-batch). Không bao giờ dùng chỉ số test để quyết định dừng." },
   ],
-  notes: "Đạo hàm theo quy tắc chuỗi: gọi e là phần dư, đạo hàm của e theo trọng số chính là giá trị đặc trưng. Vậy gradient theo trọng số là trung bình của phần dư nhân đặc trưng, gradient theo hệ số chặn là trung bình phần dư. Viết dạng ma trận được công thức ở giữa. Thực nghiệm khởi tạo bằng không, tốc độ học không phẩy ba, dừng khi chuẩn gradient nhỏ hơn mười mũ trừ tám, sau một nghìn một trăm bảy mươi lăm vòng. Nhóm kiểm chứng lại gradient bằng sai phân trung tâm, dung sai mười mũ trừ sáu.",
 });
 
 // ------------------------------------------------------------------- slide 5
@@ -201,7 +198,6 @@ slide({
       [{ t: "Sigmoid và logaddexp", bold: true }, { t: " dạng ổn định số học; ngưỡng cố định 0.5, ROC-AUC dùng xác suất." }],
     ]},
   ],
-  notes: "Hồi quy logistic đưa cùng một điểm tuyến tính qua sigmoid để ra xác suất trong khoảng không đến một. Logit của xác suất là hàm tuyến tính nên biên vẫn là siêu phẳng. Mất mát là cross-entropy, tức âm log hợp lý Bernoulli, phạt rất nặng dự đoán tự tin mà sai. Khi đạo hàm, đạo hàm sigmoid là p nhân một trừ p, triệt tiêu mẫu số của cross-entropy, nên gradient chỉ còn p trừ y, rất gọn. Nhóm dùng tốc độ học không phẩy năm, tối đa năm nghìn vòng, và vòng lặp chạm ngân sách trước khi đạt dung sai.",
 });
 
 // ------------------------------------------------------------------- slide 6
@@ -218,7 +214,6 @@ slide({
         label: "Trọng số học được (thật: 3 · −2 · 1.5)" },
     ]},
   ],
-  notes: "Đây là kết quả chạy thật. Mất mát giảm từ ba mươi phẩy chín xuống không phẩy một hai sáu sau một nghìn một trăm bảy mươi lăm vòng, đơn điệu nên không phân kỳ. Trên một trăm hai mươi mẫu test, các điểm bám sát đường chéo. RMSE không phẩy năm một, đúng bằng độ lệch chuẩn của nhiễu, R bình phương không phẩy chín chín bốn bảy. Trọng số học được rất gần giá trị thật ba, trừ hai, một phẩy năm. Nhưng đây là dữ liệu tổng hợp tuyến tính, nên điểm cao là kỳ vọng, không phải bằng chứng cho dữ liệu thực.",
 });
 
 // ------------------------------------------------------------------- slide 7
@@ -236,7 +231,6 @@ slide({
         label: "Ma trận nhầm lẫn (TN/FP/FN/TP)" },
     ]},
   ],
-  notes: "Với logistic, nhãn sinh ngẫu nhiên nên hai lớp chồng lấn. Cross-entropy giảm từ không phẩy sáu chín ba một, đúng bằng log hai của mô hình đoán ngẫu nhiên, xuống không phẩy bốn năm hai. Trên tập test, mô hình đúng một trăm ba mươi trên một trăm sáu mươi, tức tám mươi mốt phẩy hai lăm phần trăm, F1 lớp dương không phẩy tám năm một, AUC không phẩy tám năm bảy. Các vòng tròn là mẫu phân loại sai, tập trung đúng ở vùng chồng lấn. Phần câu một đến đây là hết, em mời bạn Thành trình bày câu hai.",
 });
 
 // ------------------------------------------------------------------- slide 8
@@ -253,7 +247,6 @@ slide({
       { value: "61", label: "Đặc trưng sau min–max và one-hot" },
     ]},
   ],
-  notes: "Dữ liệu là credit-g, mã 31 phiên bản một trên OpenML: một nghìn hồ sơ, hai mươi biến, trong đó bảy biến số và mười ba biến phân loại. Nhãn gồm bảy trăm good và ba trăm bad, nên đây là bài toán mất cân bằng. Một mô hình luôn đoán good đã đạt bảy mươi phần trăm accuracy mà không phát hiện hồ sơ xấu nào, vì vậy nhóm không dùng accuracy làm tiêu chí chính. Kiểm tra dữ liệu sạch: không ô thiếu, không dòng trùng, không giá trị lạ, nên giữ nguyên một nghìn hồ sơ.",
 });
 
 // ------------------------------------------------------------------- slide 9
@@ -280,7 +273,6 @@ slide({
        { t: ` đạt macro F1 ${f3(M["Majority baseline"].macro_f1)} trên test, dùng làm mốc tham chiếu.` }],
     ]},
   ],
-  notes: "Điểm nhóm muốn nhấn mạnh là quy trình. Tập test tách ngay từ đầu và chỉ dùng một lần, sau khi mọi lựa chọn xong. Trong tám trăm hồ sơ development, nhóm chạy năm fold phân tầng, và chuẩn hóa nằm trong pipeline nên mỗi fold chỉ học min–max từ train của chính nó. Nếu chuẩn hóa trước rồi mới chia fold thì thông tin validation đã rò rỉ và điểm sẽ đẹp giả tạo. Tiêu chí chọn là macro F1 vì cho hai lớp trọng số ngang nhau.",
 });
 
 // ------------------------------------------------------------------- slide 10
@@ -302,7 +294,6 @@ slide({
     { k: "text", x: 7.55, y: 5.46, w: 5.05, h: 0.8, size: 14, color: MUTED, lineSpacing: 1.3,
       text: "Điểm CV dùng để chọn tham số nên không phải đánh giá độc lập; tập test giữ vai trò đó." },
   ],
-  notes: "Nhóm so sánh mười bốn mô hình cùng một baseline trên cùng bộ fold. Ba kernel SVM là ba biến thể của một họ, không phải ba họ thuật toán. MLP dẫn đầu với macro F1 không phẩy sáu chín sáu, Bernoulli NB bám sát không phẩy sáu chín bốn, polynomial SVM không phẩy sáu tám sáu. Nhưng độ lệch chuẩn giữa các fold khoảng không phẩy không sáu, lớn hơn khoảng cách hai mô hình đầu, nên nhóm không tuyên bố MLP vượt trội. Điểm CV đã dùng để chọn tham số nên không phải đánh giá độc lập.",
 });
 
 // ------------------------------------------------------------------- slide 11
@@ -333,10 +324,9 @@ slide({
        { t: f4(M["Scratch logistic"].macro_f1), bold: true }, { t: " — mô hình phức tạp không tạo khác biệt rõ." }],
       [{ t: "Accuracy cao " }, { t: `${f2(M["MLP"].accuracy)}`, bold: true },
        { t: " nhưng phải đọc kèm chỉ số theo lớp, vì lớp bad chỉ chiếm 30%." }],
-      [{ t: "16 mô hình đều vượt baseline", bold: true }, { t: ", kể cả cây quyết định có accuracy thấp hơn." }],
+      [{ t: `${Q2.models.length - 1} mô hình đều vượt baseline`, bold: true }, { t: ", kể cả cây quyết định có accuracy thấp hơn." }],
     ]},
   ],
-  notes: "Đây là kết quả trên hai trăm hồ sơ test chưa từng dùng để chọn mô hình. MLP có accuracy không phẩy bảy chín, macro F1 không phẩy bảy ba không, AUC không phẩy tám một ba. Đáng chú ý: hồi quy logistic tự cài đặt ở câu một đạt macro F1 không phẩy bảy ba không một, gần như bằng MLP. Trong bài toán nhỏ này, mô hình phức tạp hơn không mang lại lợi ích rõ rệt. Mọi mô hình học đều vượt baseline, nhưng chênh lệch chỉ vài phần nghìn. Em mời bạn Tâm trình bày phần overfitting.",
 });
 
 // ------------------------------------------------------------------- slide 12
@@ -357,7 +347,6 @@ slide({
        { t: ", không phải lỗi kỹ thuật — và nhóm không hạ ngưỡng sau khi đã xem test." }],
     ]},
   ],
-  notes: "Bức tranh này là bài học chính của câu hai. MLP đúng một trăm năm mươi tám trên hai trăm, nghe rất tốt. Nhưng trong sáu mươi hồ sơ thực sự xấu, mô hình bỏ sót hai mươi tám, tức recall lớp bad chỉ không phẩy năm ba ba. Đây là cái bẫy của dữ liệu mất cân bằng: lớp đa số kéo accuracy lên trong khi lớp cần phát hiện bị bỏ qua. Nếu là bài toán tín dụng thật, bỏ sót hồ sơ xấu thường tốn kém hơn báo nhầm. Nhóm không hạ ngưỡng sau khi xem test, vì làm vậy là dùng test để tinh chỉnh.",
 });
 
 // ------------------------------------------------------------------- slide 13
@@ -375,7 +364,6 @@ slide({
     { k: "text", x: GUT, y: 6.30, w: COLW, h: 0.4, size: 14, color: MUTED,
       text: "Biện pháp chung: giới hạn độ phức tạp · chọn tham số bằng validation · giữ tập test riêng · báo cáo cả điểm train và validation." },
   ],
-  notes: "Biểu đồ bên trái tách riêng ảnh hưởng của độ sâu cây: độ sâu tăng thì điểm train leo lên một, nhưng validation chỉ tăng đến khoảng độ sâu sáu rồi giảm. Cây không giới hạn đạt một phẩy không trên train nhưng chỉ không phẩy sáu một bốn trên validation. Giới hạn độ sâu sáu và tối thiểu năm mẫu mỗi lá, khoảng cách thu hẹp từ không phẩy ba tám sáu xuống không phẩy một hai một, điểm validation tăng. Nhưng random forest sau khi chọn tham số vẫn còn khoảng cách không phẩy ba hai bốn. Ensemble giảm phương sai nhưng không miễn nhiễm với việc ghi nhớ dữ liệu.",
 });
 
 // ------------------------------------------------------------------- slide 14
@@ -405,7 +393,6 @@ slide({
     { k: "text", x: GUT, y: 6.20, w: COLW, h: 0.4, size: 16, color: MUTED,
       text: "Cảm ơn thầy và các bạn đã lắng nghe — nhóm sẵn sàng nhận câu hỏi." },
   ],
-  notes: "Tóm lại, câu một cho thấy hai mô hình tự cài đặt học đúng: gradient khớp kiểm tra sai phân, sai số xấp xỉ mức nhiễu. Câu hai cho thấy trên dữ liệu nhỏ và mất cân bằng, mô hình phức tạp nhất không vượt trội rõ rệt, và accuracy có thể che mất lỗi ở lớp thiểu số. Hạn chế: một bộ dữ liệu, một lần chia test, lưới tham số nhỏ; logistic và MLP đều chạm ngân sách vòng lặp nên chưa hội tụ; không có kiểm định thống kê. Em xin kết thúc và cảm ơn thầy, các bạn.",
 });
 
 // ------------------------------------------------------------------ PPTX build
@@ -424,7 +411,7 @@ pptx.defineSlideMaster({
   title: "FRAME",
   background: { color: "FFFFFF" },
   objects: [
-    { image: { path: LOGO, x: 0.44, y: 0.21, w: 1.646, h: 0.911 } },
+    { image: { path: LOGO, x: 0.44, y: 0.21, w: 1.646, h: 0.911, altText: "Logo Đại học Tôn Đức Thắng" } },
     { line: { x: 0.44, y: 1.30, w: 12.45, h: 0, line: { color: RULE, width: 1 } } },
     { text: { text: FOOTER, x: GUT, y: 7.03, w: 9.9, h: 0.22, fontFace: FONT, fontSize: 8.5, color: "9A9A9A" } },
   ],
@@ -435,7 +422,7 @@ pptx.defineSlideMaster({
   title: "COVER",
   background: { color: "FFFFFF" },
   objects: [
-    { image: { path: LOGO, x: 0.44, y: 0.21, w: 1.646, h: 0.911 } },
+    { image: { path: LOGO, x: 0.44, y: 0.21, w: 1.646, h: 0.911, altText: "Logo Đại học Tôn Đức Thắng" } },
     { line: { x: 0.44, y: 1.30, w: 12.45, h: 0, line: { color: RULE, width: 1 } } },
     { text: { text: FOOTER, x: GUT, y: 7.03, w: 9.9, h: 0.22, fontFace: FONT, fontSize: 8.5, color: "9A9A9A" } },
   ],
@@ -503,7 +490,7 @@ function drawBlock(s, b) {
       break;
     }
     case "image": {
-      s.addImage({ path: path.join(FIG, b.src), x: b.x, y: b.y, w: b.w, h: b.h });
+      s.addImage({ path: path.join(FIG, b.src), x: b.x, y: b.y, w: b.w, h: b.h, altText: b.src });
       break;
     }
     case "kpis": {
@@ -612,6 +599,13 @@ function drawBlock(s, b) {
       throw new Error("unknown block " + b.k);
   }
 }
+
+// Speaker notes come from the shared talk script (also used by TRANSCRIPT.md).
+const TALK = readJson(path.join(__dirname, "talk_content.json"));
+if (TALK.slides.length !== SLIDES.length) {
+  throw new Error(`talk_content.json has ${TALK.slides.length} slides, deck has ${SLIDES.length}`);
+}
+SLIDES.forEach((spec, i) => { spec.notes = TALK.slides[i].script; });
 
 let sectionSeen = null;
 for (const spec of SLIDES) {
@@ -805,81 +799,15 @@ ${SLIDES.map(FRAME_HTML).join("\n")}
 
 fs.writeFileSync(path.join(OUT, "preview.html"), html, "utf8");
 
-// ------------------------------------------------------------------ transcript
-const WORDS = (s) => s.trim().split(/\s+/).length;
-const SPEAKERS = { 0: "Tiến", 1: "Thành", 2: "Tâm" };
-const assigned = [];
-let clock = 0;
-SLIDES.forEach((s, i) => {
-  const speaker = i <= 6 ? "Tiến" : i <= 10 ? "Thành" : "Tâm";
-  const w = WORDS(s.notes);
-  const secs = Math.round((w / 2.55) * 1.0); // ~153 words per minute, measured read-aloud pace
-  assigned.push({ i, speaker, w, secs, start: clock });
-  clock += secs;
-});
+// ------------------------------------------------------------------ runtime
+// TRANSCRIPT.md is written by src/build_talk.py from the same talk_content.json.
+const WORDS = (t) => t.trim().split(/\s+/).length;
+const totalWords = SLIDES.reduce((n, sp) => n + WORDS(sp.notes), 0);
+const totalSecs = Math.round((totalWords / TALK.wpm) * 60);
 const mmss = (t) => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`;
-
-const bySlide = SLIDES.map((s, i) => {
-  const a = assigned[i];
-  return `### Slide ${i + 1} — ${s.title || "Trang bìa"}  \n` +
-    `**${a.speaker}** · bắt đầu ${mmss(a.start)} · ~${a.secs}s\n\n` +
-    `> ${s.notes}\n`;
-}).join("\n");
-
-const perSpeaker = ["Tiến", "Thành", "Tâm"].map((sp) => {
-  const rows = assigned.filter((a) => a.speaker === sp);
-  const secs = rows.reduce((t, r) => t + r.secs, 0);
-  const words = rows.reduce((t, r) => t + r.w, 0);
-  return `| ${sp} | ${rows.map((r) => r.i + 1).join(", ")} | ${rows.length} | ${mmss(secs)} | ${words} |`;
-}).join("\n");
-
-const totalSecs = clock;
-const transcript = `# Transcript thuyết trình — Midterm ML
-
-**Đề tài:** Hồi quy & Phân loại — Câu 1 (Gradient Descent tự cài đặt) và Câu 2 (phân loại trên OpenML credit-g)
-**Thời lượng thiết kế:** 10 phút cho cả phần nói, chuyển slide và Q&A. Tổng lời thoại ${WORDS(SLIDES.map((s) => s.notes).join(" "))} từ, đọc ở nhịp ~150 từ/phút ⇒ khoảng ${mmss(totalSecs)}.
-**Người trình bày:** Tiến (Câu 1) · Thành (Câu 2: dữ liệu và mô hình) · Tâm (kết quả, overfitting, kết luận)
-
-## Phân chia và mốc thời gian
-
-| Người | Slide | Số slide | Thời lượng | Số từ |
-|---|---|---|---|---|
-${perSpeaker}
-
-Tổng lời thoại ${mmss(totalSecs)}; phần còn lại để chuyển slide, nhấn mạnh và Q&A.
-
-## Mẹo giữ nhịp 10 phút
-
-- Mốc kiểm tra: hết slide 4 (xong lý thuyết câu 1) nên ở **2:08**, hết slide 7 ở **4:12**, hết slide 11 ở **6:45**. Trễ hơn 30 giây thì bỏ phần kiểm chứng gradient ở slide 4.
-- Không đọc công thức thành lời từng ký hiệu — nói ý nghĩa, rồi chỉ tay vào hình.
-- Câu chốt của mỗi phần nói chậm hơn 20%: đó là phần giảng viên ghi lại.
-- Nếu bị hỏi ngoài phạm vi, người đang nói nhận câu hỏi và chuyển cho người phụ trách phần đó.
-
-## Lời thoại theo slide
-
-${bySlide}
-## Câu hỏi dự kiến và người trả lời
-
-| Câu hỏi | Người trả lời | Ý chính |
-|---|---|---|
-| Vì sao dùng ½ trong hàm mất mát? | Tiến | Triệt tiêu hệ số 2 khi đạo hàm; nghiệm tối ưu không đổi. |
-| Vì sao chuẩn hóa phải nằm trong fold? | Thành | Nếu fit trước khi chia fold, min/max của validation đã rò rỉ vào train. |
-| Vì sao chọn macro F1 thay vì accuracy? | Thành | Hai lớp trọng số ngang nhau; accuracy bị lớp good 70% chi phối. |
-| MLP có thực sự tốt hơn logistic không? | Tâm | Không kết luận được: chênh 0.0004, nhỏ hơn SD giữa các fold ±0.064. |
-| Sao không hạ ngưỡng để tăng recall lớp bad? | Tâm | Có thể, nhưng phải chọn ngưỡng trên validation; hạ sau khi xem test là dùng test để tinh chỉnh. |
-| Gradient đúng chưa? | Tiến | Đã kiểm chứng bằng sai phân trung tâm, dung sai 1e−6, cả hai mô hình. |
-| Vì sao chỉ 14 mô hình mà không phải deep learning? | Thành | credit-g là bảng nhỏ 1000 dòng, không có biểu diễn ảnh/chuỗi; CNN/RNN sẽ áp một biểu diễn tùy ý. |
-
-## Ghi chú trung thực học thuật
-
-- Mọi con số trong slide lấy từ \`results/\` và được script \`presentation/src/make_deck_figures.py\` kiểm tra lại trước khi vẽ.
-- Không có kết quả nào được chạy riêng cho slide.
-- Bài làm có sử dụng hỗ trợ AI trong soạn thảo và kiểm tra; nhóm đã rà lại toàn bộ.
-`;
-fs.writeFileSync(path.join(OUT, "TRANSCRIPT.md"), transcript, "utf8");
 
 // ---------------------------------------------------------------------- write
 pptx.writeFile({ fileName: path.join(OUT, "midterm_presentation.pptx") }).then((file) => {
   console.log("written:", file);
-  console.log("slides:", SLIDES.length, "| words:", WORDS(SLIDES.map((s) => s.notes).join(" ")), "| runtime:", mmss(totalSecs));
+  console.log("slides:", SLIDES.length, "| words:", totalWords, "| runtime:", mmss(totalSecs));
 });

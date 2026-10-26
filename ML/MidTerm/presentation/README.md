@@ -9,10 +9,12 @@ report và các artifact thực nghiệm trong `../results/`.
 |---|---|
 | `midterm_presentation.pptx` | Deck chính, 14 slide, 16:9 (13.333 × 7.5 in), có speaker notes tiếng Việt cho từng slide |
 | `midterm_presentation.pdf` | Bản chiếu 14 trang, khổ 960 × 540 pt (đúng 16:9), dùng khi máy trình chiếu không có PowerPoint |
-| `TRANSCRIPT.md` | Lời thoại đã biên tập (1329 từ ≈ 8:52) cho 3 người, câu chốt và mốc thời gian từng slide, bảng câu hỏi dự kiến |
+| `TRANSCRIPT.md` | Lời thoại (1329 từ ≈ 8:52) cho 3 người, câu chốt và mốc thời gian từng slide, bảng câu hỏi dự kiến; sinh từ `src/talk_content.json` |
 | `figures/` | 6 hình được vẽ riêng cho slide, đọc trực tiếp từ `../results/` |
 | `src/make_deck_figures.py` | Script vẽ hình + kiểm tra lại 11 con số so với `results/*.json` |
-| `src/build_deck.js` | Script dựng PPTX và `preview.html`; cũng ghi `TRANSCRIPT.md` từ speaker notes cũ (xem ghi chú bên dưới) |
+| `src/build_deck.js` | Script dựng PPTX và `preview.html`; speaker notes đọc từ `src/talk_content.json` |
+| `src/talk_content.json` | **Nguồn duy nhất** của lời thoại (speaker notes, `TRANSCRIPT.md`) và phần "Hiểu sâu" của bản xem trên điện thoại |
+| `src/build_talk.py` | Sinh `TRANSCRIPT.md`; thêm `--viewer OUT_DIR` để dựng bản xem trên điện thoại (`src/study_viewer.html`) |
 | `preview.html` | Bản HTML cùng hệ toạ độ với PPTX; đây là nguồn của file PDF |
 
 ## Số slide: 14 cho 10 phút
@@ -22,19 +24,17 @@ report và các artifact thực nghiệm trong `../results/`.
 | Slide | Nội dung | Người nói | Mốc |
 |---|---|---|---|
 | 1–2 | Bìa · nội dung ba phần | Tiến | 0:00 |
-| 3–4 | Câu 1: hồi quy tuyến tính, mô hình → gradient → GD | Tiến | 0:51 |
-| 5 | Câu 1: logistic, sigmoid → cross-entropy → gradient | Tiến | 2:08 |
-| 6–7 | Câu 1: kết quả hai mô hình trên tập test | Tiến | 2:49 |
-| 8 | Câu 2: dữ liệu credit-g, mất cân bằng lớp | Thành | 4:12 |
-| 9 | Câu 2: quy trình chống rò rỉ dữ liệu | Thành | 4:51 |
-| 10–11 | Câu 2: chọn mô hình bằng CV, kết quả test | Thành | 5:26 |
-| 12 | Đọc kết quả: recall lớp bad | Tâm | 6:45 |
-| 13 | Overfitting và biện pháp | Tâm | 7:28 |
+| 3–4 | Câu 1: hồi quy tuyến tính, mô hình → gradient → GD | Tiến | 0:50 |
+| 5 | Câu 1: logistic, sigmoid → cross-entropy → gradient | Tiến | 2:16 |
+| 6–7 | Câu 1: kết quả hai mô hình trên tập test | Tiến | 2:58 |
+| 8 | Câu 2: dữ liệu credit-g, mất cân bằng lớp | Thành | 4:14 |
+| 9 | Câu 2: quy trình chống rò rỉ dữ liệu | Thành | 4:55 |
+| 10–11 | Câu 2: chọn mô hình bằng CV, kết quả test | Thành | 5:32 |
+| 12 | Đọc kết quả: recall lớp bad | Tâm | 6:48 |
+| 13 | Overfitting và biện pháp | Tâm | 7:27 |
 | 14 | Kết luận, hạn chế, Q&A | Tâm | 8:12 |
 
-Mốc thời gian trong bảng trên là của speaker notes cũ (1356 từ). `TRANSCRIPT.md` hiện là bản biên tập lại: **1329 từ ≈ 8:52** khi đọc 150 từ/phút, gọn hơn ở phần đọc số và tập trung vào kiến thức của môn; mốc mới nằm trong file đó.
-
-> **Lưu ý:** speaker notes trong `midterm_presentation.pptx` chưa được cập nhật theo transcript mới. Chạy lại `src/build_deck.js` sẽ ghi đè `TRANSCRIPT.md` bằng notes cũ, nên sao lưu file trước khi dựng lại.
+Tổng lời thoại **1329 từ ≈ 8:52** khi đọc 150 từ/phút; phần còn lại của 10 phút dành cho chuyển slide và Q&A.
 
 Nếu chỉ được **7 phút**, bỏ slide 2 (nội dung) và gộp 6–7 thành một slide chỉ giữ hình bên trái + 3 chỉ số,
 hoặc bỏ slide 5 và nói logistic bằng lời ở slide 7.
@@ -45,8 +45,11 @@ hoặc bỏ slide 5 và nói logistic bằng lời ở slide 7.
 # 1. Hình (đọc ../results/, tự kiểm tra 11 con số rồi mới vẽ)
 python3 src/make_deck_figures.py
 
-# 2. Deck + transcript (pptxgenjs 4.0.1)
+# 2. Deck (pptxgenjs 4.0.1); speaker notes đọc từ src/talk_content.json
 PPTXGENJS_PATH=/path/to/node_modules/pptxgenjs node src/build_deck.js
+
+# 2b. Transcript từ cùng nguồn (thêm --viewer OUT_DIR để dựng bản xem điện thoại, sau bước 3)
+python3 src/build_talk.py
 
 # 3. PDF chiếu (Chromium in từ preview.html, thang 13.333 × 7.5 in)
 chromium --headless=new --no-pdf-header-footer --print-to-pdf=midterm_presentation.pdf preview.html
@@ -74,4 +77,6 @@ nên đổi kết quả thực nghiệm rồi dựng lại là slide tự cập 
 - Bullet dùng ký tự en-dash (`–`) qua `bullet.code`; PowerPoint hiển thị đúng, nhưng nếu mở bằng
   Google Slides thì kiểm tra lại thụt lề.
 - Thứ tự slide 6–7 và 10–11 cố ý tách "chọn mô hình" khỏi "kết quả test" để câu chuyện không lẫn.
-- Slide 11 in "16 mô hình đều vượt baseline" (`src/build_deck.js` dòng 336); đúng phải là **14** mô hình học. Transcript đã nói đúng "cả 14 mô hình".
+- Cập nhật 26/10/2026: sửa slide 11 từ "16 mô hình" thành "14 mô hình" (nay tính từ `results/q2_metrics.json`) và thay speaker notes bằng lời thoại mới.
+  Máy dựng lần này không có Arial, nên trong PDF chỉ **trang 11** được in lại (bằng Liberation Sans, cùng kích thước chữ với Arial) rồi ghép vào PDF cũ;
+  13 trang còn lại giữ nguyên bản Arial. Nếu muốn cả file đồng nhất Arial, chạy lại bước 3 trên máy có Arial.

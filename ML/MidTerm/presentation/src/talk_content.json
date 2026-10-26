@@ -1,0 +1,299 @@
+{
+  "_about": "Single source for the spoken script (PPTX speaker notes, TRANSCRIPT.md) and the study notes of the mobile study viewer. Numbers are checked against ../results/*.json. Inline math uses $...$ (TeX); **bold** and `code` are allowed.",
+  "wpm": 150,
+  "speakers": {
+    "Tiến": "Ngô Lâm Tiến",
+    "Thành": "Nguyễn Công Thành",
+    "Tâm": "Nguyễn Lê Nhật Tâm"
+  },
+  "slides": [
+    {
+      "eyebrow": "Mở đầu",
+      "title": "Hồi quy & Phân loại",
+      "speaker": "Tiến",
+      "script": "Kính thưa thầy và các bạn. Nhóm em xin trình bày báo cáo giữa kỳ môn Introduction to Machine Learning, đề tài Hồi quy và Phân loại. Câu một tự cài đặt hồi quy tuyến tính và logistic bằng Gradient Descent. Câu hai so sánh 14 bộ phân loại trên bộ dữ liệu credit-g của OpenML.",
+      "key": "Hai câu của đề là hai dạng học có giám sát: **hồi quy** (đích là số thực) và **phân loại** (đích là nhãn rời rạc).",
+      "points": [
+        "Một bài ML gồm ba phần: **dữ liệu**, **dạng mô hình** và **thuật toán học**. Câu 1 tự viết cả thuật toán học bằng NumPy. Câu 2 dùng thư viện để so sánh nhiều mô hình trên dữ liệu thật.",
+        "\"Tự cài đặt\" nghĩa là không gọi hàm `fit` của thư viện để học tham số. sklearn chỉ được dùng để chia dữ liệu và tính chỉ số.",
+        "Dữ liệu câu 1 là dữ liệu **tổng hợp** (biết trước đáp án). credit-g ở câu 2 là dữ liệu **thật**. Hai câu có mục đích khác nhau: kiểm chứng cài đặt và so sánh mô hình."
+      ],
+      "trap": [],
+      "refs": "Lecture 1 · Lecture 2"
+    },
+    {
+      "eyebrow": "Nội dung",
+      "title": "Ba phần, ba người trình bày",
+      "speaker": "Tiến",
+      "script": "Bài gồm ba phần. Em trình bày câu một: mô hình, hàm mất mát, gradient và kết quả. Bạn Thành trình bày dữ liệu, quy trình và cách chọn mô hình ở câu hai. Bạn Tâm trình bày cách đọc kết quả, overfitting và kết luận. Câu hỏi xuyên suốt là: mô hình học được gì, và làm sao biết nó tổng quát hóa sang dữ liệu mới?",
+      "key": "Câu hỏi xuyên suốt là **tổng quát hóa**: điểm trên dữ liệu chưa từng thấy mới là thước đo thật.",
+      "points": [
+        "Khi học, ta cực tiểu **rủi ro thực nghiệm** trên tập train: $R_{\\text{emp}}(h)=\\frac1N\\sum_{i=1}^{N}L\\big(y_i,h(x_i)\\big)$. Nhưng thứ ta thật sự muốn nhỏ là **rủi ro kỳ vọng** trên toàn bộ phân phối dữ liệu.",
+        "Vì vậy dữ liệu luôn được chia vai: **train** để học, **validation** (cross-validation) để chọn mô hình, **test** để đánh giá cuối cùng."
+      ],
+      "trap": [
+        "Loss train thấp không có nghĩa là dự đoán tốt. Chính khoảng cách này là chủ đề của phần overfitting ở slide 13."
+      ],
+      "refs": "Lecture 2 · Lecture 3b (Evaluation)"
+    },
+    {
+      "eyebrow": "Câu 1 · Hồi quy tuyến tính",
+      "title": "Mô hình và hàm mất mát",
+      "speaker": "Tiến",
+      "script": "Hồi quy tuyến tính dự đoán một số thực bằng tổng có trọng số của các đặc trưng cộng hệ số chặn: một đặc trưng là đường thẳng, nhiều đặc trưng là siêu phẳng. Nhóm học w và b bằng cách cực tiểu trung bình bình phương sai số, nhân một phần hai. Bình phương phạt nặng sai số lớn, nên mô hình nhạy với ngoại lai. Chia cho n để mất mát không phụ thuộc cỡ mẫu. Hệ số một phần hai chỉ giúp đạo hàm gọn, không đổi điểm cực tiểu. Dữ liệu là 600 mẫu tổng hợp từ một quan hệ tuyến tính đã biết, nên kiểm tra được kết quả.",
+      "key": "Dự đoán số thực bằng tổ hợp tuyến tính $\\hat y=w^\\top x+b$, học bằng cách cực tiểu $\\text{MSE}/2$.",
+      "points": [
+        "Mô hình: $\\hat y_i=w^\\top x_i+b$. Nếu thêm một cột hằng số 1 vào $X$ thì $b$ được gộp vào $w$ và viết gọn $\\hat y=Xw$.",
+        "Loss: $J(w,b)=\\frac{1}{2n}\\sum_{i=1}^{n}(\\hat y_i-y_i)^2$. Đây là hàm bậc hai theo tham số, mặt loss có dạng một cái bát, nên Gradient Descent với tốc độ học phù hợp sẽ đi về đáy.",
+        "Dữ liệu sinh theo $y=4+3x_1-2x_2+1.5x_3+\\varepsilon$, với $\\varepsilon\\sim\\mathcal N(0,\\,0.5^2)$ và $x_j$ phân phối đều trên $[-3,3]$. Chia 480 train / 120 test.",
+        "Đặc trưng được min–max theo tập train trước khi học. Trọng số báo cáo ở slide 6 đã được đổi về thang gốc để so với 3, −2, 1.5.",
+        "Bài giảng còn có nghiệm đóng (normal equation) $X^\\top Xw=X^\\top y$, dùng được khi $X^\\top X$ khả nghịch. Đề yêu cầu Gradient Descent nên nhóm không dùng cách này."
+      ],
+      "trap": [
+        "**MSE dùng để đánh giá** và **loss MSE/2 dùng để học** khác nhau một hệ số, nhưng có cùng điểm cực tiểu.",
+        "Bình phương sai số khiến vài điểm ngoại lai có thể kéo lệch cả đường hồi quy."
+      ],
+      "refs": "Lecture 8 · Linear Regression and Gradient Descent"
+    },
+    {
+      "eyebrow": "Câu 1 · Hồi quy tuyến tính",
+      "title": "Dẫn xuất gradient và vòng lặp Gradient Descent",
+      "speaker": "Tiến",
+      "script": "Theo quy tắc chuỗi, gọi e là phần dư. Gradient theo w j là trung bình của e nhân x j, theo b là trung bình của e; dạng ma trận là một phần n nhân X chuyển vị nhân phần dư. Gradient Descent đi ngược hướng gradient một bước eta, cập nhật w và b cùng lúc. Nhóm khởi tạo bằng 0, eta bằng 0.3, dừng khi chuẩn gradient dưới 10 mũ trừ 8, chỉ dựa trên dữ liệu train. Mô hình dừng sau 1175 vòng. Gradient được kiểm chứng bằng sai phân trung tâm, sai khác dưới 10 mũ trừ 6.",
+      "key": "Gradient chỉ hướng loss tăng nhanh nhất. Gradient Descent đi **ngược** hướng đó từng bước nhỏ $\\eta$.",
+      "points": [
+        "Quy tắc chuỗi, với $e_i=\\hat y_i-y_i$: $\\frac{\\partial J}{\\partial w_j}=\\frac1n\\sum_i e_i\\,\\frac{\\partial \\hat y_i}{\\partial w_j}=\\frac1n\\sum_i e_i\\,x_{ij}$ và $\\frac{\\partial J}{\\partial b}=\\frac1n\\sum_i e_i$.",
+        "Dạng ma trận: $\\nabla_w J=\\frac1n X^\\top(\\hat y-y)$.",
+        "Cập nhật **đồng thời**: $w\\leftarrow w-\\eta\\,\\nabla_w J$ và $b\\leftarrow b-\\eta\\,\\frac{\\partial J}{\\partial b}$. Cả hai gradient được tính tại cùng $(w,b)$ rồi mới gán giá trị mới.",
+        "Full-batch: mỗi vòng dùng cả 480 mẫu train. $\\eta$ quá lớn thì vượt qua đáy và có thể phân kỳ; $\\eta$ quá nhỏ thì học rất chậm.",
+        "Kiểm tra gradient bằng sai phân trung tâm: $\\frac{J(w+h\\,e_j)-J(w-h\\,e_j)}{2h}$ so với công thức giải tích. Sai khác dưới $10^{-6}$ cho thấy đạo hàm được viết đúng."
+      ],
+      "trap": [
+        "Dừng huấn luyện dựa trên chỉ số test là **rò rỉ dữ liệu**. Test chỉ dùng để báo cáo kết quả cuối."
+      ],
+      "refs": "Lecture 8 · Linear Regression and Gradient Descent"
+    },
+    {
+      "eyebrow": "Câu 1 · Hồi quy logistic",
+      "title": "Xác suất, cross-entropy và gradient",
+      "speaker": "Tiến",
+      "script": "Logistic đưa cùng điểm tuyến tính z qua hàm sigmoid để ra xác suất từ 0 đến 1. Log odds vẫn tuyến tính, nên biên quyết định tại p bằng 0.5 là một siêu phẳng. Hàm mất mát là cross-entropy, tức âm log-likelihood Bernoulli, phạt rất nặng dự đoán tự tin mà sai. Đạo hàm sigmoid là p nhân một trừ p, triệt tiêu mẫu số của cross-entropy, nên gradient chỉ còn p trừ y, cùng dạng với hồi quy tuyến tính. Nhóm dùng eta 0.5, tối đa 5000 vòng; mô hình chạm giới hạn trước khi đạt dung sai, nên chưa hội tụ chặt.",
+      "key": "Logistic là tuyến tính cộng sigmoid để ra xác suất. Học bằng cross-entropy, và gradient vẫn gọn: $(p-y)\\,x$.",
+      "points": [
+        "$\\sigma(z)=\\frac{1}{1+e^{-z}}$ ép mọi số thực về khoảng $(0,1)$, và $P(y=1\\mid x)=p=\\sigma(w^\\top x+b)$.",
+        "Log-odds: $\\log\\frac{p}{1-p}=w^\\top x+b$. Biên $p=0.5$ tương đương $z=0$, là một siêu phẳng (đường thẳng chéo ở slide 7).",
+        "$J=-\\frac1n\\sum_i\\big[y_i\\log p_i+(1-y_i)\\log(1-p_i)\\big]$. Cực tiểu cross-entropy tương đương cực đại log-likelihood Bernoulli. Khi $y=1$ mà $p\\to0$ thì $-\\log p\\to\\infty$: dự đoán tự tin mà sai bị phạt rất nặng.",
+        "Quy tắc chuỗi: $\\frac{\\partial \\ell}{\\partial p}=\\frac{p-y}{p(1-p)}$ và $\\frac{\\partial p}{\\partial z}=p(1-p)$, suy ra $\\frac{\\partial \\ell}{\\partial z}=p-y$. Vậy $\\nabla_w J=\\frac1n X^\\top(p-y)$.",
+        "Ổn định số học: sigmoid được tính theo dấu của $z$, và log dùng `logaddexp` để tránh tràn số $e^{z}$ hay $\\log 0$.",
+        "Sau 5000 vòng, chuẩn gradient còn khoảng $1.55\\times10^{-4}$, lớn hơn dung sai $10^{-8}$. Kết quả dùng được nhưng chưa hội tụ chặt."
+      ],
+      "trap": [
+        "Gradient giống hồi quy tuyến tính về **hình thức**, nhưng dự đoán và loss khác hẳn.",
+        "Slide tổng kết trong bài giảng (LOG trang 43) thiếu hệ số $1/N$ trong công thức cập nhật. Nhóm giữ $1/N$ cho nhất quán với loss trung bình (trang 42)."
+      ],
+      "refs": "Lecture 9 · Perceptron and Logistic Regression"
+    },
+    {
+      "eyebrow": "Câu 1 · Kết quả",
+      "title": "Hồi quy tuyến tính: học đúng quan hệ sinh dữ liệu",
+      "speaker": "Tiến",
+      "script": "Kết quả hồi quy tuyến tính: mất mát giảm đơn điệu từ 30.9 xuống 0.126, tức tốc độ học phù hợp, không phân kỳ. Trên 120 mẫu test, các điểm bám sát đường chéo. RMSE 0.51, xấp xỉ độ lệch chuẩn của nhiễu là 0.5, nghĩa là phần sai còn lại gần như chỉ là nhiễu. R bình phương 0.995. Trọng số học được 2.99, trừ 2.01 và 1.49, rất gần giá trị thật 3, trừ 2 và 1.5. Nhưng dữ liệu sinh tuyến tính, nên đây chỉ chứng minh cài đặt đúng, chưa nói gì về dữ liệu thực.",
+      "key": "Kết quả khớp với \"đáp án\" đã biết, nên cài đặt là đúng.",
+      "points": [
+        "**Hình trái** dùng trục y thang log. Đường giảm đơn điệu rồi đi ngang, cho thấy $\\eta=0.3$ phù hợp.",
+        "Loss cuối $0.126\\approx\\sigma^2/2=0.25/2=0.125$. Phần còn lại đúng bằng nhiễu, nên không mô hình tuyến tính nào làm tốt hơn đáng kể.",
+        "$\\text{RMSE}=\\sqrt{\\text{MSE}}=0.511$, cùng đơn vị với $y$ và xấp xỉ $\\sigma=0.5$. MAE bằng 0.405.",
+        "$R^2=1-\\frac{SS_{\\text{res}}}{SS_{\\text{tot}}}=0.9947$: mô hình giải thích khoảng 99.5% biến thiên của $y$ trên tập test.",
+        "**Hình phải**: điểm càng sát đường chéo $\\hat y=y$ càng tốt. Các điểm không tạo thành đường cong, nên quan hệ tuyến tính là đủ.",
+        "Hệ số chặn học được là 3.95 (thật: 4)."
+      ],
+      "trap": [
+        "$R^2$ cao trên dữ liệu tổng hợp tuyến tính là điều đã biết trước. Nó không chứng minh mô hình tốt trên dữ liệu thật, cũng không chứng minh quan hệ nhân quả."
+      ],
+      "refs": "Lecture 3b · Evaluation (regression metrics)"
+    },
+    {
+      "eyebrow": "Câu 1 · Kết quả",
+      "title": "Hồi quy logistic: biên hợp lý, nhưng còn 30 ca sai",
+      "speaker": "Tiến",
+      "script": "Với logistic, hai lớp chồng lấn nên không thể tách hoàn hảo. Cross-entropy bắt đầu ở 0.693, đúng bằng log 2 của mô hình đoán 0.5 cho mọi mẫu, rồi giảm xuống 0.45. Trên 160 mẫu test: accuracy 81.25 phần trăm, F1 lớp dương 0.85, AUC 0.86. Accuracy và F1 dùng ngưỡng 0.5, còn AUC tóm tắt mọi ngưỡng. Các vòng tròn là 30 ca sai, nằm ở vùng chồng lấn quanh biên: đó là giới hạn của dữ liệu, không phải lỗi tối ưu. Em xin mời bạn Thành.",
+      "key": "Logistic học được một biên hợp lý. 30 lỗi còn lại nằm ở vùng hai lớp chồng lấn.",
+      "points": [
+        "Loss ban đầu: $w=0$ nên $p=0.5$ cho mọi mẫu, và $J=-\\log 0.5=\\log 2\\approx0.6931$.",
+        "Ma trận nhầm lẫn TN/FP/FN/TP = 44/18/12/86. Accuracy $=\\frac{44+86}{160}=0.8125$. Precision $=\\frac{86}{86+18}=0.827$. Recall $=\\frac{86}{86+12}=0.878$. $F_1=\\frac{2PR}{P+R}=0.851$.",
+        "**ROC** vẽ TPR theo FPR khi thay đổi ngưỡng. **AUC** là diện tích dưới đường ROC: 0.5 là đoán ngẫu nhiên, 1 là hoàn hảo. Muốn tính AUC phải dùng xác suất, không dùng nhãn đã cắt ngưỡng.",
+        "Chia 640 train / 160 test. Lớp dương chiếm khoảng 61% tập test (98/160), nên accuracy 0.81 phải so với mốc 0.61 của việc luôn đoán lớp dương."
+      ],
+      "trap": [
+        "Còn lỗi không có nghĩa là tối ưu sai. Khi dữ liệu chồng lấn, biên tuyến tính nào cũng sẽ sai một phần."
+      ],
+      "refs": "Lecture 3b · Evaluation · Lecture 9"
+    },
+    {
+      "eyebrow": "Câu 2 · Dữ liệu",
+      "title": "OpenML credit-g: 1000 hồ sơ, 20 biến, lệch lớp",
+      "speaker": "Thành",
+      "script": "Câu hai dùng bộ credit-g, mã 31 trên OpenML: 1000 hồ sơ vay, 20 biến, gồm 7 biến số và 13 biến phân loại. Lớp dương là bad, lớp cần phát hiện. Tỷ lệ 70 trên 30 nên dữ liệu mất cân bằng: luôn đoán good đã đạt 70 phần trăm accuracy mà không bắt được hồ sơ xấu nào. Biểu đồ phải cho thấy số tiền vay lệch phải và hai lớp chồng lấn mạnh. Dữ liệu không có ô thiếu, dòng trùng hay giá trị lạ, nên giữ đủ 1000 hồ sơ; sau min–max và one-hot có 61 đặc trưng.",
+      "key": "credit-g nhỏ, nhiều biến phân loại và lệch lớp 70/30, nên accuracy không đủ tin. Cần chỉ số tính theo từng lớp.",
+      "points": [
+        "Lớp dương = **bad (1)**, vì đây là lớp cần phát hiện.",
+        "Baseline đa số luôn đoán good: accuracy 0.70, recall lớp bad bằng 0, macro F1 bằng 0.412.",
+        "Mã hóa theo bài giảng: biến số dùng min–max $x'=\\frac{x-x_{\\min}}{x_{\\max}-x_{\\min}}$; biến phân loại không có thứ tự dùng one-hot. 7 cột số cộng các cột one-hot của 13 biến phân loại cho ra 61 cột.",
+        "Chuẩn hóa đặc biệt quan trọng với mô hình dựa trên khoảng cách (kNN, SVM) và với Gradient Descent. Nếu không, biến có thang lớn như credit amount sẽ lấn át các biến khác.",
+        "Hình trái tính trên 800 hồ sơ development (560 good / 240 bad), không nhìn vào tập test."
+      ],
+      "trap": [
+        "\"Dữ liệu sạch\" không có nghĩa là xóa ngoại lai. Credit amount lệch phải nhưng đó là giá trị hợp lệ, nên được giữ. Bài giảng liệt kê làm sạch là việc **có thể** làm, không bắt buộc xóa."
+      ],
+      "refs": "Data Preparation for ML · Lecture 3 (kNN, scaling)"
+    },
+    {
+      "eyebrow": "Câu 2 · Quy trình",
+      "title": "Chống rò rỉ dữ liệu bằng thiết kế, không bằng lời hứa",
+      "speaker": "Thành",
+      "script": "Điểm nhóm chú trọng nhất là chống rò rỉ dữ liệu. Một, tách 200 hồ sơ test phân tầng ngay từ đầu. Hai, chuẩn hóa và one-hot nằm trong pipeline, nên mỗi fold chỉ học min, max và danh mục từ phần train của fold đó. Nếu chuẩn hóa trước rồi mới chia, thông tin validation đã lọt vào train và điểm sẽ đẹp giả tạo. Ba, mọi mô hình dùng chung năm fold phân tầng, chọn theo macro F1. Bốn, chốt xong mọi lựa chọn mới chạy test, đúng một lần.",
+      "key": "Mọi thứ học từ dữ liệu, kể cả min/max và danh mục one-hot, chỉ được học từ **phần train hiện tại**.",
+      "points": [
+        "**Rò rỉ dữ liệu**: thông tin của phần dùng để đánh giá lọt vào lúc huấn luyện, làm điểm đẹp giả tạo.",
+        "Pipeline = [tiền xử lý → mô hình]. Trong mỗi fold: `fit_transform` trên train fold, rồi chỉ `transform` trên validation fold.",
+        "**Stratified 5-fold**: chia 800 hồ sơ development thành 5 phần, mỗi phần giữ tỷ lệ 70/30. Mỗi phần lần lượt làm validation, rồi lấy trung bình 5 điểm.",
+        "Mọi mô hình dùng **cùng một bộ fold**, nên so sánh giữa chúng là công bằng.",
+        "**Macro F1** = trung bình F1 của lớp good và lớp bad, mỗi lớp có trọng số như nhau, nên lớp thiểu số không bị lấn át.",
+        "Seed 42 cố định: chạy lại sẽ ra đúng các con số này."
+      ],
+      "trap": [
+        "**Tuning to the test set**: xem kết quả test, thấy chưa vừa ý rồi quay lại chỉnh. Khi đó test không còn là dữ liệu chưa thấy."
+      ],
+      "refs": "Lecture 3b · Evaluation · Lecture 4 (NB, fit/transform)"
+    },
+    {
+      "eyebrow": "Câu 2 · Chọn mô hình",
+      "title": "14 mô hình và một baseline, chọn bằng cross-validation",
+      "speaker": "Thành",
+      "script": "Nhóm so sánh 14 mô hình và một baseline trên cùng bộ fold, từ mô hình tuyến tính, kNN, Naive Bayes, cây, SVM, MLP đến ensemble; ba kernel SVM chỉ là ba biến thể của một họ. MLP dẫn đầu với macro F1 0.696, Bernoulli NB 0.694. Nhưng độ lệch chuẩn giữa các fold khoảng 0.06, lớn hơn nhiều khoảng cách 0.002, nên nhóm không kết luận MLP vượt trội. kNN chọn k bằng 1 và khớp hoàn hảo trên train, một dấu hiệu overfitting. Điểm CV đã dùng để chọn tham số, nên không phải đánh giá độc lập.",
+      "key": "Chọn mô hình bằng điểm CV trung bình. Khi khoảng cách nhỏ hơn độ dao động giữa các fold, chưa thể kết luận mô hình nào hơn.",
+      "points": [
+        "Các họ mô hình: **tuyến tính** (logistic tự cài, perceptron, linear SVM) · **láng giềng** (kNN) · **xác suất** (Gaussian NB, Bernoulli NB) · **cây** (decision tree) · **SVM kernel** (RBF, polynomial) · **mạng nơ-ron** (MLP) · **ensemble** (bagging, random forest, AdaBoost, gradient boosting).",
+        "Thanh lỗi là ± độ lệch chuẩn macro F1 qua 5 fold, khoảng 0.06. MLP 0.696 so với Bernoulli NB 0.694 chỉ chênh 0.002.",
+        "MLP được chọn có một tầng ẩn 16 nơ-ron, learning rate 0.05.",
+        "kNN với $k=1$: mỗi điểm train là láng giềng gần nhất của chính nó, nên F1 train bằng 1.0 và khoảng cách train–CV là 0.37.",
+        "Muốn so sánh chặt hơn, bài giảng có **kiểm định t ghép cặp** trên chênh lệch lỗi từng fold. Nhóm chưa làm bước này, nên chỉ nói \"chưa đủ bằng chứng\"."
+      ],
+      "trap": [
+        "Điểm CV của mô hình được chọn thường **lạc quan** hơn thực tế, vì chính nó đã được dùng để chọn. Cần tập test để có đánh giá độc lập."
+      ],
+      "refs": "Lecture 3b · Evaluation (k-fold, t-test) · Lecture 3–13"
+    },
+    {
+      "eyebrow": "Câu 2 · Kết quả test",
+      "title": "Trên 200 hồ sơ chưa từng thấy, khoảng cách rất hẹp",
+      "speaker": "Thành",
+      "script": "Đánh giá độc lập là 200 hồ sơ test. MLP đạt accuracy 0.79, macro F1 0.73, AUC 0.81. Đáng chú ý, logistic tự cài đặt từ câu một cũng đạt macro F1 0.730, gần như bằng MLP: trên một bảng dữ liệu nhỏ, mô hình phức tạp hơn không mang lại lợi ích rõ ràng. Cả 14 mô hình đều vượt baseline về macro F1, nhưng nhóm dẫn đầu chỉ chênh nhau vài phần nghìn, nên không nên đọc bảng này như bảng xếp hạng. Em xin mời bạn Tâm.",
+      "key": "Trên test, mô hình đơn giản (logistic tự cài) ngang với MLP. Phức tạp hơn không đồng nghĩa với tốt hơn.",
+      "points": [
+        "MLP: accuracy 0.790 · macro F1 0.7305 · AUC 0.813. Logistic tự cài: 0.780 · 0.7301 · 0.801. Macro F1 chỉ chênh 0.0004.",
+        "Decision tree có accuracy 0.645, **thấp hơn** baseline 0.70, nhưng macro F1 0.606 vẫn cao hơn 0.412 vì nó bắt được 33/60 hồ sơ xấu.",
+        "Perceptron có accuracy 0.700, bằng baseline, nhưng macro F1 là 0.639.",
+        "Bảng trên slide chỉ trích 8 trong 15 dòng. Bảng đầy đủ nằm trong report."
+      ],
+      "trap": [
+        "\"Vượt baseline\" ở đây tính theo **macro F1**, không phải accuracy."
+      ],
+      "refs": "Lecture 3b · Evaluation"
+    },
+    {
+      "eyebrow": "Câu 2 · Đọc kết quả",
+      "title": "Một con số accuracy đẹp có thể che mất lỗi quan trọng",
+      "speaker": "Tâm",
+      "script": "Đây là bài học chính của câu hai. Ma trận nhầm lẫn có hàng là nhãn thật, cột là dự đoán. MLP đúng 158 trên 200, nhưng trong 60 hồ sơ xấu, mô hình bỏ sót 28, nên recall lớp bad chỉ 0.533. Lớp đa số đã kéo accuracy lên. Gaussian NB thì ngược lại: recall bad 0.65 nhưng precision chỉ 0.51. Chọn bên nào là quyết định nghiệp vụ, tùy chi phí bỏ sót so với báo nhầm. Muốn hạ ngưỡng thì phải chọn trên validation; hạ sau khi xem test là dùng test để tinh chỉnh.",
+      "key": "Accuracy 0.79 che mất việc bỏ sót gần nửa số hồ sơ xấu. Luôn đọc chỉ số của từng lớp.",
+      "points": [
+        "Ma trận (hàng = thật, cột = dự đoán): **TN 126** (good đoán đúng) · **FP 14** (good bị báo là bad) · **FN 28** (bad bị bỏ sót) · **TP 32** (bad bắt đúng).",
+        "Recall bad $=\\frac{TP}{TP+FN}=\\frac{32}{60}=0.533$. Precision bad $=\\frac{TP}{TP+FP}=\\frac{32}{46}=0.696$. Recall good $=\\frac{126}{140}=0.90$.",
+        "**ROC**: mỗi điểm trên đường ứng với một ngưỡng. Hạ ngưỡng thì TPR tăng nhưng FPR cũng tăng. Ba đường nằm sát nhau, nên khả năng xếp hạng của ba mô hình tương đương.",
+        "Đánh đổi precision–recall: Gaussian NB có recall 0.65 nhưng precision chỉ 0.513.",
+        "Bài giảng có ví dụ cùng loại: accuracy 96.4% nhưng recall chỉ 30%."
+      ],
+      "trap": [
+        "Đổi ngưỡng là hợp lệ, **với điều kiện** ngưỡng được chọn trên validation trước khi xem test."
+      ],
+      "refs": "Lecture 3b · Evaluation (confusion matrix, ROC)"
+    },
+    {
+      "eyebrow": "Overfitting",
+      "title": "Bằng chứng: cây càng sâu, khoảng cách càng lớn",
+      "speaker": "Tâm",
+      "script": "Overfitting là khi mô hình học thuộc cả nhiễu của train, nên gặp dữ liệu mới thì kém; nhóm đo nó bằng khoảng cách train trừ validation. Ở biểu đồ trái, tăng độ sâu thì điểm train leo lên 1, còn validation chỉ tăng đến độ sâu khoảng 6 rồi giảm. Cây không giới hạn đạt 1.00 trên train nhưng 0.614 trên validation. Giới hạn độ sâu 6 và tối thiểu 5 mẫu mỗi lá, khoảng cách giảm từ 0.386 xuống 0.121. Nhưng random forest vẫn còn 0.324: ensemble giảm phương sai, không tự hết overfitting. Biện pháp chung là giới hạn độ phức tạp, chọn bằng validation và giữ test riêng.",
+      "key": "Overfitting là khoảng cách train–validation lớn. Cách chữa: giới hạn độ phức tạp và chọn tham số bằng validation.",
+      "points": [
+        "**Underfit** (high bias): train và validation đều thấp, như cây độ sâu 1–2. **Overfit** (high variance): train rất cao nhưng validation giảm, như cây độ sâu từ 8 trở lên.",
+        "Ở độ sâu 1, cây chỉ chia một lần và đoán toàn good, nên macro F1 bằng 0.412, đúng bằng baseline.",
+        "Biện pháp cho cây theo bài giảng: giới hạn max depth, đặt tiêu chí dừng (số mẫu tối thiểu mỗi lá), cắt tỉa (pruning), thêm dữ liệu.",
+        "**Hình phải**: thanh xám là cấu hình mặc định, thanh xanh là sau khi chọn tham số. Decision tree 0.39→0.12 · bagging 0.33→0.22 · random forest 0.36→0.32 · gradient boosting 0.27→0.22.",
+        "Random forest được chọn có max depth 10 và tối thiểu 1 mẫu mỗi lá, nên các cây con vẫn sâu và điểm train lên tới 0.976.",
+        "Với mô hình khác: kNN tăng $k$; SVM dùng $C$ nhỏ hơn (lề mềm hơn) hoặc $\\gamma$ nhỏ hơn với kernel RBF."
+      ],
+      "trap": [
+        "Ensemble giảm phương sai nhưng **không miễn nhiễm** overfitting. Vẫn phải đo khoảng cách train–validation."
+      ],
+      "refs": "Lecture 2 · Lecture 5 (Decision tree) · Lecture 13 (Ensemble) · Lecture 7 (SVM)"
+    },
+    {
+      "eyebrow": "Kết luận",
+      "title": "Điều nhóm làm được, điều còn hạn chế",
+      "speaker": "Tâm",
+      "script": "Tóm lại, câu một cho thấy hai mô hình tự cài đặt học đúng: gradient khớp kiểm tra sai phân, sai số xấp xỉ mức nhiễu. Câu hai cho thấy trên dữ liệu nhỏ và mất cân bằng, mô hình phức tạp nhất không vượt trội rõ rệt, và accuracy có thể che lỗi ở lớp thiểu số. Hạn chế: một bộ dữ liệu, một lần chia test, lưới tham số nhỏ; logistic và MLP chưa hội tụ hoàn toàn; và chưa có kiểm định thống kê. Nhóm em xin cảm ơn thầy và các bạn đã lắng nghe.",
+      "key": "Ba điều cần nhớ: cài đặt đúng đã được kiểm chứng; quy trình chống rò rỉ là điều kiện để so sánh đáng tin; accuracy có thể đánh lừa trên dữ liệu lệch lớp.",
+      "points": [
+        "Hướng cải thiện tương ứng với từng hạn chế: chạy nhiều seed hoặc lặp lại CV; dùng kiểm định t ghép cặp; chọn ngưỡng trên validation theo chi phí nghiệp vụ; tăng số vòng lặp cho logistic và MLP.",
+        "MLP chỉ là mô hình **được chọn theo CV**, không phải \"mô hình tốt nhất\". Logistic tự cài gần như ngang bằng trên test."
+      ],
+      "trap": [
+        "Đừng nói \"chưa bác bỏ khác biệt\" thành \"hai mô hình bằng nhau\". Chưa đủ bằng chứng không có nghĩa là bằng nhau."
+      ],
+      "refs": "Tổng hợp toàn bài"
+    }
+  ],
+  "qa": [
+    {
+      "q": "Vì sao dùng ½ trong hàm mất mát?",
+      "who": "Tiến",
+      "a": "Triệt tiêu hệ số 2 khi đạo hàm; điểm cực tiểu không đổi."
+    },
+    {
+      "q": "Gradient đúng chưa?",
+      "who": "Tiến",
+      "a": "Đã so với sai phân trung tâm, sai khác < 1e−6, cho cả hai mô hình."
+    },
+    {
+      "q": "Vì sao logistic dùng cross-entropy mà không dùng MSE?",
+      "who": "Tiến",
+      "a": "Cross-entropy là âm log-likelihood Bernoulli; gradient gọn (p − y)x và phạt nặng dự đoán tự tin mà sai."
+    },
+    {
+      "q": "Vì sao chuẩn hóa phải nằm trong fold?",
+      "who": "Thành",
+      "a": "Nếu fit trước khi chia, min/max của validation đã rò rỉ vào train."
+    },
+    {
+      "q": "Vì sao chọn macro F1 thay vì accuracy?",
+      "who": "Thành",
+      "a": "Hai lớp trọng số ngang nhau; accuracy bị lớp good 70% chi phối."
+    },
+    {
+      "q": "MLP có thực sự tốt hơn logistic không?",
+      "who": "Tâm",
+      "a": "Không kết luận được: chênh 0.0004 trên test, nhỏ hơn SD giữa các fold ±0.064; chưa làm kiểm định t."
+    },
+    {
+      "q": "Sao không hạ ngưỡng để tăng recall lớp bad?",
+      "who": "Tâm",
+      "a": "Có thể, nhưng ngưỡng phải chọn trên validation; hạ sau khi xem test là dùng test để tinh chỉnh."
+    },
+    {
+      "q": "Vì sao không dùng deep learning (CNN/RNN)?",
+      "who": "Thành",
+      "a": "credit-g là bảng nhỏ 1000 dòng, không có cấu trúc ảnh hay chuỗi để CNN/RNN khai thác."
+    }
+  ]
+}
