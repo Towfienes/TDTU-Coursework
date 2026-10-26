@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 10 8.3.6 Linux Servers - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 8.3.6: Linux Servers</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / Quản trị Linux</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Sử dụng các lệnh dòng lệnh trong Linux (<code>ps</code>, <code>netstat</code>) để định vị và phân tích các dịch vụ máy chủ (Servers/Daemons) đang hoạt động trên hệ thống.</li>
+<li>Hiểu cấu trúc phân cấp tiến trình cha - con (<strong>Process Hierarchy / Process Tree</strong>) và nguyên tắc phân quyền đặc quyền tối thiểu trong kiến trúc Master-Worker của Nginx.</li>
+<li>Liên kết thông tin giữa tầng mạng (Network Sockets / Ports) và tầng hệ điều hành (Process ID - PID).</li>
+<li>Sử dụng công cụ <strong>Telnet</strong> như một kỹ thuật kiểm tra giao thức TCP tầng ứng dụng (<strong>Banner Grabbing</strong>) và phân tích nguyên nhân tại sao Telnet không an toàn cho quản trị từ xa.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>Máy ảo bảo mật Security Workstation VM (tài khoản <code>analyst</code>, mật khẩu <code>cyberops</code>).</li>
+<li>Các tiện ích hệ thống: <code>ps</code>, <code>netstat</code>, <code>grep</code>, <code>telnet</code>.</li>
+<li>Dịch vụ máy chủ: Web server Nginx, OpenSSH daemon.</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: MÁY CHỦ VÀ TIẾN TRÌNH (PART 1: SERVERS &amp; PROCESSES)</h4>
+<h5>Bước 1 &amp; Bước 2: Hiển thị các dịch vụ đang chạy</h5>
+<ul>
+<li>Thực thi lệnh liệt kê tiến trình toàn diện: <code>sudo ps -elf</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.a:</strong></p>
+<p><strong>Why was it necessary to run ps as root (prefacing the command with sudo)?</strong></p>
+<p><em>(Tại sao cần phải chạy ps với quyền root - thêm tiền tố sudo trước lệnh?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Trong mô hình bảo mật của Linux, người dùng thông thường (<code>analyst</code>) chỉ có quyền truy vấn các thông tin tiến trình thuộc sở hữu của chính tài khoản mình. Để có thể quan sát được <strong>toàn bộ các tiến trình hệ thống</strong>, bao gồm các daemon của kernel (<code>kthreadd</code>), các dịch vụ chạy dưới quyền <code>root</code>, <code>http</code>, <code>daemon</code> hoặc các người dùng khác, cũng như các thông tin nhạy cảm về bản đồ bộ nhớ và phân luồng, người dùng bắt buộc phải sử dụng đặc quyền <strong>root</strong> thông qua lệnh <code>sudo</code>.</p>
+</blockquote>
+<ul>
+<li>Khởi chạy Nginx và kiểm tra cây tiến trình:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ sudo /usr/sbin/nginx
+[analyst@secOps ~]$ sudo ps -ejH</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.b:</strong></p>
+<p><strong>How is the process hierarchy represented by ps?</strong></p>
+<p><em>(Cấu trúc phân cấp tiến trình được biểu diễn như thế nào bởi lệnh ps?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Khi sử dụng cờ <code>-H</code> (Hierarchy) hoặc lệnh <code>pstree</code>, phân cấp tiến trình được biểu diễn trực quan thông qua <strong>khoảng thụt đầu dòng (Indentation)</strong> trong cột câu lệnh (<code>CMD</code>). Tiến trình con nằm thụt vào bên phải ngay dưới tiến trình cha sinh ra nó. Ngoài ra, mối quan hệ này được thể hiện chặt chẽ qua hai trường số liệu: <strong>PID (Process ID)</strong> của tiến trình hiện tại và <strong>PPID (Parent Process ID)</strong> trỏ trực tiếp đến PID của tiến trình cha. Tiến trình gốc tối cao của toàn hệ thống là <code>systemd</code> (PID 1).</p>
+</blockquote>
+<h5>Bước 3: Phân tích kết nối mạng bằng Netstat</h5>
+<ul>
+<li>Thực thi lệnh kiểm tra socket mạng:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ sudo netstat -tunap
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address   Foreign Address State   PID/Program name    
+tcp        0      0 0.0.0.0:6633    0.0.0.0:*       LISTEN  257/python2.7       
+tcp        0      0 0.0.0.0:80      0.0.0.0:*       LISTEN  395/nginx: master   
+tcp        0      0 0.0.0.0:21      0.0.0.0:*       LISTEN  279/vsftpd          
+tcp        0      0 0.0.0.0:22      0.0.0.0:*       LISTEN  277/sshd: /usr/bin  
+tcp6       0      0 :::22           :::*            LISTEN  277/sshd: /usr/bin  
+udp        0      0 192.168.1.15:68 0.0.0.0:*               237/systemd-network </code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.d - CÂU 1:</strong></p>
+<p><strong>What is the meaning of the –t, -u, –n, –a and –p options in netstat? (use man netstat to answer)</strong></p>
+<p><em>(Ý nghĩa của các tùy chọn –t, -u, –n, –a và –p trong netstat là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong><code>-t</code> (TCP):</strong> Chỉ hiển thị các kết nối và cổng thuộc giao thức TCP.</p>
+<p>- <strong><code>-u</code> (UDP):</strong> Chỉ hiển thị các kết nối và cổng thuộc giao thức UDP.</p>
+<p>- <strong><code>-n</code> (Numeric):</strong> Hiển thị địa chỉ IP và số hiệu cổng dưới dạng số thuần túy (không phân giải ngược tên miền DNS hoặc ánh xạ tên dịch vụ từ <code>/etc/services</code>).</p>
+<p>- <strong><code>-a</code> (All):</strong> Hiển thị tất cả các kết nối hiện hành và tất cả các cổng đang lắng nghe (Listening sockets).</p>
+<p>- <strong><code>-p</code> (Program):</strong> Hiển thị mã tiến trình (PID) và tên chương trình thực thi sở hữu socket đó.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.d - CÂU 2:</strong></p>
+<p><strong>Is the order of the options important to netstat?</strong></p>
+<p><em>(Thứ tự của các tùy chọn có quan trọng đối với netstat không?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><strong>Hoàn toàn không quan trọng.</strong> Trong hệ thống tiện ích Linux, các cờ tùy chọn đơn lẻ có thể gộp chung lại theo bất kỳ thứ tự nào mà không làm thay đổi hành vi của lệnh (ví dụ: <code>-tunap</code>, <code>-anput</code>, <code>-pant</code> đều cho ra kết quả hoàn toàn giống hệt nhau).</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.d - CÂU 3:</strong></p>
+<p><strong>Based on the netstat output shown in item (d), what is the Layer 4 protocol, connection status, and PID of the process running on port 80?</strong></p>
+<p><em>(Dựa trên kết quả netstat ở mục d, giao thức Tầng 4, trạng thái kết nối và PID của tiến trình chạy trên cổng 80 là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- Giao thức Tầng 4 (Layer 4 Protocol): <strong><code>TCP</code></strong></p>
+<p>- Trạng thái kết nối (Connection Status): <strong><code>LISTEN</code></strong> (đang mở cổng chờ kết nối từ máy khách)</p>
+<p>- Mã định danh tiến trình (PID): <strong><code>395</code></strong> (chương trình: <code>nginx: master</code>)</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.d - CÂU 4:</strong></p>
+<p><strong>While port numbers are just a convention, can you guess what kind of service is running on port 80 TCP?</strong></p>
+<p><em>(Mặc dù số hiệu cổng chỉ là quy ước, bạn có thể đoán loại dịch vụ nào đang chạy trên cổng 80 TCP không?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Cổng chuẩn 80/TCP được IANA quy ước dành cho <strong>Dịch vụ Máy chủ Web HTTP (World Wide Web)</strong>, phục vụ việc truyền tải các trang web dạng văn bản siêu văn bản không mã hóa.</p>
+</blockquote>
+<h5>Bước 4: Đối chiếu Netstat với Ps</h5>
+<ul>
+<li>Thực thi lệnh đối chiếu PID 395:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ sudo ps -elf | grep 395
+1 S root     395     1  0  80   0 -  1829 19:33 ? 00:00:00 nginx: master process /usr/bin/nginx
+5 S http     396   395  0  80   0 -  1866 19:33 ? 00:00:00 nginx: worker process
+0 S analyst 3789  1872  0  80   0 -  1190 19:53 pts/0 00:00:00 grep 395</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.e - CÂU 1:</strong></p>
+<p><strong>The process PID 395 is nginx. How could that be concluded from the output above?</strong></p>
+<p><em>(Tiến trình PID 395 là nginx. Làm thế nào để kết luận điều đó từ kết quả trên?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Cột cuối cùng (<code>CMD</code>) của dòng tiến trình PID 395 hiển thị rõ ràng đường dẫn thực thi và vai trò của chương trình:</p>
+<p><code>nginx: master process /usr/bin/nginx</code>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.e - CÂU 2:</strong></p>
+<p><strong>What is nginx? What is its function? (Use google to learn about nginx)</strong></p>
+<p><em>(Nginx là gì? Chức năng của nó là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Nginx (phát âm là "Engine-X") là một phần mềm máy chủ web mã nguồn mở hiệu năng cao dựa trên kiến trúc hướng sự kiện bất đồng bộ (Asynchronous Event-driven). Chức năng chính:</p>
+<p>- Phục vụ nội dung web tĩnh và động qua HTTP/HTTPS.</p>
+<p>- Đóng vai trò là máy chủ phân tải tải (Load Balancer) và Reverse Proxy chuyển tiếp yêu cầu đến các ứng dụng backend (Node.js, Python, Java).</p>
+<p>- Mail Proxy hỗ trợ các giao thức IMAP/POP3/SMTP.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.e - CÂU 3:</strong></p>
+<p><strong>The second line shows that process 396 is owned by a user named http and has process number 395 as its parent process. What does that mean? Is this common behavior?</strong></p>
+<p><em>(Dòng thứ hai cho thấy tiến trình 396 thuộc sở hữu của user http và có cha là tiến trình 395. Điều này có ý nghĩa gì? Đây có phải hành vi phổ biến không?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Ý nghĩa kỹ thuật:</strong> Đây là mô hình kiến trúc <strong>Master - Worker</strong> phân tách đặc quyền:</p>
+<p>- Tiến trình <strong>Master (PID 395)</strong> chạy dưới quyền <code>root</code> nhằm thực hiện các tác vụ đặc quyền: chiếm giữ các cổng mạng đặc quyền (Privileged Ports < 1024 như port 80), nạp tệp cấu hình và quản lý vòng đời của các worker.</p>
+<p>- Tiến trình <strong>Worker (PID 396)</strong> được tạo ra (forked) để trực tiếp xử lý các luồng kết nối và yêu cầu dữ liệu từ người dùng Internet, nhưng được hạ quyền (Drop Privileges) để chạy dưới tài khoản bị cô lập quyền hạn là <code>http</code> (hoặc <code>www-data</code>).</p>
+<p>- <strong>Tính phổ biến:</strong> Đây là <strong>tiêu chuẩn thiết kế an ninh sống còn (Security Best Practice)</strong> được áp dụng phổ biến trên toàn bộ các máy chủ Linux (Nginx, Apache, Postfix). Nếu ứng dụng web có lỗ hổng bảo mật và bị kẻ tấn công khai thác chiếm quyền điều khiển worker process, kẻ tấn công chỉ có quyền hạn tối thiểu của tài khoản <code>http</code>, không thể can thiệp vào các tệp tin hệ thống của <code>root</code>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.e - CÂU 4:</strong></p>
+<p><strong>Why is the last line showing grep 395?</strong></p>
+<p><em>(Tại sao dòng cuối cùng lại hiển thị lệnh grep 395?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Lệnh <code>ps -elf | grep 395</code> chạy trong một pipeline. Khi tiến trình <code>ps</code> quét toàn bộ bảng tiến trình, bản thân tiến trình <code>grep</code> cũng đang được hệ điều hành nạp vào bộ nhớ để xử lý và dòng lệnh thực thi của nó chứa chuỗi ký tự <code>"395"</code>. Do đó, <code>grep</code> tự lọc và tìm thấy chính câu lệnh của mình.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: DÙNG TELNET ĐỂ KIỂM THỬ DỊCH VỤ TCP (USING TELNET TO TEST TCP SERVICES)</h4>
+<h5>Bước 1: Thử nghiệm kết nối đến Cổng 80 (HTTP)</h5>
+<ul>
+<li>Dùng telnet kết nối vào cổng 80: <code>telnet 127.0.0.1 80</code>.</li>
+<li>Gõ một chuỗi ký tự ngẫu nhiên (ví dụ <code>fdsafsdaf</code>) rồi nhấn Enter. Nginx trả về trang mã lỗi HTML <code>HTTP/1.1 400 Bad Request</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2.b:</strong></p>
+<p><strong>Why was the error sent as a web page?</strong></p>
+<p><em>(Tại sao thông báo lỗi lại được gửi dưới dạng một trang web HTML?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Vì Nginx là một máy chủ phục vụ giao thức HTTP. Khi nhận được một chuỗi byte dữ liệu từ client không tuân thủ cú pháp chuẩn của một HTTP Request (như <code>GET / HTTP/1.1</code>), Nginx xác định đây là một yêu cầu sai cú pháp nên gửi mã trạng thái <code>HTTP 400 Bad Request</code> kèm theo trang mã HTML mặc định để trình duyệt web có thể hiển thị trực quan thông báo lỗi cho người dùng cuối.</p>
+</blockquote>
+<h5>Bước 2: Thử nghiệm kết nối đến Cổng 22 (SSH)</h5>
+<ul>
+<li>Gõ: <code>telnet 127.0.0.1 22</code>. Server gửi chuỗi banner định danh: <code>SSH-2.0-OpenSSH_8.2</code>. Gõ chuỗi ký tự bất kỳ, server báo lỗi <code>Invalid SSH identification string</code> và ngắt kết nối.</li>
+</ul>
+<h5>Bước 3: Thử nghiệm kết nối đến Cổng 68 (DHCP Client)</h5>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2.c:</strong></p>
+<p><strong>Use Telnet to connect to port 68. What happens? Explain.</strong></p>
+<p><em>(Dùng Telnet kết nối vào cổng 68. Điều gì xảy ra? Giải thích lý do.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Hiện tượng:</strong> Kết nối thất bại hoàn toàn. Màn hình báo lỗi ngay lập tức: <code>"telnet: Unable to connect to remote host: Connection refused"</code> (hoặc treo chờ timeout).</p>
+<p>- <strong>Giải thích kỹ thuật:</strong> Cổng 68 là cổng dành cho giao thức <strong>DHCP Client</strong>, hoạt động dựa trên giao thức truyền thông không hướng kết nối <strong>UDP</strong> (User Datagram Protocol). Trong khi đó, tiện ích Telnet hoạt động dựa trên giao thức hướng kết nối <strong>TCP</strong> (yêu cầu thực hiện quá trình bắt tay 3 bước TCP 3-Way Handshake: SYN - SYN/ACK - ACK). Do UDP socket không xử lý gói tin TCP SYN, hệ điều hành gửi trả gói tin ICMP Port Unreachable hoặc TCP RST, khiến Telnet không thể kết nối.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: CÂU HỎI SUY NGẪM (REFLECTION QUESTIONS)</h4>
+<blockquote>
+<p><strong>CÂU HỎI SUY NGẪM 1:</strong></p>
+<p><strong>What are the advantages of using netstat?</strong></p>
+<p><em>(Những lợi thế của việc sử dụng netstat là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. Cho phép quan sát toàn diện trạng thái giao tiếp mạng của máy chủ: các cổng đang lắng nghe, các phiên kết nối đang thiết lập (ESTABLISHED).</p>
+<p>2. Khả năng liên kết trực tiếp giữa Socket mạng và PID/Tên chương trình giúp chuyên viên an ninh nhanh chóng phát hiện các kết nối độc hại (mã độc kết nối về máy chủ C2) hoặc các cổng cửa sau (Backdoor ports).</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI SUY NGẪM 2:</strong></p>
+<p><strong>What are the advantages of using Telnet? Is it safe?</strong></p>
+<p><em>(Những lợi thế của việc sử dụng Telnet là gì? Nó có an toàn không?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Lợi thế:</strong> Là công cụ chẩn đoán tầng ứng dụng cực kỳ tiện lợi để kiểm tra tính sẵn sàng của dịch vụ (Service Availability), thu thập thông tin phiên bản phần mềm (Banner Grabbing) trên bất kỳ cổng TCP nào (HTTP, SMTP, POP3) mà không cần cài đặt các công cụ chuyên dụng phức tạp.</p>
+<p>- <strong>Mức độ an toàn:</strong> <strong>TUYỆT ĐỐI KHÔNG AN TOÀN</strong> cho mục đích quản trị từ xa. Do Telnet không mã hóa đường truyền, mọi thông tin đăng nhập và câu lệnh đều truyền dạng bản rõ (plaintext), cực kỳ dễ bị nghe lén (Sniffing) và tấn công MitM. Phải thay thế bằng giao thức SSH trong mọi tình huống thực tế.</p>
+</blockquote>
+    </div>
+</body>
+</html>

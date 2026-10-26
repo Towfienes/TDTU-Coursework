@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 02 7.3.10 Create User Accounts - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 7.3.10: Create User Accounts</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / An ninh Mạng</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Tạo và cấu hình tài khoản người dùng cục bộ (Local User Account) mới trong hệ điều hành Windows.</li>
+<li>Khảo sát thuộc tính phân quyền bảo mật (NTFS Security Permissions) trên thư mục người dùng cá nhân trong <code>C:\Users</code>.</li>
+<li>Kiểm tra cơ chế kiểm soát truy cập phân định quyền hạn giữa tài khoản thông thường (Standard User) và tài khoản quản trị (Administrator).</li>
+<li>Thay đổi phân nhóm người dùng (Group Membership) và thực hiện xóa tài khoản an toàn.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>01 Máy tính hoặc máy ảo cài đặt Microsoft Windows 10/11.</li>
+<li>Tài khoản quản trị viên hiện hành: <code>CyberOpsUser</code> (thuộc nhóm Administrators).</li>
+<li>Công cụ quản trị hệ thống: Control Panel, Windows Settings, Computer Management (<code>compmgmt.msc</code>).</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: TẠO TÀI KHOẢN NGƯỜI DÙNG CỤC BỘ MỚI (PART 1: CREATING A NEW LOCAL USER ACCOUNT)</h4>
+<h5>Bước 1 &amp; Bước 2: Thiết lập tài khoản</h5>
+<ul>
+<li>Đăng nhập Windows với tài khoản Quản trị viên <code>CyberOpsUser</code>.</li>
+<li>Vào Control Panel > User Accounts > Manage another account > Add a new user in PC settings.</li>
+<li>Chọn "Add someone else to this PC" > "I don't have this person's sign-in information" > "Add a user without a Microsoft account".</li>
+<li>Đặt tên tài khoản: <code>User1</code>, thiết lập mật khẩu và các câu hỏi bảo mật theo yêu cầu.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.f:</strong></p>
+<p><strong>What type of user account did you just create?</strong></p>
+<p><em>(Loại tài khoản người dùng bạn vừa mới tạo là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Đây là một <strong>Tài khoản người dùng cục bộ tiêu chuẩn (Standard Local User Account)</strong>. Tài khoản này chỉ có giá trị xác thực trên máy tính cục bộ (không phải tài khoản miền Active Directory và không đồng bộ qua đám mây Microsoft Account), thuộc nhóm mặc định <code>Users</code>.</p>
+</blockquote>
+<ul>
+<li>Đăng nhập thử nghiệm vào tài khoản <code>User1</code> vừa tạo (đăng nhập thành công, Windows thiết lập User Profile tại <code>C:\Users\User1</code>).</li>
+<li>Mở File Explorer, điều hướng đến thư mục <code>C:\Users</code>. Nhấp chuột phải vào thư mục <code>User1</code> > chọn <strong>Properties</strong> > chọn thẻ <strong>Security</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.h:</strong></p>
+<p><strong>Which groups or users have full control of this folder?</strong></p>
+<p><em>(Những nhóm hoặc người dùng nào có toàn quyền kiểm soát - Full Control đối với thư mục này?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Các nhóm và tài khoản sau có quyền <strong>Full Control</strong>:</p>
+<p>1. <code>SYSTEM</code> (Tài khoản dịch vụ lõi của hệ điều hành).</p>
+<p>2. <code>Administrators</code> (Nhóm quản trị viên máy tính).</p>
+<p>3. <code>User1</code> (Chính tài khoản chủ sở hữu của thư mục profile này).</p>
+</blockquote>
+<ul>
+<li>Thử nghiệm truy cập vào thư mục của người dùng khác: Khi đang ở tài khoản <code>User1</code>, nhấp đúp vào thư mục <code>C:\Users\CyberOpsUser</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.i:</strong></p>
+<p><strong>Were you able to access the folder? Explain.</strong></p>
+<p><em>(Bạn có thể truy cập vào thư mục đó không? Giải thích lý do.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><strong>Không thể truy cập.</strong> Hệ thống hiển thị hộp thoại cảnh báo: <em>"You don't currently have permission to access this folder"</em> và yêu cầu nhập thông tin xác thực quản trị viên (UAC prompt).</p>
+<p><strong>Giải thích kỹ thuật:</strong> Hệ điều hành Windows sử dụng danh sách kiểm soát truy cập tùy ý (Discretionary Access Control List - DACL) của hệ thống tệp NTFS để bảo vệ dữ liệu người dùng. Thư mục <code>C:\Users\CyberOpsUser</code> chỉ cấp quyền cho tài khoản <code>CyberOpsUser</code>, <code>SYSTEM</code> và <code>Administrators</code>. Do <code>User1</code> chỉ là một tài khoản Standard User và Security Identifier (SID) của <code>User1</code> không nằm trong bất kỳ mục kiểm soát truy cập (Access Control Entry - ACE) nào cho phép đọc, kernel sẽ từ chối truy cập để bảo vệ tính bảo mật và riêng tư của dữ liệu.</p>
+</blockquote>
+<ul>
+<li>Đăng xuất khỏi <code>User1</code>, đăng nhập trở lại tài khoản Quản trị viên <code>CyberOpsUser</code>.</li>
+<li>Kiểm tra quyền tại thư mục gốc <code>C:\Users</code> > Properties > Security.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.k:</strong></p>
+<p><strong>Which groups or users have full control of this folder?</strong></p>
+<p><em>(Những nhóm hoặc người dùng nào có toàn quyền kiểm soát - Full Control đối với thư mục C:\Users?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Chỉ có tài khoản <code>SYSTEM</code> và nhóm <code>Administrators</code> mới có quyền <strong>Full Control</strong> trên thư mục gốc <code>C:\Users</code>. Nhóm người dùng thông thường (<code>Users</code>) chỉ có các quyền hạn chế: <code>Read & execute</code>, <code>List folder contents</code>, và <code>Read</code>.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: XEM XÉT THUỘC TÍNH TÀI KHOẢN (PART 2: REVIEWING USER ACCOUNT PROPERTIES)</h4>
+<ul>
+<li>Mở công cụ quản trị: Control Panel > Administrative Tools > <strong>Computer Management</strong> (<code>compmgmt.msc</code>).</li>
+<li>Điều hướng đến mục: <strong>Local Users and Groups</strong> > chọn thư mục <strong>Users</strong>.</li>
+<li>Nhấp chuột phải vào tài khoản <code>User1</code> > chọn <strong>Properties</strong> > chọn thẻ <strong>Member Of</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2.d:</strong></p>
+<p><strong>Which group is User1 a member of?</strong></p>
+<p><em>(User1 là thành viên của nhóm nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><code>User1</code> là thành viên của nhóm <strong>Users</strong> (SID mặc định: <code>S-1-5-32-545</code>).</p>
+</blockquote>
+<ul>
+<li>Nhấp chuột phải vào tài khoản <code>CyberOpsUser</code> > chọn <strong>Properties</strong> > chọn thẻ <strong>Member Of</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2.e:</strong></p>
+<p><strong>Which group is this user a member of?</strong></p>
+<p><em>(Người dùng này là thành viên của nhóm nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><code>CyberOpsUser</code> là thành viên của nhóm <strong>Administrators</strong> (SID mặc định: <code>S-1-5-32-544</code>).</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: SỬA ĐỔI VÀ XÓA TÀI KHOẢN (PART 3: MODIFYING LOCAL USER ACCOUNTS)</h4>
+<h5>Bước 1: Thay đổi loại tài khoản (Change Account Type)</h5>
+<ul>
+<li>Vào Control Panel > User Accounts > Manage another account > chọn <code>User1</code> > chọn <strong>Change the account type</strong>.</li>
+<li>Chuyển từ radio button <em>Standard</em> sang <em>Administrator</em>, nhấn <strong>Change Account Type</strong>.</li>
+<li>Quay lại cửa sổ Computer Management > Users > nhấp chuột phải <code>User1</code> > Properties > thẻ <strong>Member Of</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.f:</strong></p>
+<p><strong>Which groups does User1 belong to?</strong></p>
+<p><em>(User1 hiện đang thuộc về những nhóm nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><code>User1</code> hiện đã được thêm vào nhóm <strong>Administrators</strong> (và vẫn duy trì trong nhóm <strong>Users</strong>). Tài khoản này hiện đã có đầy đủ đặc quyền quản trị cao nhất trên máy tính.</p>
+</blockquote>
+<ul>
+<li>Chọn nhóm <code>Administrators</code> và nhấn nút <strong>Remove</strong> để tước quyền quản trị của <code>User1</code>, đưa về lại trạng thái chuẩn ban đầu. Nhấn OK.</li>
+</ul>
+<h5>Bước 2: Xóa tài khoản người dùng</h5>
+<ul>
+<li>Trong Computer Management, nhấp chuột phải vào <code>User1</code> > chọn <strong>Delete</strong>, nhấn Yes để xác nhận xóa.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.b:</strong></p>
+<p><strong>What is another way to delete a user account?</strong></p>
+<p><em>(Còn cách nào khác để xóa một tài khoản người dùng trong Windows?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Có nhiều phương thức quản trị khác để xóa tài khoản trong Windows:</p>
+<p>1. <strong>Dùng lệnh Command Prompt (chạy quyền Admin):</strong></p>
+<p><code>net user User1 /delete</code></p>
+<p>2. <strong>Dùng PowerShell Cmdlet (chạy quyền Admin):</strong></p>
+<p><code>Remove-LocalUser -Name "User1"</code></p>
+<p>3. <strong>Dùng giao diện Windows Settings:</strong></p>
+<p>Settings > Accounts > Family & other users > chọn tài khoản <code>User1</code> > nhấn nút <strong>Remove</strong> và chọn "Delete account and data".</p>
+<p>4. <strong>Dùng hộp thoại Advanced User Accounts (<code>netplwiz</code>):</strong></p>
+<p>Gõ <code>netplwiz</code> trong hộp thoại Run > chọn tài khoản > nhấn <strong>Remove</strong>.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 4: CÂU HỎI SUY NGẪM (REFLECTION QUESTIONS)</h4>
+<blockquote>
+<p><strong>CÂU HỎI SUY NGẪM 1:</strong></p>
+<p><strong>Why is it important to protect all accounts with strong passwords?</strong></p>
+<p><em>(Tại sao việc bảo vệ tất cả các tài khoản bằng mật khẩu mạnh lại đặc biệt quan trọng?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Ngăn chặn các kỹ thuật tấn công xác thực:</strong> Mật khẩu yếu rất dễ bị bẻ khóa thông qua các cuộc tấn công Brute-force (vét cạn), Dictionary Attack (từ điển) hoặc Credential Stuffing (dùng lại mật khẩu rò rỉ).</p>
+<p>2. <strong>Phòng ngừa leo thang đặc quyền và di chuyển ngang (Lateral Movement):</strong> Kẻ tấn công thường nhắm vào một tài khoản phụ có mật khẩu yếu để xâm nhập vào hệ thống (Initial Access), sau đó lợi dụng tài khoản này làm bàn đạp để khai thác các lỗ hổng hệ điều hành leo thang quyền lên Quản trị viên (Privilege Escalation).</p>
+<p>3. <strong>Bảo vệ tính toàn vẹn và trách nhiệm giải trình (Non-repudiation):</strong> Một tài khoản bị xâm nhập có thể bị lợi dụng để che giấu danh tính thực sự của kẻ tấn công trong các bản ghi nhật ký kiểm toán hệ thống.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI SUY NGẪM 2:</strong></p>
+<p><strong>Why would you create a user with Standard privileges?</strong></p>
+<p><em>(Tại sao bạn lại tạo một người dùng chỉ có đặc quyền tiêu chuẩn - Standard privileges?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Việc thiết lập tài khoản Standard User là sự tuân thủ nghiêm ngặt <strong>Nguyên tắc Đặc quyền Tối thiểu (Principle of Least Privilege - PoLP)</strong> trong an toàn thông tin:</p>
+<p>1. <strong>Giới hạn phạm vi ảnh hưởng (Blast Radius):</strong> Người dùng tiêu chuẩn không thể cài đặt driver, không thể sửa đổi file hệ thống trong <code>C:\Windows</code>, không thể ghi vào nhánh registry <code>HKLM</code>, không thể tắt tường lửa hoặc phần mềm diệt virus.</p>
+<p>2. <strong>Phòng chống mã độc tự động lây nhiễm:</strong> Khi người dùng vô tình mở tệp tin độc hại (như Trojan, Ransomware), mã độc chỉ có thể thực thi với quyền hạn của chính người dùng đó. Nó không thể sửa đổi các thành phần cốt lõi của hệ điều hành để chiếm quyền kiểm soát toàn bộ máy tính.</p>
+<p>3. <strong>Ngăn ngừa lỗi thao tác do con người:</strong> Giúp người dùng thông thường không vô tình xóa nhầm các tệp tin cấu hình quan trọng hoặc làm gián đoạn các dịch vụ nền của hệ thống.</p>
+</blockquote>
+    </div>
+</body>
+</html>

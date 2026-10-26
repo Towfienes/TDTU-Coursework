@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 4.2.9: Reading Server Logs - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.45rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.2rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.header-box {
+    background-color: #f0f4f8;
+    border-left: 4px solid #2b6cb0;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+}
+.header-box p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>BÁO CÁO THỰC HÀNH CHI TIẾT - LAB 4.2.9</h1>
+<h1>HỌC PHẦN: NHẬP MÔN BẢO MẬT MÁY TÍNH (COMPUTER SECURITY)</h1>
+<hr />
+<h3>THÔNG TIN SINH VIÊN VÀ HỌC PHẦN</h3>
+<ul>
+<li><strong>Trường Đại học:</strong> Trường Đại học Tôn Đức Thắng (TDTU)</li>
+<li><strong>Khoa:</strong> Khoa Công nghệ Thông tin</li>
+<li><strong>Học phần:</strong> Nhập môn Bảo mật máy tính</li>
+<li><strong>Mã lớp / Hệ:</strong> Đại học Chính quy TDTU</li>
+<li><strong>Họ và tên sinh viên:</strong> <strong>Ngô Lâm Tiến</strong></li>
+<li><strong>Mã số sinh viên (MSSV):</strong> <strong>524H0195</strong></li>
+<li><strong>Tên bài thực hành:</strong> <strong>Lab 4.2.9: Reading Server Logs</strong> (Cisco CyberOps Associate)</li>
+</ul>
+<hr />
+<h2>1. MỤC TIÊU BÀI THỰC HÀNH</h2>
+<ol>
+<li>Khảo sát cấu trúc phân cấp và định vị các tệp nhật ký hệ thống và dịch vụ trong thư mục chuẩn <code>/var/log</code> trên hệ điều hành Linux.</li>
+<li>Nắm vững sự khác biệt căn bản, ưu nhược điểm và ngữ cảnh áp dụng thực tế của các công cụ xem log: <code>cat</code>, <code>more</code>, <code>less</code>, <code>head</code>, <code>tail</code> và chế độ theo dõi thời gian thực <code>tail -f</code>.</li>
+<li>Phân tích tệp nhật ký truy cập máy chủ web (Apache/Nginx access logs), bóc tách các thành phần trong chuẩn ghi log CLF (Common Log Format) và Combined Log Format.</li>
+<li>Hiểu rõ cơ chế phân quyền bảo mật trên tệp log hệ thống (<code>/var/log/messages</code>, <code>/var/log/syslog</code>) và sự cần thiết của việc đồng bộ thời gian NTP trong điều tra số.</li>
+<li>So sánh chuyên sâu giữa hai kiến trúc thu thập nhật ký: <strong>Syslog truyền thống</strong> và <strong>Journald hiện đại</strong> trong hệ sinh thái <code>systemd</code>.</li>
+</ol>
+<hr />
+<h2>2. NỘI DUNG VÀ TRẢ LỜI CÁC CÂU HỎI THỰC HÀNH</h2>
+<h3>PHẦN 1: KHẢO SÁT CÁC CÔNG CỤ XEM NHẬT KÝ VĂN BẢN</h3>
+<h4>Bước 1: Khảo sát lệnh <code>cat</code></h4>
+<p>Thực hiện in nội dung tệp log mẫu:</p>
+<pre><code class="language-bash">cisco@labvm:~$ cat /home/cisco/apache2/access.log
+</code></pre>
+<blockquote>
+<p><strong>Câu hỏi 1: Nhược điểm của việc sử dụng lệnh <code>cat</code> đối với các tệp văn bản lớn là gì?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- Lệnh <code>cat</code> xuất toàn bộ nội dung tệp tin ra màn hình terminal cùng một lúc trong một luồng dữ liệu liên tục mà không có sự kiểm soát hay phân trang.
+- Đối với các tệp nhật ký máy chủ có kích thước hàng trăm MB hoặc GB, điều này làm <strong>tràn bộ nhớ đệm (buffer)</strong> của terminal, gây tiêu tốn đột biến tài nguyên CPU/RAM, dữ liệu cuộn trôi quá nhanh khiến người phân tích không thể đọc được, và có thể dẫn tới việc <strong>treo phiên làm việc của dòng lệnh (freeze SSH/terminal session)</strong>.</p>
+</blockquote>
+<h4>Bước 2: Khảo sát công cụ phân trang <code>more</code></h4>
+<pre><code class="language-bash">cisco@labvm:~$ more /home/cisco/apache2/access.log
+</code></pre>
+<blockquote>
+<p><strong>Câu hỏi 2: Nhược điểm của việc sử dụng công cụ <code>more</code> là gì?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- Lệnh <code>more</code> <strong>chỉ hỗ trợ cuộn một chiều về phía trước</strong> (tiến từng trang bằng phím <code>Space</code> hoặc tiến từng dòng bằng phím <code>Enter</code>).
+- Người dùng <strong>không thể cuộn ngược lại (scroll up)</strong> để kiểm tra lại những dòng sự kiện phía trước vừa bị trôi qua.
+- Khả năng tìm kiếm chuỗi ký tự trong <code>more</code> rất hạn chế so với công cụ hiện đại <code>less</code>.</p>
+</blockquote>
+<h4>Bước 3: Khảo sát và so sánh lệnh <code>tail</code> và <code>tail -f</code></h4>
+<pre><code class="language-bash">cisco@labvm:~$ tail /home/cisco/apache2/access.log
+cisco@labvm:~$ tail -f /home/cisco/apache2/access.log
+</code></pre>
+<blockquote>
+<p><strong>Câu hỏi 3: Điểm khác biệt trong đầu ra giữa lệnh <code>tail</code> và lệnh <code>tail -f</code> là gì? Giải thích.</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- <code>tail &lt;tên_file&gt;</code>: Mặc định đọc và in ra đúng <strong>10 dòng cuối cùng</strong> của tệp tại thời điểm thực thi, sau đó tiến trình lập tức thoát và trả lại dấu nhắc lệnh.
+- <code>tail -f &lt;tên_file&gt;</code> (với cờ <code>-f</code> = follow): Tiến trình sẽ <strong>duy trì trạng thái mở tệp và liên tục giám sát tệp theo thời gian thực</strong>. Khi có bất kỳ tiến trình dịch vụ nào ghi thêm dòng log mới vào tệp, dòng đó sẽ lập tức hiển thị trên màn hình. Lệnh sẽ chạy liên tục cho đến khi người dùng nhấn <code>Ctrl + C</code>. Đây là công cụ thiết yếu để chuyên viên an ninh theo dõi các đợt tấn công mạng đang diễn ra trực tiếp.</p>
+</blockquote>
+<hr />
+<h3>PHẦN 2: BẢO VỆ NHẬT KÝ HỆ THỐNG VÀ ĐỒNG BỘ THỜI GIAN</h3>
+<h4>Bước 1: Truy cập nhật ký hệ thống với quyền quản trị</h4>
+<pre><code class="language-bash">cisco@labvm:~$ sudo cat /var/log/messages
+</code></pre>
+<blockquote>
+<p><strong>Câu hỏi 4: Tại sao lệnh <code>cat</code> đối với tệp tin này bắt buộc phải thực thi dưới quyền <code>root</code>?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- Tệp <code>/var/log/messages</code> (hoặc <code>/var/log/syslog</code>) lưu trữ toàn bộ các sự kiện vận hành nhạy cảm: các nỗ lực xác thực tài khoản, lỗi phần cứng, thông điệp hạt nhân (kernel ring buffer), các tác vụ <code>sudo</code> và thông tin mạng.
+- Để ngăn chặn người dùng không có đặc quyền hoặc mã độc thu thập thông tin tình báo hệ thống (internal reconnaissance) nhằm phục vụ các cuộc tấn công leo thang đặc quyền, hệ điều hành chỉ cấp quyền đọc/ghi cho người dùng quản trị <code>root</code> (quyền hạn thường là <code>-rw-r-----</code> hoặc <code>-rw-------</code> thuộc sở hữu <code>root:adm</code> hoặc <code>root:root</code>).</p>
+</blockquote>
+<h4>Bước 2: Vai trò của đồng bộ hóa thời gian (NTP)</h4>
+<blockquote>
+<p><strong>Câu hỏi 5: Bạn có thể chỉ ra lý do tại sao việc giữ ngày giờ của các máy tính luôn được đồng bộ hóa chuẩn xác lại quan trọng đến vậy không?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+1. <strong>Tương quan sự kiện an ninh (Event Correlation):</strong> Trong hệ thống giám sát SIEM, để liên kết các vết log từ Firewall, Web Proxy, IDS và Máy trạm thành một chuỗi sự kiện tấn công (Cyber Kill Chain), mốc thời gian (timestamp) giữa các thiết bị phải tuyệt đối đồng nhất.
+2. <strong>Tính toàn vẹn của các giao thức mã hóa:</strong> Giao thức xác thực Kerberos, chứng chỉ số TLS/SSL và mã OTP hai yếu tố (TOTP) đều yêu cầu độ lệch đồng hồ không vượt quá giới hạn an toàn (thường là 5 phút) để chống lại các cuộc tấn công phát lại (Replay Attacks).
+3. <strong>Giá trị pháp lý của chứng cứ số (Digital Forensics):</strong> Để nhật ký hệ thống được chấp nhận là bằng chứng pháp lý có giá trị trước tòa án, chuyên viên điều tra phải chứng minh được thời gian ghi log là chuẩn xác thông qua nguồn thời gian đáng tin cậy (NTP Time Server).</p>
+</blockquote>
+<hr />
+<h3>PHẦN 3: CÂU HỎI MỞ RỘNG (REFLECTION QUESTION)</h3>
+<blockquote>
+<p><strong>Câu hỏi: So sánh Syslog và Journald. Ưu điểm và nhược điểm của từng cơ chế là gì?</strong></p>
+</blockquote>
+<h4>Bảng so sánh chi tiết:</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Tiêu chí</th>
+<th style="text-align: left;">Syslog (rsyslog / syslog-ng)</th>
+<th style="text-align: left;">Journald (<code>systemd-journald</code> / <code>journalctl</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Định dạng lưu trữ</strong></td>
+<td style="text-align: left;">Văn bản thuần túy (Plain text) trong <code>/var/log/</code>.</td>
+<td style="text-align: left;">Tệp nhị phân có cấu trúc (Structured Binary format).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ưu điểm nổi bật</strong></td>
+<td style="text-align: left;">- Dễ dàng đọc và xử lý bằng các công cụ Linux kinh điển (<code>grep</code>, <code>awk</code>, <code>sed</code>, <code>cat</code>).<br>- Hỗ trợ xoay vòng và nén log tự động qua <code>logrotate</code>.<br>- Tương thích chuẩn công nghiệp qua cổng UDP/TCP 514 (RFC 5424).</td>
+<td style="text-align: left;">- Truy vấn siêu tốc nhờ cơ chế đánh chỉ mục theo trường (<code>_PID</code>, <code>_UID</code>, <code>_SYSTEMD_UNIT</code>).<br>- Tính năng chống can thiệp log bằng mật mã học (Forward Secure Sealing - FSS).<br>- Tự động bắt trọn <code>stdout</code> và <code>stderr</code> của toàn bộ dịch vụ.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Nhược điểm</strong></td>
+<td style="text-align: left;">- Dữ liệu phi cấu trúc, mất nhiều công sức viết biểu thức chính quy.<br>- Tìm kiếm rất chậm trên tệp dung lượng lớn do thiếu chỉ mục.<br>- Không có cơ chế bảo vệ tính toàn vẹn (dễ bị kẻ tấn công sửa xóa log).</td>
+<td style="text-align: left;">- Tệp nhị phân không thể đọc được nếu dịch vụ <code>systemd-journald</code> bị lỗi.<br>- Có rủi ro hỏng tệp nếu mất nguồn đột ngột.<br>- Đòi hỏi quản trị viên phải thành thạo cú pháp lệnh <code>journalctl</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. KẾT LUẬN VÀ BÀI HỌC KINH NGHIỆM</h2>
+<ul>
+<li><strong>Kỹ năng lựa chọn công cụ:</strong> Không sử dụng <code>cat</code> cho các tệp log lớn; ưu tiên <code>less</code> để tìm kiếm điều hướng hoặc <code>tail -f</code> để giám sát sự cố thời gian thực.</li>
+<li><strong>Bảo mật tệp log:</strong> Quản trị viên phải luôn bảo vệ nghiêm ngặt quyền truy cập của thư mục <code>/var/log</code> và chuyển tiếp log ra máy chủ SIEM tập trung từ xa (Centralized Log Management) để chống xóa dấu vết.</li>
+<li><strong>Chuyển dịch kiến trúc:</strong> Sự kết hợp hoàn hảo nhất trong thực tế là sử dụng <code>systemd-journald</code> ở tầng thu thập cục bộ tốc độ cao và chuyển tiếp các thông điệp sang <code>rsyslog</code> để lưu trữ lâu dài hoặc đẩy lên hệ sinh thái SIEM (Splunk, Elastic SIEM).</li>
+</ul>
+    </div>
+</body>
+</html>

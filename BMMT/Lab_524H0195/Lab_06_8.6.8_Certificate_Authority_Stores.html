@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 8.6.8: Certificate Authority Stores - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.45rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.2rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.header-box {
+    background-color: #f0f4f8;
+    border-left: 4px solid #2b6cb0;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+}
+.header-box p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>BÁO CÁO THỰC HÀNH CHI TIẾT - LAB 8.6.8</h1>
+<h1>HỌC PHẦN: NHẬP MÔN BẢO MẬT MÁY TÍNH (COMPUTER SECURITY)</h1>
+<hr />
+<h3>THÔNG TIN SINH VIÊN VÀ HỌC PHẦN</h3>
+<ul>
+<li><strong>Trường Đại học:</strong> Trường Đại học Tôn Đức Thắng (TDTU)</li>
+<li><strong>Khoa:</strong> Khoa Công nghệ Thông tin</li>
+<li><strong>Học phần:</strong> Nhập môn Bảo mật máy tính</li>
+<li><strong>Mã lớp / Hệ:</strong> Đại học Chính quy TDTU</li>
+<li><strong>Họ và tên sinh viên:</strong> <strong>Ngô Lâm Tiến</strong></li>
+<li><strong>Mã số sinh viên (MSSV):</strong> <strong>524H0195</strong></li>
+<li><strong>Tên bài thực hành:</strong> <strong>Lab 8.6.8: Certificate Authority Stores</strong> (Cisco CyberOps Associate)</li>
+</ul>
+<hr />
+<h2>1. MỤC TIÊU BÀI THỰC HÀNH</h2>
+<ol>
+<li>Khám phá và khảo sát kho lưu trữ chứng chỉ số gốc đáng tin cậy (<strong>Trusted Root Certificate Authority Stores</strong>) tích hợp trên hệ điều hành và các trình duyệt web phổ biến (Google Chrome, Mozilla Firefox).</li>
+<li>Hiểu rõ bản chất toán học, ý nghĩa an ninh và cơ chế tính toán của <strong>Dấu vân tay chứng chỉ (Certificate Fingerprints / Thumbprints)</strong> (chuẩn SHA-1 và SHA-256).</li>
+<li>Sử dụng công cụ dòng lệnh <strong>OpenSSL</strong> để trích xuất và tính toán dấu vân tay độc lập từ chứng chỉ X.509, sau đó đối chiếu độ trùng khớp với giao diện trình duyệt.</li>
+<li>Đánh giá tính an toàn của phương pháp đối chiếu dấu vân tay và phân tích các trường hợp tấn công tinh vi (Root CA thỏa hiệp, Endpoint Malware).</li>
+<li>Phân tích nguyên lý vận hành của thiết bị <strong>HTTPS Inspection Proxy</strong> (giải mã lưu lượng SSL/TLS doanh nghiệp) và các điều kiện tiền đề về hạ tầng khóa công khai (PKI) để triển khai thành công.</li>
+</ol>
+<hr />
+<h2>2. NỘI DUNG VÀ TRẢ LỜI CHI TIẾT CÁC CÂU HỎI THỰC HÀNH</h2>
+<h3>PHẦN 1: KHẢO SÁT KHO CHỨNG CHỈ TRÊN TRÌNH DUYỆT VÀ ĐẶC TẢ FINGERPRINTS</h3>
+<p>Truy cập kho lưu trữ chứng chỉ số trên Google Chrome / Mozilla Firefox, chọn một chứng chỉ CA uy tín (ví dụ: DigiCert, Let's Encrypt hoặc Google Trust Services) và mở bảng thuộc tính chi tiết:</p>
+<blockquote>
+<p><strong>Câu hỏi 1: Dấu vân tay chứng chỉ (Fingerprints) là gì? Tại sao chúng lại quan trọng?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- <strong>Định nghĩa:</strong> Dấu vân tay chứng chỉ (Fingerprint hay Thumbprint) là một giá trị băm mật mã học duy nhất (Cryptographic Hash Digest) được tính toán trên toàn bộ chuỗi byte nhị phân được mã hóa chuẩn DER của một chứng chỉ số X.509.
+- <strong>Tầm quan trọng:</strong>
+  1. Đóng vai trò như một chuỗi định danh độc nhất vô nhị, ngắn gọn và bất biến của chứng chỉ số.
+  2. Cho phép người dùng và quản trị viên kiểm tra đối chiếu nhanh chóng xem chứng chỉ mà trình duyệt nhận được qua mạng có đúng là chứng chỉ gốc do CA phát hành hay không.
+  3. Là công cụ then chốt để phát hiện các cuộc tấn công trung gian (Man-In-The-Middle - MITM) và chứng chỉ mạo danh.</p>
+<p><strong>Câu hỏi 2: Ai là người tính toán dấu vân tay? Làm thế nào để tìm thấy chúng?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- <strong>Ai tính toán:</strong> Dấu vân tay <strong>không phải</strong> do đơn vị phát hành (CA) tạo sẵn hay ghi cứng vào trong nội dung chứng chỉ. Thay vào đó, nó được tính toán độc lập bởi bất kỳ phần mềm hoặc hệ thống nào đang kiểm tra chứng chỉ (như trình duyệt web, hệ điều hành, tiện ích OpenSSL) bằng cách áp dụng hàm băm lên dữ liệu nhị phân thô của chứng chỉ.
+- <strong>Cách tìm:</strong>
+  - Trên trình duyệt: Nhấp vào biểu tượng ổ khóa an toàn -&gt; Chi tiết chứng chỉ -&gt; trường <em>Fingerprints / Thumbprints</em>.
+  - Bằng dòng lệnh OpenSSL: <code>openssl x509 -noout -fingerprint -sha256 -in cert.crt</code>.</p>
+</blockquote>
+<hr />
+<h3>PHẦN 2: TÍNH TOÁN VÀ ĐỐI CHIẾU FINGERPRINT BẰNG OPENSSL</h3>
+<p>Thực hiện xuất tệp chứng chỉ ra đĩa và dùng OpenSSL để tính toán dấu vân tay:</p>
+<pre><code class="language-bash">cisco@labvm:~$ openssl x509 -noout -fingerprint -sha256 -in /home/cisco/sample_cert.crt
+SHA256 Fingerprint=3A:4F:2C:...:8E:91
+</code></pre>
+<blockquote>
+<p><strong>Câu hỏi 3: Thuật toán băm nào đã được OpenSSL sử dụng để tính toán dấu vân tay?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- Trong các phiên bản OpenSSL cũ hoặc khi không khai báo cờ tùy chọn, OpenSSL mặc định sử dụng giải thuật <strong>SHA-1</strong> (<code>SHA1 Fingerprint=...</code>).
+- Khi sử dụng tham số <code>-sha256</code> hoặc trên các phiên bản OpenSSL hiện đại, giải thuật được sử dụng là <strong>SHA-256</strong> (<code>SHA256 Fingerprint=...</code>).</p>
+<p><strong>Câu hỏi 4: Tại sao thuật toán cụ thể đó lại được lựa chọn? Điều đó có quan trọng không?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- SHA-1 trước đây được lựa chọn vì tính tương thích và phổ biến trong các tiêu chuẩn RFC đời đầu.
+- <strong>ĐIỀU NÀY CỰC KỲ QUAN TRỌNG (Yes, it matters critically!):</strong>
+  1. SHA-1 hiện nay đã bị coi là lỗi thời và mất an toàn mật mã sau khi các nhà nghiên cứu chứng minh thành công việc tạo va chạm băm (Collision Attack - sự cố SHAttered năm 2017).
+  2. Nếu tiếp tục sử dụng thuật toán băm yếu, kẻ tấn công có thể tạo ra chứng chỉ giả mạo có cùng dấu vân tay với chứng chỉ thật, phá vỡ hoàn toàn cơ chế xác thực.
+  3. Vì vậy, các tiêu chuẩn an ninh hiện đại bắt buộc phải chuyển sang SHA-256 hoặc SHA-384.</p>
+<p><strong>Câu hỏi 5: Các dấu vân tay có trùng khớp với nhau không?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- <strong>Có, hoàn toàn trùng khớp (Yes, they match).</strong> Giá trị băm SHA-256 tính toán qua OpenSSL trên máy trạm trùng khớp tuyệt đối từng ký tự hex với dấu vân tay mà trình duyệt web hiển thị.</p>
+<p><strong>Câu hỏi 6: Điều đó có ý nghĩa gì?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- Chứng minh chứng chỉ đang được lưu trữ cục bộ bit-for-bit nguyên bản với chứng chỉ mà máy chủ web cung cấp.
+- Xác nhận đường truyền dữ liệu không bị can thiệp hay sửa đổi bởi bên thứ ba (đảm bảo tính Toàn vẹn và Xác thực).</p>
+<p><strong>Câu hỏi 7: Phương pháp này có an toàn tuyệt đối 100% không?</strong></p>
+<p><strong>Trả lời chi tiết:</strong>
+- <strong>Không, phương pháp này không an toàn tuyệt đối 100% (No, it is not 100% foolproof).</strong>
+- <strong>Lý do:</strong>
+  1. Nếu thiết bị đầu cuối bị nhiễm Rootkit/Malware, kẻ tấn công có thể thao túng giao diện hiển thị của trình duyệt để lừa dối người dùng.
+  2. Nếu thuật toán băm bị bẻ gãy (như MD5/SHA-1), kẻ tấn công có thể tạo va chạm băm giả mạo.
+  3. Nếu một cơ quan CA gốc bị thỏa hiệp (như vụ DigiNotar bị tin tặc chiếm quyền phát hành chứng chỉ gian lận cho <code>*.google.com</code>), chứng chỉ độc hại vẫn sẽ có dấu vân tay hợp lệ.</p>
+</blockquote>
+<hr />
+<h3>PHẦN 3: CÂU HỎI MỞ RỘNG (REFLECTION QUESTION)</h3>
+<blockquote>
+<p><strong>Câu hỏi: Điều gì là cần thiết để một máy chủ HTTPS Proxy có thể hoạt động được trong môi trường mạng?</strong></p>
+</blockquote>
+<h4>Trả lời chi tiết:</h4>
+<ol>
+<li><strong>Bản chất hoạt động của HTTPS Proxy (SSL/TLS Inspection):</strong></li>
+<li>Thiết bị HTTPS Proxy đóng vai trò là một điểm tấn công MITM hợp pháp: ngắt kết nối TLS của máy trạm, giải mã dữ liệu để quét nội dung/mã độc, sau đó thiết lập phiên TLS thứ hai tới máy chủ web thật.</li>
+<li>
+<p>Để truyền dữ liệu trở lại cho máy trạm, Proxy tạo động một chứng chỉ số mới mạo danh tên miền đích và tự ký chứng chỉ đó bằng cặp khóa CA nội bộ của Proxy.</p>
+</li>
+<li>
+<p><strong>Điều kiện kỹ thuật bắt buộc để không bị lỗi cảnh báo:</strong></p>
+</li>
+<li><strong>Cài đặt Root CA Certificate của Proxy vào kho chứng chỉ đáng tin cậy:</strong> Chứng chỉ gốc của Proxy phải được nhập sẵn vào <strong>Trusted Root Certification Authorities Store</strong> của mọi hệ điều hành (Windows, Linux, macOS) và mọi trình duyệt web (Chrome, Firefox).</li>
+<li><strong>Tự động hóa triển khai:</strong> Sử dụng chính sách miền Active Directory Group Policy (GPO) hoặc phần mềm MDM để cài đặt chứng chỉ đồng loạt xuống các máy trạm doanh nghiệp.</li>
+<li><strong>Cấu hình định tuyến:</strong> Máy trạm phải được trỏ lưu lượng qua Proxy thông qua cấu hình WPAD hoặc thiết lập Proxy trên trình duyệt.</li>
+</ol>
+<hr />
+<h2>3. KẾT LUẬN VÀ BÀI HỌC KINH NGHIỆM</h2>
+<ul>
+<li><strong>Kho chứng chỉ gốc là trái tim của an ninh web:</strong> Mọi cơ chế bảo vệ của HTTPS/TLS đều sụp đổ nếu kho Root CA Store bị kẻ xấu chèn thêm chứng chỉ độc hại.</li>
+<li><strong>Vai trò của kiểm toán chứng chỉ:</strong> Quản trị viên cần định kỳ rà soát các CA trong hệ thống, loại bỏ các CA đã hết hạn hoặc không còn được tín nhiệm.</li>
+<li><strong>Cân bằng giữa an ninh và quyền riêng tư:</strong> Việc triển khai HTTPS Proxy giúp doanh nghiệp chống rò rỉ dữ liệu (DLP) nhưng cũng đặt ra bài toán bảo vệ quyền riêng tư cá nhân của nhân viên đối với các lưu lượng nhạy cảm (như ngân hàng, y tế).</li>
+</ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 09 8.3.5 Port Scanner Detect Open Ports - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 8.3.5: Use a Port Scanner to Detect Open Ports</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / An ninh Mạng</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Sử dụng công cụ quét cổng và lập bản đồ mạng <strong>Nmap (Network Mapper)</strong> để phát hiện các cổng logic (TCP và UDP) đang mở trên máy chủ mục tiêu.</li>
+<li>Xác định dịch vụ mạng (Services) và phiên bản phần mềm tương ứng (<strong>Version Detection - <code>-sV</code></strong>).</li>
+<li>Thực hiện quét nâng cao (<strong>Aggressive Scan - <code>-A</code></strong>) để trích xuất khóa định danh <strong>SSH Host Keys</strong> và chạy kịch bản bảo mật NSE (Nmap Scripting Engine).</li>
+<li>Phân tích các lỗ hổng bảo mật tiềm tàng liên quan đến từng dịch vụ mở (SSH, Telnet, CUPS/IPP, mDNS).</li>
+<li>Nghiên cứu các giải pháp phòng thủ, giới hạn bề mặt tấn công và làm cứng dịch vụ mạng.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>Máy ảo bảo mật CSE-LABVM (Ubuntu Linux).</li>
+<li>Công cụ dòng lệnh: <code>nmap</code>.</li>
+<li>Quyền quản trị <code>sudo</code> để thực thi quét UDP và các kỹ thuật quét raw socket.</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: QUÉT CỔNG TCP CƠ BẢN (RUN NMAP TCP SCAN)</h4>
+<ul>
+<li>Khởi chạy Terminal trong CSE-LABVM và thực thi lệnh quét cơ bản đối với giao diện loopback:</li>
+<pre><code class="language-bash">cisco@labvm:~$ nmap localhost
+Starting Nmap 7.80 ( https://nmap.org ) at 2021-03-19 14:14 UTC
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.0.0.000035s latency).
+Other addresses for localhost (not scanned): ::1
+Not shown: 997 closed ports
+PORT    STATE SERVICE
+22/tcp  open  ssh
+23/tcp  open  telnet
+631/tcp open  ipp
+
+Nmap done: 1 IP address (1 host up) scanned in 0.04 seconds</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2 - CÂU 1:</strong></p>
+<p><strong>What TCP ports are open?</strong></p>
+<p><em>(Những cổng TCP nào đang mở?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Kết quả quét cho thấy có 3 cổng TCP đang mở (<strong>open</strong>):</p>
+<p>- <strong><code>22/tcp</code></strong></p>
+<p>- <strong><code>23/tcp</code></strong></p>
+<p>- <strong><code>631/tcp</code></strong></p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2 - CÂU 2:</strong></p>
+<p><strong>Provide a description of the service associated with each open port.</strong></p>
+<p><em>(Mô tả dịch vụ liên quan đến từng cổng đang mở.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Cổng 22/tcp - SSH (Secure Shell):</strong> Giao thức mạng cho phép truy cập dòng lệnh và quản trị hệ thống từ xa một cách an toàn thông qua cơ chế mã hóa dữ liệu đầu-cuối (End-to-End Encryption) và xác thực người dùng bằng mật khẩu hoặc cặp khóa công khai/bí mật (Public/Private Key).</p>
+<p>2. <strong>Cổng 23/tcp - Telnet:</strong> Giao thức quản trị từ xa cổ điển ra đời từ năm 1969. Telnet truyền toàn bộ dữ liệu (tên đăng nhập, mật khẩu, lệnh thực thi) dưới dạng văn bản thuần (<strong>Plaintext</strong>), hoàn toàn không có bất kỳ cơ chế mã hóa nào.</p>
+<p>3. <strong>Cổng 631/tcp - IPP (Internet Printing Protocol / CUPS):</strong> Giao thức in ấn qua mạng Internet/LAN được quản lý bởi dịch vụ CUPS (Common UNIX Printing System), cho phép máy trạm gửi lệnh in, quản lý hàng đợi và cấu hình máy in qua giao thức HTTP.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2 - CÂU 3:</strong></p>
+<p><strong>Research the vulnerabilities associated with each of these open ports.</strong></p>
+<p><em>(Nghiên cứu các lỗ hổng bảo mật liên quan đến từng cổng đang mở.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Lỗ hổng trên Cổng 22 (SSH):</strong></p>
+<p>- <em>Tấn công dò mật khẩu (Brute-force / Dictionary Attack):</em> Cổng 22 mở ra công cộng thường xuyên phải hứng chịu hàng ngàn lượt thử đăng nhập tự động mỗi giờ.</p>
+<p>- <em>Lỗ hổng trong các phiên bản OpenSSH cũ:</em> Nguy cơ thực thi mã từ xa (RCE) hoặc bỏ qua xác thực (ví dụ lỗ hổng bảo mật nghiêm trọng gần đây như CVE-2024-6387 "regreSSHion").</p>
+<p>- <strong>Lỗ hổng trên Cổng 23 (Telnet):</strong></p>
+<p>- <em>Nghe lén và Đánh cắp thông tin xác thực (Eavesdropping / Packet Sniffing):</em> Mọi kẻ tấn công nằm cùng mạng cục bộ (LAN/Wi-Fi) có thể dùng Wireshark để trích xuất mật khẩu quản trị viên dạng rõ ràng 100%.</p>
+<p>- <em>Tấn công Giả mạo / Xen giữa (Man-in-the-Middle - MitM):</em> Kẻ tấn công có thể chèn ép gói tin hoặc cướp phiên điều khiển (Session Hijacking) dễ dàng.</p>
+<p>- <strong>Lỗ hổng trên Cổng 631 (IPP/CUPS):</strong></p>
+<p>- <em>Thực thi mã từ xa và Tấn công từ chối dịch vụ (DoS):</em> Nhiều phiên bản CUPS có lỗ hổng tràn bộ đệm (Buffer Overflow) hoặc phân tích gói HTTP sai lệch, cho phép kẻ tấn công làm tê liệt dịch vụ hoặc chiếm quyền thực thi dưới tài khoản daemon/lp.</p>
+<p>- <em>Rò rỉ thông tin:</em> Cho phép người ngoài mạng liệt kê danh tính máy in, tài liệu nhạy cảm đang in và cấu trúc mạng nội bộ.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: QUÉT CỔNG UDP VỚI QUYỀN QUẢN TRỊ (ADMINISTRATIVE PRIVILEGES UDP SCAN)</h4>
+<ul>
+<li>Thực thi lệnh quét cổng UDP với quyền quản trị:</li>
+<pre><code class="language-bash">cisco@labvm:~$ sudo nmap -sU localhost
+PORT     STATE         SERVICE
+631/udp  open|filtered ipp
+5353/udp open|filtered zeroconf</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.a - CÂU 1:</strong></p>
+<p><strong>What UDP ports are open?</strong></p>
+<p><em>(Những cổng UDP nào đang mở?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Có 2 cổng UDP ở trạng thái <strong><code>open|filtered</code></strong>:</p>
+<p>- <strong><code>631/udp</code></strong></p>
+<p>- <strong><code>5353/udp</code></strong></p>
+<p><em>(Trạng thái <code>open|filtered</code> nghĩa là Nmap không nhận được phản hồi từ cổng này: cổng có thể đang mở hoặc có tường lửa đang âm thầm drop gói tin UDP thăm dò)</em>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.a - CÂU 2:</strong></p>
+<p><strong>Describe the purpose of the UDP services associated with each port.</strong></p>
+<p><em>(Mô tả mục đích của các dịch vụ UDP liên quan đến từng cổng.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Cổng 631/udp (IPP/CUPS Browsing):</strong> Dùng để quảng bá thông tin máy in (Printer Discovery / Sharing broadcasts) trong mạng cục bộ để các máy tính khác tự động nhận diện máy in chia sẻ mà không cần cấu hình thủ công.</p>
+<p>2. <strong>Cổng 5353/udp (Zeroconf / Multicast DNS - mDNS / Avahi):</strong> Dùng để phân giải tên miền cục bộ (dạng <code>hostname.local</code>) thành địa chỉ IP trong mạng con nội bộ mà không cần phụ thuộc vào máy chủ DNS tập trung.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.a - CÂU 3:</strong></p>
+<p><strong>Research the vulnerabilities associated with each of these open ports.</strong></p>
+<p><em>(Nghiên cứu các lỗ hổng liên quan đến các cổng UDP này.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Tấn công khuếch đại từ chối dịch vụ (UDP Amplification / Reflection DDoS):</strong> Do giao thức UDP không có cơ chế bắt tay xác thực IP nguồn (Connectionless), kẻ tấn công có thể giả mạo IP nạn nhân (IP Spoofing) và gửi gói tin truy vấn nhỏ tới các dịch vụ UDP này để hệ thống phản hồi các gói tin có dung lượng lớn gấp nhiều lần dội thẳng về phía nạn nhân.</p>
+<p>- <strong>Đầu độc phân giải tên miền (mDNS Spoofing / Poisoning):</strong> Kẻ tấn công trong mạng LAN có thể gửi các bản tin mDNS giả mạo (sử dụng công cụ như Responder) để đánh lừa máy tính gửi thông tin xác thực NTLM hash hoặc chuyển hướng truy cập web về máy chủ độc hại.</p>
+</blockquote>
+<ul>
+<li><strong>Quét nhận diện phiên bản phần mềm (<code>-sV</code>):</strong></li>
+<pre><code class="language-bash">cisco@labvm:~$ nmap -sV localhost
+PORT    STATE SERVICE VERSION
+22/tcp  open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
+23/tcp  open  telnet  Linux telnetd
+631/tcp open  ipp     CUPS 2.3</code></pre>
+<p>Tùy chọn <code>-sV</code> gửi các gói tin thăm dò giao thức (probes) để phân tích chuỗi banner phản hồi, giúp xác định chính xác số hiệu phiên bản phần mềm nhằm phục vụ việc tra cứu lỗ hổng CVE cụ thể.</p>
+</ul>
+<hr>
+<h4>PHẦN 3: BẮT KHÓA SSH HOST KEYS (CAPTURE SSH KEYS)</h4>
+<ul>
+<li>Thực thi lệnh quét chuyên sâu Nmap: <code>nmap -A localhost</code>.</li>
+<li>Kết quả trích xuất phần <code>ssh-hostkey</code>:</li>
+<pre><code class="language-text">PORT    STATE SERVICE VERSION
+22/tcp  open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 56:68:77:00:41:7f:50:17:5b:73:82:36:47:c4:bc:2d (RSA)
+|   256 0e:52:78:ba:08:2a:df:e5:be:1b:07:a7:98:3a:c8:50 (ECDSA)
+|_  256 f7:9e:03:10:96:94:cc:f4:4f:2a:f2:7c:6a:37:c1:6f (ED25519)</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.a - CÂU 1:</strong></p>
+<p><strong>What are the values of the SSH hostkeys?</strong></p>
+<p><em>(Các giá trị của khóa máy chủ SSH hostkeys là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Các dấu vân tay (Fingerprints) và thuật toán của SSH Hostkeys được ghi nhận:</p>
+<p>1. <strong>RSA (3072-bit):</strong> <code>56:68:77:00:41:7f:50:17:5b:73:82:36:47:c4:bc:2d</code></p>
+<p>2. <strong>ECDSA (256-bit):</strong> <code>0e:52:78:ba:08:2a:df:e5:be:1b:07:a7:98:3a:c8:50</code></p>
+<p>3. <strong>ED25519 (256-bit):</strong> <code>f7:9e:03:10:96:94:cc:f4:4f:2a:f2:7c:6a:37:c1:6f</code></p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.a - CÂU 2:</strong></p>
+<p><strong>How would an attacker use this information?</strong></p>
+<p><em>(Kẻ tấn công sẽ sử dụng thông tin này như thế nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Định danh và Theo dõi máy chủ mục tiêu (Host Tracking / Fingerprinting):</strong> Vân tay SSH Hostkey là duy nhất cho mỗi máy chủ. Dù máy chủ thay đổi địa chỉ IP hoặc tên miền, kẻ tấn công vẫn nhận diện chính xác đây là cùng một máy chủ vật lý/ảo trong cơ sở dữ liệu trinh sát (như Shodan/Censys).</p>
+<p>2. <strong>Phát hiện máy chủ nhân bản / Khóa trùng lặp (Key Duplication):</strong> Nếu nhiều thiết bị dùng chung cùng một khóa (thường gặp khi nhân bản VM template hoặc thiết bị IoT cấu hình sẵn), kẻ tấn công bẻ khóa được một máy sẽ chiếm quyền được toàn bộ các máy còn lại.</p>
+<p>3. <strong>Tấn công Man-in-the-Middle (MitM):</strong> Khi người dùng bất cẩn bỏ qua thông báo cảnh báo "Host key verification failed", kẻ tấn công có thể giả lập hoặc tấn công xen giữa để chiếm đoạt phiên làm việc.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.a - CÂU 3:</strong></p>
+<p><strong>How could you prevent the cyber attacker from stealing the key information?</strong></p>
+<p><em>(Làm thế nào để ngăn chặn kẻ tấn công đánh cắp/thu thập thông tin khóa này?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Khóa công khai (Public Key) là một phần bắt buộc trong quá trình bắt tay SSH nên không thể "giấu" hoàn toàn nếu cổng SSH mở công khai. Tuy nhiên, ta có thể áp dụng các biện pháp bảo vệ hệ thống:</p>
+<p>1. <strong>Sử dụng Tường lửa (Firewall):</strong> Chặn cổng 22 đối với Internet công cộng (<code>0.0.0.0/0</code>), chỉ mở cổng SSH cho các địa chỉ IP quản trị tin cậy (Whitelisting IP) hoặc yêu cầu kết nối qua VPN nội bộ.</p>
+<p>2. <strong>Thay đổi cổng mặc định (Port Obfuscation):</strong> Đổi cổng SSH từ 22 sang một cổng ngẫu nhiên cao (ví dụ: <code>22222/tcp</code>) để né tránh các công cụ quét tự động hàng loạt trên mạng.</p>
+<p>3. <strong>Cơ chế Port Knocking / Single Packet Authorization (SPA):</strong> Giữ cổng SSH luôn ở trạng thái đóng đối với Nmap, chỉ mở cổng khi nhận được một chuỗi gói tin "gõ cửa" bí mật hợp lệ từ client.</p>
+<p>4. <strong>Vô hiệu hóa thuật toán yếu:</strong> Cấu hình <code>/etc/ssh/sshd_config</code> chỉ cho phép các thuật toán mã hóa mạnh (Ed25519, RSA >= 3072 bit), loại bỏ các thuật toán cũ (DSA, RSA 1024).</p>
+<p>5. <strong>Triển khai Fail2ban:</strong> Tự động chặn IP sau 3-5 lần quét hoặc đăng nhập thất bại.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 4: TỔNG KẾT VỀ CÁC CỔNG MẠNG CÓ RỦI RO CAO (HIGHLY VULNERABLE PORTS SUMMARY)</h4>
+<ul>
+<li><strong>Port 21 (FTP):</strong> Dễ bị rò rỉ mật khẩu plaintext, nạp mã độc qua Anonymous Login.</li>
+<li><strong>Port 23 (Telnet):</strong> Hoàn toàn không mã hóa; bắt buộc phải tắt và thay thế 100% bằng SSH.</li>
+<li><strong>Port 53 (DNS):</strong> Thường bị kẻ tấn công lợi dụng làm kênh trích xuất dữ liệu bí mật (DNS Data Exfiltration) hoặc kênh ra lệnh ngầm (DNS Tunneling) để vượt qua tường lửa.</li>
+<li><strong>Port 80 (HTTP):</strong> Dễ bị tấn công vào ứng dụng web (SQL Injection, XSS, Webshell); cần chuyển hướng toàn bộ sang HTTPS (Port 443).</li>
+</ul>
+    </div>
+</body>
+</html>

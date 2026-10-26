@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 05 He Dieu Hanh Va Kiem Soat Truy Cap - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 6: Hệ Điều Hành và Kiểm Soát Truy Cập (Windows Access Control &amp; Auditing)</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / An ninh Hệ điều hành</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Nắm vững khung kiến trúc kiểm soát truy cập (Access Control Framework) trên nền tảng Microsoft Windows.</li>
+<li>Khảo sát và phân tích tác động của các thuộc tính tệp cơ bản: <strong>Read-Only</strong> (Chỉ đọc) và <strong>Hidden</strong> (Ẩn).</li>
+<li>Tìm hiểu danh sách kiểm soát truy cập tùy ý (<strong>DACL</strong> - Discretionary Access Control List) của hệ thống tệp <strong>NTFS</strong>: phân biệt giữa quyền cơ bản (Standard Permissions) và quyền nâng cao (Advanced/Granular Permissions).</li>
+<li>Phân tích nguyên tắc ưu tiên trong kiểm soát truy cập của Windows: <strong>Deny overrides Allow</strong> (Quyền từ chối luôn phủ quyết quyền cho phép).</li>
+<li>Nghiên cứu cơ chế kiểm toán bảo mật (<strong>Security Auditing</strong>): cấu hình chính sách kiểm toán truy cập đối tượng (<strong>Object Access Auditing</strong>), giám sát Security Logs và phân tích <strong>Event IDs</strong> (4663, 4656, 7036).</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ MÔI TRƯỜNG (REQUIRED RESOURCES)</h3>
+<ul>
+<li>Máy tính hoặc máy ảo chạy Microsoft Windows 10/11 Pro/Enterprise (hoặc Windows 7/Server).</li>
+<li>Tài khoản quản trị viên: <code>Admin</code> / <code>Administrator</code>.</li>
+<li>Các tài khoản người dùng kiểm thử được tạo theo tên sinh viên: <code>ngolamtien</code> và <code>ngolamtien1</code>.</li>
+<li>Thư mục thực hành trên ổ đĩa hệ thống: <code>C:\doctemp</code>.</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: KIỂM SOÁT TRUY CẬP (ACCESS CONTROL)</h4>
+<h5>Bài 1: Thêm tài khoản người dùng vào hệ thống</h5>
+<ul>
+<li>Đăng nhập vào tài khoản Quản trị viên (<code>Admin</code>).</li>
+<li>Vào Start > Control Panel > User Accounts > Manage Accounts > Create a new account.</li>
+<li>Nhập tên tài khoản: <strong><code>ngolamtien</code></strong> (viết thường, không dấu, không khoảng trắng). Chọn loại tài khoản: <strong>Standard User</strong>.</li>
+<li>Nhấn nút "Create Account" để hoàn tất tạo tài khoản.</li>
+</ul>
+<hr>
+<h5>Bài 2: Khảo sát tác dụng của thuộc tính Read-Only và Hidden</h5>
+<ul>
+<li>Đăng nhập tài khoản <code>Admin</code>.</li>
+<li>Mở Notepad, tạo tệp văn bản và lưu tại đường dẫn: <code>C:\doctemp\file1_ngolamtien.txt</code>.</li>
+<li>Mở File Explorer, điều hướng đến <code>C:\doctemp</code>, nhấp chuột phải vào <code>file1_ngolamtien.txt</code> > chọn <strong>Properties</strong>.</li>
+<li>Tại mục <strong>Attributes</strong> ở thẻ General, đánh dấu chọn <strong>Read-Only</strong>, sau đó nhấn OK.</li>
+<li>Mở lại tệp này bằng Notepad, thêm một dòng nội dung mới và nhấn <code>Ctrl + S</code> (Save).</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 2 - BƯỚC 6.a:</strong></p>
+<p><strong>Điều gì xảy ra? Giải thích tại sao.</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Hiện tượng:</strong> Notepad không cho phép lưu đè nội dung trực tiếp vào tệp cũ. Thay vào đó, hộp thoại <strong>"Save As"</strong> tự động bật lên yêu cầu người dùng phải lưu thành một tệp có tên khác. Nếu cố tình chọn lưu đè vào tên <code>file1_ngolamtien.txt</code>, Windows sẽ đưa ra thông báo lỗi:</p>
+<p><code>"file1_ngolamtien.txt is read-only. Try saving the file with a new name."</code> hoặc <code>"Access is denied"</code>.</p>
+<p>- <strong>Giải thích kỹ thuật:</strong> Thuộc tính <code>Read-Only</code> là một cờ thuộc tính hệ thống (File Attribute Flag) được quản lý ở tầng hệ thống tệp NTFS/FAT. Khi thuộc tính này được bật, hệ điều hành thiết lập cờ chỉ cho phép mở tệp dưới quyền đọc (<code>GENERIC_READ</code>). Mọi yêu cầu cấp quyền ghi (<code>GENERIC_WRITE</code>) đều bị nhân hệ điều hành từ chối ở bước kiểm tra file handle, nhằm bảo vệ tính toàn vẹn và ngăn ngừa việc vô tình sửa đổi hoặc ghi đè dữ liệu gốc.</p>
+</blockquote>
+<ul>
+<li>Đăng xuất khỏi tài khoản <code>Admin</code> và đăng nhập vào tài khoản <code>ngolamtien</code>.</li>
+<li>Mở thư mục <code>C:\doctemp</code>, nhấp chuột phải vào <code>file1_ngolamtien.txt</code> > Properties > đánh dấu chọn thuộc tính <strong>Hidden</strong> > nhấn OK. Đóng cửa sổ và mở lại thư mục <code>C:\doctemp</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 2 - BƯỚC 9.a:</strong></p>
+<p><strong>Bây giờ bạn có thấy file không?</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><strong>Không thấy file.</strong> Tệp tin <code>file1_ngolamtien.txt</code> đã biến mất khỏi giao diện hiển thị của File Explorer (với cấu hình mặc định ẩn tệp hệ thống).</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 2 - BƯỚC 9.b:</strong></p>
+<p><strong>Nếu bạn không thấy file, hãy thử tìm cách khác để hiện file ẩn.</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Các phương thức để làm xuất hiện và truy cập tệp tin ẩn:</p>
+<p>1. <strong>Qua giao diện đồ họa File Explorer:</strong></p>
+<p>- Vào thanh menu <code>View</code> trên thanh Ribbon > tích chọn vào ô <strong>Hidden items</strong>.</p>
+<p>- Hoặc vào <code>View</code> > <code>Options</code> > <code>Change folder and search options</code> > chuyển sang thẻ <code>View</code> > tích chọn radio button <strong>"Show hidden files, folders, and drives"</strong> > nhấn Apply và OK.</p>
+<p>2. <strong>Qua giao diện dòng lệnh Command Prompt (CMD):</strong></p>
+<p>- Sử dụng lệnh hiển thị tệp ẩn: <code>dir /a:h C:\doctemp</code></p>
+<p>- Bỏ thuộc tính ẩn của tệp: <code>attrib -h C:\doctemp\file1_ngolamtien.txt</code></p>
+<p>3. <strong>Qua PowerShell:</strong></p>
+<p>- Sử dụng lệnh: <code>Get-ChildItem -Path C:\doctemp -Force</code></p>
+</blockquote>
+<hr>
+<h5>Bài 3: Cấp quyền tường minh cho các user khác nhau đối với một file cho trước</h5>
+<ul>
+<li>Đăng nhập tài khoản <code>Admin</code>.</li>
+<li>Dùng Notepad tạo tệp: <code>C:\doctemp\file2_ngolamtien.txt</code>.</li>
+<li>Nhấp chuột phải vào tệp > Properties > chuyển sang thẻ <strong>Security</strong> > nhấn nút <strong>Edit...</strong>.</li>
+<li>Nhấn <strong>Add...</strong>, nhập tên <code>ngolamtien</code>, nhấn <strong>Check Names</strong> để hệ thống xác thực SID tài khoản, sau đó nhấn OK.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 3 - BƯỚC 6:</strong></p>
+<p><strong>Quyền mặc định (default permissions) cho user này là gì? Trong khi vẫn xem các option của tab Security cho file này, hãy xem các quyền được chỉ định cho nhóm Users. Các quyền mặc định cho nhóm này có khác với quyền của người dùng bạn đã thêm để có quyền truy cập vào file không?</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Quyền mặc định khi thêm user <code>ngolamtien</code>:</strong> Hệ thống tự động gán các quyền cơ bản: <strong>Read & execute</strong> và <strong>Read</strong>.</p>
+<p>- <strong>Quyền được chỉ định cho nhóm <code>Users</code>:</strong> Mặc định nhóm <code>Users</code> kế thừa từ thư mục cha bao gồm: <strong>Read & execute</strong> và <strong>Read</strong> (và đối với thư mục có thêm <code>List folder contents</code>).</p>
+<p>- <strong>So sánh và Phân tích khác biệt:</strong></p>
+<p>Về mặt quyền hạn cụ thể (Read, Read & Execute), hai nhóm này nhìn bên ngoài có vẻ tương đương. Tuy nhiên, về mặt bản chất cấu trúc bảng DACL:</p>
+<p>1. Nhóm <code>Users</code> nhận quyền thông qua cơ chế <strong>Kế thừa (Inherited Permissions)</strong> từ thư mục gốc ổ đĩa <code>C:\</code>.</p>
+<p>2. User <code>ngolamtien</code> nhận quyền thông qua <strong>Cấp quyền tường minh (Explicit Permission)</strong> trực tiếp trên tệp <code>file2_ngolamtien.txt</code>.</p>
+<p>3. Trong thuật toán đánh giá DACL của Windows, <strong>Explicit ACE luôn có độ ưu tiên cao hơn Inherited ACE</strong>. Điều này đảm bảo rằng các tinh chỉnh bảo mật trực tiếp trên tệp sẽ luôn được ưu tiên áp dụng trước quyền kế thừa từ nhóm.</p>
+</blockquote>
+<ul>
+<li>Nhấp nút <strong>Advanced</strong> trong thẻ Security > chọn user <code>ngolamtien</code> > nhấn nút <strong>Edit</strong> để mở cửa sổ phân quyền chuyên sâu.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 3 - BƯỚC 8:</strong></p>
+<p><strong>Bạn thấy gì? Nó khác với các quyền trong tab security cha như thế nào? Có mối liên hệ nào không?</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Những gì quan sát được:</strong> Cửa sổ <strong>Permission Entry for file2_ngolamtien.txt</strong> hiển thị danh sách 14 quyền chi tiết dạng vi mô (Granular / Advanced Permissions):</p>
+<p>- <em>Traverse folder / execute file</em></p>
+<p>- <em>List folder / read data</em></p>
+<p>- <em>Read attributes</em></p>
+<p>- <em>Read extended attributes</em></p>
+<p>- <em>Create files / write data</em></p>
+<p>- <em>Create folders / append data</em></p>
+<p>- <em>Write attributes</em></p>
+<p>- <em>Write extended attributes</em></p>
+<p>- <em>Delete subfolders and files</em></p>
+<p>- <em>Delete</em></p>
+<p>- <em>Read permissions</em></p>
+<p>- <em>Change permissions (Write DAC)</em></p>
+<p>- <em>Take ownership (Write Owner)</em></p>
+<p>- <em>Synchronize</em></p>
+<p>- <strong>Sự khác biệt và Mối liên hệ:</strong></p>
+<p>- Thẻ Security cha chỉ là giao diện tóm tắt (High-level / Standard Permissions: Full control, Modify, Read & execute, Read, Write) nhằm phục vụ thao tác nhanh của người dùng phổ thông.</p>
+<p>- Mỗi quyền ở tab Security cha thực chất là một tập hợp (macro mapping) của các quyền chi tiết trong cửa sổ Advanced. Ví dụ:</p>
+<p>- Quyền <strong>Read</strong> ở tab cha thực chất bao gồm 4 quyền nâng cao: <em>List folder / read data</em>, <em>Read attributes</em>, <em>Read extended attributes</em>, và <em>Read permissions</em>.</p>
+<p>- Quyền <strong>Write</strong> ở tab cha bao gồm: <em>Create files / write data</em>, <em>Create folders / append data</em>, <em>Write attributes</em>, <em>Write extended attributes</em>.</p>
+<p>- Quyền <strong>Full Control</strong> là sự kết hợp của toàn bộ 14 quyền nâng cao.</p>
+</blockquote>
+<hr>
+<h5>Bài 4: Hiểu cơ chế kiểm soát truy cập của MS Windows (Deny overrides Allow)</h5>
+<ul>
+<li>Đăng nhập tài khoản <code>Admin</code>.</li>
+<li>Tạo thêm một người dùng Standard mới có tên: <strong><code>ngolamtien1</code></strong>.</li>
+<li>Tạo thư mục: <code>C:\doctemp\folderngolamtien</code>.</li>
+<li>Mở Properties thư mục > thẻ Security > Edit > Add user <code>ngolamtien1</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 4 - BƯỚC 7:</strong></p>
+<p><strong>Chọn user ngolamtien1 trong cửa sổ Permissions. Quyền gì hiện được gán cho user này?</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>User <code>ngolamtien1</code> được gán các quyền mặc định: <strong>Read & execute</strong>, <strong>List folder contents</strong>, và <strong>Read</strong>.</p>
+</blockquote>
+<ul>
+<li>Đánh dấu chọn quyền <strong>List folder contents</strong> tại cột <strong>Deny</strong>. Nhấn OK (Windows hiển thị thông báo cảnh báo về việc thiết lập Deny entry), nhấn Yes để chấp nhận.</li>
+<li>Đăng nhập vào user <code>ngolamtien</code>.</li>
+<li>Dùng Notepad tạo tệp <code>file3_ngolamtien.txt</code> lưu vào trong thư mục <code>C:\doctemp\folderngolamtien</code>. Mở ra đọc bình thường.</li>
+<li>Đăng xuất khỏi <code>ngolamtien</code>, đăng nhập vào tài khoản <code>ngolamtien1</code>.</li>
+<li>Thử mở thư mục <code>C:\doctemp\folderngolamtien</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 4 - BƯỚC 14:</strong></p>
+<p><strong>Mở thư mục C:\doctemp\folderngolamtien. Điều gì sẽ xảy ra khi bạn truy cập vào thư mục và tại sao?</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Hiện tượng:</strong> Khi tài khoản <code>ngolamtien1</code> nhấp đúp vào thư mục <code>folderngolamtien</code>, Windows lập tức chặn lại và hiển thị hộp thoại:</p>
+<p><code>"You don't currently have permission to access this folder. Click Continue to permanently get access to this folder."</code></p>
+<p>Nếu người dùng nhấn Continue, hệ thống sẽ bật thông báo lỗi:</p>
+<p><code>"You have been denied permission to access this folder."</code> và hoàn toàn không cho phép mở hay xem bất kỳ tệp nào bên trong.</p>
+<p>- <strong>Giải thích cơ chế bảo mật chuyên sâu của Windows:</strong></p>
+<p>1. <strong>Nguyên tắc Deny overrides Allow:</strong> Thuật toán duyệt DACL của Windows Security Reference Monitor (SRM) hoạt động theo thứ tự: Duyệt qua các Explicit Deny ACE trước. Ngay khi tìm thấy một ACE có cờ Deny khớp với SID của người dùng hoặc SID của nhóm mà người dùng là thành viên, hệ điều hành lập tức chấm dứt kiểm tra và đưa ra phán quyết <strong>Từ chối (Access Denied)</strong>, bất kể tài khoản đó có được cấp phép (Allow) ở các nhóm khác hay không.</p>
+<p>2. <strong>Ý nghĩa của quyền List folder contents:</strong> Quyền này điều khiển khả năng đọc cấu trúc thư mục (liệt kê danh sách tệp). Khi bị Deny quyền này, hàm API truy vấn hệ thống tệp <code>ZwQueryDirectoryFile</code> / <code>FindFirstFile</code> bị chặn hoàn toàn, khiến Windows Explorer không thể hiển thị nội dung bên trong thư mục.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: AUDITING TRONG WINDOWS (KIỂM TOÁN HỆ THỐNG)</h4>
+<h5>Bài 5: Audit Log Review (Xem xét nhật ký kiểm toán)</h5>
+<ul>
+<li>Đăng nhập tài khoản <code>Admin</code>. Mở công cụ <strong>Event Viewer</strong> (<code>eventvwr.msc</code>).</li>
+<li>Điều hướng đến <strong>Windows Logs</strong>, quan sát các mục: <strong>Security</strong>, <strong>Application</strong>, và <strong>System</strong>.</li>
+<li>Đăng xuất <code>Admin</code>, đăng nhập tài khoản Standard <code>ngolamtien</code>. Mở lại Event Viewer và nhấp vào mục <strong>Security</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 5 - CÂU 1:</strong></p>
+<p><strong>Bạn có thể xem security logs khi là người dùng thường không? Người dùng thường có nên được xem security logs không? Tại sao?</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Khả năng truy cập:</strong> Người dùng thường (<code>ngolamtien</code>) <strong>KHÔNG THỂ xem được Security logs</strong>. Khi mở mục Security trong Event Viewer, hệ thống báo lỗi:</p>
+<p><code>"Event Viewer cannot open the event log or custom view... Access is denied (5)"</code>.</p>
+<p>- <strong>Đánh giá an ninh:</strong> Người dùng thông thường <strong>TUYỆT ĐỐI KHÔNG ĐƯỢC PHÉP xem Security logs</strong>.</p>
+<p>- <strong>Giải thích lý do:</strong></p>
+<p>1. <strong>Tính bảo mật của thông tin kiểm toán (Confidentiality):</strong> Security Log chứa các dữ liệu an ninh cực kỳ nhạy cảm: danh sách tài khoản, địa chỉ IP mạng nội bộ, tiến trình khởi chạy, tài nguyên được truy cập, và các nỗ lực đăng nhập thất bại. Nếu người dùng thường (hoặc một tài khoản bị chiếm đoạt) đọc được nhật ký này, kẻ tấn công có thể thám sát toàn diện cấu trúc phòng thủ của hệ thống để lập kế hoạch tấn công tiếp theo.</p>
+<p>2. <strong>Ngăn chặn việc né tránh giám sát (Evasion):</strong> Kẻ tấn công nội bộ có thể nghiên cứu quy tắc kiểm toán để tìm cách thực hiện các hành vi phá hoại mà không để lại dấu vết.</p>
+<p>3. <strong>Đặc quyền Windows:</strong> Theo thiết kế bảo mật, chỉ các tài khoản sở hữu đặc quyền người dùng <code>SeSecurityPrivilege</code> (<em>Manage auditing and security log</em>) — mặc định chỉ cấp cho Administrators — mới có quyền đọc hoặc xóa Security log.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 5 - CÂU 2:</strong></p>
+<p><strong>Sự khác biệt giữa security logs và system logs là gì?</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p></p>
+<p>| Tiêu chí so sánh | Security Logs (Nhật ký An ninh) | System Logs (Nhật ký Hệ thống) |</p>
+<p>|---|---|---|</p>
+<p>| <strong>Mục đích chính</strong> | Theo dõi, kiểm toán các sự kiện liên quan đến an ninh và tuân thủ chính sách bảo mật. | Ghi nhận trạng thái vận hành của hệ điều hành, trình điều khiển (drivers) và dịch vụ hệ thống. |</p>
+<p>| <strong>Nội dung ghi nhận</strong> | Đăng nhập/đăng xuất (Logon/Logoff), truy cập file/thư mục, thay đổi quyền người dùng, thay đổi chính sách bảo mật. | Khởi động/tắt máy, lỗi phần cứng, crash dịch vụ, cập nhật driver, sự cố mạng. |</p>
+<p>| <strong>Cơ chế kích hoạt</strong> | Mặc định bị tắt; phải được quản trị viên chủ động kích hoạt qua Local Security Policy. | Tự động kích hoạt mặc định bởi hệ điều hành Windows ngay sau khi cài đặt. |</p>
+<p>| <strong>Phân quyền truy cập</strong> | Cực kỳ nghiêm ngặt: Chỉ nhóm Administrators (có đặc quyền <code>SeSecurityPrivilege</code>) mới được xem. | Mở rộng: Mọi người dùng thông thường đều có quyền đọc để hỗ trợ chẩn đoán sự cố ứng dụng. |</p>
+</blockquote>
+<hr>
+<h5>Bài 6: Object Access Auditing (Kiểm toán truy cập đối tượng)</h5>
+<ul>
+<li>Đăng nhập tài khoản <code>Admin</code>. Mở <strong>Local Security Policy</strong> (<code>secpol.msc</code>).</li>
+<li>Điều hướng đến: <strong>Security Settings</strong> > <strong>Local Policies</strong> > <strong>Audit Policy</strong>.</li>
+<li>Nhấp đúp vào chính sách <strong>Audit object access</strong> > tích chọn cả hai ô: <strong>Success</strong> và <strong>Failure</strong> > nhấn OK.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 6:</strong></p>
+<p><strong>Tại sao các chính sách audit mặc định là disable?</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Việc Microsoft để các chính sách audit mặc định ở trạng thái Disabled xuất phát từ 3 lý do kỹ thuật quan trọng:</p>
+<p>1. <strong>Suy giảm hiệu năng hệ thống (System Performance Overhead):</strong> Trong một hệ điều hành hiện đại, có hàng trăm ngàn thao tác truy cập đối tượng (mở tệp tin, truy vấn registry, gọi IPC) diễn ra mỗi giây. Nếu ghi log mọi thao tác, CPU và đặc biệt là hệ thống ổ đĩa I/O sẽ bị quá tải nghiêm trọng.</p>
+<p>2. <strong>Tràn dung lượng lưu trữ tệp nhật ký (Storage Exhaustion / Log Flooding):</strong> Kích thước tệp nhật ký sẽ tăng vọt chỉ trong vài giờ. Khi file log đạt dung lượng tối đa, hệ thống buộc phải ghi đè các bản ghi cũ (làm mất dấu vết quan trọng) hoặc ngừng hoạt động nếu được cấu hình chính sách bảo vệ nghiêm ngặt.</p>
+<p>3. <strong>Tỷ lệ tín hiệu trên nhiễu quá thấp (Signal-to-Noise Ratio):</strong> Lượng bản ghi khổng lồ từ các hoạt động bình thường sẽ "nhấn chìm" các sự kiện an ninh thực sự nguy hiểm, gây ra hội chứng mệt mỏi cảnh báo (Alert Fatigue) cho chuyên viên an ninh mạng. Do đó, hệ điều hành yêu cầu quản trị viên phải chủ động cấu hình audit có mục tiêu cụ thể.</p>
+</blockquote>
+<hr>
+<h5>Bài 7: Audit Collection (Thu thập và phân tích nhật ký kiểm toán)</h5>
+<ul>
+<li>Đăng nhập tài khoản <code>Admin</code>. Tạo thư mục: <code>C:\doctemp\folder2_ngolamtien</code>.</li>
+<li>Mở Properties thư mục > thẻ Security > Advanced > chuyển sang thẻ <strong>Auditing</strong> > nhấn <strong>Continue</strong>.</li>
+<li>Nhấn <strong>Add</strong>, chọn Principal là <code>ngolamtien1</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 7 - BƯỚC 7:</strong></p>
+<p><strong>Bạn sẽ quan tâm đến sự kiện nào? Giải thích lý do của mình cho ít nhất 3 sự kiện (với tiêu chí tránh tạo log file quá lớn).</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Để tối ưu hóa hiệu năng và chất lượng kiểm toán an ninh, 3 sự kiện quan trọng nhất cần được kích hoạt là:</p>
+<p>1. <strong><code>Create files / write data</code> (Ghi / Tạo tệp):</strong></p>
+<p><em>Lý do:</em> Theo dõi các hành vi thêm mới tệp tin hoặc sửa đổi dữ liệu quan trọng. Cực kỳ cần thiết để phát hiện mã độc tải mã độc phụ (Dropper/Downloader), tin tặc tải webshell/backdoor lên hệ thống, hoặc mã độc tống tiền (Ransomware) bắt đầu quá trình mã hóa ghi đè tệp.</p>
+<p>2. <strong><code>Delete</code> / <code>Delete subfolders and files</code> (Xóa tệp / thư mục con):</strong></p>
+<p><em>Lý do:</em> Giám sát hành vi xóa dữ liệu trái phép hoặc phá hoại cơ sở dữ liệu của tổ chức. Đồng thời phát hiện kỹ thuật xóa dấu vết (Anti-forensics / Defense Evasion) của kẻ xâm nhập sau khi thực hiện hành vi tấn công.</p>
+<p>3. <strong><code>Change permissions</code> (Write DAC - Thay đổi quyền bảo mật):</strong></p>
+<p><em>Lý do:</em> Phát hiện các hành vi leo thang đặc quyền (Privilege Escalation) hoặc cố tình chiếm quyền kiểm soát đối tượng dữ liệu nhạy cảm bằng cách tự cấp quyền cho tài khoản khác.</p>
+</blockquote>
+<ul>
+<li>Cấu hình kiểm toán: Tích chọn <strong>List folder / read data</strong> và <strong>Create files / write data</strong> ở cột <strong>Success</strong>. Nhấn OK.</li>
+<li>Đăng xuất <code>Admin</code>, đăng nhập tài khoản <code>ngolamtien1</code>.</li>
+<li>Mở Notepad, tạo tệp <code>file5_ngolamtien.txt</code> và lưu vào thư mục <code>C:\doctemp\folder2_ngolamtien</code>.</li>
+<li>Đăng xuất <code>ngolamtien1</code>, đăng nhập trở lại tài khoản <code>Admin</code>.</li>
+<li>Mở <strong>Event Viewer</strong> > chọn <strong>Windows Logs</strong> > <strong>Security</strong>.</li>
+<li>Sử dụng tính năng <strong>Find...</strong> tìm kiếm tên tài khoản <code>ngolamtien1</code> và lọc các sự kiện File System Access.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BÀI 7 - BƯỚC 16:</strong></p>
+<p><strong>ID sự kiện đã đăng ký cho các entries này là gì?</strong></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Mã định danh sự kiện (Event ID) được ghi nhận trong Windows Security Log là:</p>
+<p>- <strong><code>Event ID 4663</code></strong>: <em>"An attempt was made to access an object"</em> (Ghi nhận nỗ lực truy cập đối tượng thành công, hiển thị chi tiết tên tệp <code>file5_ngolamtien.txt</code>, tiến trình <code>notepad.exe</code>, loại quyền truy cập <code>Accesses: WriteData/AddFile</code>, và tài khoản thực hiện <code>ngolamtien1</code>).</p>
+<p>- Đi kèm với nó là <strong><code>Event ID 4656</code></strong>: <em>"A handle to an object was requested"</em> (Ghi nhận yêu cầu xin cấp con trỏ handle đến đối tượng tệp tin trong hệ thống tệp).</p>
+</blockquote>
+<ul>
+<li><strong>Khôi phục hệ thống:</strong> Sau khi hoàn tất thực hành, tắt chính sách Object Access Auditing trong Local Security Policy và xóa các tài khoản thử nghiệm (<code>ngolamtien</code>, <code>ngolamtien1</code>) để đảm bảo an toàn hệ thống.</li>
+</ul>
+<hr>
+<h3>IV. BÀI HỌC VÀ KẾT LUẬN (CONCLUSION)</h3>
+<ul>
+<li><strong>Kiểm soát truy cập:</strong> Hệ thống phân quyền NTFS kết hợp giữa Explicit Permissions và Inherited Permissions, cùng nguyên tắc "Deny overrides Allow", tạo nên một bức tường phòng thủ vững chắc cho tài nguyên trên hệ điều hành Windows.</li>
+<li><strong>Kiểm toán an ninh:</strong> Object Access Auditing kết hợp cùng Event ID 4663 và 4656 là công cụ giám sát cốt lõi trong các hệ thống SIEM (Security Information and Event Management) hiện đại, cho phép truy vết chính xác "Ai, Làm gì, Khi nào, Trên đối tượng nào".</li>
+</ul>
+    </div>
+</body>
+</html>

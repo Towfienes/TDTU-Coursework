@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 15 Hardening Linux System - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab: Hardening a Linux System (Ubuntu Edition)</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / Tối ưu và Làm Cứng Hệ Điều Hành</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Thực hành sử dụng công cụ kiểm toán hệ thống an ninh <strong>Lynis</strong> trên hệ điều hành Ubuntu Linux.</li>
+<li>Phát hiện các điểm yếu trong cấu hình mặc định (Default Weak Configurations).</li>
+<li>Nghiên cứu và lựa chọn một đề xuất cải thiện an ninh (<strong>Suggestion</strong>) trong báo cáo Lynis để triển khai giải pháp khắc phục thực tế.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>Máy tính hoặc máy ảo Ubuntu 16.04/20.04 Desktop LTS trong VirtualBox/VMware.</li>
+<li>Tài khoản: <code>cisco</code> (mật khẩu <code>password</code>) hoặc <code>sv</code> (mật khẩu <code>123</code>).</li>
+<li>Bộ công cụ Lynis trong thư mục <code>Downloads/lynis/</code>.</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>BƯỚC 1: KHỞI CHẠY TERMINAL TRÊN UBUNTU</h4>
+<ul>
+<li>Đăng nhập hệ thống Ubuntu với tài khoản được cung cấp. Mở ứng dụng Terminal.</li>
+</ul>
+<h4>BƯỚC 2: CẬP NHẬT CÔNG CỤ LYNIS</h4>
+<ul>
+<li>Điều hướng vào thư mục cài đặt Lynis:</li>
+<pre><code class="language-bash">cisco@ubuntu:~$ cd Downloads/lynis/
+cisco@ubuntu:~/Downloads/lynis$ sudo ./lynis update info</code></pre>
+<li>Xác nhận phần mềm và các tệp định nghĩa kiểm tra đang ở phiên bản mới nhất.</li>
+</ul>
+<h4>BƯỚC 3: THỰC THI KIỂM TOÁN HỆ THỐNG (RUN THE TOOL)</h4>
+<ul>
+<li>Chạy công cụ kiểm toán với tài khoản auditor:</li>
+<pre><code class="language-bash">cisco@ubuntu:~/Downloads/lynis$ sudo ./lynis --auditor cisco</code></pre>
+<li>Nhấn Enter qua các giai đoạn quét để theo dõi kết quả phát hiện cấu hình yếu.</li>
+<li>Ghi nhận vị trí lưu trữ tệp nhật ký kiểm toán chi tiết:</li>
+<p><code>Report file: /var/log/lynis-report.dat</code></p>
+<p><code>Log file: /var/log/lynis.log</code></p>
+</ul>
+<h4>BƯỚC 4: ĐÁNH GIÁ KẾT QUẢ VÀ TRIỂN KHAI GIẢI PHÁP (REVIEW RESULTS)</h4>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.a:</strong></p>
+<p><strong>How many Warnings did you receive? How many Suggestions did you receive?</strong></p>
+<p><em>(Bạn đã nhận được bao nhiêu Cảnh báo và bao nhiêu Đề xuất?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- Số lượng Cảnh báo (Warnings): <strong><code>02 Warnings</code></strong> (<code>[PKGS-7392]</code> và <code>[FIRE-4512]</code>).</p>
+<p>- Số lượng Đề xuất (Suggestions): <strong><code>49 Suggestions</code></strong>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.b - CÂU 1:</strong></p>
+<p><strong>Which suggestion are you addressing?</strong></p>
+<p><em>(Bạn lựa chọn giải quyết đề xuất cải thiện nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Lựa chọn giải quyết đề xuất: <strong><code>[BANN-7126] - Add a legal banner to /etc/issue and /etc/issue.net to warn unauthorized users</code></strong></p>
+<p><em>(Thêm thông báo cảnh báo pháp lý vào tệp banner đăng nhập để cảnh báo người dùng không được ủy quyền)</em>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.b - CÂU 2:</strong></p>
+<p><strong>What is your suggested solution?</strong></p>
+<p><em>(Giải pháp khắc phục đề xuất của bạn là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><strong>1. Bối cảnh an ninh:</strong> Trong quản trị hệ thống và pháp lý an ninh mạng, việc không có biểu ngữ cảnh báo pháp lý (Legal Warning Banner) có thể khiến tổ chức gặp khó khăn khi truy cứu trách nhiệm kẻ xâm nhập trái phép trước pháp luật, vì kẻ tấn công có thể biện minh rằng máy chủ mở tự do.</p>
+<p></p>
+<p><strong>2. Các bước triển khai kỹ thuật cụ thể:</strong></p>
+<p>- <strong>Bước 1:</strong> Soạn thảo nội dung cảnh báo pháp lý và ghi vào tệp <code>/etc/issue.net</code> (dành cho kết nối mạng Telnet/SSH) và <code>/etc/issue</code> (dành cho console cục bộ):</p>
+<p><code></code>`bash</p>
+<p>sudo bash -c 'cat << EOF > /etc/issue.net</p>
+<p><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong></p>
+<p><em>                             WARNING!                                 </em></p>
+<p><em> You must have explicit authorized permission to access this system.  </em></p>
+<p><em> All connections and activities are monitored and recorded.           </em></p>
+<p><em> Unauthorized access will be prosecuted to the full extent of the law.</em></p>
+<p><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong><strong></strong></p>
+<p>EOF'</p>
+<p>sudo cp /etc/issue.net /etc/issue</p>
+<p><code></code>`</p>
+<p>- <strong>Bước 2:</strong> Cấu hình daemon SSH kích hoạt hiển thị banner trước khi xác thực:</p>
+<p>Mở tệp cấu hình SSH bằng nano: <code>sudo nano /etc/ssh/sshd_config</code></p>
+<p>Tìm và sửa chỉ thị:</p>
+<p><code>Banner /etc/issue.net</code> (bỏ dấu <code>#</code> chú thích ở đầu dòng).</p>
+<p>- <strong>Bước 3:</strong> Khởi động lại dịch vụ SSH để áp dụng cấu hình:</p>
+<p><code>sudo systemctl restart ssh</code> (hoặc <code>sudo service ssh restart</code>).</p>
+<p></p>
+<p><strong>3. Xác minh kết quả:</strong></p>
+<p>Khi người dùng hoặc kẻ tấn công kết nối từ xa vào máy chủ qua lệnh <code>ssh cisco@<IP></code>, toàn bộ thông điệp cảnh báo pháp lý sẽ xuất hiện rõ ràng trên màn hình trước khi hiển thị yêu cầu nhập mật khẩu. Chạy lại Lynis, mục kiểm tra <code>[BANN-7126]</code> chuyển sang trạng thái tuân thủ an toàn (<strong>PASSED</strong>).</p>
+</blockquote>
+    </div>
+</body>
+</html>

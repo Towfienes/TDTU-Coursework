@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 04 7.3.12 Windows Task Manager - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 7.3.12: Windows Task Manager</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / An ninh Mạng</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Sử dụng thành thạo tiện ích <strong>Windows Task Manager</strong> để quản lý tiến trình, dịch vụ và giám sát hiệu năng hệ thống.</li>
+<li>Phân loại và khảo sát ba nhóm tiến trình chính: <strong>Apps</strong>, <strong>Background processes</strong>, và <strong>Windows processes</strong>.</li>
+<li>Phân tích các thông số phần cứng cốt lõi trong thẻ <strong>Performance</strong>: Bộ vi xử lý (CPU, Threads, Processes), Bộ nhớ vật lý (Memory), và Card mạng (Ethernet/Wi-Fi).</li>
+<li>Khám phá công cụ phân tích tài nguyên chuyên sâu <strong>Resource Monitor</strong>.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>01 Máy tính Windows 10/11 có kết nối Internet.</li>
+<li>Trình duyệt web (Microsoft Edge, Google Chrome hoặc Firefox).</li>
+<li>Cửa sổ dòng lệnh Command Prompt (<code>cmd.exe</code>).</li>
+<li>Tiện ích hệ thống: Task Manager (<code>taskmgr.exe</code>), Resource Monitor (<code>resmon.exe</code>).</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: LÀM VIỆC VỚI THẺ TIẾN TRÌNH (PART 1: WORKING IN THE PROCESSES TAB)</h4>
+<ul>
+<li>Mở một cửa sổ Command Prompt và trình duyệt web Microsoft Edge.</li>
+<li>Mở Task Manager bằng cách nhấp chuột phải vào thanh Taskbar chọn Task Manager (hoặc nhấn <code>Ctrl + Shift + Esc</code>). Nhấp vào nút <strong>More details</strong> để hiển thị giao diện đầy đủ.</li>
+<li>Tại thẻ <strong>Processes</strong>, tìm đến nhóm <strong>Apps</strong> và mở rộng tiêu đề <strong>Windows Command Processor</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.d:</strong></p>
+<p><strong>What is listed under this heading?</strong></p>
+<p><em>(Những gì được liệt kê bên dưới tiêu đề Windows Command Processor?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Bên dưới tiêu đề được liệt kê mục <strong>Command Prompt</strong> (chính là cửa sổ dòng lệnh đang mở tương ứng với tệp thực thi <code>cmd.exe</code>).</p>
+</blockquote>
+<ul>
+<li>Khảo sát 3 nhóm tiến trình chính:</li>
+<li><strong>Apps (Ứng dụng):</strong> Các phần mềm tương tác do người dùng chủ động khởi chạy (Microsoft Edge, Task Manager, Command Prompt).</li>
+<li><strong>Background processes (Tiến trình chạy ngầm):</strong> Các tác vụ phụ trợ chạy ngầm phục vụ ứng dụng hoặc tiện ích hệ thống.</li>
+<li><strong>Windows processes (Tiến trình Windows):</strong> Các dịch vụ và thành phần cốt lõi của hệ điều hành Windows (<code>csrss.exe</code>, <code>lsass.exe</code>, <code>services.exe</code>, <code>winlogon.exe</code>, <code>conhost.exe</code>).</li>
+<li>Cuộn xuống phần Windows processes, tìm tiến trình <strong>Console Window Host</strong>, nhấp chuột phải chọn <strong>Properties</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.f:</strong></p>
+<p><strong>What is the location of this filename and location of this process?</strong></p>
+<p><em>(Tên tệp và vị trí đường dẫn của tiến trình này là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- Tên tệp: <code>conhost.exe</code></p>
+<p>- Vị trí đường dẫn đầy đủ: <code>C:\Windows\System32\conhost.exe</code></p>
+</blockquote>
+<ul>
+<li>Đóng cửa sổ Command Prompt lại.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.g:</strong></p>
+<p><strong>What happens to Windows Command Processor and Console Window Host when the command prompt window is closed?</strong></p>
+<p><em>(Điều gì xảy ra với Windows Command Processor và Console Window Host khi cửa sổ command prompt bị đóng?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Cả hai tiến trình <code>Windows Command Processor</code> (trong nhóm Apps) và <code>Console Window Host</code> (trong nhóm Windows processes) đều biến mất khỏi danh sách tiến trình của Task Manager vì phiên làm việc console đã kết thúc hoàn toàn.</p>
+</blockquote>
+<ul>
+<li>Thao tác sắp xếp cột Memory: Nhấp chuột vào tiêu đề cột <strong>Memory</strong> lần thứ nhất, sau đó nhấp lần thứ hai.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.h:</strong></p>
+<p><strong>What effect does this have on the columns?</strong></p>
+<p><em>(Thao tác này có tác động gì đối với các cột?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Danh sách các tiến trình được sắp xếp lại theo dung lượng RAM sử dụng:</p>
+<p>- Lần nhấp thứ nhất: Sắp xếp theo thứ tự <strong>giảm dần</strong> (tiến trình chiếm dụng nhiều RAM nhất nằm ở trên cùng).</p>
+<p>- Lần nhấp thứ hai: Đảo ngược sắp xếp theo thứ tự <strong>tăng dần</strong> (tiến trình chiếm ít RAM nhất nằm ở trên cùng).</p>
+</blockquote>
+<ul>
+<li>Nhấp chuột phải vào tiêu đề cột <strong>Memory</strong> > chọn <strong>Resource values</strong> > <strong>Memory</strong> > <strong>Percents</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.i:</strong></p>
+<p><strong>What effect does this have on the Memory column? How could this be useful?</strong></p>
+<p><em>(Thao tác này tác động thế nào đến cột Memory? Điều này hữu ích như thế nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Tác động:</strong> Đơn vị đo hiển thị trong cột Memory chuyển từ giá trị dung lượng tuyệt đối (Megabyte - MB) sang giá trị <strong>phần trăm (%)</strong> mức độ chiếm dụng so với tổng dung lượng RAM vật lý của máy tính.</p>
+<p>- <strong>Lợi ích thực tế:</strong> Giúp người quản trị và chuyên viên phân tích an ninh nhanh chóng đánh giá được mức độ tác động tương đối của từng tiến trình lên toàn hệ thống. Việc này đặc biệt hữu ích khi phát hiện các hiện tượng rò rỉ bộ nhớ (Memory Leak) hoặc phát hiện mã độc đào tiền ảo (Crypto-miner) đang ngốn tài nguyên mà không cần phải thực hiện phép chia thủ công giữa số MB của tiến trình với tổng RAM của máy.</p>
+</blockquote>
+<ul>
+<li>Nhấp lại vào cột <strong>Name</strong> để trả về sắp xếp theo tên.</li>
+<li>Nhấp đúp chuột vào mục <strong>Microsoft Edge</strong> trong danh sách Apps.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.k:</strong></p>
+<p><strong>What happens?</strong></p>
+<p><em>(Điều gì xảy ra khi nhấp đúp vào Microsoft Edge?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Cửa sổ trình duyệt Microsoft Edge được đưa lên lớp hiển thị trên cùng màn hình (Bring to foreground) và nhận trọng tâm điều khiển (focus).</p>
+</blockquote>
+<ul>
+<li>Quay lại Task Manager, nhấp chuột phải vào <strong>Microsoft Edge</strong> > chọn <strong>End task</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.l:</strong></p>
+<p><strong>What happens to the web browser windows?</strong></p>
+<p><em>(Điều gì xảy ra với các cửa sổ trình duyệt web?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Toàn bộ các cửa sổ và tab của trình duyệt Microsoft Edge lập tức bị đóng ngay lập tức, tiến trình giải phóng tài nguyên CPU và RAM.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: LÀM VIỆC VỚI THẺ DỊCH VỤ (PART 2: WORKING IN THE SERVICES TAB)</h4>
+<ul>
+<li>Chuyển sang thẻ <strong>Services</strong> trong Task Manager. Sử dụng thanh cuộn để quan sát danh sách các dịch vụ Windows.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2:</strong></p>
+<p><strong>What statuses are listed?</strong></p>
+<p><em>(Những trạng thái nào của dịch vụ được liệt kê?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Có hai trạng thái chính được liệt kê trong cột Status:</p>
+<p>1. <strong>Running:</strong> Dịch vụ hiện đang hoạt động và được nạp vào bộ nhớ.</p>
+<p>2. <strong>Stopped:</strong> Dịch vụ hiện đang dừng, không hoạt động.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: LÀM VIỆC VỚI THẺ HIỆU NĂNG (PART 3: WORKING IN THE PERFORMANCE TAB)</h4>
+<h5>1. Khảo sát thông số CPU</h5>
+<ul>
+<li>Chọn thẻ <strong>Performance</strong> > chọn mục <strong>CPU</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.a:</strong></p>
+<p><strong>How many threads are running? How many processes are running?</strong></p>
+<p><em>(Có bao nhiêu luồng (threads) đang chạy? Có bao nhiêu tiến trình (processes) đang chạy?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT (Số liệu thực tế tại thời điểm thực hành):</strong></p>
+<p>- Số lượng tiến trình (Processes): Khoảng <strong>195 - 220 processes</strong>.</p>
+<p>- Số lượng luồng (Threads): Khoảng <strong>2,800 - 3,200 threads</strong>.</p>
+<p><em>(Tỷ lệ trung bình mỗi tiến trình sở hữu khoảng 14 - 16 luồng thực thi)</em>.</p>
+</blockquote>
+<h5>2. Khảo sát thông số Bộ nhớ (Memory)</h5>
+<ul>
+<li>Nhấp chọn mục <strong>Memory</strong> ở bảng bên trái.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.b:</strong></p>
+<p><strong>What is the total physical memory (MB)? What is the available physical memory (MB)? How much physical memory (MB) is being used by the computer?</strong></p>
+<p><em>(Tổng bộ nhớ vật lý là bao nhiêu MB? Bộ nhớ khả dụng là bao nhiêu MB? Máy tính đang sử dụng bao nhiêu MB bộ nhớ?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT (Dựa trên cấu hình máy thực hành 8 GB RAM):</strong></p>
+<p>- Tổng bộ nhớ vật lý (Total physical memory): <code>8,192 MB</code> (8.0 GB).</p>
+<p>- Bộ nhớ đang sử dụng (In use / Used memory): Khoảng <code>4,350 MB</code> (khoảng 53%).</p>
+<p>- Bộ nhớ khả dụng (Available physical memory): Khoảng <code>3,842 MB</code> (bao gồm Standby cache và Free memory).</p>
+</blockquote>
+<h5>3. Khảo sát thông số Card mạng (Ethernet Chart)</h5>
+<ul>
+<li>Nhấp chọn mục <strong>Ethernet</strong> ở bảng bên trái.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.c:</strong></p>
+<p><strong>What is the link speed? What is the IPv4 address of the PC?</strong></p>
+<p><em>(Tốc độ liên kết Link Speed là bao nhiêu? Địa chỉ IPv4 của PC là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- Link speed: <strong><code>1.0 Gbps</code></strong> (1000 Mbps) trên card mạng Gigabit Ethernet (hoặc 100 Mbps tùy cấu hình card mạng ảo VirtualBox).</p>
+<p>- Địa chỉ IPv4 của máy tính: Ví dụ <strong><code>192.168.1.5</code></strong> (hoặc địa chỉ IP được cấp phát qua DHCP trong dải mạng nội bộ).</p>
+</blockquote>
+<h5>4. Công cụ Resource Monitor</h5>
+<ul>
+<li>Nhấp vào liên kết <strong>Open Resource Monitor</strong> ở dưới đáy thẻ Performance. Tiện ích <code>resmon.exe</code> mở ra cho phép giám sát chi tiết lưu lượng đọc ghi đĩa (Disk I/O theo từng file cụ thể) và lưu lượng kết nối mạng (Network I/O theo từng IP kết nối).</li>
+</ul>
+<hr>
+<h4>PHẦN 4: CÂU HỎI SUY NGẪM (REFLECTION QUESTION)</h4>
+<blockquote>
+<p><strong>CÂU HỎI SUY NGẪM:</strong></p>
+<p><strong>Why is it important for an administrator to understand how to work within the Task Manager?</strong></p>
+<p><em>(Tại sao việc hiểu rõ cách làm việc với Task Manager lại có ý nghĩa sống còn đối với một quản trị viên hệ thống?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Chẩn đoán sự cố hiệu năng thời gian thực:</strong> Task Manager là công cụ phản ứng nhanh đầu tiên giúp quản trị viên xác định nguyên nhân gây nghẽn cổ chai hệ thống (CPU quá tải, cạn kiệt RAM, nghẽn ổ đĩa I/O 100%, hoặc băng thông mạng bất thường).</p>
+<p>2. <strong>Phát hiện hoạt động của phần mềm độc hại:</strong> Quản trị viên giàu kinh nghiệm có thể nhanh chóng phát hiện các tiến trình lạ có tên mạo danh (Masquerading), tiến trình tiêu thụ CPU đột biến không rõ nguồn gốc, hoặc các dịch vụ Windows bị giả mạo.</p>
+<p>3. <strong>Quản lý ứng dụng khởi động và dịch vụ:</strong> Giúp kiểm soát danh sách các phần mềm khởi động cùng hệ thống (thẻ Startup), ngăn ngừa các ứng dụng không cần thiết làm chậm thời gian boot và hạn chế các cơ chế Persistence của mã độc.</p>
+<p>4. <strong>Cầu nối đến các công cụ chuyên sâu:</strong> Cho phép chuyển tiếp nhanh sang Resource Monitor và Performance Monitor để trích xuất các phân tích pháp chứng chuyên sâu hơn.</p>
+</blockquote>
+    </div>
+</body>
+</html>

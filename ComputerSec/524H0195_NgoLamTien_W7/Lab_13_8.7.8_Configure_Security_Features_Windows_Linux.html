@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 13 8.7.8 Configure Security Features Windows Linux - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 8.7.8: Configure Security Features in Windows and Linux</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / Phòng thủ Hệ thống</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Thực hiện quy trình cập nhật và vá lỗi hệ thống (<strong>Patch Management</strong>) trên cả hai nền tảng Windows (Windows Update) và Linux (<code>apt update & apt upgrade</code>).</li>
+<li>Thiết lập chính sách bảo mật cục bộ (<strong>Windows Local Security Policy</strong> - <code>secpol.msc</code>): Chính sách mật khẩu (Password Policy) và Khóa tài khoản (Account Lockout Policy).</li>
+<li>Cấu hình quy tắc chuyên sâu trên Tường lửa Windows Defender (<strong>Windows Defender Firewall with Advanced Security</strong>) cho phép phản hồi gói tin ICMPv4 Echo Request.</li>
+<li>Cài đặt và thực thi công cụ phát hiện Rootkit chuyên dụng trên Linux (<strong>chkrootkit</strong>).</li>
+<li>Tích hợp kho phần mềm bảo mật CISOfy, kiểm tra chữ ký số GPG và cài đặt công cụ đánh giá an ninh toàn diện <strong>Lynis</strong>.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>01 Máy tính Windows 10 (máy host) có kết nối mạng.</li>
+<li>01 Máy ảo CSE-LABVM (Ubuntu Linux) cấu hình card mạng chế độ Bridged Adapter.</li>
+<li>Các công cụ bảo mật: <code>secpol.msc</code>, Windows Defender Firewall, <code>chkrootkit</code>, <code>lynis</code>.</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: CẬP NHẬT HỆ ĐIỀU HÀNH VÀ KẾT NỐI (UPDATE WINDOWS AND LINUX)</h4>
+<ul>
+<li>Thiết lập card mạng máy ảo sang <strong>Bridged Adapter</strong> để cùng dải mạng với máy host Windows.</li>
+<li>Xác định địa chỉ IP: Dùng lệnh <code>ipconfig</code> trên Windows và <code>ip address</code> trên CSE-LABVM.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.d:</strong></p>
+<p><strong>Record the IP address for both CSE-LABVM and Windows PC.</strong></p>
+<p><em>(Ghi lại địa chỉ IP của cả CSE-LABVM và máy host Windows.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT (Số liệu thực tế trong phiên lab):</strong></p>
+<p>- <strong>CSE-LABVM (Linux):</strong> <code>192.168.1.15</code> (hoặc IP DHCP cấp phát)</p>
+<p>- <strong>Windows PC (Host):</strong> <code>192.168.1.5</code></p>
+</blockquote>
+<ul>
+<li>Kiểm tra Windows Update (Start > Check for updates).</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2:</strong></p>
+<p><strong>When was the last time the system checked for updates? What are your current active hours? What will Windows do outside the active hours?</strong></p>
+<p><em>(Hệ thống kiểm tra cập nhật lần cuối khi nào? Khung giờ hoạt động hiện tại là gì? Windows sẽ làm gì ngoài khung giờ hoạt động?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Thời điểm kiểm tra lần cuối:</strong> Được hiển thị cụ thể trên giao diện (ví dụ: <em>Today, 08:30 AM</em>).</p>
+<p>2. <strong>Khung giờ hoạt động (Active Hours):</strong> Mặc định thiết lập từ <strong>8:00 AM đến 5:00 PM</strong> (hoặc khung giờ người dùng tự chọn).</p>
+<p>3. <strong>Hành vi ngoài khung giờ hoạt động:</strong> Windows sẽ tự động thực hiện tải xuống các bản vá và <strong>tự động khởi động lại máy tính (Automatic Restart)</strong> để hoàn tất việc cài đặt các bản cập nhật tích lũy mà không làm gián đoạn công việc của người dùng.</p>
+</blockquote>
+<ul>
+<li>Cập nhật kho ứng dụng Linux: <code>sudo apt-get update && sudo apt-get upgrade -y</code>.</li>
+</ul>
+<hr>
+<h4>PHẦN 2: CHÍNH SÁCH BẢO MẬT CỤC BỘ TRÊN WINDOWS (WINDOWS LOCAL SECURITY POLICY)</h4>
+<ul>
+<li>Mở <strong>Local Security Policy</strong> (<code>secpol.msc</code>).</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.c:</strong></p>
+<p><strong>List a few of security policy settings.</strong></p>
+<p><em>(Liệt kê một số thiết lập chính sách bảo mật trong công cụ.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Các nhánh chính sách cốt lõi bao gồm:</p>
+<p>- <code>Account Policies</code> (Chính sách tài khoản: Password Policy, Account Lockout Policy).</p>
+<p>- <code>Local Policies</code> (Chính sách cục bộ: Audit Policy, User Rights Assignment, Security Options).</p>
+<p>- <code>Windows Defender Firewall with Advanced Security</code>.</p>
+<p>- <code>Application Control Policies</code> (AppLocker).</p>
+</blockquote>
+<ul>
+<li>Thiết lập chính sách mật khẩu theo chuẩn an ninh tổ chức:</li>
+</ul>
+<blockquote>
+<p><strong>BẢNG THIẾT LẬP CHÍNH SÁCH MẬT KHẨU (PASSWORD POLICY TABLE):</strong></p>
+<p></p>
+<p>| Chính sách (Policy) | Giá trị cấu hình an ninh (Security Setting) | Ý nghĩa bảo vệ |</p>
+<p>|---|---|---|</p>
+<p>| <strong>Enforce password history</strong> | <strong><code>2 passwords remembered</code></strong> | Ngăn người dùng tái sử dụng 2 mật khẩu gần nhất. |</p>
+<p>| <strong>Maximum password age</strong> | <strong><code>90 days</code></strong> | Buộc người dùng đổi mật khẩu định kỳ sau mỗi 3 tháng. |</p>
+<p>| <strong>Minimum password age</strong> | <strong><code>1 day</code></strong> | Ngăn người dùng đổi mật khẩu liên tục nhiều lần trong ngày để quay vòng về mật khẩu cũ. |</p>
+<p>| <strong>Minimum password length</strong> | <strong><code>8 characters</code></strong> | Đảm bảo mật khẩu có độ dài tối thiểu 8 ký tự chống vét cạn. |</p>
+<p>| <strong>Password must meet complexity requirements</strong> | <strong><code>Enabled</code></strong> | Bắt buộc chứa 3/4 nhóm ký tự: chữ thường, chữ hoa, số, ký tự đặc biệt. |</p>
+<p>| <strong>Store passwords using reversible encryption</strong> | <strong><code>Disabled</code></strong> | Tuyệt đối tắt: Không lưu mật khẩu bằng mã hóa đảo ngược (tương đương lưu plaintext). |</p>
+</blockquote>
+<ul>
+<li>Thiết lập chính sách khóa tài khoản (Account Lockout Policy):</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3:</strong></p>
+<p><strong>How long should the user have to wait before attempting to log back in? How many times is a user allowed to attempt to login before the account is locked?</strong></p>
+<p><em>(Người dùng phải chờ bao lâu trước khi được thử đăng nhập lại? Được phép thử sai bao nhiêu lần trước khi tài khoản bị khóa?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Số lần thử đăng nhập sai cho phép (Account lockout threshold):</strong> Thiết lập <strong><code>5 invalid logon attempts</code></strong> (sau 5 lần nhập sai, tài khoản tự động bị khóa).</p>
+<p>- <strong>Thời gian khóa tài khoản (Account lockout duration):</strong> Thiết lập <strong><code>30 minutes</code></strong> (người dùng phải chờ 30 phút tài khoản mới tự mở lại, hoặc liên hệ Quản trị viên can thiệp mở khóa thủ công).</p>
+<p>- <em>Mục đích an ninh:</em> Ngăn chặn triệt để các cuộc tấn công dò quét tự động (Brute-force password guessing).</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: CẤU HÌNH QUY TẮC TƯỜNG LỬA (FIREWALL RULES)</h4>
+<h5>Bước 1: Khảo sát Windows Defender Firewall</h5>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.a:</strong></p>
+<p><strong>What are the benefits of Windows Firewall?</strong></p>
+<p><em>(Những lợi ích của Tường lửa Windows là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. Đóng vai trò là chốt kiểm soát an ninh mạng biên đầu tiên của máy trạm: Lọc và kiểm soát toàn bộ luồng lưu lượng truy cập mạng vào (Inbound) và ra (Outbound) dựa trên các tập quy tắc nghiêm ngặt.</p>
+<p>2. Ngăn chặn tin tặc quét cổng và khai thác các dịch vụ mạng chưa được vá lỗi từ xa.</p>
+<p>3. Chặn đứng các hành vi của mã độc tự ý mở cổng lắng nghe backdoor hoặc kết nối trái phép về máy chủ điều khiển C2 bên ngoài.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.b:</strong></p>
+<p><strong>Describe a negative consequence of having too many exceptions.</strong></p>
+<p><em>(Mô tả hậu quả tiêu cực của việc tạo ra quá nhiều ngoại lệ - Exceptions trong tường lửa.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Việc tạo quá nhiều ngoại lệ sẽ <strong>mở rộng bề mặt tấn công (Expanded Attack Surface)</strong> của hệ thống. Mỗi ngoại lệ mở ra một cổng mạng hoặc một ứng dụng được phép nhận kết nối tự do, vô tình biến các dịch vụ đó thành các "cửa ngõ xâm nhập tiềm năng" nếu chúng dính lỗ hổng bảo mật. Đồng thời, cấu hình tường lửa trở nên rườm rà, mất kiểm soát và gây khó khăn cho công tác kiểm toán tuân thủ an toàn thông tin.</p>
+</blockquote>
+<h5>Bước 2: Tạo Inbound Rule cho phép ICMPv4 Echo Request</h5>
+<ul>
+<li>Vào Windows Defender Firewall with Advanced Security > Inbound Rules > New Rule.</li>
+<li>Chọn Custom > All programs > Protocol: <strong>ICMPv4</strong> > Customize > Chọn <strong>Echo Request</strong>.</li>
+<li>Profile: Bỏ chọn <strong>Public</strong> (chỉ cho phép trong Domain và Private network).</li>
+<li>Đặt tên quy tắc: <em>Allow Inbound ICMP Echo Request</em>.</li>
+<li>Kiểm tra: Từ máy ảo CSE-LABVM gõ <code>ping 192.168.1.5</code> -> Nhận phản hồi ICMP Reply thành công 100%.</li>
+</ul>
+<hr>
+<h4>PHẦN 4: CÀI ĐẶT ỨNG DỤNG BẢO MẬT TRÊN LINUX (INSTALL AND RUN SECURITY APPLICATIONS)</h4>
+<h5>Bước 1: Cài đặt và chạy chkrootkit</h5>
+<ul>
+<li>Cài đặt: <code>sudo apt install chkrootkit -y</code>.</li>
+<li>Quét kiểm tra Rootkit: <code>sudo chkrootkit | grep -i worm</code>.</li>
+<li>Kết quả quét hiển thị sạch: <code>nothing found</code> cho tất cả các mẫu worm/rootkit đã biết.</li>
+</ul>
+<h5>Bước 2: Cài đặt Lynis từ CISOfy Repository</h5>
+<ul>
+<li>Nhập khóa GPG: <code>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 013baa07180c50a7101097ef9de922f1c2fde6c4</code>.</li>
+<li>Thêm kho: <code>echo "deb https://packages.cisofy.com/community/lynis/deb/ stable main" | sudo tee /etc/apt/sources.list.d/cisofy-lynis.list</code>.</li>
+<li>Cập nhật và cài đặt: <code>sudo apt-get update && sudo apt install lynis -y</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.d:</strong></p>
+<p><strong>From the output, what is the installed Lynis version?</strong></p>
+<p><em>(Từ kết quả xuất ra, phiên bản Lynis đã cài đặt là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Phiên bản Lynis được cài đặt là <strong><code>3.0.6</code></strong> (tệp gói cài đặt: <code>lynis_3.0.6-100_all.deb</code>). Kiểm tra lại bằng lệnh <code>lynis show version</code> xác nhận trả về <code>3.0.6</code>.</p>
+</blockquote>
+    </div>
+</body>
+</html>

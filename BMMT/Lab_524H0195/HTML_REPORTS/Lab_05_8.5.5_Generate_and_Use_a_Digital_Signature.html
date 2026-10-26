@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 8.5.5: Generate and Use a Digital Signature - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.45rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.2rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.header-box {
+    background-color: #f0f4f8;
+    border-left: 4px solid #2b6cb0;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+}
+.header-box p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>BÁO CÁO THỰC HÀNH CHI TIẾT - LAB 8.5.5</h1>
+<h1>HỌC PHẦN: NHẬP MÔN BẢO MẬT MÁY TÍNH (COMPUTER SECURITY)</h1>
+<hr />
+<h3>THÔNG TIN SINH VIÊN VÀ HỌC PHẦN</h3>
+<ul>
+<li><strong>Trường Đại học:</strong> Trường Đại học Tôn Đức Thắng (TDTU)</li>
+<li><strong>Khoa:</strong> Khoa Công nghệ Thông tin</li>
+<li><strong>Học phần:</strong> Nhập môn Bảo mật máy tính</li>
+<li><strong>Mã lớp / Hệ:</strong> Đại học Chính quy TDTU</li>
+<li><strong>Họ và tên sinh viên:</strong> <strong>Ngô Lâm Tiến</strong></li>
+<li><strong>Mã số sinh viên (MSSV):</strong> <strong>524H0195</strong></li>
+<li><strong>Tên bài thực hành:</strong> <strong>Lab 8.5.5: Generate and Use a Digital Signature</strong> (Cisco CyberOps Associate)</li>
+</ul>
+<hr />
+<h2>1. MỤC TIÊU BÀI THỰC HÀNH</h2>
+<ol>
+<li>Sử dụng bộ công cụ mật mã học tiêu chuẩn <strong>OpenSSL</strong> để sinh cặp khóa bất đối xứng RSA (<strong>Private Key</strong> và <strong>Public Key</strong>).</li>
+<li>Tạo lập thông điệp văn bản và thực hiện <strong>Ký số điện tử (Digital Signature)</strong> bằng cách kết hợp hàm băm mật mã an toàn <strong>SHA-256</strong> với khóa bí mật.</li>
+<li>Thực hiện quy trình <strong>Xác thực chữ ký số (Verification)</strong> bằng khóa công khai để khẳng định tính toàn vẹn (Integrity) và tính xác thực (Authenticity) của tài liệu.</li>
+<li>Mô phỏng kịch bản kẻ tấn công can thiệp, chỉnh sửa nội dung văn bản nhằm trục lợi tài chính, và chứng minh rằng cơ chế chữ ký số phát hiện ngay lập tức hành vi làm sai lệch dữ liệu (<strong>Tamper Detection</strong>).</li>
+</ol>
+<hr />
+<h2>2. NỀN TẢNG LÝ THUYẾT VÀ MÔ HÌNH TOÁN HỌC</h2>
+<p>Chữ ký số là kỹ thuật toán học kết hợp giữa <strong>Hàm băm một chiều (Cryptographic Hash Function)</strong> và <strong>Hệ mật mã khóa công khai (Asymmetric Cryptography)</strong>:
+1. <strong>Quá trình Ký (Signing Process):</strong>
+   $$\text{Hash} = H(\text{Document})$$
+   $$\text{Signature} = E_{K_{\text{private}}}(\text{Hash})$$
+   <em>Người gửi tính giá trị băm SHA-256 của tài liệu và mã hóa giá trị băm đó bằng Khóa riêng tư của mình để tạo thành chữ ký số.</em></p>
+<ol>
+<li><strong>Quá trình Xác thực (Verification Process):</strong>
+   $$\text{Hash}<em>{\text{decrypted}} = D</em>{K_{\text{public}}}(\text{Signature})$$
+   $$\text{Hash}<em>{\text{calculated}} = H(\text{Document})$$
+   $$\text{Nếu } \text{Hash}</em>{\text{decrypted}} == \text{Hash}<em>{\text{calculated}} \implies \text{Hợp lệ (Verified OK)}$$
+   $$\text{Nếu } \text{Hash}</em>{\text{decrypted}} \neq \text{Hash}_{\text{calculated}} \implies \text{Bị can thiệp (Verification Failure)}$$</li>
+</ol>
+<p>Ba trụ cột an ninh thông tin được bảo đảm:
+- <strong>Tính toàn vẹn (Integrity):</strong> Đảm bảo văn bản không bị sửa đổi dù chỉ 1 bit.
+- <strong>Tính xác thực (Authenticity):</strong> Khẳng định văn bản xuất phát từ chính chủ nhân của cặp khóa.
+- <strong>Tính chống chối bỏ (Non-Repudiation):</strong> Người ký không thể phủ nhận đã tạo ra chữ ký vì khóa riêng tư là độc nhất và được bảo mật tuyệt đối.</p>
+<hr />
+<h2>3. TIẾN TRÌNH THỰC HIỆN VÀ PHÂN TÍCH THỰC NGHIỆM</h2>
+<h3>PHẦN 1: TẠO VÀ KHẢO SÁT KHÓA RIÊNG TƯ (PRIVATE KEY)</h3>
+<ol>
+<li>Khởi động terminal trên máy trạm <code>CSE-LABVM</code>.</li>
+<li>Sử dụng lệnh <code>openssl genpkey</code> với giải thuật RSA 2048-bit để sinh khóa riêng tư:
+   <code>bash
+   cisco@labvm:~$ openssl genpkey -algorithm RSA -out private_key.pem
+   ........................+++++
+   ...+++++</code></li>
+<li>Xem nội dung khóa riêng tư ở định dạng PEM:
+   <code>bash
+   cisco@labvm:~$ cat private_key.pem
+   -----BEGIN PRIVATE KEY-----
+   MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC1db50XOYeDTAy
+   GnQLRwGusr7us0Mi44hfFUmai3QHzelqRBxO06ujv9fFwQ8e5QsaQWbph+RVTQBu
+   ... [output omitted] ...
+   R7TLUOrewnIlkMuVLk8II2EQAXTMmvvZOICCiTSvm8gflx/FRJmUEiTf0I0MVUai
+   X6O9rDJOjnoHBbi67+fgN0sn
+   -----END PRIVATE KEY-----</code>
+   <em>Nhận xét:</em> Khóa riêng tư chứa các tham số toán học bí mật ($p, q, d, \text{modulus } n$). Khóa này tuyệt đối không được chia sẻ cho bất kỳ ai.</li>
+</ol>
+<hr />
+<h3>PHẦN 2: TRÍCH XUẤT VÀ KHẢO SÁT KHÓA CÔNG KHAI (PUBLIC KEY)</h3>
+<ol>
+<li>Sử dụng lệnh <code>openssl pkey</code> để trích xuất khóa công khai từ khóa riêng tư:
+   <code>bash
+   cisco@labvm:~$ openssl pkey -in private_key.pem -pubout -out public_key.pem</code></li>
+<li>Khảo sát nội dung tệp <code>public_key.pem</code>:
+   <code>bash
+   cisco@labvm:~$ cat public_key.pem
+   -----BEGIN PUBLIC KEY-----
+   MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtXW+dFzmHg0wMhp0C0cB
+   rrK+7rNDIuOIXxVJmot0B83pakQcTtOro7/XxcEPHuULGkFm6YfkVU0Abq/1ccub
+   SFZFb1kKobMutMhxvfBQjQr3jo1j6aG12yMvrQudvSlaxHTvuDpMlhPY3IrBjkMz
+   2Lx0SjjOC9uD3CzaMwu6JWnhRt0svH7n6cZNXDfIlsYpcjLg9JqKrWEO3Ooq05q1
+   e2JEAuDOXte+M2O0ZC7cjSyxCiOfD2IEXkBq41H7xgIKTq2WJ8f+/RXEdC5Mx6Xx
+   fu7pQXN9gT9LbUPlLJfUG7vTCs2d2AA6TBUyUuzH2mS61KwWcT8VRAWtWdr/sPSK
+   AQIDAQAB
+   -----END PUBLIC KEY-----</code>
+   <em>Nhận xét:</em> Khóa công khai chứa số mũ công khai ($e = 65537$) và modulo $n$. Khóa này có thể chia sẻ rộng rãi cho bất kỳ ai muốn gửi thư mã hóa hoặc xác thực chữ ký của chủ sở hữu.</li>
+</ol>
+<hr />
+<h3>PHẦN 3: TẠO TỆP HỢP ĐỒNG VÀ THỰC HIỆN KÝ SỐ</h3>
+<ol>
+<li>Tạo tệp văn bản hợp đồng chuyển tiền nhạy cảm:
+   <code>bash
+   cisco@labvm:~$ echo "Please transfer 2,000,000 US Dollars to Mr. Jester by 6pm today!" &gt; contract.txt
+   cisco@labvm:~$ cat contract.txt
+   Please transfer 2,000,000 US Dollars to Mr. Jester by 6pm today!</code></li>
+<li>Thực hiện ký số bằng hàm băm SHA-256 kết hợp khóa riêng tư:
+   <code>bash
+   cisco@labvm:~$ openssl dgst -sha256 -sign private_key.pem -out signature contract.txt</code></li>
+<li>Xem nội dung chữ ký nhị phân:
+   <code>bash
+   cisco@labvm:~$ cat signature
+   H&amp;/JcM$RxpA*t&gt;ѣmrC jwq]t'#ot"%_BX~kp3-̣...</code>
+   <em>Nhận xét:</em> Tệp <code>signature</code> có độ dài đúng 256 bytes (tương ứng với chiều dài modulo 2048 bits của khóa RSA), chứa giá trị băm đã được mã hóa bằng khóa riêng tư.</li>
+</ol>
+<hr />
+<h3>PHẦN 4: XÁC THỰC TÍNH TOÀN VẸN CỦA VĂN BẢN GỐC</h3>
+<p>Người nhận (User B) sử dụng khóa công khai của người gửi để xác minh tính hợp lệ của hợp đồng:</p>
+<pre><code class="language-bash">cisco@labvm:~$ openssl dgst -sha256 -verify public_key.pem -signature signature contract.txt
+Verified OK
+</code></pre>
+<p><em>Đánh giá kết quả:</em> Dòng thông báo <strong><code>Verified OK</code></strong> khẳng định:
+1. Hợp đồng chính xác do người nắm giữ <code>private_key.pem</code> ký ban hành.
+2. Nội dung hợp đồng hoàn toàn nguyên bản, không bị suy hao hay thay đổi trong quá trình lưu trữ và truyền tải.</p>
+<hr />
+<h3>PHẦN 5: MÔ PHỎNG TẤN CÔNG THAY ĐỔI DỮ LIỆU VÀ PHÁT HIỆN GIAN LẬN</h3>
+<ol>
+<li>Đóng vai kẻ tấn công mở tệp hợp đồng bằng trình soạn thảo:
+   <code>bash
+   cisco@labvm:~$ gedit contract.txt</code></li>
+<li>Kẻ tấn công sửa tên người nhận chuyển tiền từ <strong><code>Mr. Jester</code></strong> thành <strong><code>Mr. Viper</code></strong> và lưu lại tệp.</li>
+<li>Người nhận thực hiện lại lệnh xác thực chữ ký số trên tệp hợp đồng đã bị sửa đổi:
+   <code>bash
+   cisco@labvm:~$ openssl dgst -sha256 -verify public_key.pem -signature signature contract.txt
+   Verification Failure</code></li>
+</ol>
+<p><em>Phân tích hiện tượng:</em>
+- Khi người nhận tính lại giá trị băm của văn bản mới: $H(\text{contract}<em>\text{tampered})$.
+- Do tính chất <strong>Hiệu ứng tuyết lở (Avalanche Effect)</strong> của giải thuật SHA-256, chỉ cần thay đổi từ "Jester" thành "Viper", toàn bộ chuỗi băm 256-bit đầu ra đã thay đổi hoàn toàn.
+- Khi OpenSSL giải mã tệp <code>signature</code> bằng <code>public_key.pem</code>, giá trị băm thu được là giá trị băm của hợp đồng gốc cũ.
+- Hai giá trị băm không trùng khớp nhau:
+  $$\text{Hash}</em>{\text{gốc}} \neq \text{Hash}_{\text{tampered}}$$
+- Do đó, OpenSSL lập tức phát hiện sự sai lệch và thông báo <strong><code>Verification Failure</code></strong>, giúp ngăn chặn thành công vụ gian lận chuyển tiền trị giá 2 triệu USD.</p>
+<hr />
+<h2>4. KẾT LUẬN VÀ ỨNG DỤNG THỰC TẾ</h2>
+<ul>
+<li><strong>Ứng dụng trong pháp luật và kinh tế:</strong> Chữ ký số hiện đại có giá trị pháp lý tương đương chữ ký tay và con dấu doanh nghiệp (áp dụng rộng rãi trong hóa đơn điện tử, hợp đồng thương mại điện tử, kê khai thuế và giao dịch ngân hàng).</li>
+<li><strong>Ứng dụng trong phân phối phần mềm:</strong> Các nhà phát triển hệ điều hành (như Microsoft, Apple, Linux RedHat/Ubuntu) luôn ký số lên các gói cài đặt và bản cập nhật hạt nhân (code signing). Trình quản lý gói (<code>apt</code>, <code>yum</code>) sẽ từ chối cài đặt phần mềm nếu chữ ký số bị lỗi (<code>Verification Failure</code>), ngăn ngừa mã độc cài cắm qua kỹ thuật tấn công chuỗi cung ứng (Supply Chain Attack).</li>
+</ul>
+    </div>
+</body>
+</html>

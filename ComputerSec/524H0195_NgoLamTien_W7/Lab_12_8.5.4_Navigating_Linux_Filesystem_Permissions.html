@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 12 8.5.4 Navigating Linux Filesystem Permissions - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 8.5.4: Navigating the Linux Filesystem and Permission Settings</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / Quản trị Linux</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Khám phá cấu trúc phân cấp hệ thống tệp tin trong Linux (File System Hierarchy), cơ chế gắn kết thiết bị (<strong>Mounting / Unmounting</strong>) và điểm gắn kết (<strong>Mount Point</strong>).</li>
+<li>Nắm vững mô hình phân quyền bảo mật POSIX (User/Owner, Group, Others) với 3 quyền cơ bản: Đọc (<strong>r</strong>), Ghi (<strong>w</strong>), và Thực thi (<strong>x</strong>).</li>
+<li>Thành thạo kỹ thuật thay đổi quyền hạn bằng <code>chmod</code> (dạng số bát phân Octal và ký tự Symbolic) và thay đổi quyền sở hữu bằng <code>chown</code>.</li>
+<li>Hiểu rõ sự khác biệt giữa quyền thực thi của tệp tin nhị phân và quyền thực thi trên thư mục.</li>
+<li>Phân biệt các loại tệp đặc biệt trong Linux (<code>-</code>, <code>d</code>, <code>b</code>, <code>c</code>, <code>l</code>, <code>p</code>, <code>s</code>) và bản chất của liên kết mềm (<strong>Symbolic Link</strong>) so với liên kết cứng (<strong>Hard Link / Inode</strong>).</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>Máy ảo Security Workstation VM (phân vùng <code>/dev/sda1</code> và phân vùng ổ cứng thứ hai <code>/dev/sdb1</code>).</li>
+<li>Tài khoản: <code>analyst</code> (mật khẩu: <code>cyberops</code>).</li>
+<li>Các tiện ích hệ thống: <code>lsblk</code>, <code>mount</code>, <code>umount</code>, <code>chmod</code>, <code>chown</code>, <code>ln</code>, <code>ls</code>.</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: KHÁM PHÁ HỆ THỐNG TỆP LINUX (EXPLORING FILESYSTEMS IN LINUX)</h4>
+<h5>Bước 1 &amp; Bước 2: Hiển thị các hệ thống tệp đang được mount</h5>
+<ul>
+<li>Kiểm tra thiết bị khối bằng <code>lsblk</code>:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ lsblk
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda      8:0    0   10G  0 disk 
+└─sda1   8:1    0   10G  0 part /
+sdb      8:16   0    1G  0 disk 
+└─sdb1   8:17   0 1023M  0 part 
+sr0     11:0    1 1024M  0 rom  </code></pre>
+<li>Lọc phân vùng root: <code>mount | grep sda1</code> hiển thị <code>/dev/sda1 on / type ext4 (rw,relatime)</code>.</li>
+<li>Điều hướng về thư mục gốc và liệt kê nội dung:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ cd /
+[analyst@secOps /]$ ls -l</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.d - CÂU 1:</strong></p>
+<p><strong>What is the meaning of the output? Where are the listed files physically stored?</strong></p>
+<p><em>(Ý nghĩa của kết quả trên là gì? Các tệp được liệt kê được lưu trữ vật lý ở đâu?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Ý nghĩa:</strong> Kết quả hiển thị cấu trúc các thư mục cấp cao nhất của hệ điều hành Linux (<code>/bin</code>, <code>/boot</code>, <code>/dev</code>, <code>/etc</code>, <code>/home</code>, <code>/root</code>, <code>/usr</code>, <code>/var</code>,...). Đây là gốc rễ của cây thư mục chuẩn (Filesystem Hierarchy Standard - FHS).</p>
+<p>- <strong>Vị trí lưu trữ vật lý:</strong> Toàn bộ các tệp và thư mục này được lưu trữ vật lý trên <strong>phân vùng ổ đĩa thứ nhất <code>/dev/sda1</code></strong>, phân vùng này đang được gắn kết (mounted) tại điểm gắn kết gốc <code>/</code>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.d - CÂU 2:</strong></p>
+<p><strong>Why is /dev/sdb1 not shown in the output above?</strong></p>
+<p><em>(Tại sao phân vùng /dev/sdb1 không xuất hiện trong kết quả trên?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Phân vùng <code>/dev/sdb1</code> không xuất hiện vì tại thời điểm này nó <strong>chưa được gắn kết (unmounted)</strong> vào bất kỳ thư mục nào trong cây hệ thống tệp. Trong Linux, một thiết bị lưu trữ vật lý dù đã được định dạng (format) nhưng nếu chưa được thực thi lệnh <code>mount</code> gắn kết vào một thư mục đại diện (Mount Point) thì hệ điều hành và người dùng sẽ hoàn toàn không thể nhìn thấy hoặc truy cập dữ liệu bên trong nó.</p>
+</blockquote>
+<h5>Bước 3: Gắn kết (Mount) và tháo gỡ (Umount) hệ thống tệp thủ công</h5>
+<ul>
+<li>Tạo thư mục mount point và gắn kết phân vùng:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ mkdir ~/second_drive
+[analyst@secOps ~]$ sudo mount /dev/sdb1 ~/second_drive/
+[analyst@secOps ~]$ ls -l ~/second_drive/
+total 20
+drwx------ 2 root root 16384 Mar  3 10:59 lost+found
+-rw-r--r-- 1 root root   183 Mar  3 15:42 myFile.txt</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.d:</strong></p>
+<p><strong>Why is the directory no longer empty? Where are the listed files physically stored?</strong></p>
+<p><em>(Tại sao thư mục không còn trống nữa? Các tệp được liệt kê được lưu trữ vật lý ở đâu?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Nguyên nhân không còn trống:</strong> Sau khi lệnh <code>mount</code> thực thi thành công, thư mục <code>~/second_drive</code> đóng vai trò là cánh cổng đại diện (Mount Point) dẫn vào hệ thống tệp của phân vùng <code>/dev/sdb1</code>. Các tệp tin nằm sẵn trong phân vùng này (<code>lost+found</code>, <code>myFile.txt</code>) ngay lập tức hiển thị ra cho người dùng.</p>
+<p>- <strong>Vị trí lưu trữ vật lý:</strong> Các tệp này được lưu trữ vật lý trên <strong>ổ đĩa cứng thứ hai (<code>/dev/sdb1</code>)</strong>, hoàn toàn độc lập với ổ đĩa hệ thống <code>/dev/sda1</code>.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: QUYỀN TRUY CẬP TỆP (PART 2: FILE PERMISSIONS)</h4>
+<h5>Bước 1: Khảo sát và thay đổi quyền tệp</h5>
+<ul>
+<li>Khảo sát thư mục <code>/home/analyst/lab.support.files/scripts/</code>:</li>
+<pre><code class="language-bash">-rw-r--r-- 1 analyst analyst 2871 Apr 28 11:27 cyops.mn</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.b - CÂU 1:</strong></p>
+<p><strong>Consider the cyops.mn file as an example. Who is the owner of the file? How about the group?</strong></p>
+<p><em>(Xét tệp cyops.mn làm ví dụ. Ai là chủ sở hữu tệp? Nhóm sở hữu là nhóm nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- Chủ sở hữu (Owner/User): <strong><code>analyst</code></strong></p>
+<p>- Nhóm sở hữu (Group): <strong><code>analyst</code></strong></p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.b - CÂU 2:</strong></p>
+<p><strong>The permissions for cyops.mn are –rw-r--r--. What does that mean?</strong></p>
+<p><em>(Quyền hạn của cyops.mn là –rw-r--r--. Điều đó có ý nghĩa gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Chuỗi 10 ký tự quyền được phân tích cụ thể:</p>
+<p>1. Ký tự thứ 1 (<code>-</code>): Đây là một tệp tin thông thường (Regular File).</p>
+<p>2. Bộ 3 ký tự tiếp theo (<code>rw-</code>): Quyền của <strong>Chủ sở hữu (Owner)</strong> — Có quyền Đọc (<code>r</code>) và Ghi (<code>w</code>), không có quyền thực thi (<code>-</code>).</p>
+<p>3. Bộ 3 ký tự tiếp theo (<code>r--</code>): Quyền của <strong>Nhóm sở hữu (Group)</strong> — Chỉ có quyền Đọc (<code>r</code>), không có quyền ghi hay thực thi.</p>
+<p>4. Bộ 3 ký tự cuối cùng (<code>r--</code>): Quyền của <strong>Những người dùng khác (Others)</strong> — Chỉ có quyền Đọc (<code>r</code>).</p>
+</blockquote>
+<ul>
+<li>Thử nghiệm tạo tệp trong thư mục hệ thống <code>/mnt</code>:</li>
+<pre><code class="language-bash">[analyst@secOps scripts]$ touch /mnt/myNewFile.txt
+touch: cannot touch &#x27;/mnt/myNewFile.txt&#x27;: Permission denied</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.c - CÂU 1:</strong></p>
+<p><strong>Why was the file not created? List the permissions, ownership and content of the /mnt directory and explain what happened.</strong></p>
+<p><em>(Tại sao tệp không được tạo? Liệt kê quyền, quyền sở hữu của /mnt và giải thích.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Lệnh kiểm tra: <code>ls -ld /mnt</code> cho kết quả <code>drwxr-xr-x 2 root root 4096 Jan 5 2018 /mnt</code>.</p>
+<p>- Quyền của thư mục <code>/mnt</code> thuộc về tài khoản <code>root:root</code>.</p>
+<p>- Nhóm người dùng khác (Others) chỉ có quyền <code>r-x</code> (Đọc và Duyệt thư mục), hoàn toàn không có quyền Ghi (<strong><code>w</code></strong> - Write permission). Trong Linux, để tạo mới hoặc xóa một tệp trong một thư mục, người dùng bắt buộc phải có quyền Ghi trên chính thư mục cha đó. Do <code>analyst</code> không có quyền ghi trên <code>/mnt</code>, lệnh <code>touch</code> bị kernel từ chối với lỗi <code>Permission denied</code>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.c - CÂU 2:</strong></p>
+<p><strong>What can be done for the touch command shown above to be successful?</strong></p>
+<p><em>(Có thể làm gì để lệnh touch ở trên thực thi thành công?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Các giải pháp kỹ thuật có thể áp dụng:</p>
+<p>1. Sử dụng quyền quản trị: <code>sudo touch /mnt/myNewFile.txt</code></p>
+<p>2. Cấp quyền ghi tạm thời cho Others trên thư mục: <code>sudo chmod o+w /mnt</code></p>
+<p>3. Chuyển quyền sở hữu thư mục cho analyst: <code>sudo chown analyst /mnt</code></p>
+</blockquote>
+<ul>
+<li>Thay đổi quyền tệp bằng mã bát phân (Octal notation):</li>
+<pre><code class="language-bash">[analyst@secOps second_drive]$ sudo chmod 665 myFile.txt
+[analyst@secOps second_drive]$ ls -l
+-rw-rw-r-x 1 root root 183 Mar  3 15:42 myFile.txt</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.f - CÂU 1:</strong></p>
+<p><strong>Did the permissions change? What are the permissions of myFile.txt?</strong></p>
+<p><em>(Quyền hạn có thay đổi không? Quyền hiện tại của myFile.txt là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Quyền đã thay đổi thành công thành: <strong><code>-rw-rw-r-x</code></strong> (Owner: <code>rw-</code> [6], Group: <code>rw-</code> [6], Other: <code>r-x</code> [5]).</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.f - CÂU 2:</strong></p>
+<p><strong>What command would change the permissions of myFile.txt to rwxrwxrwx, granting any user in the system full access to the file?</strong></p>
+<p><em>(Lệnh nào sẽ đổi quyền thành rwxrwxrwx, cấp toàn quyền truy cập cho mọi người dùng?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Câu lệnh thực thi: <strong><code>sudo chmod 777 myFile.txt</code></strong></p>
+<p><em>(Ghi chú bảo mật: Thiết lập 777 là một cấu hình sai sót nghiêm trọng vi phạm chuẩn an toàn thông tin, mở toang quyền kiểm soát cho bất kỳ ai trên hệ thống)</em>.</p>
+</blockquote>
+<ul>
+<li>Đổi quyền sở hữu và ghi dữ liệu:</li>
+<pre><code class="language-bash">[analyst@secOps second_drive]$ sudo chown analyst myFile.txt
+[analyst@secOps second_drive]$ echo test &gt;&gt; myFile.txt</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.h:</strong></p>
+<p><strong>Was the operation successful? Explain.</strong></p>
+<p><em>(Thao tác ghi tiếp có thành công không? Giải thích lý do.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><strong>Thao tác thành công hoàn toàn.</strong></p>
+<p><strong>Giải thích kỹ thuật:</strong> Sau lệnh <code>sudo chown analyst myFile.txt</code>, tài khoản <code>analyst</code> đã chính thức trở thành chủ sở hữu (Owner) của tệp. Quyền của Owner hiện tại là <code>rw-</code> (có quyền Ghi). Do đó, khi <code>analyst</code> thực thi lệnh <code>echo test >> myFile.txt</code>, hệ điều hành kiểm tra quyền Owner và cho phép ghi tiếp nội dung vào tệp mà không đòi hỏi <code>sudo</code>.</p>
+</blockquote>
+<h5>Bước 2: So sánh quyền tệp và quyền thư mục</h5>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2:</strong></p>
+<p><strong>Compare the permissions of the malware directory with the mininet_services file. What is the difference between beginning part of the malware line and the mininet_services line?</strong></p>
+<p><em>(So sánh quyền của thư mục malware với tệp mininet_services. Sự khác biệt ở phần đầu dòng là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- Dòng <code>malware</code> bắt đầu bằng chữ cái <strong><code>d</code></strong> (<code>drwxr-xr-x</code>), biểu thị đây là một <strong>Thư mục (Directory)</strong>.</p>
+<p>- Dòng <code>mininet_services</code> bắt đầu bằng dấu gạch ngang <strong><code>-</code></strong> (<code>-rwxr-xr-x</code>), biểu thị đây là một <strong>Tệp tin thông thường (Regular File)</strong>.</p>
+<p>- <strong>Ý nghĩa của bit thực thi (<code>x</code>):</strong></p>
+<p>- Đối với <strong>Tệp tin</strong>: Bit <code>x</code> cho phép hệ điều hành nạp mã nhị phân hoặc kịch bản vào bộ nhớ để thực thi như một chương trình.</p>
+<p>- Đối với <strong>Thư mục</strong>: Bit <code>x</code> (Traverse / Search bit) cho phép người dùng <strong>điều hướng vào bên trong thư mục</strong> (<code>cd</code>) và truy xuất thông tin của các tệp nằm bên trong nó. Một thư mục nếu chỉ có quyền <code>r</code> mà thiếu quyền <code>x</code> thì người dùng chỉ xem được tên tệp nhưng không thể mở đọc hay truy cập nội dung tệp.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: LIÊN KẾT MỀM VÀ LIÊN KẾT CỨNG (SYMBOLIC LINKS VS. HARD LINKS)</h4>
+<ul>
+<li>Tạo liên kết mềm và liên kết cứng:</li>
+<pre><code class="language-bash">echo &quot;symbolic&quot; &gt; file1.txt &amp;&amp; echo &quot;hard&quot; &gt; file2.txt
+ln -s file1.txt file1symbolic
+ln file2.txt file2hard</code></pre>
+<li>Đổi tên tệp gốc:</li>
+<pre><code class="language-bash">mv file1.txt file1new.txt
+mv file2.txt file2new.txt
+cat file1symbolic    # Báo lỗi: No such file or directory (Broken Link)
+cat file2hard        # Vẫn in ra: hard</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 3.f:</strong></p>
+<p><strong>What do you think would happen to file2hard if you opened a text editor and changed the text in file2new.txt?</strong></p>
+<p><em>(Bạn nghĩ điều gì sẽ xảy ra với file2hard nếu bạn mở trình soạn thảo văn bản và thay đổi nội dung trong file2new.txt?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Nội dung hiển thị của <code>file2hard</code> sẽ <strong>thay đổi hoàn toàn giống hệt</strong> như nội dung mới vừa được lưu trong <code>file2new.txt</code>.</p>
+<p><strong>Giải thích cơ chế Inode trong Linux:</strong></p>
+<p>- <strong>Liên kết mềm (Symbolic Link):</strong> Là một tệp riêng biệt chỉ chứa chuỗi ký tự đường dẫn trỏ tới tệp đích theo tên. Khi đổi tên <code>file1.txt</code>, đường dẫn trỏ bị đứt gãy dẫn tới lỗi Broken Symlink.</p>
+<p>- <strong>Liên kết cứng (Hard Link):</strong> Không trỏ theo tên tệp mà <strong>trỏ trực tiếp vào cùng một số hiệu Inode vật lý và cùng các khối dữ liệu (Data Blocks)</strong> trên ổ đĩa. Cả <code>file2new.txt</code> và <code>file2hard</code> thực chất chỉ là hai cái tên danh mục (Directory Entries) cùng đại diện cho một tệp dữ liệu duy nhất. Mọi thao tác chỉnh sửa dữ liệu trên một tệp sẽ lập tức phản ánh đồng thời trên tệp kia.</p>
+</blockquote>
+    </div>
+</body>
+</html>

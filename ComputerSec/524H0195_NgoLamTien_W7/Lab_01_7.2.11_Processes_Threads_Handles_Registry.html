@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 01 7.2.11 Processes Threads Handles Registry - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 7.2.11: Exploring Processes, Threads, Handles, and Windows Registry</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / An ninh Mạng</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Sử dụng công cụ chuyên sâu <strong>Process Explorer</strong> thuộc bộ tiện ích <strong>Microsoft Sysinternals Suite</strong> để khảo sát và phân tích cấu trúc tiến trình (Processes).</li>
+<li>Khảo sát luồng thực thi (Threads) và con trỏ tài nguyên (Handles) của một tiến trình trong Windows.</li>
+<li>Liên kết và tra cứu hash tiến trình với cơ sở dữ liệu <strong>VirusTotal</strong> để phát hiện mã độc tiềm ẩn.</li>
+<li>Tìm hiểu cấu trúc phân cấp của <strong>Windows Registry</strong> (các Hives) và thực hiện can thiệp cấu hình hệ thống bằng cách chỉnh sửa trực tiếp giá trị Registry Key.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>01 Máy tính cài đặt hệ điều hành Windows 10/11 (hoặc máy ảo Windows trong môi trường Lab).</li>
+<li>Kết nối Internet để tải Sysinternals Suite và tra cứu VirusTotal.</li>
+<li>Quyền Quản trị viên (Administrator) trên hệ thống.</li>
+<li>Bộ công cụ <strong>Sysinternals Suite</strong> (chứa <code>procexp.exe</code>).</li>
+<li>Trình chỉnh sửa Registry: <strong>Registry Editor</strong> (<code>regedit.exe</code>).</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: KHẢO SÁT TIẾN TRÌNH (PART 1: EXPLORING PROCESSES)</h4>
+<h5>Bước 1: Tải và cài đặt Windows Sysinternals Suite</h5>
+<ul>
+<li>Tải bộ công cụ từ Microsoft Docs/Technet: <code>https://technet.microsoft.com/en-us/sysinternals/bb842062.aspx</code>.</li>
+<li>Giải nén tệp tin <code>SysinternalsSuite.zip</code> vào thư mục làm việc cục bộ.</li>
+</ul>
+<h5>Bước 2: Khảo sát một tiến trình đang hoạt động (Active Process)</h5>
+<ul>
+<li>Khởi chạy tệp tin <code>procexp.exe</code> với quyền Administrator.</li>
+<li>Chấp nhận thỏa thuận giấy phép người dùng cuối (EULA) của Microsoft Sysinternals khi được hỏi.</li>
+<li>Sử dụng tính năng <strong>Find Window's Process</strong> (biểu tượng kính ngắm ngắm bia ngắm trên thanh công cụ) và kéo thả vào cửa sổ trình duyệt web đang mở (ví dụ: <code>msedge.exe</code>).</li>
+<li>Process Explorer ngay lập tức highlight chính xác tiến trình <code>msedge.exe</code> cùng cây tiến trình con (child processes) của nó trong danh sách.</li>
+<li>Nhấp chuột phải vào tiến trình trình duyệt được chọn và chọn <strong>Kill Process</strong>, sau đó nhấn OK để xác nhận.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.e:</strong></p>
+<p><strong>What happened to the web browser window when the process is killed?</strong></p>
+<p><em>(Điều gì đã xảy ra với cửa sổ trình duyệt web khi tiến trình bị tiêu diệt?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Cửa sổ trình duyệt Microsoft Edge lập tức biến mất và bị đóng hoàn toàn ngay trên màn hình mà không hiển thị bất kỳ hộp thoại cảnh báo hay yêu cầu xác nhận lưu phiên làm việc nào.</p>
+<p><strong>Giải thích kỹ thuật:</strong> Khi thực hiện thao tác <strong>Kill Process</strong> (tương đương lệnh gọi Windows API <code>TerminateProcess</code>), Windows Kernel ngay lập tức thu hồi toàn bộ không gian địa chỉ bộ nhớ ảo (Virtual Address Space), giải phóng tất cả các con trỏ tài nguyên (User/GDI handles, file handles) và chấm dứt mọi luồng thực thi (threads) thuộc về tiến trình đó mà không cho phép tiến trình chạy các thủ tục dọn dẹp nội bộ (cleanup routine).</p>
+</blockquote>
+<h5>Bước 3: Khởi chạy và quan sát một tiến trình mới</h5>
+<ul>
+<li>Khởi chạy Command Prompt (<code>cmd.exe</code>).</li>
+<li>Kéo biểu tượng kính ngắm vào cửa sổ Command Prompt để định vị tiến trình.</li>
+<li>Cấu trúc tiến trình được ghi nhận: Tiến trình cha (Parent Process) của <code>cmd.exe</code> là <code>explorer.exe</code>. Bên dưới <code>cmd.exe</code> có một tiến trình con liên kết là <code>conhost.exe</code> (Console Window Host).</li>
+<li>Tại cửa sổ CMD, gõ lệnh gửi gói tin mạng: <code>ping 8.8.8.8 -n 5</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.d:</strong></p>
+<p><strong>What happened during the ping process?</strong></p>
+<p><em>(Điều gì đã xảy ra trong suốt quá trình chạy lệnh ping?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Trong giao diện cây tiến trình (Process Tree) của Process Explorer:</p>
+<p>1. Một tiến trình con mới có tên là <code>PING.EXE</code> lập tức xuất hiện phân cấp thụt lề ngay bên dưới tiến trình cha <code>cmd.exe</code> (PPID của <code>PING.EXE</code> chính là PID của <code>cmd.exe</code>).</p>
+<p>2. Theo cấu hình màu mặc định của Process Explorer, tiến trình mới xuất hiện được tô nền màu <strong>xanh lá cây</strong> (New Process).</p>
+<p>3. Tiến trình duy trì hoạt động trong vài giây để gửi các gói tin ICMP Echo Request và nhận phản hồi ICMP Echo Reply.</p>
+<p>4. Khi lệnh ping hoàn tất, dòng <code>PING.EXE</code> chuyển sang màu <strong>đỏ</strong> (Terminating Process) trong một khoảng thời gian rất ngắn rồi biến mất hoàn toàn khỏi danh sách tiến trình đang hoạt động.</p>
+</blockquote>
+<ul>
+<li><strong>Kiểm tra an toàn tiến trình với VirusTotal:</strong></li>
+<li>Nhấp chuột phải vào <code>conhost.exe</code> > chọn <strong>Check VirusTotal</strong>.</li>
+<li>Đồng ý với điều khoản sử dụng của VirusTotal. Cột VirusTotal hiển thị tỷ lệ nhận diện (Detection Ratio), ví dụ: <code>0/76</code> kèm liên kết dẫn đến trang báo cáo chi tiết.</li>
+<li>Kết quả xác nhận file nhị phân <code>conhost.exe</code> có mã băm (SHA256) trùng khớp với file hệ thống chuẩn của Microsoft Windows, không chứa mã độc.</li>
+<li>Nhấp chuột phải vào tiến trình cha <code>cmd.exe</code> và chọn <strong>Kill Process</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.g:</strong></p>
+<p><strong>What happened to the child process conhost.exe?</strong></p>
+<p><em>(Điều gì đã xảy ra với tiến trình con conhost.exe?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Tiến trình con <code>conhost.exe</code> cũng tự động bị đóng và biến mất khỏi danh sách tiến trình cùng lúc với <code>cmd.exe</code>.</p>
+<p><strong>Giải thích kỹ thuật:</strong> Tiến trình <code>conhost.exe</code> được kiến trúc hóa từ Windows 7 trở đi để phục vụ phiên giao tiếp đồ họa và I/O cho cửa sổ console của <code>cmd.exe</code>. Khi tiến trình giao tiếp chính <code>cmd.exe</code> bị chấm dứt, session điều khiển bị ngắt kết nối khiến <code>conhost.exe</code> không còn lý do tồn tại và tự động giải phóng tài nguyên thoát ra.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: KHẢO SÁT LUỒNG VÀ CON TRỎ TÀI NGUYÊN (PART 2: EXPLORING THREADS AND HANDLES)</h4>
+<h5>Bước 1: Khảo sát luồng thực thi (Threads)</h5>
+<ul>
+<li>Mở lại cửa sổ Command Prompt.</li>
+<li>Trong Process Explorer, nhấp chuột phải vào <code>conhost.exe</code> > chọn <strong>Properties...</strong> > chuyển sang thẻ <strong>Threads</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.c:</strong></p>
+<p><strong>What type of information is available in the Properties window?</strong></p>
+<p><em>(Loại thông tin nào có sẵn trong cửa sổ Properties của tiến trình/luồng?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Thẻ Threads cung cấp thông tin chi tiết ở cấp độ hệ thống về các luồng thực thi bên trong tiến trình:</p>
+<p>1. <strong>TID (Thread ID):</strong> Mã định danh duy nhất của từng luồng trong hệ điều hành.</p>
+<p>2. <strong>CPU (%):</strong> Tỷ lệ phần trăm thời gian CPU mà luồng đang tiêu thụ.</p>
+<p>3. <strong>Cycles Delta:</strong> Số chu kỳ xung nhịp CPU mà luồng thực thi giữa các lần quét cập nhật.</p>
+<p>4. <strong>Start Address:</strong> Địa chỉ bắt đầu của hàm thực thi luồng trong module (ví dụ: <code>conhost.exe!ConsoleAllocate</code> hoặc các hàm API nạp từ <code>ntdll.dll</code>, <code>kernel32.dll</code>).</p>
+<p>5. <strong>Call Stack (khi nhấn nút Stack):</strong> Chuỗi các lệnh gọi hàm từ chế độ người dùng (User-mode) xuống nhân hệ điều hành (Kernel-mode).</p>
+<p>6. Các thông số khác: Base Priority, Dynamic Priority, Context Switches (số lần chuyển đổi ngữ cảnh).</p>
+</blockquote>
+<h5>Bước 2: Khảo sát con trỏ tài nguyên (Handles)</h5>
+<ul>
+<li>Trong giao diện Process Explorer, vào menu <strong>View</strong> > chọn <strong>Lower Pane View</strong> > chọn <strong>Handles</strong> (hoặc nhấn tổ hợp phím <code>Ctrl + H</code>).</li>
+<li>Nhấp chọn tiến trình <code>conhost.exe</code> để xem toàn bộ danh sách các Handle mà nó đang mở.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.a:</strong></p>
+<p><strong>Examine the handles. What are the handles pointing to?</strong></p>
+<p><em>(Kiểm tra các handle. Các handle đang trỏ tới những đối tượng nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Cửa sổ bên dưới liệt kê các đối tượng tài nguyên được quản lý bởi Windows Object Manager mà <code>conhost.exe</code> đang nắm giữ con trỏ tham chiếu (Handles). Các loại đối tượng cụ thể bao gồm:</p>
+<p>1. <strong>Key:</strong> Các khóa Windows Registry đang mở (ví dụ: <code>HKCU\Console</code>, <code>HKLM\SYSTEM\CurrentControlSet\...</code>).</p>
+<p>2. <strong>File / Directory:</strong> Các tệp và thư mục trên đĩa (ví dụ: các tệp phông chữ trong <code>C:\Windows\Fonts</code>, đường dẫn thiết bị <code>\Device\ConDrv</code>).</p>
+<p>3. <strong>Section:</strong> Các phân vùng bộ nhớ chia sẻ (Memory-Mapped Files / Shared Memory Blocks) dùng để trao đổi dữ liệu I/O giữa <code>conhost.exe</code> và <code>cmd.exe</code>.</p>
+<p>4. <strong>Event / Mutant / Semaphore:</strong> Các đối tượng đồng bộ hóa luồng (Synchronization Primitives) nhằm điều phối việc ghi/đọc dữ liệu console mà không gây tranh chấp (race condition).</p>
+<p>5. <strong>ALPC Port:</strong> Kênh truyền thông liên tiến trình (Advanced Local Procedure Call) kết nối với hệ thống con Windows Subsystem (<code>csrss.exe</code>).</p>
+<p>6. <strong>Desktop / WindowStation:</strong> Các đối tượng đồ họa giao diện người dùng.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: KHẢO SÁT WINDOWS REGISTRY (PART 3: EXPLORING WINDOWS REGISTRY)</h4>
+<h5>Bước 1: Khái niệm cấu trúc phân cấp Registry</h5>
+<p>Hệ thống Windows Registry bao gồm 5 nhánh gốc (Hives) chính:</p>
+<ul>
+<li><code>HKEY_CLASSES_ROOT (HKCR)</code>: Quản lý liên kết phần mở rộng tệp và đăng ký COM / OLE / CLSID.</li>
+<li><code>HKEY_CURRENT_USER (HKCU)</code>: Lưu trữ cấu hình cá nhân của người dùng hiện đang đăng nhập.</li>
+<li><code>HKEY_LOCAL_MACHINE (HKLM)</code>: Lưu trữ cấu hình toàn cục của phần cứng và hệ điều hành cho máy tính cục bộ.</li>
+<li><code>HKEY_USERS (HKU)</code>: Chứa profile cấu hình của tất cả các tài khoản người dùng trên hệ thống.</li>
+<li><code>HKEY_CURRENT_CONFIG (HKCC)</code>: Chứa thông tin cấu hình phần cứng được tải khi hệ thống khởi động.</li>
+</ul>
+<h5>Bước 2: Thay đổi giá trị EulaAccepted của Process Explorer</h5>
+<ul>
+<li>Mở <strong>Registry Editor</strong> (<code>regedit.exe</code>) bằng quyền Administrator.</li>
+<li>Điều hướng theo đường dẫn:</li>
+<p><code>HKEY_CURRENT_USER\Software\Sysinternals\Process Explorer</code></p>
+<li>Tìm khóa giá trị (Value Name): <code>EulaAccepted</code>.</li>
+<li>Giá trị mặc định hiện tại là <code>0x00000001 (1)</code> biểu thị người dùng đã đồng ý thỏa thuận bản quyền.</li>
+<li>Nhấp đúp chuột vào <code>EulaAccepted</code>, đổi <strong>Value data</strong> từ <code>1</code> thành <code>0</code>. Nhấn OK.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.d:</strong></p>
+<p><strong>What is value for this registry key in the Data column?</strong></p>
+<p><em>(Giá trị của registry key này trong cột Data hiện tại là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Giá trị hiển thị trong cột Data chuyển thành: <code>0x00000000 (0)</code>.</p>
+</blockquote>
+<ul>
+<li>Khởi chạy lại file <code>procexp.exe</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.e:</strong></p>
+<p><strong>When you open the Process Explorer, what did you see?</strong></p>
+<p><em>(Khi mở lại Process Explorer, bạn thấy điều gì xuất hiện?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Hộp thoại thông báo thỏa thuận cấp phép người dùng cuối <strong>Process Explorer License Agreement (EULA)</strong> xuất hiện trở lại trên màn hình, yêu cầu người dùng phải bấm chọn <strong>Agree</strong> thì phần mềm mới cho phép khởi chạy giao diện chính.</p>
+<p><strong>Phân tích cơ chế:</strong> Khi được kích hoạt, phần mềm Process Explorer kiểm tra cấu hình trong Registry tại đường dẫn <code>HKCU\Software\Sysinternals\Process Explorer\EulaAccepted</code>. Nếu giá trị bằng <code>1</code>, phần mềm bỏ qua bước xác nhận bản quyền. Khi giá trị bị chuyển về <code>0</code> (hoặc khóa bị xóa), phần mềm nhận định đây là lần chạy đầu tiên hoặc chưa được chấp thuận điều khoản, do đó buộc phải hiển thị lại hộp thoại EULA.</p>
+</blockquote>
+<hr>
+<h3>IV. BÀI HỌC VÀ KẾT LUẬN (CONCLUSION &amp; LESSONS LEARNED)</h3>
+<ul>
+<li><strong>Quản lý tiến trình trong ứng phó sự cố (DFIR):</strong> Process Explorer cung cấp cái nhìn chi tiết hơn rất nhiều so với Task Manager cơ bản, cho phép nhận diện các kỹ thuật tấn công ngụy trang (Process Masquerading), kỹ thuật tiêm mã độc vào tiến trình hợp pháp (Process Injection, DLL Injection) thông qua kiểm tra luồng, DLL nạp vào và kiểm tra hash VirusTotal.</li>
+<li><strong>Vai trò của Handles:</strong> Khảo sát Handles cho phép chuyên viên an ninh số nhận biết tiến trình đang mở tệp tin nào, kết nối đến socket mạng nào hoặc khóa registry nào, giúp cô lập chính xác hành vi của mã độc.</li>
+<li><strong>Cơ chế Registry:</strong> Windows Registry là trung tâm cấu hình của toàn bộ hệ điều hành. Việc hiểu rõ cơ chế lưu trữ của HKCU và HKLM là kiến thức bắt buộc để phát hiện các kỹ thuật duy trì quyền kiểm soát (Persistence Mechanism - ví dụ các khóa <code>Run</code>, <code>RunOnce</code>) mà mã độc thường sử dụng.</li>
+</ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 11.2.6: Classify Alerts - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.45rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.2rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.header-box {
+    background-color: #f0f4f8;
+    border-left: 4px solid #2b6cb0;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+}
+.header-box p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>BÁO CÁO THỰC HÀNH CHI TIẾT - LAB 11.2.6</h1>
+<h1>HỌC PHẦN: NHẬP MÔN BẢO MẬT MÁY TÍNH (COMPUTER SECURITY)</h1>
+<hr />
+<h3>THÔNG TIN SINH VIÊN VÀ HỌC PHẦN</h3>
+<ul>
+<li><strong>Trường Đại học:</strong> Trường Đại học Tôn Đức Thắng (TDTU)</li>
+<li><strong>Khoa:</strong> Khoa Công nghệ Thông tin</li>
+<li><strong>Học phần:</strong> Nhập môn Bảo mật máy tính</li>
+<li><strong>Mã lớp / Hệ:</strong> Đại học Chính quy TDTU</li>
+<li><strong>Họ và tên sinh viên:</strong> <strong>Ngô Lâm Tiến</strong></li>
+<li><strong>Mã số sinh viên (MSSV):</strong> <strong>524H0195</strong></li>
+<li><strong>Tên bài thực hành:</strong> <strong>Lab 11.2.6: Classify Alerts</strong> (Cisco CyberOps Associate)</li>
+</ul>
+<hr />
+<h2>1. MỤC TIÊU BÀI THỰC HÀNH</h2>
+<ol>
+<li>Nghiên cứu, tra cứu cơ sở dữ liệu lỗ hổng bảo mật quốc gia (NVD/MITRE) và chữ ký an ninh Snort để thu thập thông tin về 10 mã định danh (<strong>Snort SIDs &amp; CVE IDs</strong>).</li>
+<li>Xác định điểm đánh giá mức độ nghiêm trọng <strong>CVSS</strong> (Common Vulnerability Scoring System) và mô tả cơ chế kỹ thuật của từng lỗ hổng.</li>
+<li>Áp dụng kỹ năng phân tích mối đe dọa vào <strong>Môi trường Windows</strong> (Windows 10, Windows Server 2016, HP LaserJet, Grandstream UCM 6200 IP Phone) để phân loại cảnh báo: <strong>True Positive (Dương tính thật)</strong>, <strong>False Positive (Dương tính giả)</strong>, hoặc <strong>Cần thêm thông tin</strong>.</li>
+<li>Áp dụng kỹ năng phân tích mối đe dọa vào <strong>Môi trường Linux</strong> (Linux servers: DNS/Web/Email, Linux workstations, Cisco IP Phone, Epson Printers) để phân loại tính chính xác của các cảnh báo.</li>
+</ol>
+<hr />
+<h2>2. NỘI DUNG VÀ KẾT QUẢ THỰC HIỆN</h2>
+<h3>PHẦN 1: TRA CỨU THÔNG TIN SNORT IDS VÀ CVE IDS</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">STT</th>
+<th style="text-align: left;">Mã định danh</th>
+<th style="text-align: left;">Mã CVE / Snort SID liên kết</th>
+<th style="text-align: center;">Điểm CVSS v3.x</th>
+<th style="text-align: center;">Mức độ</th>
+<th style="text-align: left;">Bản chất lỗ hổng kỹ thuật</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;"><strong>Sid 1-54630</strong></td>
+<td style="text-align: left;">CVE-2020-5723 / CVE-2020-5722</td>
+<td style="text-align: center;"><strong>9.8</strong></td>
+<td style="text-align: center;">Critical</td>
+<td style="text-align: left;">SQLi &amp; OS Command Injection trong endpoint <code>/cgi-bin/api-send_sms</code> của Grandstream UCM6200 PBX.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td style="text-align: left;"><strong>CVE-2021-3438</strong></td>
+<td style="text-align: left;">Snort SID 1-57896</td>
+<td style="text-align: center;"><strong>7.8</strong></td>
+<td style="text-align: center;">High</td>
+<td style="text-align: left;">Tràn bộ đệm driver máy in <code>SSPORT.SYS</code> (HP/Samsung/Xerox) cho phép leo thang đặc quyền lên <code>SYSTEM</code>.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td style="text-align: left;"><strong>CVE-2020-5723</strong></td>
+<td style="text-align: left;">Snort SID 1-54630 / SID 1-54629</td>
+<td style="text-align: center;"><strong>9.8</strong></td>
+<td style="text-align: center;">Critical</td>
+<td style="text-align: left;">Rò rỉ mật khẩu rõ và thực thi lệnh không xác thực trên tổng đài thoại Grandstream UCM6200.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: left;"><strong>Sid 1-46597</strong></td>
+<td style="text-align: left;">CVE-2018-8165</td>
+<td style="text-align: center;"><strong>7.8</strong></td>
+<td style="text-align: center;">High</td>
+<td style="text-align: left;">Leo thang đặc quyền (LPE) trong hệ thống RPC/SMB trên Windows 10 và Windows Server 2016.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong></td>
+<td style="text-align: left;"><strong>CVE-2020-28374</strong></td>
+<td style="text-align: left;">Snort SID 1-56843</td>
+<td style="text-align: center;"><strong>8.1</strong></td>
+<td style="text-align: center;">High</td>
+<td style="text-align: left;">Bỏ qua phân quyền truy cập LUN trong phân hệ LIO SCSI target của nhân hệ điều hành Linux.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td style="text-align: left;"><strong>Sid 1-31814</strong></td>
+<td style="text-align: left;">CVE-2014-0160 (Heartbleed)</td>
+<td style="text-align: center;"><strong>7.5</strong></td>
+<td style="text-align: center;">High</td>
+<td style="text-align: left;">Tràn bộ đệm đọc TLS Heartbeat trong OpenSSL (1.0.1 - 1.0.1f) làm lộ khóa riêng tư và dữ liệu nhạy cảm.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>7</strong></td>
+<td style="text-align: left;"><strong>Sid 1-50089</strong></td>
+<td style="text-align: left;">CVE-2019-1786</td>
+<td style="text-align: center;"><strong>7.5</strong></td>
+<td style="text-align: center;">High</td>
+<td style="text-align: left;">Lỗi xử lý gói tin SIP bị biến dạng gây tràn bộ nhớ và treo khởi động lại điện thoại Cisco IP Phone.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>8</strong></td>
+<td style="text-align: left;"><strong>Sid 1-50190</strong></td>
+<td style="text-align: left;">CVE-2019-10149 (Return of the WIZard)</td>
+<td style="text-align: center;"><strong>9.8</strong></td>
+<td style="text-align: center;">Critical</td>
+<td style="text-align: left;">Thực thi lệnh từ xa (RCE) với đặc quyền root trên máy chủ thư điện tử Exim Mail Transfer Agent.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>9</strong></td>
+<td style="text-align: left;"><strong>Sid 1-49188</strong></td>
+<td style="text-align: left;">CVE-2018-5743</td>
+<td style="text-align: center;"><strong>7.5</strong></td>
+<td style="text-align: center;">High</td>
+<td style="text-align: left;">Tấn công cạn kiệt socket descriptor qua nhiều kết nối TCP đồng thời làm sập dịch vụ DNS ISC BIND.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>10</strong></td>
+<td style="text-align: left;"><strong>Sid 1-46991</strong></td>
+<td style="text-align: left;">CVE-2018-11776</td>
+<td style="text-align: center;"><strong>9.8</strong></td>
+<td style="text-align: center;">Critical</td>
+<td style="text-align: left;">Thực thi mã từ xa qua bộ phân tích cú pháp biểu thức OGNL trong framework web Apache Struts 2.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>PHẦN 2: PHÂN LOẠI CẢNH BÁO TRONG MÔI TRƯỜNG WINDOWS</h3>
+<p><strong>Đặc tả tài sản môi trường:</strong>
+- Máy trạm: Windows 10 PCs
+- Máy chủ: Windows Server 2016 Servers
+- Thiết bị ngoại vi: Máy in HP LaserJet
+- Hạ tầng thoại: Tổng đài điện thoại IP Grandstream UCM 6200 series
+- Các phần mềm ứng dụng nghiệp vụ đa dạng</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">STT</th>
+<th style="text-align: left;">Cảnh báo / Mã lỗ hổng</th>
+<th style="text-align: center;">Phân loại</th>
+<th style="text-align: left;">Rationale / Lập luận an ninh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;">Sid 1-54630</td>
+<td style="text-align: center;"><strong>True Positive</strong></td>
+<td style="text-align: left;">Hệ thống mạng có triển khai tổng đài Grandstream UCM 6200 series.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td style="text-align: left;">CVE-2021-3438</td>
+<td style="text-align: center;"><strong>True Positive</strong></td>
+<td style="text-align: left;">Có máy in HP LaserJet kết nối với Windows, driver <code>SSPORT.SYS</code> tồn tại trên các máy trạm/máy chủ.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td style="text-align: left;">CVE-2020-5723</td>
+<td style="text-align: center;"><strong>True Positive</strong></td>
+<td style="text-align: left;">Tổng đài thoại Grandstream UCM 6200 series là mục tiêu trực tiếp của lỗ hổng này.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: left;">Sid 1-46597</td>
+<td style="text-align: center;"><strong>True Positive</strong></td>
+<td style="text-align: left;">Môi trường vận hành Windows 10 và Windows Server 2016 chứa phân hệ SMB/RPC bị ảnh hưởng.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong></td>
+<td style="text-align: left;">CVE-2020-28374</td>
+<td style="text-align: center;"><strong>False Positive</strong></td>
+<td style="text-align: left;">Lỗ hổng thuộc nhân Linux (LIO SCSI target), môi trường thuần Windows không bị tác động.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td style="text-align: left;">Sid 1-31814</td>
+<td style="text-align: center;"><strong>Need More Info</strong></td>
+<td style="text-align: left;">Mặc dù Windows dùng SChannel, các ứng dụng web bên thứ ba có thể nhúng OpenSSL. Cần rà soát phiên bản OpenSSL.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>7</strong></td>
+<td style="text-align: left;">Sid 1-50089</td>
+<td style="text-align: center;"><strong>False Positive</strong></td>
+<td style="text-align: left;">Môi trường dùng tổng đài Grandstream, hoàn toàn không có thiết bị hay firmware Cisco IP Phone.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>8</strong></td>
+<td style="text-align: left;">Sid 1-50190</td>
+<td style="text-align: center;"><strong>False Positive</strong></td>
+<td style="text-align: left;">Exim MTA chạy trên Unix/Linux; Windows sử dụng Exchange Server hoặc IIS SMTP Service.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>9</strong></td>
+<td style="text-align: left;">Sid 1-49188</td>
+<td style="text-align: center;"><strong>False Positive</strong></td>
+<td style="text-align: left;">Windows Server 2016 sử dụng dịch vụ Microsoft Active Directory DNS, không dùng ISC BIND.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>10</strong></td>
+<td style="text-align: left;">Sid 1-46991</td>
+<td style="text-align: center;"><strong>Need More Info</strong></td>
+<td style="text-align: left;">Apache Struts 2 chạy trên Java độc lập nền tảng; cần kiểm tra các ứng dụng web trên Windows Server có dùng Struts hay không.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>PHẦN 3: PHÂN LOẠI CẢNH BÁO TRONG MÔI TRƯỜNG LINUX</h3>
+<p><strong>Đặc tả tài sản môi trường:</strong>
+- Máy chủ Linux cung cấp dịch vụ: DNS, Web services, Email
+- Máy trạm người dùng: Linux workstations
+- Hạ tầng thoại: Hệ thống điện thoại IP Cisco (Cisco IP phone system)
+- Thiết bị ngoại vi: Máy in Epson
+- Các phần mềm ứng dụng chuyên dụng</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">STT</th>
+<th style="text-align: left;">Cảnh báo / Mã lỗ hổng</th>
+<th style="text-align: center;">Phân loại</th>
+<th style="text-align: left;">Rationale / Lập luận an ninh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;">Sid 1-54630</td>
+<td style="text-align: center;"><strong>False Positive</strong></td>
+<td style="text-align: left;">Môi trường sử dụng hệ thống thoại Cisco IP phone, không có tổng đài Grandstream.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td style="text-align: left;">CVE-2021-3438</td>
+<td style="text-align: center;"><strong>False Positive</strong></td>
+<td style="text-align: left;">Môi trường trang bị máy in Epson và máy trạm Linux, không dùng máy in HP với driver Windows <code>SSPORT.SYS</code>.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td style="text-align: left;">CVE-2020-5723</td>
+<td style="text-align: center;"><strong>False Positive</strong></td>
+<td style="text-align: left;">Không triển khai bất kỳ thiết bị Grandstream UCM 6200 nào.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: left;">Sid 1-46597</td>
+<td style="text-align: center;"><strong>False Positive</strong></td>
+<td style="text-align: left;">Lỗ hổng RPC/SMB thuộc hệ điều hành Windows; toàn bộ máy trạm và máy chủ đều là Linux.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong></td>
+<td style="text-align: left;">CVE-2020-28374</td>
+<td style="text-align: center;"><strong>True Positive</strong></td>
+<td style="text-align: left;">Máy chủ Linux cung cấp hạ tầng lưu trữ iSCSI chạy phân hệ nhân Linux LIO target.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td style="text-align: left;">Sid 1-31814</td>
+<td style="text-align: center;"><strong>Need More Info</strong></td>
+<td style="text-align: left;">Dịch vụ Web trên Linux dùng OpenSSL; cần kiểm tra phiên bản gói OpenSSL có nằm trong diện tổn thương (1.0.1 - 1.0.1f) hay không.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>7</strong></td>
+<td style="text-align: left;">Sid 1-50089</td>
+<td style="text-align: center;"><strong>True Positive</strong></td>
+<td style="text-align: left;">Môi trường sử dụng trực tiếp hệ thống điện thoại IP Cisco (Cisco IP phone system).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>8</strong></td>
+<td style="text-align: left;">Sid 1-50190</td>
+<td style="text-align: center;"><strong>True Positive</strong></td>
+<td style="text-align: left;">Máy chủ dịch vụ Email trên Linux thường xuyên vận hành Exim Mail Transfer Agent.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>9</strong></td>
+<td style="text-align: left;">Sid 1-49188</td>
+<td style="text-align: center;"><strong>True Positive</strong></td>
+<td style="text-align: left;">Máy chủ phân giải tên miền DNS trên Linux chủ yếu sử dụng phần mềm ISC BIND.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>10</strong></td>
+<td style="text-align: left;">Sid 1-46991</td>
+<td style="text-align: center;"><strong>Need More Info</strong></td>
+<td style="text-align: left;">Cần kiểm tra mã nguồn và ngăn xếp phần mềm các trang web trên máy chủ Linux xem có dùng framework Apache Struts 2 hay không.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. Ý NGHĨA THỰC TIỄN TRONG TRUNG TÂM VẬN HÀNH AN NINH (SOC)</h2>
+<ul>
+<li><strong>Tầm quan trọng của Quản lý Tài sản (Asset Management):</strong> Một cảnh báo chỉ có ý nghĩa khi đối chiếu với cấu hình phần cứng, hệ điều hành và dịch vụ đang thực sự chạy trên mạng đích.</li>
+<li><strong>Giảm tải mệt mỏi cảnh báo (Alert Fatigue):</strong> Việc tự động loại trừ các cảnh báo Dương tính giả (False Positives) dựa trên hồ sơ tài sản (Asset Context Enrichment) giúp các chuyên viên SOC tập trung vào các mối đe dọa thực tế nguy cấp (True Positives).</li>
+<li><strong>Quy trình thẩm định chuyên sâu:</strong> Đối với các cảnh báo "Cần thêm thông tin", kỹ sư phân tích phải phối hợp quét rà soát phiên bản (Vulnerability Scanning) hoặc kiểm tra tệp cấu hình để ra quyết định xử lý phù hợp.</li>
+</ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 06 Monitor Manage System Resources Windows - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab: Monitor and Manage System Resources in Windows</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / Quản trị Hệ thống</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Sử dụng các công cụ quản trị nâng cao (<strong>Administrative Tools</strong>) trong Windows để giám sát và phân tích tài nguyên phần cứng thời gian thực.</li>
+<li>Khảo sát chu trình hoạt động (Start/Stop/Disable) của dịch vụ hệ thống thông qua dịch vụ <strong>Routing and Remote Access (RRAS)</strong>.</li>
+<li>Sử dụng công cụ <strong>Performance Monitor</strong> (<code>perfmon.exe</code>) để theo dõi các bộ đếm hiệu năng (Performance Counters).</li>
+<li>Phân tích nhật ký sự kiện hệ thống trong <strong>Computer Management</strong> (<code>compmgmt.msc</code> / Event Viewer).</li>
+<li>Thiết lập bộ thu thập dữ liệu tự động (<strong>Data Collector Sets</strong>) để trích xuất tệp nhật ký hiệu năng bộ nhớ định dạng CSV và phân tích dữ liệu.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>01 Máy tính hoặc máy ảo chạy Microsoft Windows 10/11 có kết nối mạng.</li>
+<li>Quyền Quản trị viên (Administrator).</li>
+<li>Các tiện ích Windows: Services (<code>services.msc</code>), Performance Monitor (<code>perfmon.exe</code>), Computer Management (<code>compmgmt.msc</code>).</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: KHỞI ĐỘNG VÀ DỪNG DỊCH VỤ ROUTING AND REMOTE ACCESS (RRAS)</h4>
+<ul>
+<li>Vào Control Panel > Administrative Tools > mở tiện ích <strong>Services</strong>.</li>
+<li>Tìm dịch vụ <strong>Routing and Remote Access</strong>. Nhấp đúp mở Properties > chuyển Startup type thành <strong>Manual</strong> > nhấn Apply.</li>
+<li>Mở song song công cụ <strong>Performance Monitor</strong> (<code>perfmon.exe</code>) và cửa sổ <strong>Network Connections</strong> (<code>ncpa.cpl</code>).</li>
+<li>Trong Performance Monitor, nhấp vào biểu tượng <strong>Unfreeze Display</strong> để bắt đầu ghi biểu đồ.</li>
+<li>Quay lại cửa sổ dịch vụ RRAS, nhấn nút <strong>Start</strong> để khởi chạy dịch vụ.</li>
+<li>Chuyển sang cửa sổ Network Connections, nhấn phím <strong>F5</strong> để làm mới.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 1 - BƯỚC m:</strong></p>
+<p><strong>Những thay đổi nào xuất hiện trong cửa sổ sau khi khởi động dịch vụ Routing and Remote Access?</strong></p>
+<p><em>(What changes appear in the window after starting the Routing and Remote Access service?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Trong cửa sổ Network Connections, xuất hiện thêm một biểu tượng kết nối mạng mới có tên là <strong>"Incoming Connections"</strong> (Kết nối đến) hoặc các adapter giao tiếp ảo liên quan đến tính năng định tuyến và truy cập từ xa (VPN/NAT Routing).</p>
+</blockquote>
+<ul>
+<li>Quay lại cửa sổ Properties của RRAS, nhấn nút <strong>Stop</strong> để dừng dịch vụ.</li>
+<li>Chuyển sang cửa sổ Network Connections và kiểm tra.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 1 - BƯỚC o:</strong></p>
+<p><strong>Những thay đổi nào xuất hiện trong ngăn bên phải sau khi ngừng dịch vụ Routing and Remote Access?</strong></p>
+<p><em>(What changes appear in the right pane after stopping the Routing and Remote Access service?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Biểu tượng <strong>"Incoming Connections"</strong> biến mất khỏi danh sách các kết nối mạng (hoặc chuyển sang trạng thái ngắt kết nối/vô hiệu hóa hoàn toàn).</p>
+</blockquote>
+<ul>
+<li>Quay lại cửa sổ Performance Monitor, nhấn nút <strong>Freeze Display</strong> để dừng ghi nhận đồ thị.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 1 - BƯỚC p:</strong></p>
+<p><strong>Bộ đếm (Counter) nào đang được ghi lại nhiều nhất trong biểu đồ (gợi ý: hãy nhìn vào màu biểu đồ và màu Counter)?</strong></p>
+<p><em>(Which counter is being recorded the most in the graph?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Bộ đếm <strong><code>% Processor Time</code></strong> (Thời gian xử lý của CPU, thường được biểu diễn bằng đường màu xanh lá cây hoặc đỏ tùy theo theme mặc định) hoặc bộ đếm <strong><code>Pages/sec</code></strong> của bộ nhớ Memory có biên độ dao động mạnh nhất tại thời điểm dịch vụ khởi động và giải phóng tài nguyên.</p>
+</blockquote>
+<ul>
+<li>Nhấp vào menu đổ xuống <strong>Change graph type</strong> > chọn chế độ xem <strong>Report</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 1 - BƯỚC q-r:</strong></p>
+<p><strong>Những giá trị nào được hiển thị bởi counter?</strong></p>
+<p><em>(What values are displayed by the counter?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Chế độ Report hiển thị các số liệu thống kê chi tiết bao gồm:</p>
+<p>- <strong>Last:</strong> Giá trị tức thời tại thời điểm dừng đo.</p>
+<p>- <strong>Average:</strong> Giá trị trung bình của toàn bộ chu kỳ ghi nhận.</p>
+<p>- <strong>Minimum:</strong> Giá trị nhỏ nhất ghi nhận được.</p>
+<p>- <strong>Maximum:</strong> Giá trị đỉnh cao nhất trong chu kỳ kiểm thử.</p>
+</blockquote>
+<ul>
+<li>Trong cửa sổ Properties của RRAS, chuyển Startup type sang <strong>Disabled</strong> và nhấn OK.</li>
+<li>Kiểm tra lại cửa sổ Services.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 1 - BƯỚC t:</strong></p>
+<p><strong>Status và Startup Type cho Routing and Remote Access là gì?</strong></p>
+<p><em>(What are the Status and Startup Type for Routing and Remote Access?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- Cột <strong>Status</strong>: Trống (Blank / Stopped - dịch vụ đã dừng hoạt động hoàn toàn).</p>
+<p>- Cột <strong>Startup Type</strong>: <strong>Disabled</strong> (Bị vô hiệu hóa, không thể tự khởi động cùng Windows).</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: LÀM VIỆC VỚI COMPUTER MANAGEMENT (EVENT VIEWER)</h4>
+<ul>
+<li>Mở tiện ích: Control Panel > Administrative Tools > <strong>Computer Management</strong> (<code>compmgmt.msc</code>).</li>
+<li>Điều hướng đến: <strong>System Tools</strong> > <strong>Event Viewer</strong> > <strong>Windows Logs</strong> > <strong>System</strong>.</li>
+<li>Tìm các bản ghi sự kiện có Source là <strong>Service Control Manager</strong> liên quan đến dịch vụ Routing and Remote Access.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2 - BƯỚC d:</strong></p>
+<p><strong>Mô tả gì cho từng sự kiện trong số bốn sự kiện?</strong></p>
+<p><em>(What is the description for each of the four events?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Bốn sự kiện liên tiếp của dịch vụ (mã <strong>Event ID 7036</strong>) mô tả chính xác quy trình vòng đời của dịch vụ:</p>
+<p>1. <strong>Sự kiện 1 (Bắt đầu khởi động):</strong></p>
+<p><code>The Routing and Remote Access service entered the start type / running state.</code> (Dịch vụ chuyển sang trạng thái bắt đầu hoạt động).</p>
+<p>2. <strong>Sự kiện 2 (Khởi chạy thành công):</strong></p>
+<p>Thông báo dịch vụ Routing and Remote Access đã khởi chạy thành công và các tiến trình phụ thuộc liên quan đã sẵn sàng phục vụ.</p>
+<p>3. <strong>Sự kiện 3 (Bắt đầu dừng):</strong></p>
+<p><code>The Routing and Remote Access service entered the stop pending state.</code> (Hệ thống gửi tín hiệu yêu cầu dịch vụ chuẩn bị dừng và giải phóng socket).</p>
+<p>4. <strong>Sự kiện 4 (Dừng hoàn toàn):</strong></p>
+<p><code>The Routing and Remote Access service entered the stopped state.</code> (Dịch vụ đã dừng hoạt động hoàn toàn và tài nguyên được thu hồi).</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: CẤU HÌNH DATA COLLECTOR SETS TRONG ADMINISTRATIVE TOOLS</h4>
+<ul>
+<li>Trong Performance Monitor, mở rộng mục <strong>Data Collector Sets</strong> > nhấp chuột phải vào <strong>User Defined</strong> > chọn <strong>New</strong> > <strong>Data Collector Set</strong>.</li>
+<li>Đặt tên bộ thu thập: <strong><code>Memory Logs</code></strong>. Chọn tùy chọn <strong>Create manually (Advanced)</strong> > Next.</li>
+<li>Tích chọn loại dữ liệu: <strong>Performance counter</strong> > Next.</li>
+<li>Nhấn <strong>Add...</strong> để chọn bộ đếm: Tìm đến nhóm <strong>Memory</strong> > chọn <strong>Available MBytes</strong> > nhấn <strong>Add>></strong> > nhấn OK.</li>
+<li>Đặt khoảng thời gian lấy mẫu (<strong>Sample interval</strong>): <strong><code>4 seconds</code></strong> > Next.</li>
+<li>Vị trí lưu trữ dữ liệu (<strong>Where would you like the data to be saved?</strong>): Chọn đường dẫn thư mục <code>C:\PerfLogs</code> > Next > Finish.</li>
+<li>Mở rộng mục User Defined > chọn <code>Memory Logs</code>. Nhấp chuột phải vào <code>DataCollector01</code> > chọn <strong>Properties</strong>.</li>
+<li>Tại mục <strong>Log format</strong>, chuyển sang định dạng <strong>Comma Separated</strong> (tệp CSV).</li>
+<li>Chuyển sang thẻ <strong>File</strong> để kiểm tra đường dẫn.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 3 - BƯỚC n:</strong></p>
+<p><strong>Tên đường dẫn đầy đủ đến file ví dụ là gì?</strong></p>
+<p><em>(What is the full path name to the example file?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Tên đường dẫn đầy đủ của tệp log hiệu năng là:</p>
+<p><strong><code>C:\PerfLogs\Memory Logs\DataCollector01.csv</code></strong></p>
+<p><em>(hoặc có dạng cấu trúc gắn nhãn thời gian: <code>C:\PerfLogs\<ComputerName>_YYYYMMDD-000001\DataCollector01.csv</code>)</em>.</p>
+</blockquote>
+<ul>
+<li>Chọn <code>Memory Logs</code> ở khung bên trái, nhấn biểu tượng <strong>mũi tên màu xanh lá cây</strong> (Play) để bắt đầu thu thập dữ liệu.</li>
+<li>Mở và đóng trình duyệt web vài lần để tạo tải tiêu thụ RAM.</li>
+<li>Nhấn biểu tượng <strong>ô vuông màu đen</strong> (Stop) để dừng thu thập dữ liệu.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 3 - BƯỚC q:</strong></p>
+<p><strong>Bạn nhận thấy có sự thay đổi nào đối với biểu tượng Memory Logs?</strong></p>
+<p><em>(What change do you notice to the Memory Logs icon?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- Khi đang chạy (Running/Recording): Biểu tượng có thêm một dấu tròn nhỏ chứa mũi tên xanh Play (thể hiện tiến trình thu thập đang hoạt động).</p>
+<p>- Khi nhấn dừng (Stopped): Biểu tượng quay trở lại trạng thái tĩnh bình thường, không còn biểu tượng Play.</p>
+</blockquote>
+<ul>
+<li>Vào <code>C:\PerfLogs</code>, mở thư mục vừa tạo và mở tệp <code>DataCollector01.csv</code> bằng Notepad hoặc Excel.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 3 - BƯỚC r:</strong></p>
+<p><strong>Cột xa nhất bên phải hiển thị thông tin gì?</strong></p>
+<p><em>(What information is displayed in the farthest right column?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Cột ngoài cùng bên phải hiển thị giá trị số đo thực tế của bộ đếm hiệu năng đã chọn: <strong>Dung lượng bộ nhớ RAM còn trống khả dụng tính theo Megabyte (<code>\\<PC-NAME>\Memory\Available MBytes</code>)</strong> tại từng mốc thời gian lấy mẫu cách nhau 4 giây.</p>
+</blockquote>
+<ul>
+<li>Dọn dẹp hệ thống: Xóa Data Collector Set <code>Memory Logs</code> trong Performance Monitor và xóa thư mục dữ liệu đã tạo trong <code>C:\PerfLogs</code>.</li>
+</ul>
+<hr>
+<h3>IV. BÀI HỌC VÀ KẾT LUẬN (CONCLUSION)</h3>
+<ul>
+<li><strong>Quản trị dịch vụ an toàn:</strong> Các dịch vụ mạng không cần thiết (như Routing and Remote Access) nếu để ở trạng thái tự động khởi động sẽ mở rộng bề mặt tấn công. Cần tắt (Disabled) các dịch vụ này theo chuẩn Hardening.</li>
+<li><strong>Tự động hóa giám sát:</strong> Data Collector Sets trong Performance Monitor là công cụ đắc lực giúp xây dựng đường cơ sở hiệu năng (Performance Baseline), phát hiện sớm các hiện tượng rò rỉ bộ nhớ (Memory Leak) hoặc phát hiện các tiến trình độc hại tiêu thụ tài nguyên ngầm.</li>
+</ul>
+    </div>
+</body>
+</html>

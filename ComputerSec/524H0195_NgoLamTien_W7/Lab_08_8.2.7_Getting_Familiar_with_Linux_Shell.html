@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 08 8.2.7 Getting Familiar with Linux Shell - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 8.2.7: Getting Familiar with the Linux Shell</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / Quản trị Linux</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Sử dụng thành thạo trình thông dịch dòng lệnh (Linux Shell / Terminal) để quản lý tệp và thư mục.</li>
+<li>Tra cứu tài liệu và cú pháp câu lệnh thông qua trang hướng dẫn tích hợp (<strong>Manual Pages - <code>man</code></strong>).</li>
+<li>Nắm vững cơ chế điều hướng thư mục: phân biệt đường dẫn tuyệt đối (<strong>Absolute Path</strong>) và đường dẫn tương đối (<strong>Relative Path</strong>), ý nghĩa của thư mục chấm (<code>.</code>), hai chấm (<code>..</code>) và ngã (<code>~</code>).</li>
+<li>Khảo sát cơ chế chuyển hướng luồng dữ liệu I/O: ghi đè (<strong>Overwrite <code>></code></strong>) và ghi tiếp (<strong>Append <code>>></code></strong>).</li>
+<li>Làm việc với tệp và thư mục ẩn (Dot-files).</li>
+<li>Thực hiện các thao tác quản trị tệp tin cốt lõi: sao chép (<code>cp</code>), di chuyển (<code>mv</code>), xóa an toàn (<code>rm</code>, <code>rm -r</code>).</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>Máy ảo Security Workstation VM (tài khoản <code>analyst</code>, mật khẩu <code>cyberops</code>).</li>
+<li>Trình giả lập dòng lệnh Terminal (Xfce Terminal / Bash).</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: CÁC KHÁI NIỆM CƠ BẢN VỀ SHELL (PART 1: SHELL BASICS)</h4>
+<h5>Bước 1 &amp; Bước 2: Khảo sát Manual Pages (`man`)</h5>
+<ul>
+<li>Truy cập dòng lệnh terminal và gõ: <code>man man</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.a:</strong></p>
+<p><strong>Name a few sections that are included in a man page.</strong></p>
+<p><em>(Hãy nêu tên một số đề mục chính có trong một trang manual page.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Một trang hướng dẫn man page tiêu chuẩn bao gồm các đề mục sau:</p>
+<p>- <code>NAME</code>: Tên của lệnh và tóm tắt ngắn gọn chức năng của lệnh trong một dòng.</p>
+<p>- <code>SYNOPSIS</code>: Cú pháp gọi lệnh, bao gồm các cờ tùy chọn (options) và đối số bắt buộc/không bắt buộc.</p>
+<p>- <code>DESCRIPTION</code>: Mô tả chi tiết nguyên lý hoạt động và hành vi của lệnh.</p>
+<p>- <code>OPTIONS</code>: Danh sách giải thích chi tiết ý nghĩa của từng cờ tham số (ví dụ <code>-l</code>, <code>-a</code>, <code>-r</code>).</p>
+<p>- <code>EXAMPLES</code>: Các ví dụ mẫu thực tế giúp người dùng áp dụng nhanh.</p>
+<p>- <code>FILES</code>: Danh sách các tệp tin cấu hình hoặc tệp thư viện liên quan đến lệnh.</p>
+<p>- <code>SEE ALSO</code>: Danh sách các lệnh hoặc tài liệu liên quan có thể tham khảo thêm.</p>
+</blockquote>
+<ul>
+<li>Tra cứu lệnh <code>cp</code> bằng <code>man cp</code> và lệnh <code>pwd</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.c:</strong></p>
+<p><strong>What is the function of the cp command? What command would you use to find out more information about the pwd command? What is the function of the pwd command?</strong></p>
+<p><em>(Chức năng của lệnh cp là gì? Bạn dùng lệnh nào để tìm hiểu lệnh pwd? Chức năng của pwd là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Chức năng của <code>cp</code>:</strong> Lệnh <code>cp</code> (Copy) dùng để sao chép một hoặc nhiều tệp tin hoặc thư mục từ vị trí nguồn sang vị trí đích trên hệ thống tệp.</p>
+<p>2. <strong>Lệnh tra cứu <code>pwd</code>:</strong> Sử dụng lệnh <code>man pwd</code> (hoặc <code>pwd --help</code> / <code>info pwd</code>).</p>
+<p>3. <strong>Chức năng của <code>pwd</code>:</strong> Lệnh <code>pwd</code> (Print Working Directory) dùng để in ra đường dẫn tuyệt đối đầy đủ của thư mục làm việc hiện tại của phiên shell.</p>
+</blockquote>
+<h5>Bước 3: Tạo và điều hướng thư mục</h5>
+<ul>
+<li>Thực thi lệnh kiểm tra thư mục hiện tại:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ pwd
+/home/analyst</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.a:</strong></p>
+<p><strong>What is the current directory?</strong></p>
+<p><em>(Thư mục hiện tại là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Thư mục làm việc hiện tại là <strong><code>/home/analyst</code></strong> (thư mục cá nhân của người dùng analyst).</p>
+</blockquote>
+<ul>
+<li>Tạo 3 thư mục mới:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ mkdir cyops_folder1 cyops_folder2 cyops_folder3</code></pre>
+<li>Điều hướng vào thư mục con: <code>cd /home/analyst/cyops_folder3</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.f:</strong></p>
+<p><strong>Which folder are you in now?</strong></p>
+<p><em>(Hiện tại bạn đang ở trong thư mục nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Hiện tại đang ở trong thư mục: <strong><code>/home/analyst/cyops_folder3</code></strong>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI THỬ THÁCH BƯỚC 3.f (CHALLENGE):</strong></p>
+<p><strong>Type the command cd ~ and describe what happens. Why did this happen?</strong></p>
+<p><em>(Gõ lệnh cd ~ và mô tả điều gì xảy ra. Tại sao điều đó lại xảy ra?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Hiện tượng:</strong> Dấu nhắc lệnh lập tức đưa người dùng quay trở lại thư mục gốc người dùng <code>/home/analyst</code>.</p>
+<p>- <strong>Giải thích lý do:</strong> Trong Linux Bash Shell, ký tự dấu ngã (<code>~</code>) là một ký tự đại diện đặc biệt (Tilde Expansion) trỏ trực tiếp đến giá trị của biến môi trường <code>$HOME</code> của người dùng hiện hành. Dù đang đứng ở bất kỳ vị trí nào trên hệ thống tệp, lệnh <code>cd ~</code> (hoặc chỉ gõ <code>cd</code> không kèm đối số) sẽ luôn đưa người dùng về thư mục home cá nhân.</p>
+</blockquote>
+<ul>
+<li>Thử nghiệm điều hướng với đường dẫn tương đối:</li>
+<li>Đang ở <code>/home/analyst/cyops_folder3</code>, gõ lệnh <code>cd .</code>:</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.k:</strong></p>
+<p><strong>What happens?</strong></p>
+<p><em>(Điều gì xảy ra khi gõ cd .?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Không có bất kỳ sự thay đổi nào về thư mục làm việc. Vị trí vẫn giữ nguyên là <code>/home/analyst/cyops_folder3</code>. Trong hệ thống tệp Linux, dấu chấm đơn (<code>.</code>) đại diện cho <strong>chính thư mục hiện hành</strong>.</p>
+</blockquote>
+<ul>
+<li>Gõ lệnh <code>cd ..</code>:</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.l:</strong></p>
+<p><strong>What happens?</strong></p>
+<p><em>(Điều gì xảy ra khi gõ cd ..?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Người dùng được chuyển lên một cấp thư mục — tức chuyển về <strong>thư mục cha (Parent Directory)</strong>, đưa vị trí làm việc quay lại <code>/home/analyst</code>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.m:</strong></p>
+<p><strong>What would be the current directory if you issued the cd .. command at [analyst@secOps ~]$? What would be the current directory if you issued the cd .. command at [analyst@secOps home]$? What would be the current directory if you issued the cd .. command at [analyst@secOps /]$?</strong></p>
+<p><em>(Thư mục hiện tại sẽ là gì nếu bạn gõ cd .. tại ~? tại /home? tại /?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. Khi đang ở <code>~</code> (<code>/home/analyst</code>): Lệnh <code>cd ..</code> sẽ chuyển đến thư mục <strong><code>/home</code></strong>.</p>
+<p>2. Khi đang ở <code>/home</code>: Lệnh <code>cd ..</code> sẽ chuyển đến thư mục gốc <strong><code>/</code></strong> (Root Directory).</p>
+<p>3. Khi đang ở thư mục gốc <code>/</code>: Lệnh <code>cd ..</code> <strong>vẫn giữ nguyên vị trí tại thư mục gốc <code>/</code></strong>. Vì <code>/</code> là đỉnh cao nhất của cấu trúc hình cây trong hệ thống tệp Linux, không tồn tại thư mục cha nào cao hơn nó.</p>
+</blockquote>
+<h5>Bước 4: Chuyển hướng đầu ra với toán tử ghi đè (`&gt;`)</h5>
+<ul>
+<li>Thực thi lệnh:</li>
+<pre><code class="language-bash">echo This is a message echoed to the terminal by echo. &gt; some_text_file.txt
+echo This is a DIFFERENT message, once again echoed to the terminal by echo. &gt; some_text_file.txt
+cat some_text_file.txt</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.g:</strong></p>
+<p><strong>What happened to the text file? Explain.</strong></p>
+<p><em>(Điều gì đã xảy ra với tệp văn bản? Giải thích lý do.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Nội dung ban đầu của tệp đã bị xóa sạch hoàn toàn và bị thay thế bằng dòng thông điệp mới (<em>"This is a DIFFERENT message..."</em>).</p>
+<p><strong>Giải thích kỹ thuật:</strong> Toán tử <code>></code> là toán tử <strong>chuyển hướng ghi đè (Overwrite Redirection)</strong> luồng Standard Output (stdout). Khi sử dụng <code>></code>, nếu tệp đích đã tồn tại, hệ thống sẽ thực hiện hàm hệ thống <code>truncate</code> đưa dung lượng tệp về 0 byte rồi mới ghi nội dung mới vào.</p>
+</blockquote>
+<h5>Bước 5: Chuyển hướng đầu ra với toán tử ghi tiếp (`&gt;&gt;`)</h5>
+<ul>
+<li>Thực thi lệnh:</li>
+<pre><code class="language-bash">echo This is another line of text. It will be APPENDED to the output file. &gt;&gt; some_text_file.txt
+cat some_text_file.txt</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 5.b:</strong></p>
+<p><strong>What happened to the text file? Explain.</strong></p>
+<p><em>(Điều gì đã xảy ra với tệp văn bản? Giải thích lý do.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Tệp văn bản hiện tại lưu trữ đầy đủ cả hai dòng thông điệp.</p>
+<p><strong>Giải thích kỹ thuật:</strong> Toán tử <code>>></code> là toán tử <strong>chuyển hướng ghi tiếp (Append Redirection)</strong>. Nó bảo tồn nguyên vẹn nội dung cũ của tệp và chèn luồng dữ liệu mới vào ngay phía sau dòng cuối cùng của tệp.</p>
+</blockquote>
+<h5>Bước 6: Làm việc với tệp ẩn trong Linux</h5>
+<ul>
+<li>Thực thi lệnh <code>ls -l</code> và sau đó là <code>ls -la</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 6.b:</strong></p>
+<p><strong>How many files are displayed?</strong></p>
+<p><em>(Có bao nhiêu tệp được hiển thị khi dùng ls -l?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Có khoảng <strong>8 đến 9 mục</strong> (tệp và thư mục thông thường) được hiển thị.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 6.c:</strong></p>
+<p><strong>How many more files are displayed than before? Explain. Is it possible to hide entire directories by adding a dot before its name as well? Are there any directories in the output of ls -la above? Give three examples of hidden files shown in the output of ls -la above.</strong></p>
+<p><em>(Có thêm bao nhiêu tệp được hiển thị? Giải thích. Có thể ẩn toàn bộ thư mục bằng cách thêm dấu chấm trước tên không? Có thư mục nào trong kết quả ls -la không? Nêu 3 ví dụ về tệp ẩn.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Số lượng tệp ẩn:</strong> Có thêm hơn <strong>20 tệp và thư mục ẩn</strong> được hiển thị khi sử dụng tùy chọn <code>-a</code> (all).</p>
+<p>2. <strong>Giải thích:</strong> Trong Linux, bất kỳ tệp hoặc thư mục nào có tên bắt đầu bằng ký tự dấu chấm (<code>.</code>) đều được quy ước là mục ẩn và lệnh <code>ls</code> thông thường sẽ tự động lọc bỏ không hiển thị.</p>
+<p>3. <strong>Khả năng ẩn thư mục:</strong> <strong>Hoàn toàn có thể.</strong> Bằng cách đặt dấu chấm ở đầu tên thư mục (ví dụ <code>.config</code>, <code>.cache</code>), toàn bộ thư mục và nội dung bên trong nó sẽ trở thành thư mục ẩn.</p>
+<p>4. <strong>Thư mục ẩn trong kết quả:</strong> Có nhiều thư mục ẩn xuất hiện, dễ nhận biết bằng ký tự <code>d</code> ở đầu dòng quyền (ví dụ: <code>.</code> - thư mục hiện tại, <code>..</code> - thư mục cha, <code>.cache</code>, <code>.config</code>).</p>
+<p>5. <strong>Ba ví dụ về tệp ẩn:</strong></p>
+<p>- <code>.bashrc</code> (script cấu hình phiên shell cá nhân).</p>
+<p>- <code>.bash_profile</code> (script cấu hình phiên đăng nhập).</p>
+<p>- <code>.bash_history</code> (tệp lưu trữ lịch sử các câu lệnh đã gõ).</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: SAO CHÉP, XÓA VÀ DI CHUYỂN TỆP (COPYING, DELETING, AND MOVING FILES)</h4>
+<h5>Bước 1: Sao chép tệp (`cp`)</h5>
+<ul>
+<li>Thực thi lệnh:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ cp some_text_file.txt cyops_folder2/</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2 - BƯỚC 1.a:</strong></p>
+<p><strong>What are the source and destination files? (use full paths to represent the parameters)</strong></p>
+<p><em>(Tệp nguồn và tệp đích là gì? Hãy dùng đường dẫn đầy đủ để biểu diễn hai tham số này.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Đường dẫn tệp nguồn (Source):</strong> <code>/home/analyst/some_text_file.txt</code></p>
+<p>- <strong>Đường dẫn tệp đích (Destination):</strong> <code>/home/analyst/cyops_folder2/some_text_file.txt</code></p>
+</blockquote>
+<h5>Bước 2: Xóa tệp và thư mục (`rm`, `rm -r`)</h5>
+<ul>
+<li>Xóa tệp thông thường: <code>rm some_text_file.txt</code>.</li>
+<li>Xóa thư mục chứa nội dung bằng cờ đệ quy (Recursive):</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ rm -r cyops_folder1</code></pre>
+<p><em>(Ghi chú an toàn: Cờ <code>-r</code> duyệt đệ quy xóa sạch thư mục cha cùng tất cả tệp/thư mục con bên trong mà không đưa vào Thùng rác; trong Linux không có lệnh hoàn tác undelete mặc định)</em>.</p>
+</ul>
+<h5>Bước 3: Di chuyển tệp (`mv`)</h5>
+<ul>
+<li>Di chuyển tệp <code>some_text_file.txt</code> từ <code>cyops_folder2</code> quay lại thư mục home:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ mv cyops_folder2/some_text_file.txt .</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2 - BƯỚC 3.a:</strong></p>
+<p><strong>What command did you use to accomplish the task?</strong></p>
+<p><em>(Bạn đã sử dụng câu lệnh nào để hoàn thành tác vụ?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Câu lệnh sử dụng: <strong><code>mv cyops_folder2/some_text_file.txt .</code></strong></p>
+<p><em>(hoặc viết theo đường dẫn tuyệt đối đầy đủ: <code>mv /home/analyst/cyops_folder2/some_text_file.txt /home/analyst/</code>)</em>.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: CÂU HỎI SUY NGẪM (REFLECTION QUESTION)</h4>
+<blockquote>
+<p><strong>CÂU HỎI SUY NGẪM:</strong></p>
+<p><strong>What are the advantages of using the Linux command line?</strong></p>
+<p><em>(Những ưu thế vượt trội của việc sử dụng dòng lệnh Linux là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Khả năng tự động hóa và lập trình kịch bản (Automation & Scripting):</strong> Mọi lệnh CLI đều có thể kết hợp thông qua Bash scripts, Pipes (<code>|</code>) và điều hướng dữ liệu (<code>></code>, <code>>></code>) để tự động hóa các tác vụ quản trị phức tạp lặp đi lặp lại một cách nhanh chóng.</p>
+<p>2. <strong>Tiết kiệm tài nguyên phần cứng (Resource Efficiency):</strong> Giao diện CLI tiêu thụ cực kỳ ít RAM và CPU so với môi trường đồ họa GUI, giúp tối ưu hóa hiệu năng máy chủ.</p>
+<p>3. <strong>Quản trị từ xa hiệu quả (Remote Administration):</strong> Kết nối qua SSH bằng CLI hoạt động mượt mà ngay cả trên các đường truyền mạng băng thông thấp, độ trễ cao.</p>
+<p>4. <strong>Độ chính xác và kiểm soát chuyên sâu (Granular Control):</strong> Nhiều công cụ hệ thống và tham số bảo mật cấp cao chỉ có thể truy cập và điều chỉnh thông qua dòng lệnh mà giao diện GUI không hỗ trợ.</p>
+</blockquote>
+    </div>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 11.1.7: Snort and Firewall Rules - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.45rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.2rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.header-box {
+    background-color: #f0f4f8;
+    border-left: 4px solid #2b6cb0;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+}
+.header-box p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>BÁO CÁO THỰC HÀNH CHI TIẾT - LAB 11.1.7</h1>
+<h1>HỌC PHẦN: NHẬP MÔN BẢO MẬT MÁY TÍNH (COMPUTER SECURITY)</h1>
+<hr />
+<h3>THÔNG TIN SINH VIÊN VÀ HỌC PHẦN</h3>
+<ul>
+<li><strong>Trường Đại học:</strong> Trường Đại học Tôn Đức Thắng (TDTU)</li>
+<li><strong>Khoa:</strong> Khoa Công nghệ Thông tin</li>
+<li><strong>Học phần:</strong> Nhập môn Bảo mật máy tính</li>
+<li><strong>Mã lớp / Hệ:</strong> Đại học Chính quy TDTU</li>
+<li><strong>Họ và tên sinh viên:</strong> <strong>Ngô Lâm Tiến</strong></li>
+<li><strong>Mã số sinh viên (MSSV):</strong> <strong>524H0195</strong></li>
+<li><strong>Tên bài thực hành:</strong> <strong>Lab 11.1.7: Snort and Firewall Rules</strong> (Cisco CyberOps Associate)</li>
+</ul>
+<hr />
+<h2>1. MỤC TIÊU BÀI THỰC HÀNH</h2>
+<ol>
+<li>Khởi động và cấu hình hệ thống phát hiện xâm nhập mã nguồn mở <strong>Snort IDS</strong> trên bộ định tuyến biên mạng giả lập Mininet.</li>
+<li>Mô phỏng hành vi của máy trạm nạn nhân (<strong>Host H5</strong>) tải tệp mã độc nguy hiểm <code>W32.Nimda.Amm.exe</code> từ máy chủ độc hại qua giao thức HTTP.</li>
+<li>Phân tích cấu trúc các cảnh báo an ninh (<strong>IDS Alerts</strong>) do Snort sinh ra (IP nguồn/đích, Cổng, Signature ID, Timestamp).</li>
+<li>Sử dụng công cụ <code>tcpdump</code> để bắt gói tin mạng trung chuyển và xuất ra tệp PCAP (<code>nimda.download.pcap</code>) phục vụ công tác điều tra số (Digital Forensics).</li>
+<li>Thiết lập quy tắc tường lửa <strong><code>iptables</code></strong> trên Router <strong>R1</strong> (chuỗi <code>FORWARD</code>) để chặn đứng dòng lưu lượng độc hại, đồng thời kiểm thử tính hiệu quả của cơ chế ngăn chặn xâm nhập.</li>
+</ol>
+<hr />
+<h2>2. NỘI DUNG VÀ TIẾN TRÌNH THỰC HIỆN</h2>
+<h3>PHẦN 1: KHỞI TẠO MÔI TRƯỜNG VÀ PHÁT HIỆN LƯU LƯỢNG MÃ ĐỘC VỚI SNORT IDS</h3>
+<h4>Bước 1: Khởi động Mininet và mở phiên làm việc trên Router R1</h4>
+<p>Khởi tạo cấu trúc liên kết mạng và mở cửa sổ điều khiển trên Router R1:</p>
+<pre><code class="language-bash">[analyst@secOps ~]$ sudo ~/lab.support.files/scripts/cyberops_extended_topo.py
+mininet&gt; xterm R1
+</code></pre>
+<blockquote>
+<p><strong>Câu hỏi 1:</strong> Shell của R1 mở ra với nền trắng chữ đen. Người dùng nào đang đăng nhập vào shell đó? Dấu hiệu nhận biết là gì?</p>
+<p><strong>Trả lời:</strong>
+- Người dùng đang đăng nhập là <strong><code>root</code></strong> (quản trị viên cấp cao nhất).
+- <strong>Dấu hiệu nhận biết:</strong>
+  1. Tiền tố dòng lệnh ghi rõ: <code>[root@secOps analyst]#</code>.
+  2. Ký tự kết thúc của dấu nhắc lệnh là dấu thăng (<code>#</code>), quy chuẩn trong Linux dành riêng cho người dùng có đặc quyền root (so với dấu <code>$</code> của người dùng thông thường).</p>
+</blockquote>
+<h4>Bước 2: Khởi chạy Snort IDS trên Router R1</h4>
+<p>Tại shell của R1, tiến hành khởi động dịch vụ Snort lắng nghe trên giao diện mạng trung chuyển:</p>
+<pre><code class="language-bash">[root@secOps analyst]# ./lab.support.files/scripts/start_snort.sh
+</code></pre>
+<p>Mở một cửa sổ dòng lệnh thứ hai của R1 để theo dõi tệp log cảnh báo theo thời gian thực:</p>
+<pre><code class="language-bash">[root@secOps analyst]# tail -f /var/log/snort/alert
+</code></pre>
+<h4>Bước 3: Mở shell Host H5 và thực hiện tải tệp mã độc</h4>
+<p>Từ giao diện Mininet, khởi chạy terminal của máy trạm H5:</p>
+<pre><code class="language-bash">mininet&gt; xterm H5
+</code></pre>
+<p>Tại terminal của H5, sử dụng lệnh <code>wget</code> để tải tệp mã độc Nimda từ máy chủ độc hại:</p>
+<pre><code class="language-bash">[root@secOps analyst]# wget http://209.165.202.133:6666/W32.Nimda.Amm.exe
+--2017-04-28 17:00:04--  http://209.165.202.133:6666/W32.Nimda.Amm.exe
+Connecting to 209.165.202.133:6666... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 345088 (337K) [application/octet-stream]
+Saving to: 'W32.Nimda.Amm.exe'
+
+W32.Nimda.Amm.exe           100%[==========================================&gt;] 337.00K  --.-KB/s    in 0.02s
+
+2017-04-28 17:00:04 (16.4 MB/s) - 'W32.Nimda.Amm.exe' saved [345088/345088]
+</code></pre>
+<blockquote>
+<p><strong>Câu hỏi 2:</strong> Cổng nào được sử dụng khi giao tiếp với máy chủ web chứa phần mềm độc hại? Dấu hiệu nhận biết là gì?</p>
+<p><strong>Trả lời:</strong>
+- Cổng được sử dụng là <strong>cổng TCP <code>6666</code></strong>.
+- <strong>Dấu hiệu:</strong> Cú pháp lệnh chỉ định <code>:6666</code> ngay sau địa chỉ IP (<code>http://209.165.202.133:6666/</code>) và dòng trạng thái xác nhận kết nối: <code>Connecting to 209.165.202.133:6666... connected.</code></p>
+<p><strong>Câu hỏi 3:</strong> Tệp có được tải xuống hoàn toàn không?</p>
+<p><strong>Trả lời:</strong>
+- <strong>Có (Yes).</strong>
+- <strong>Minh chứng:</strong> Đầu ra ghi nhận tiến trình đạt <code>100%[===================&gt;] 337.00K</code> và thông báo <code>saved [345088/345088]</code>, toàn bộ 345,088 bytes dữ liệu đã được lưu trọn vẹn vào máy trạm H5.</p>
+<p><strong>Câu hỏi 4:</strong> IDS có tạo cảnh báo nào liên quan đến việc tải tệp xuống không?</p>
+<p><strong>Trả lời:</strong>
+- <strong>Có (Yes).</strong> Snort đã kiểm tra payload của các gói tin trung chuyển qua R1, phát hiện mẫu nhận dạng mã độc và xuất cảnh báo ra tệp <code>/var/log/snort/alert</code>.</p>
+</blockquote>
+<h4>Bước 4: Phân tích bản ghi cảnh báo của Snort</h4>
+<p>Trên cửa sổ theo dõi <code>tail -f</code>, bản ghi cảnh báo sau xuất hiện:</p>
+<pre><code class="language-text">04/28-17:00:04.092153  [**] [1:1000003:0] Malicious Server Hit! [**] [Priority: 0] {TCP} 209.165.200.235:34484 -&gt; 209.165.202.133:6666
+</code></pre>
+<blockquote>
+<p><strong>Các câu hỏi phân tích cảnh báo:</strong></p>
+<ul>
+<li><strong>Câu hỏi 5:</strong> Địa chỉ IPv4 nguồn và đích được sử dụng trong giao dịch là gì?</li>
+<li><strong>Source IP:</strong> <code>209.165.200.235</code> (Máy nạn nhân Host H5).</li>
+<li>
+<p><strong>Destination IP:</strong> <code>209.165.202.133</code> (Máy chủ chứa mã độc).</p>
+</li>
+<li>
+<p><strong>Câu hỏi 6:</strong> Cổng nguồn và cổng đích được sử dụng là gì?</p>
+</li>
+<li><strong>Source Port:</strong> <code>34484</code> (Cổng ngẫu nhiên do H5 mở).</li>
+<li>
+<p><strong>Destination Port:</strong> <code>6666</code> (Cổng dịch vụ độc hại của máy chủ).</p>
+</li>
+<li>
+<p><strong>Câu hỏi 7:</strong> Việc tải xuống diễn ra vào thời điểm nào?</p>
+</li>
+<li>
+<p><strong>Thời gian:</strong> <code>04/28-17:00:04.092153</code> (Ngày 28 tháng 04 lúc 17:00:04).</p>
+</li>
+<li>
+<p><strong>Câu hỏi 8:</strong> Thông điệp được ghi lại bởi signature của IDS là gì?</p>
+</li>
+<li><strong>Thông điệp:</strong> <code>[1:1000003:0] Malicious Server Hit!</code> với mức ưu tiên <code>Priority: 0</code>.</li>
+</ul>
+</blockquote>
+<h4>Bước 5: Bắt gói tin với tcpdump phục vụ điều tra số</h4>
+<p>Trên Host H5, khởi động tiến trình bắt gói tin chạy ngầm:</p>
+<pre><code class="language-bash">[root@secOps analyst]# tcpdump –i H5-eth0 –w nimda.download.pcap &amp;
+</code></pre>
+<p>Thực hiện tải lại file để tcpdump ghi lại phiên truyền tải:</p>
+<pre><code class="language-bash">[root@secOps analyst]# wget http://209.165.202.133:6666/W32.Nimda.Amm.exe
+</code></pre>
+<p>Dừng tiến trình tcpdump bằng lệnh <code>fg</code> kết hợp <code>Ctrl + C</code>. Kiểm tra thư mục thấy xuất hiện tệp <code>nimda.download.pcap</code>.</p>
+<blockquote>
+<p><strong>Câu hỏi 9:</strong> Tệp PCAP này có thể hữu ích cho chuyên viên phân tích an ninh như thế nào?</p>
+<p><strong>Trả lời:</strong>
+- Cho phép <strong>tái dựng lại dòng dữ liệu (TCP Stream Reconstruction)</strong> và bóc tách nguyên vẹn tệp thực thi độc hại (<code>W32.Nimda.Amm.exe</code>) để phân tích trong phòng thí nghiệm (Reverse Engineering / Sandbox).
+- Trích xuất đầy đủ các trường HTTP Header phục vụ nhận dạng dấu hiệu tấn công (IoCs).
+- Hỗ trợ phân tích chuyên sâu trên Wireshark hoặc NetworkMiner nhằm phát hiện các kênh truyền dữ liệu ẩn (C2 communication).
+- Cung cấp cơ sở dữ liệu thực tế để tinh chỉnh và viết thêm các luật nhận dạng (Snort Rules) mới.</p>
+</blockquote>
+<hr />
+<h3>PHẦN 2: THIẾT LẬP VÀ ĐIỀU CHỈNH LUẬT TƯỜNG LỬA (IPTABLES)</h3>
+<h4>Bước 1: Khảo sát trạng thái tường lửa hiện tại trên R1</h4>
+<p>Kiểm tra cấu hình bảng <code>filter</code> của <code>iptables</code>:</p>
+<pre><code class="language-bash">[root@secOps ~]# iptables -L -v
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+</code></pre>
+<blockquote>
+<p><strong>Câu hỏi 10:</strong> Những chuỗi (chains) nào hiện đang được Router R1 sử dụng?</p>
+<p><strong>Trả lời:</strong>
+- Ba chuỗi mặc định đang được sử dụng là: <strong><code>INPUT</code></strong>, <strong><code>FORWARD</code></strong>, và <strong><code>OUTPUT</code></strong>.
+- Cả ba chuỗi đều đang có chính sách ngầm định là <code>ACCEPT</code> (cho phép toàn bộ) và chưa thiết lập bất kỳ luật cấm nào.</p>
+</blockquote>
+<h4>Bước 2: Thiết lập luật chặn lưu lượng độc hại trên chuỗi FORWARD</h4>
+<p>Vì các gói tin đi từ H5 tới máy chủ độc hại là lưu lượng trung chuyển qua Router R1, chúng ta chèn quy tắc vào đầu chuỗi <code>FORWARD</code>:</p>
+<pre><code class="language-bash">[root@secOps ~]# iptables -I FORWARD -p tcp -d 209.165.202.133 --dport 6666 -j DROP
+</code></pre>
+<p>Kiểm tra lại cấu hình iptables:</p>
+<pre><code class="language-bash">[root@secOps ~]# iptables -L -v
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       tcp  --  any    any     anywhere             209.165.202.133      tcp dpt:6666
+</code></pre>
+<h4>Bước 3: Kiểm thử hiệu lực của quy tắc tường lửa trên Host H5</h4>
+<p>Quay trở lại terminal H5 và thực hiện lệnh tải lại mã độc:</p>
+<pre><code class="language-bash">[root@secOps analyst]# wget http://209.165.202.133:6666/W32.Nimda.Amm.exe
+--2017-04-28 17:05:12--  http://209.165.202.133:6666/W32.Nimda.Amm.exe
+Connecting to 209.165.202.133:6666... failed: Connection timed out.
+Retrying.
+</code></pre>
+<blockquote>
+<p><strong>Câu hỏi 11:</strong> Lần này việc tải xuống có thành công không? Giải thích.</p>
+<p><strong>Trả lời:</strong>
+- <strong>Không thành công (No).</strong>
+- <strong>Giải thích:</strong> Quy tắc tường lửa <code>iptables</code> đã chặn và âm thầm hủy bỏ (<code>DROP</code>) tất cả các gói tin TCP hướng tới địa chỉ <code>209.165.202.133</code> cổng <code>6666</code>. Do máy trạm H5 không nhận được gói phản hồi SYN-ACK, kết nối TCP không thể thiết lập và rơi vào trạng thái hết thời gian chờ (<code>Connection timed out</code>), ngăn chặn việc tải tệp.</p>
+<p><strong>Câu hỏi 12:</strong> Cách tiếp cận nào quyết liệt hơn nhưng cũng hợp lệ khi chặn máy chủ vi phạm?</p>
+<p><strong>Trả lời:</strong>
+1. <strong>Chặn toàn diện theo địa chỉ IP (Full IP Drop):</strong> Chặn mọi kết nối bất kể cổng và giao thức đến hoặc đi từ IP máy chủ độc hại (<code>iptables -I FORWARD -d 209.165.202.133 -j DROP</code>).
+2. <strong>Chặn theo toàn bộ dải mạng / Subnet CIDR:</strong> Nếu máy chủ nằm trong khối mạng chuyên phát tán mã độc, chặn nguyên dải IP (vd: <code>209.165.202.0/24</code>).
+3. <strong>Vận hành hệ thống IPS chủ động (Inline IPS):</strong> Cấu hình Snort hoạt động ở chế độ Inline (thông qua NFQUEUE). Khi phát hiện payload nguy hiểm, Snort tự động ra lệnh hủy gói tin ngay lập tức theo thời gian thực mà không cần người quản trị can thiệp thủ công bằng lệnh iptables sau khi sự cố đã xảy ra.</p>
+</blockquote>
+<hr />
+<h2>3. KẾT LUẬN VÀ BÀI HỌC KINH NGHIỆM</h2>
+<ul>
+<li><strong>Sự kết hợp giữa IDS và Firewall:</strong> IDS (Snort) cung cấp khả năng phát hiện chuyên sâu dựa trên chữ ký và payload tầng ứng dụng, trong khi Firewall (iptables) đảm nhận vai trò thực thi ngăn chặn ở tầng mạng và vận chuyển.</li>
+<li><strong>Tầm quan trọng của phân tích PCAP:</strong> Việc thu thập lưu lượng mạng dạng thô là nền tảng sống còn cho hoạt động điều tra phản ứng sự cố (Incident Response) và kỹ nghệ phân tích mã độc.</li>
+<li><strong>Tiêu chuẩn an toàn:</strong> Trong môi trường sản xuất thực tế, việc chặn lọc cần được tự động hóa qua hệ thống SIEM/SOAR hoặc giải pháp Next-Generation Firewall (NGFW) / Inline IPS để thu hẹp khoảng thời gian phơi nhiễm rủi ro (dwell time).</li>
+</ul>
+    </div>
+</body>
+</html>

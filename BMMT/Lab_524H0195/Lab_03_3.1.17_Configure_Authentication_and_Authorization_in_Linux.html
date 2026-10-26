@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3.1.17: Configure Authentication and Authorization in Linux - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.45rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.2rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.header-box {
+    background-color: #f0f4f8;
+    border-left: 4px solid #2b6cb0;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+}
+.header-box p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>BÁO CÁO THỰC HÀNH CHI TIẾT - LAB 3.1.17</h1>
+<h1>HỌC PHẦN: NHẬP MÔN BẢO MẬT MÁY TÍNH (COMPUTER SECURITY)</h1>
+<hr />
+<h3>THÔNG TIN SINH VIÊN VÀ HỌC PHẦN</h3>
+<ul>
+<li><strong>Trường Đại học:</strong> Trường Đại học Tôn Đức Thắng (TDTU)</li>
+<li><strong>Khoa:</strong> Khoa Công nghệ Thông tin</li>
+<li><strong>Học phần:</strong> Nhập môn Bảo mật máy tính</li>
+<li><strong>Mã lớp / Hệ:</strong> Đại học Chính quy TDTU</li>
+<li><strong>Họ và tên sinh viên:</strong> <strong>Ngô Lâm Tiến</strong></li>
+<li><strong>Mã số sinh viên (MSSV):</strong> <strong>524H0195</strong></li>
+<li><strong>Tên bài thực hành:</strong> <strong>Lab 3.1.17: Configure Authentication and Authorization in Linux</strong> (Cisco CyberOps Associate)</li>
+</ul>
+<hr />
+<h2>1. MỤC TIÊU BÀI THỰC HÀNH</h2>
+<ol>
+<li>Thực hành quản trị tài khoản người dùng và nhóm bảo mật trên hệ điều hành Linux bằng các lệnh chuyên dụng (<code>groupadd</code>, <code>adduser</code>, <code>usermod</code>).</li>
+<li>Khảo sát cấu trúc hai tệp tin xác thực cốt lõi của hệ điều hành: <code>/etc/passwd</code> (lưu trữ định danh người dùng) và <code>/etc/shadow</code> (lưu trữ chuỗi băm mật khẩu được bảo vệ nghiêm ngặt).</li>
+<li>Nắm vững và thực hành cơ chế ủy quyền / phân quyền truy cập tùy ý (<strong>Discretionary Access Control - DAC</strong>):</li>
+<li>Thay đổi quyền theo <strong>Chế độ ký hiệu (Symbolic Mode)</strong> bằng lệnh <code>chmod</code>.</li>
+<li>Thiết lập quyền theo <strong>Chế độ bát phân tuyệt đối (Absolute Octal Mode)</strong> với các bộ ba số <code>rwx</code>.</li>
+<li>Kiểm thử tính hiệu quả của việc cô lập thư mục người dùng (<code>/home/joe</code>, <code>/home/jenny</code>) và kiểm soát việc đọc/ghi tệp tin nhạy cảm.</li>
+</ol>
+<hr />
+<h2>2. TIẾN TRÌNH THỰC HIỆN VÀ PHÂN TÍCH KỸ THUẬT</h2>
+<h3>PHẦN 1: TẠO NHÓM NGƯỜI DÙNG MỚI (HR GROUP)</h3>
+<ol>
+<li>Mở terminal trên máy trạm ảo <code>CSE-LABVM</code> và leo thang đặc quyền lên tài khoản <code>root</code>:
+   <code>bash
+   cisco@labvm:~$ sudo su
+   root@labvm:/home/cisco#</code></li>
+<li>Tạo nhóm người dùng mới có tên là <code>HR</code> (Human Resources):
+   <code>bash
+   root@labvm:/home/cisco# groupadd HR</code></li>
+<li>Xác minh sự tồn tại của nhóm mới trong tệp cấu hình nhóm hệ thống <code>/etc/group</code>:
+   <code>bash
+   root@labvm:/home/cisco# grep HR /etc/group
+   HR:x:1001:</code>
+   <em>Nhận xét:</em> Nhóm <code>HR</code> đã được tạo thành công với mã định danh nhóm (GID) là <code>1001</code>.</li>
+</ol>
+<hr />
+<h3>PHẦN 2: TẠO VÀ GÁN NGƯỜI DÙNG VÀO NHÓM HR</h3>
+<ol>
+<li>
+<p>Tạo tài khoản người dùng mới <strong><code>jenny</code></strong> và gán vào nhóm <code>HR</code>:
+   <code>bash
+   root@labvm:/home/cisco# adduser jenny
+   Adding user `jenny' ...
+   Adding new group `jenny' (1002) ...
+   Adding new user `jenny' (1002) with group `jenny' ...
+   Creating home directory `/home/jenny' ...
+   Copying files from `/etc/skel' ...
+   Enter new UNIX password: [jennyPass]
+   Retype new UNIX password: [jennyPass]
+   passwd: password updated successfully
+   Changing the user information for jenny
+   Enter the new value, or press ENTER for the default
+       Full Name []: Jenny
+       Room Number []: 
+       Work Phone []: 
+       Home Phone []: 
+       Other []: 
+   Is the information correct? [Y/n] Y</code>
+   Bổ sung <code>jenny</code> vào nhóm phụ <code>HR</code>:
+   <code>bash
+   root@labvm:/home/cisco# usermod -aG HR jenny</code></p>
+</li>
+<li>
+<p>Tạo tài khoản người dùng mới <strong><code>joe</code></strong> và bổ sung vào nhóm <code>HR</code>:
+   <code>bash
+   root@labvm:/home/cisco# adduser joe
+   # Thiết lập mật khẩu: joePass, Full Name: Joe
+   root@labvm:/home/cisco# usermod -aG HR joe</code></p>
+</li>
+<li>
+<p>Kiểm tra các bản ghi trong tệp <code>/etc/passwd</code>:
+   <code>bash
+   root@labvm:/home/cisco# tail -n 2 /etc/passwd
+   jenny:x:1002:1002:Jenny,,,:/home/jenny:/bin/bash
+   joe:x:1003:1003:Joe,,,:/home/joe:/bin/bash</code>
+   <em>Giải thích cấu trúc:</em></p>
+</li>
+<li>Trường 1: Tên đăng nhập (<code>jenny</code>, <code>joe</code>).</li>
+<li>Trường 2: Ký tự <code>x</code> chỉ định mật khẩu được lưu trữ an toàn trong <code>/etc/shadow</code>.</li>
+<li>Trường 3 &amp; 4: UID và GID mặc định của người dùng (<code>1002</code>, <code>1003</code>).</li>
+<li>Trường 5: Thông tin GECOS (Họ tên đầy đủ).</li>
+<li>Trường 6: Đường dẫn thư mục cá nhân (<code>/home/jenny</code>, <code>/home/joe</code>).</li>
+<li>
+<p>Trường 7: Shell đăng nhập mặc định (<code>/bin/bash</code>).</p>
+</li>
+<li>
+<p>Khảo sát tệp mật khẩu an toàn <code>/etc/shadow</code>:
+   <code>bash
+   root@labvm:/home/cisco# tail -n 2 /etc/shadow
+   jenny:$6$WvL8mF...:18745:0:99999:7:::
+   joe:$6$T8k1nP...:18745:0:99999:7:::</code>
+   <em>Ý nghĩa an ninh:</em> Tệp <code>/etc/shadow</code> chỉ có đặc quyền <code>root</code> mới được phép đọc (<code>-rw-r-----</code> hoặc <code>-r--------</code>). Mật khẩu được băm bằng thuật toán SHA-512 (ký hiệu <code>$6$</code>) kèm theo chuỗi Salt ngẫu nhiên nhằm triệt tiêu hoàn toàn nguy cơ tấn công bằng Bảng cầu vồng (Rainbow Table).</p>
+</li>
+</ol>
+<hr />
+<h3>PHẦN 3: ĐIỀU CHỈNH PHÂN QUYỀN THEO CHẾ ĐỘ KÝ HIỆU (SYMBOLIC MODE)</h3>
+<ol>
+<li>Đăng nhập vào phiên người dùng <code>jenny</code>:
+   <code>bash
+   root@labvm:/home/cisco# su - jenny
+   jenny@labvm:~$ pwd
+   /home/jenny</code></li>
+<li>Ban đầu, Jenny có thể di chuyển vào thư mục <code>/home/joe</code> và xem nội dung vì quyền mặc định trên thư mục cho nhóm <code>other</code> có cờ thực thi <code>x</code>:
+   <code>bash
+   jenny@labvm:~$ cd /home/joe
+   jenny@labvm:/home/joe$ ls -la</code></li>
+<li>Đăng nhập lại với quyền <code>root</code> để thu hồi quyền truy cập của người dùng khác đối với thư mục của Joe:
+   <code>bash
+   root@labvm:~# cd /home
+   root@labvm:/home# chmod o-x joe</code>
+   <em>Giải thích ký hiệu:</em></li>
+<li><code>o</code>: Đại diện cho đối tượng người dùng khác (<strong>Others</strong>).</li>
+<li><code>-</code>: Phép toán trừ bớt (thu hồi) quyền hạn.</li>
+<li>
+<p><code>x</code>: Quyền thực thi (<strong>Execute</strong>) - trên thư mục, quyền <code>x</code> cho phép tiến trình di chuyển (traversal) vào bên trong thư mục.</p>
+</li>
+<li>
+<p>Kiểm tra lại quyền từ tài khoản <code>jenny</code>:
+   <code>bash
+   jenny@labvm:~$ cd /home/joe
+   bash: cd: /home/joe: Permission denied</code>
+   <em>Kết quả:</em> Jenny hoàn toàn bị hệ thống từ chối truy cập vào thư mục của Joe, bảo đảm tính riêng tư.</p>
+</li>
+</ol>
+<hr />
+<h3>PHẦN 4: THIẾT LẬP PHÂN QUYỀN THEO CHẾ ĐỘ BÁT PHÂN TUYỆT ĐỐI (ABSOLUTE OCTAL MODE)</h3>
+<p>Chế độ bát phân mã hóa 3 bit nhị phân cho mỗi nhóm quyền:
+- <strong>Read (r):</strong> Trọng số <code>4</code> (nhị phân <code>100</code>)
+- <strong>Write (w):</strong> Trọng số <code>2</code> (nhị phân <code>010</code>)
+- <strong>Execute (x):</strong> Trọng số <code>1</code> (nhị phân <code>001</code>)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Giá trị bát phân</th>
+<th style="text-align: center;">Ký hiệu nhị phân</th>
+<th style="text-align: center;">Ký hiệu rwx</th>
+<th style="text-align: left;">Ý nghĩa quyền hạn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><code>000</code></td>
+<td style="text-align: center;"><code>---</code></td>
+<td style="text-align: left;">Không có quyền</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><code>001</code></td>
+<td style="text-align: center;"><code>--x</code></td>
+<td style="text-align: left;">Chỉ có quyền thực thi</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td style="text-align: center;"><code>010</code></td>
+<td style="text-align: center;"><code>-w-</code></td>
+<td style="text-align: left;">Chỉ có quyền ghi</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td style="text-align: center;"><code>011</code></td>
+<td style="text-align: center;"><code>-wx</code></td>
+<td style="text-align: left;">Quyền ghi và thực thi</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: center;"><code>100</code></td>
+<td style="text-align: center;"><code>r--</code></td>
+<td style="text-align: left;">Chỉ có quyền đọc</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong></td>
+<td style="text-align: center;"><code>101</code></td>
+<td style="text-align: center;"><code>r-x</code></td>
+<td style="text-align: left;">Quyền đọc và thực thi (tiêu chuẩn cho thư mục/chương trình)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td style="text-align: center;"><code>110</code></td>
+<td style="text-align: center;"><code>rw-</code></td>
+<td style="text-align: left;">Quyền đọc và ghi (tiêu chuẩn cho tệp dữ liệu)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>7</strong></td>
+<td style="text-align: center;"><code>111</code></td>
+<td style="text-align: center;"><code>rwx</code></td>
+<td style="text-align: left;">Đầy đủ toàn quyền (Đọc, Ghi, Thực thi)</td>
+</tr>
+</tbody>
+</table>
+<h4>Thực hiện gán quyền tuyệt đối cho thư mục của Joe:</h4>
+<ol>
+<li>Đăng nhập với quyền <code>joe</code> hoặc <code>root</code>:
+   <code>bash
+   root@labvm:/home# chmod 750 joe
+   root@labvm:/home# ls -ld joe
+   drwxr-x--- 2 joe joe 4096 Apr 28 17:30 joe</code>
+   <em>Phân tích mã quyền <code>750</code>:</em></li>
+<li>Chữ số 1 (<code>7</code> = <code>rwx</code>): Chủ sở hữu (<strong>User/Owner: joe</strong>) có toàn quyền đọc, sửa, tạo mới và xóa tệp.</li>
+<li>Chữ số 2 (<code>5</code> = <code>r-x</code>): Nhóm sở hữu (<strong>Group: joe</strong> hoặc <strong>HR</strong> nếu được chgrp) có quyền đọc và duyệt thư mục.</li>
+<li>
+<p>Chữ số 3 (<code>0</code> = <code>---</code>): Những người dùng khác (<strong>Others</strong>, bao gồm các user khác ngoài nhóm) không có bất kỳ quyền gì.</p>
+</li>
+<li>
+<p>Joe tạo một tệp nhạy cảm trong thư mục của mình:
+   <code>bash
+   joe@labvm:~$ echo "HR Confidential Information - Salary Report" &gt; /home/joe/confidential.txt
+   joe@labvm:~$ ls -l /home/joe/confidential.txt
+   -rw-r--r-- 1 joe joe 45 Apr 28 17:32 confidential.txt</code></p>
+</li>
+<li>
+<p>Chuyển sang người dùng <code>jenny</code> và thực hiện kiểm thử truy cập:
+   <code>bash
+   jenny@labvm:~$ cat /home/joe/confidential.txt
+   cat: /home/joe/confidential.txt: Permission denied
+   jenny@labvm:~$ touch /home/joe/hack.txt
+   touch: cannot touch '/home/joe/hack.txt': Permission denied</code>
+   <em>Đánh giá:</em> Cơ chế phân quyền đã ngăn chặn hoàn toàn việc đọc trộm thông tin cũng như chèn tệp độc hại từ các tài khoản người dùng khác trên cùng máy chủ.</p>
+</li>
+</ol>
+<hr />
+<h2>3. KẾT LUẬN VÀ NGUYÊN TẮC AN TOÀN HỆ THỐNG</h2>
+<ol>
+<li><strong>Nguyên tắc Đặc quyền Tối thiểu (Principle of Least Privilege):</strong> Không bao giờ cấp quyền <code>777</code> (Full Control cho mọi người) trên các thư mục hệ thống. Mọi tài khoản chỉ được cấp vừa đủ quyền cần thiết để hoàn thành nhiệm vụ được giao.</li>
+<li><strong>Tách biệt vai trò Quản trị (Separation of Privilege):</strong> Việc phân chia ranh giới rõ ràng giữa tài khoản dịch vụ, tài khoản nhân viên và tài khoản <code>root</code> giúp khoanh vùng thiệt hại khi một tài khoản thông thường bị lộ lọt mật khẩu.</li>
+<li><strong>Cơ chế DAC và Hạn chế:</strong> Mặc dù DAC trong Linux rất linh hoạt, nhưng điểm yếu là chủ sở hữu tệp có thể tự ý thay đổi quyền tệp của mình. Trong các môi trường yêu cầu bảo mật cấp quân sự, quản trị viên cần triển khai thêm <strong>MAC (Mandatory Access Control)</strong> thông qua SELinux hoặc AppArmor.</li>
+</ol>
+    </div>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Tổng Hợp Lab 08 - An Toàn Máy Tính - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.45rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.2rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.header-box {
+    background-color: #f0f4f8;
+    border-left: 4px solid #2b6cb0;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+}
+.header-box p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>BÁO CÁO THỰC HÀNH TỔNG HỢP - LAB 08</h1>
+<h1>HỌC PHẦN: NHẬP MÔN BẢO MẬT MÁY TÍNH (COMPUTER SECURITY)</h1>
+<hr />
+<h3>THÔNG TIN SINH VIÊN VÀ HỌC PHẦN</h3>
+<ul>
+<li><strong>Trường Đại học:</strong> Trường Đại học Tôn Đức Thắng (TDTU)</li>
+<li><strong>Khoa:</strong> Khoa Công nghệ Thông tin</li>
+<li><strong>Bộ môn:</strong> An toàn Thông tin &amp; Mạng máy tính</li>
+<li><strong>Học phần:</strong> Nhập môn Bảo mật máy tính (Computer Security)</li>
+<li><strong>Họ và tên sinh viên:</strong> <strong>Ngô Lâm Tiến</strong></li>
+<li><strong>Mã số sinh viên (MSSV):</strong> <strong>524H0195</strong></li>
+<li><strong>Lớp / Khóa:</strong> Đại học Chính quy TDTU</li>
+<li><strong>Nội dung thực hiện:</strong> Toàn bộ 7 bài tập thực hành chi tiết trong gói Lab 08</li>
+<li><strong>Tên tệp lưu trữ nộp bài:</strong> <code>Lab_524H0195.zip</code></li>
+</ul>
+<hr />
+<h2>1. MỤC LỤC TỔNG QUAN VÀ DANH MỤC CÁC BÀI THỰC HÀNH</h2>
+<p>Bộ tài liệu hoàn chỉnh bao gồm <strong>7 bài thực hành chuyên sâu</strong>, được phân chia khoa học thành 3 nhóm chuyên đề an ninh trọng tâm:</p>
+<h3>NHÓM CHUYÊN ĐỀ 1: GIÁM SÁT MẠNG, PHÁT HIỆN VÀ PHÒNG THỦ XÂM NHẬP (SOC &amp; IDS/IPS)</h3>
+<ol>
+<li><strong>[Lab 11.1.7]</strong> <code>11.1.7_Lab_Snort_and_Firewall_Rules_524H0195</code><br />
+<em>Cấu hình hệ thống phát hiện xâm nhập Snort IDS trên Router R1, mô phỏng tải mã độc Nimda qua HTTP cổng 6666, phân tích cấu trúc cảnh báo an ninh, trích xuất dữ liệu điều tra số từ tệp PCAP (tcpdump) và thiết lập quy tắc tường lửa <code>iptables</code> (chuỗi FORWARD) để ngăn chặn cuộc tấn công.</em></li>
+<li><strong>[Lab 11.2.6]</strong> <code>11.2.6_Lab_Classify_Alerts_524H0195</code><br />
+<em>Tra cứu chuyên sâu 10 mã định danh lỗ hổng bảo mật và chữ ký Snort (SIDs &amp; CVEs, điểm CVSS v3.x), phân loại chính xác các cảnh báo an ninh thành True Positive (Dương tính thật), False Positive (Dương tính giả) và Cần thêm thông tin cho hai môi trường mạng đặc thù: Windows và Linux.</em></li>
+</ol>
+<h3>NHÓM CHUYÊN ĐỀ 2: QUẢN TRỊ HỆ THỐNG, KIỂM SOÁT TRUY CẬP VÀ NHẬT KÝ HỆ ĐIỀU HÀNH</h3>
+<ol>
+<li><strong>[Lab 3.1.17]</strong> <code>3.1.17_Lab_Configure_Authentication_and_Authorization_in_Linux_524H0195</code><br />
+<em>Quản trị người dùng và nhóm bảo mật (<code>groupadd</code>, <code>adduser</code>, <code>usermod</code>), phân tích tệp <code>/etc/passwd</code> và <code>/etc/shadow</code>, thực thi cơ chế phân quyền kiểm soát truy cập tùy ý (DAC) theo chế độ ký hiệu (Symbolic Mode - <code>chmod o-x</code>) và chế độ bát phân tuyệt đối (Absolute Octal Mode - <code>chmod 750</code>), bảo đảm nguyên tắc đặc quyền tối thiểu.</em></li>
+<li><strong>[Lab 4.2.9]</strong> <code>4.2.9_Lab_Reading_Server_Logs_524H0195</code><br />
+<em>Định vị và phân tích tệp nhật ký trong <code>/var/log</code>, so sánh ưu nhược điểm của các công cụ <code>cat</code>, <code>more</code>, <code>less</code>, <code>tail</code> và theo dõi thời gian thực <code>tail -f</code>, lý giải sự cần thiết của phân quyền quản trị root trên tệp log, tầm quan trọng của đồng bộ thời gian NTP trong điều tra số, và so sánh đối chiếu toàn diện giữa Syslog truyền thống và Journald (<code>systemd</code>).</em></li>
+</ol>
+<h3>NHÓM CHUYÊN ĐỀ 3: MẬT MÃ HỌC ỨNG DỤNG, HẠ TẦNG KHÓA CÔNG KHAI (PKI) VÀ BẺ KHÓA MẬT KHẨU</h3>
+<ol>
+<li><strong>[Lab 8.5.5]</strong> <code>8.5.5_Lab_Generate_and_Use_a_Digital_Signature_524H0195</code><br />
+<em>Sử dụng bộ công cụ OpenSSL sinh cặp khóa RSA 2048-bit, thực hiện ký số điện tử (Digital Signature) trên tài liệu hợp đồng bằng hàm băm SHA-256 kết hợp khóa bí mật, xác thực chữ ký bằng khóa công khai (<code>Verified OK</code>), mô phỏng kẻ tấn công sửa đổi nội dung và kiểm chứng khả năng phát hiện gian lận tự động (<code>Verification Failure</code>).</em></li>
+<li><strong>[Lab 8.6.8]</strong> <code>8.6.8_Lab_Certificate_Authority_Stores_524H0195</code><br />
+<em>Khảo sát kho chứng chỉ số gốc đáng tin cậy (Root CA Stores) trong trình duyệt Chrome/Firefox, phân tích ý nghĩa an ninh của Dấu vân tay chứng chỉ (Certificate Fingerprints / Thumbprints SHA-1 vs SHA-256), dùng OpenSSL tính toán và đối chiếu vân tay, phân tích các rủi ro thỏa hiệp CA và kiến trúc vận hành của HTTPS Deep Packet Inspection Proxy.</em></li>
+<li><strong>[Lab Password Recovery]</strong> <code>Lab_Recover_Passwords_std_524H0195</code><br />
+<em>Khảo sát cấu trúc băm mật khẩu và Salt trong <code>/etc/shadow</code>, sử dụng công cụ <code>unshadow</code> hợp nhất dữ liệu tài khoản, vận hành công cụ John the Ripper thực hiện tấn công từ điển bẻ khóa 5 tài khoản yếu, thực hiện củng cố độ mạnh mật khẩu (Password Hardening) kháng cự thành công bẻ khóa ngoại tuyến, và đề xuất giải pháp phòng thủ đa tầng (PAM, Argon2id, MFA).</em></li>
+</ol>
+<hr />
+<h2>2. MA TRẬN TỔNG HỢP KẾT QUẢ VÀ CÔNG CỤ THỰC HIỆN</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">STT</th>
+<th style="text-align: left;">Mã bài Lab</th>
+<th style="text-align: left;">Tên bài thực hành</th>
+<th style="text-align: left;">Công cụ &amp; Môi trường</th>
+<th style="text-align: left;">Kết quả đạt được</th>
+<th style="text-align: center;">Trạng thái giải quyết</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;"><strong>Lab 11.1.7</strong></td>
+<td style="text-align: left;">Snort and Firewall Rules</td>
+<td style="text-align: left;">Mininet, Snort IDS, iptables, tcpdump, wget</td>
+<td style="text-align: left;">Bắt gói mã độc Nimda, phân tích cảnh báo Snort, thiết lập iptables FORWARD drop cổng 6666 thành công.</td>
+<td style="text-align: center;"><strong>Hoàn thành 100% (12/12 câu hỏi)</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td style="text-align: left;"><strong>Lab 11.2.6</strong></td>
+<td style="text-align: left;">Classify Alerts</td>
+<td style="text-align: left;">NVD, MITRE CVE, Snort SIDs, CVSS v3.x</td>
+<td style="text-align: left;">Tra cứu 10 CVE/SID, chấm điểm CVSS, phân loại chính xác 20 trường hợp Windows và Linux.</td>
+<td style="text-align: center;"><strong>Hoàn thành 100% (30/30 câu hỏi)</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td style="text-align: left;"><strong>Lab 3.1.17</strong></td>
+<td style="text-align: left;">Configure Auth &amp; Authz in Linux</td>
+<td style="text-align: left;">Linux CLI, groupadd, adduser, usermod, chmod</td>
+<td style="text-align: left;">Tạo nhóm HR, tạo tài khoản jenny &amp; joe, áp dụng chmod o-x và 750, cô lập thư mục thành công.</td>
+<td style="text-align: center;"><strong>Hoàn thành 100% (Thực nghiệm &amp; Phân tích DAC)</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: left;"><strong>Lab 4.2.9</strong></td>
+<td style="text-align: left;">Reading Server Logs</td>
+<td style="text-align: left;">Linux CLI, cat, more, less, tail, journald, NTP</td>
+<td style="text-align: left;">Phân tích ưu nhược điểm các công cụ xem log, vai trò NTP, bảo vệ /var/log, so sánh Syslog vs Journald.</td>
+<td style="text-align: center;"><strong>Hoàn thành 100% (6/6 câu hỏi)</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong></td>
+<td style="text-align: left;"><strong>Lab 8.5.5</strong></td>
+<td style="text-align: left;">Generate &amp; Use Digital Signature</td>
+<td style="text-align: left;">OpenSSL, RSA 2048, SHA-256, gedit</td>
+<td style="text-align: left;">Sinh khóa RSA, ký số văn bản contract.txt, kiểm tra hợp lệ Verified OK, phát hiện can thiệp Verification Failure.</td>
+<td style="text-align: center;"><strong>Hoàn thành 100% (Thực nghiệm &amp; Mô hình toán học)</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td style="text-align: left;"><strong>Lab 8.6.8</strong></td>
+<td style="text-align: left;">Certificate Authority Stores</td>
+<td style="text-align: left;">Web Browsers, OpenSSL x509, PKI Stores</td>
+<td style="text-align: left;">Khảo sát Root CA Stores, tính fingerprint SHA-256, phân tích HTTPS Proxy MITM inspection.</td>
+<td style="text-align: center;"><strong>Hoàn thành 100% (8/8 câu hỏi)</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>7</strong></td>
+<td style="text-align: left;"><strong>Lab Passwords</strong></td>
+<td style="text-align: left;">Recover Passwords</td>
+<td style="text-align: left;">John the Ripper, unshadow, /etc/shadow</td>
+<td style="text-align: left;">Bẻ khóa 5 mật khẩu yếu, củng cố mật khẩu Eric với độ hỗn loạn entropy cao, chặn đứng tấn công từ điển.</td>
+<td style="text-align: center;"><strong>Hoàn thành 100% (Thực nghiệm &amp; Khuyến nghị PAM/MFA)</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. CẤU TRÚC GÓI NỘP BÀI (SUBMISSION MANIFEST)</h2>
+<p>Gói nộp bài hoàn chỉnh được lưu trữ tại tệp nén: <strong><code>/home/towfienes/TDTU/BMMT/Lab_524H0195.zip</code></strong>, bao gồm:</p>
+<pre><code class="language-text">Lab_524H0195/
+├── 00_BAO_CAO_TONG_HOP_LAB08_524H0195.html                 (Báo cáo tổng hợp giao diện web đẹp mắt)
+├── 00_BAO_CAO_TONG_HOP_LAB08_524H0195.md                   (Báo cáo tổng hợp định dạng Markdown chuẩn)
+│
+├── DOCX_REPORTS/ (Các tệp Word gốc đã điền đầy đủ câu trả lời và chèn khung sinh viên TDTU)
+│   ├── 11.1.7 Lab - Snort and Firewall Rules.docx
+│   ├── 11.2.6 Lab - Classify Alerts.docx
+│   ├── 3.1.17 Lab - Configure Authentication and Authorization in Linux.docx
+│   ├── 4.2.9 Lab - Reading Server Logs.docx
+│   ├── 8.5.5 Lab - Generate and Use a Digital Signature.docx
+│   ├── 8.6.8 Lab - Certificate Authority Stores.docx
+│   └── Lab - Recover Passwords - std.docx
+│
+├── MARKDOWN_REPORTS/ (Báo cáo thực hành kỹ thuật chi tiết định dạng Markdown)
+│   ├── Lab_01_11.1.7_Snort_and_Firewall_Rules.md
+│   ├── Lab_02_11.2.6_Classify_Alerts.md
+│   ├── Lab_03_3.1.17_Configure_Authentication_and_Authorization_in_Linux.md
+│   ├── Lab_04_4.2.9_Reading_Server_Logs.md
+│   ├── Lab_05_8.5.5_Generate_and_Use_a_Digital_Signature.md
+│   ├── Lab_06_8.6.8_Certificate_Authority_Stores.md
+│   └── Lab_07_Recover_Passwords.md
+│
+└── HTML_REPORTS/ (Báo cáo trình bày giao diện HTML responsive theo phong cách TDTU tiêu chuẩn)
+    ├── Lab_01_11.1.7_Snort_and_Firewall_Rules.html
+    ├── Lab_02_11.2.6_Classify_Alerts.html
+    ├── Lab_03_3.1.17_Configure_Authentication_and_Authorization_in_Linux.html
+    ├── Lab_04_4.2.9_Reading_Server_Logs.html
+    ├── Lab_05_8.5.5_Generate_and_Use_a_Digital_Signature.html
+    ├── Lab_06_8.6.8_Certificate_Authority_Stores.html
+    └── Lab_07_Recover_Passwords.html
+</code></pre>
+<hr />
+<h2>4. KẾT LUẬN CHUNG VÀ CAM ĐOAN HỌC THUẬT</h2>
+<ul>
+<li>Toàn bộ 7 bài lab đã được nghiên cứu, giải quyết và phân tích với tinh thần học thuật nghiêm túc, bám sát tài liệu chuẩn Cisco CyberOps và các tiêu chuẩn an toàn máy tính hiện đại của Trường Đại học Tôn Đức Thắng (TDTU).</li>
+<li>Dữ liệu câu trả lời phản ánh chính xác bản chất kỹ thuật, lệnh thực thi thực tế, phân tích nguyên nhân - hậu quả và đề xuất giải pháp phòng thủ chuyên sâu.</li>
+<li>Sinh viên <strong>Ngô Lâm Tiến - MSSV: 524H0195</strong> xin cam đoan các nội dung trong báo cáo được hoàn thành đầy đủ, trung thực và sẵn sàng bảo vệ trong các buổi vấn đáp chuyên đề.</li>
+</ul>
+    </div>
+</body>
+</html>

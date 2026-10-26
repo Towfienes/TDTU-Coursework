@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 11 8.4.4 Locating Log Files - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 8.4.4: Locating Log Files</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / Giám sát và Ứng phó Sự cố</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Hiểu rõ cấu trúc và vai trò của các tệp nhật ký hệ thống (<strong>Log Files</strong>) trong điều tra số và ứng phó sự cố an ninh (DFIR).</li>
+<li>Phân biệt các loại tệp nhật ký: Nhật ký máy chủ web (<strong>Web Server Logs: Access Log và Error Log</strong>) và Nhật ký hệ điều hành (<strong>Operating System Logs</strong> trong <code>/var/log</code>).</li>
+<li>Thành thạo kỹ năng định vị tệp nhật ký trên một hệ thống chưa biết (thông qua tài liệu <code>man</code>, tệp cấu hình trong <code>/etc</code> và biến môi trường).</li>
+<li>Giám sát nhật ký sự kiện theo thời gian thực bằng lệnh <code>tail -f</code>.</li>
+<li>Sử dụng công cụ hiện đại <strong><code>journalctl</code></strong> trong hệ thống khởi tạo <strong>systemd</strong> để truy vấn, lọc log theo thời gian, theo đơn vị dịch vụ (<code>-u</code>) và theo dõi trực tiếp.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>Máy ảo Security Workstation VM (Arch Linux).</li>
+<li>Dịch vụ máy chủ Nginx, hệ thống ghi log <code>systemd-journald</code>.</li>
+<li>Các công cụ dòng lệnh: <code>cat</code>, <code>tail</code>, <code>man</code>, <code>journalctl</code>.</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: TỔNG QUAN VỀ TỆP NHẬT KÝ (PART 1: LOG FILE OVERVIEW)</h4>
+<h5>Bước 1: Khảo sát nhật ký máy chủ web (Web Server Log Example)</h5>
+<ul>
+<li>Xét bản ghi lỗi mẫu từ máy chủ Nginx:</li>
+<pre><code class="language-text">2016/10/19 16:47:57 [warn] 21058#21058: conflicting server name &quot;localhost&quot; on 0.0.0.0:80, ignored</code></pre>
+<li>Phân tích cấu trúc 4 trường thành phần:</li>
+<li><code>Timestamp</code>: <code>2016/10/19 16:47:57</code> (thời điểm xảy ra sự kiện, yêu cầu đồng bộ NTP chính xác).</li>
+<li><code>Type / Severity</code>: <code>[warn]</code> (mức độ cảnh báo).</li>
+<li><code>PID</code>: <code>21058#21058</code> (mã tiến trình và thread sinh ra thông báo).</li>
+<li><code>Message</code>: Mô tả chi tiết sự kiện lỗi/cảnh báo.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.a:</strong></p>
+<p><strong>Based on the log entry above, describe what happened.</strong></p>
+<p><em>(Dựa vào bản ghi nhật ký trên, hãy mô tả sự việc gì đã diễn ra.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Vào lúc 16:47:57 ngày 19/10/2016, tiến trình máy chủ web Nginx (PID 21058) phát hiện một cảnh báo nghiêm trọng: Có sự <strong>xung đột về tên máy chủ (<code>conflicting server name "localhost"</code>)</strong> trên cùng một địa chỉ IP và cổng mạng <code>0.0.0.0:80</code>. Tên miền "localhost" đã bị định nghĩa trùng lặp trong ít nhất hai khối cấu hình <code>server { ... }</code> khác nhau, do đó Nginx đã chủ động bỏ qua cấu hình trùng lặp này để tiếp tục khởi chạy.</p>
+</blockquote>
+<ul>
+<li>Xem tệp nhật ký mẫu bằng lệnh: <code>cat /var/log/logstash-tutorial.log</code>.</li>
+<pre><code class="language-text">83.149.9.216 - - [04/Jan/2015:05:13:42 +0000] &quot;GET /presentations/logstash-monitorama-2013/images/kibana-search.png HTTP/1.1&quot; 200 203023 &quot;http://semicomplete.com/presentations/logstash-monitorama-2013/&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.77 Safari/537.36&quot;</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1.b:</strong></p>
+<p><strong>Is the output above still considered a web transaction? Explain why the output of the cat command is in a different format than the single entry shown in item (a).</strong></p>
+<p><em>(Kết quả trên có còn được coi là một giao dịch web không? Giải thích tại sao kết quả của lệnh cat lại có định dạng khác với bản ghi ở mục a.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- <strong>Khẳng định:</strong> Đây <strong>chắc chắn là một giao dịch web (Web Transaction)</strong> hoàn chỉnh giữa Client và Web Server.</p>
+<p>- <strong>Giải thích sự khác biệt về định dạng:</strong></p>
+<p>1. Bản ghi ở mục (a) là <strong>Error Log (Nhật ký lỗi/vận hành)</strong>: Do chính daemon Nginx ghi lại để báo cáo tình trạng kỹ thuật nội bộ của phần mềm.</p>
+<p>2. Tệp <code>logstash-tutorial.log</code> là <strong>Access Log (Nhật ký truy cập)</strong>: Được ghi theo định dạng chuẩn công nghiệp <strong>Combined Log Format</strong> (phổ biến trên Apache/Nginx), lưu lại mọi yêu cầu HTTP gửi từ client: Địa chỉ IP nguồn (<code>83.149.9.216</code>), Thời gian truy cập chuẩn (<code>[04/Jan/2015:05:13:42 +0000]</code>), Phương thức và tài nguyên yêu cầu (<code>"GET ... HTTP/1.1"</code>), Mã phản hồi HTTP (<code>200 OK</code>), Số byte truyền tải (<code>203023 bytes</code>), Trang tham chiếu Referer và Chuỗi User-Agent của trình duyệt.</p>
+</blockquote>
+<h5>Bước 2: Nhật ký hệ điều hành (Operating System Log Example)</h5>
+<ul>
+<li>Thư mục chuẩn chứa log của Linux là <code>/var/log</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2:</strong></p>
+<p><strong>Can you find evidence of that in the log entries shown above? If so, in what lines? Explain.</strong></p>
+<p><em>(Bạn có tìm thấy bằng chứng về hoạt động của hệ điều hành trong các bản ghi nhật ký không? Nếu có, ở các dòng nào? Giải thích.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Hoàn toàn có bằng chứng rõ ràng trong tệp <code>/var/log/messages</code> (hoặc <code>syslog</code>):</p>
+<p>- Dòng ghi nhận khởi tạo dịch vụ mạng: Dịch vụ <code>dhcpcd</code> gửi yêu cầu nhận cấu hình địa chỉ IP từ DHCP server.</p>
+<p>- Dòng ghi nhận xác thực: Daemon <code>sshd</code> ghi nhận các nỗ lực kết nối từ xa của người dùng.</p>
+<p>- Dòng ghi nhận quản trị: Tiện ích <code>sudo</code> ghi lại chính xác tài khoản nào đã nâng quyền thực thi câu lệnh với <code>COMMAND=...</code> và <code>UID=0</code>.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: ĐỊNH VỊ TỆP NHẬT KÝ TRÊN HỆ THỐNG LẠ (PART 2: LOCATING LOG FILES IN UNKNOWN SYSTEMS)</h4>
+<ul>
+<li>Khi tiếp cận một dịch vụ lạ (ví dụ Nginx trên một bản phân phối Linux mới), quy trình định vị tệp log gồm các bước:</li>
+<li><strong>Tra cứu Manual Pages (<code>man nginx</code>):</strong> Phần <em>DEBUGGING LOG</em> và mục <em>FILES</em> trong tài liệu hướng dẫn chỉ ra vị trí mặc định của tệp log và cấu hình.</li>
+<li><strong>Kiểm tra tệp cấu hình trong <code>/etc</code>:</strong> Mở <code>/etc/nginx/nginx.conf</code>, tìm kiếm các chỉ thị:</li>
+<li><code>error_log /var/log/nginx/error.log;</code></li>
+<li><code>access_log /var/log/nginx/access.log;</code></li>
+<li><strong>Kiểm tra tiến trình đang chạy (<code>ps</code> và <code>lsof</code>):</strong> Lệnh <code>sudo lsof -p <PID></code> cho phép liệt kê toàn bộ các tệp <code>.log</code> mà tiến trình đang mở handle để ghi.</li>
+</ul>
+<hr>
+<h4>PHẦN 3: GIÁM SÁT NHẬT KÝ THEO THỜI GIAN THỰC (PART 3: MONITORING LOG FILES IN REAL TIME)</h4>
+<h5>Bước 1: Sử dụng lệnh `tail -f`</h5>
+<ul>
+<li>Lệnh: <code>sudo tail -f /var/log/nginx/access.log</code>.</li>
+<li>Khi client gửi yêu cầu web, các dòng log mới lập tức xuất hiện nối tiếp trên màn hình mà không cần gõ lại lệnh.</li>
+</ul>
+<h5>Bước 2: Công cụ nâng cao `journalctl` (Systemd Journal)</h5>
+<ul>
+<li>Trên các hệ thống Linux hiện đại sử dụng <code>systemd</code>, <code>systemd-journald</code> quản lý tập trung toàn bộ nhật ký nhị phân.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.a:</strong></p>
+<p><strong>How can you run journalctl and see all log entries?</strong></p>
+<p><em>(Làm thế nào để chạy journalctl và xem toàn bộ các bản ghi nhật ký?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Thực thi lệnh: <strong><code>sudo journalctl</code></strong> (không kèm theo bất kỳ tham số lọc nào). Lệnh sẽ mở trình phân trang (Pager tương tự <code>less</code>) cho phép duyệt toàn bộ cơ sở dữ liệu nhật ký của hệ điều hành từ bản ghi sớm nhất.</p>
+</blockquote>
+<ul>
+<li>Các cờ lọc thiết yếu của <code>journalctl</code>:</li>
+<li><code>sudo journalctl -b</code>: Chỉ xem log của lần khởi động máy hiện tại (Current Boot).</li>
+<li><code>sudo journalctl --since "1 day ago"</code>: Lọc các bản ghi trong vòng 24 giờ qua.</li>
+<li><code>sudo journalctl -u nginx.service</code>: Chỉ trích xuất nhật ký liên quan đến dịch vụ Nginx.</li>
+<li><code>sudo journalctl -u nginx.service -f</code>: Giám sát nhật ký dịch vụ Nginx <strong>theo thời gian thực</strong> (Real-time Follow). Khi truy cập web trên trình duyệt, thông báo thiếu tệp <code>favicon.ico</code> xuất hiện tức thì trên màn hình.</li>
+</ul>
+<hr>
+<h4>PHẦN 4: BÀI HỌC VÀ KẾT LUẬN (CONCLUSION &amp; REFLECTION)</h4>
+<ul>
+<li><strong>Giá trị pháp chứng số (Digital Forensics):</strong> Tệp log là nguồn chứng cứ bất biến (Immutable Evidence) đầu tiên giúp xác định mốc thời gian (Timeline Analysis), nguồn gốc tấn công, và mức độ thiệt hại khi hệ thống bị xâm nhập.</li>
+<li><strong>Yêu cầu đồng bộ thời gian (NTP Synchronization):</strong> Các máy chủ trong hạ tầng mạng bắt buộc phải đồng bộ giờ qua NTP. Nếu thời gian bị lệch dù chỉ vài giây, việc ghép nối chuỗi sự kiện giữa Web log, Firewall log và OS log sẽ hoàn toàn thất bại.</li>
+<li><strong>Quản lý vòng đời Log (Log Rotation):</strong> Cần cấu hình <code>logrotate</code> để nén và lưu trữ định kỳ, tránh việc log làm tràn ổ đĩa hệ thống.</li>
+</ul>
+    </div>
+</body>
+</html>

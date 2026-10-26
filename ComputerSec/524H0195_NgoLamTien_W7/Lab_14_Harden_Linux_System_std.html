@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 14 Harden Linux System std - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab: Harden a Linux System (Standard Edition)</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / Làm Cứng Hệ Thống (System Hardening)</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Sử dụng công cụ kiểm toán an ninh nguồn mở chuyên nghiệp <strong>Lynis</strong> để quét và đánh giá toàn diện mức độ an toàn của hệ thống Linux.</li>
+<li>Phân tích báo cáo kiểm toán: định danh các điểm yếu cấu hình, phân loại các cảnh báo (<strong>Warnings</strong>) và đề xuất khắc phục (<strong>Suggestions</strong>).</li>
+<li>Triển khai giải pháp kỹ thuật cụ thể để khắc phục cảnh báo và làm cứng hệ thống (<strong>System Hardening</strong>).</li>
+<li>Thực hiện tái kiểm toán để xác minh hiệu quả của giải pháp và nâng cao chỉ số an ninh <strong>Hardening Index</strong>.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>Máy ảo CSE-LABVM (Ubuntu Linux trong VirtualBox).</li>
+<li>Tài khoản: <code>cisco</code> (mật khẩu: <code>password</code>).</li>
+<li>Công cụ kiểm toán an ninh: <code>lynis</code> (phiên bản 3.0.6 từ CISOfy).</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1 &amp; 2: XÁC MINH VÀ CẬP NHẬT LYNIS (INSTALL &amp; EXAMINE LYNIS)</h4>
+<ul>
+<li>Kiểm tra phiên bản cài đặt qua policy: <code>sudo apt-cache policy lynis</code>.</li>
+<li>Kiểm tra trạng thái cơ sở dữ liệu luật kiểm toán:</li>
+<pre><code class="language-bash">cisco@labvm:~$ sudo lynis update info
+== Lynis ==
+  Version       : 3.0.6
+  Status        : Up-to-date
+  Release date  : 2021-07-22
+  Project page  : https://cisofy.com/lynis/</code></pre>
+</ul>
+<h4>PHẦN 3: THỰC THI QUÉT HỆ THỐNG BẰNG LYNIS (RUN LYNIS TOOL)</h4>
+<ul>
+<li>Chạy kiểm toán toàn diện hệ thống với định danh auditor:</li>
+<pre><code class="language-bash">cisco@labvm:~$ sudo lynis --auditor cisco</code></pre>
+<li>Công cụ tự động quét qua hơn 300 hạng mục kiểm tra an ninh: Boot loader, Kernel hardening, Memory processes, Users & Authentication, Shells, File systems, USB storage, Name services, Ports & Packages, Networking, Firewall, SSH, Logging và Banners.</li>
+</ul>
+<h4>PHẦN 4: ĐÁNH GIÁ KẾT QUẢ VÀ KHẮC PHỤC LỖ HỔNG (REVIEW RESULTS &amp; ADDRESS WARNINGS)</h4>
+<ul>
+<li>Trích đoạn phần kết quả tổng kết (Lynis 3.0.6 Results):</li>
+<pre><code class="language-text">================================================================================
+-[ Lynis 3.0.6 Results ]Warnings (2):
+---------------------------
+  ! Found one or more vulnerable packages. [PKGS-7392]
+      https://cisofy.com/lynis/controls/PKGS-7392/
+  ! iptables module(s) loaded, but no rules active [FIRE-4512]
+      https://cisofy.com/lynis/controls/FIRE-4512/
+
+Suggestions (49):
+---------------------------
+  * Set a password on GRUB boot loader to prevent altering boot configuration [BOOT-5122]
+  * Add a legal banner to /etc/issue, to warn unauthorized users [BANN-7126]
+...</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.a - CÂU 1:</strong></p>
+<p><strong>How many Warnings did you receive?</strong></p>
+<p><em>(Bạn đã nhận được bao nhiêu Cảnh báo - Warnings?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Hệ thống ghi nhận <strong><code>02 Cảnh báo (Warnings)</code></strong>:</p>
+<p>1. <code>[PKGS-7392]</code>: Phát hiện một hoặc nhiều gói phần mềm trên hệ thống tồn tại lỗ hổng bảo mật đã được công bố.</p>
+<p>2. <code>[FIRE-4512]</code>: Các module hạt nhân của iptables đã được nạp vào kernel nhưng chưa có bất kỳ quy tắc tường lửa (rules) nào được kích hoạt bảo vệ.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.a - CÂU 2:</strong></p>
+<p><strong>How many Suggestions did you receive?</strong></p>
+<p><em>(Bạn đã nhận được bao nhiêu Đề xuất cải thiện - Suggestions?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Hệ thống ghi nhận <strong><code>49 Đề xuất (Suggestions)</code></strong> nhằm nâng cao độ an toàn của hệ điều hành.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.b - CÂU 1:</strong></p>
+<p><strong>Which warning are you addressing?</strong></p>
+<p><em>(Bạn lựa chọn giải quyết cảnh báo nào?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Lựa chọn giải quyết cảnh báo: <strong><code>[FIRE-4512] - iptables module(s) loaded, but no rules active</code></strong></p>
+<p><em>(Tường lửa iptables chưa kích hoạt quy tắc bảo vệ)</em>.</p>
+</blockquote>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 4.b - CÂU 2:</strong></p>
+<p><strong>What is your solution?</strong></p>
+<p><em>(Giải pháp khắc phục kỹ thuật của bạn là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Để khắc phục cảnh báo <code>[FIRE-4512]</code>, ta triển khai bộ quy tắc tường lửa cơ bản và lưu trữ cố định vào hệ thống:</p>
+<p></p>
+<p><strong>Cách 1: Sử dụng công cụ UFW (Uncomplicated Firewall - Khuyến nghị cho Ubuntu):</strong></p>
+<p><code></code>`bash</p>
+<p>sudo ufw default deny incoming       # Chặn toàn bộ kết nối đi vào mặc định</p>
+<p>sudo ufw default allow outgoing      # Cho phép kết nối đi ra ngoài</p>
+<p>sudo ufw allow 22/tcp                # Mở cổng 22 cho SSH quản trị</p>
+<p>sudo ufw enable                      # Kích hoạt tường lửa</p>
+<p>sudo ufw status verbose              # Kiểm tra trạng thái</p>
+<p><code></code>`</p>
+<p></p>
+<p><strong>Cách 2: Cấu hình trực tiếp bằng IPTables thuần:</strong></p>
+<p><code></code>`bash</p>
+<p># 1. Cho phép các kết nối đã thiết lập và kết nối liên quan</p>
+<p>sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT</p>
+<p># 2. Cho phép giao tiếp nội bộ qua loopback</p>
+<p>sudo iptables -A INPUT -i lo -j ACCEPT</p>
+<p># 3. Cho phép SSH cổng 22</p>
+<p>sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT</p>
+<p># 4. Thiết lập chính sách mặc định: DROP toàn bộ gói tin lạ đi vào</p>
+<p>sudo iptables -P INPUT DROP</p>
+<p># 5. Cài đặt iptables-persistent để lưu cấu hình sau khi reboot</p>
+<p>sudo apt install iptables-persistent -y</p>
+<p>sudo netfilter-persistent save</p>
+<p><code></code>`</p>
+</blockquote>
+<h5>Bước 4.c: Xác minh kết quả tái kiểm toán</h5>
+<ul>
+<li>Chạy lại lệnh kiểm toán: <code>sudo lynis --auditor cisco</code>.</li>
+<li><strong>Kết quả:</strong> Cảnh báo <code>[FIRE-4512]</code> đã hoàn toàn biến mất khỏi danh sách Warnings. Mục kiểm tra Firewall chuyển sang trạng thái:</li>
+<p><code>[+] Security configurations: Active firewall [ FOUND ]</code>.</p>
+<li>Chỉ số <strong>Hardening Index</strong> của hệ thống tăng từ <code>62</code> lên <code>68</code>. Hệ thống đã được tăng cường phòng thủ vững chắc.</li>
+</ul>
+    </div>
+</body>
+</html>

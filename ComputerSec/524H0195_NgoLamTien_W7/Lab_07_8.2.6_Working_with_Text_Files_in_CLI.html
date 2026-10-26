@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 07 8.2.6 Working with Text Files in CLI - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 8.2.6: Working with Text Files in the CLI</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / Quản trị Linux</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Sử dụng thành thạo cả hai nhóm công cụ soạn thảo văn bản trong Linux: trình soạn thảo đồ họa (<strong>GUI Editor: SciTE</strong>) và trình soạn thảo dòng lệnh (<strong>CLI Editor: GNU nano</strong>, vi/vim).</li>
+<li>Hiểu rõ triết lý thiết kế của Linux: <em>"Everything is a file"</em> và cách hệ thống quản lý các tệp cấu hình (Configuration Files).</li>
+<li>Phân biệt phạm vi áp dụng giữa tệp cấu hình cấp người dùng (User Configuration Files trong thư mục <code>$HOME</code>) và tệp cấu hình toàn cục (System-wide Configuration Files trong <code>/etc</code>).</li>
+<li>Tùy biến dấu nhắc lệnh Bash (<code>PS1</code>) thông qua chỉnh sửa tệp tin <code>.bashrc</code>.</li>
+<li>Cấu hình dịch vụ máy chủ web <strong>Nginx</strong> thông qua tệp cấu hình <code>/etc/nginx/custom_server.conf</code>, khởi chạy trên cổng mạng tùy biến và quản lý vòng đời dịch vụ.</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>Máy ảo bảo mật Security Workstation VM (dựa trên Arch Linux).</li>
+<li>Tài khoản người dùng: <code>analyst</code> (mật khẩu mặc định: <code>cyberops</code>).</li>
+<li>Trình soạn thảo văn bản: SciTE, GNU nano.</li>
+<li>Dịch vụ máy chủ web Nginx và trình duyệt web Mozilla Firefox.</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1: TRÌNH SOẠN THẢO VĂN BẢN ĐỒ HỌA (GRAPHICAL TEXT EDITORS)</h4>
+<ul>
+<li>Tạo tệp <code>space.txt</code> trong thư mục cá nhân bằng trình soạn thảo đồ họa <strong>SciTE</strong> (Applications > CyberOPS > SciTE).</li>
+<li>Mở SciTE trực tiếp từ cửa sổ Terminal:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ scite space.txt</code></pre>
+<li>Quan sát trạng thái của cửa sổ dòng lệnh Terminal sau khi SciTE được mở.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.d:</strong></p>
+<p><strong>Why is the prompt not shown in the terminal?</strong></p>
+<p><em>(Tại sao dấu nhắc lệnh không còn xuất hiện trong terminal?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Dấu nhắc lệnh biến mất vì lệnh <code>scite space.txt</code> đang được thực thi ở chế độ <strong>tiền cảnh (Foreground Process)</strong>. Trong Linux, khi một chương trình được gọi trực tiếp ở foreground, tiến trình shell (Bash) sẽ tạm dừng nhường quyền điều khiển và rơi vào trạng thái chờ (Blocking / Waiting) cho đến khi tiến trình con SciTE kết thúc hoặc trả về mã thoát.</p>
+<p><em>(Ghi chú kỹ thuật: Để lấy lại dấu nhắc lệnh mà vẫn duy trì phần mềm đồ họa hoạt động, người dùng có thể thêm ký tự <code>&</code> ở cuối lệnh để đẩy tiến trình xuống chạy nền: <code>scite space.txt &</code> hoặc nhấn tổ hợp <code>Ctrl + Z</code> rồi gõ <code>bg</code>)</em>.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 2: TRÌNH SOẠN THẢO DÒNG LỆNH (COMMAND LINE TEXT EDITORS)</h4>
+<ul>
+<li>Trình soạn thảo dòng lệnh (như <code>nano</code>, <code>vim</code>) giữ vai trò sống còn trong quản trị Linux vì trong các kịch bản quản trị máy chủ từ xa (qua SSH trên các Server headless không cài giao diện đồ họa), GUI Editor hoàn toàn không thể hoạt động.</li>
+<li>Mở tệp <code>space.txt</code> bằng GNU nano:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ nano space.txt</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2.b:</strong></p>
+<p><strong>What character does nano use to represent that a line continues beyond the boundaries of the screen?</strong></p>
+<p><em>(Ký tự nào được nano sử dụng để biểu thị một dòng văn bản dài vượt ra ngoài ranh giới hiển thị của màn hình?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>GNU nano sử dụng ký tự <strong>dấu đô la (<code>$</code>)</strong> xuất hiện ở mép ngoài cùng bên phải của dòng để biểu thị rằng dòng văn bản đó vẫn còn tiếp tục và vượt ra ngoài giới hạn hiển thị hiện thời của cửa sổ terminal.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: LÀM VIỆC VỚI CÁC TỆP CẤU HÌNH (WORKING WITH CONFIGURATION FILES)</h4>
+<h5>Bước 1: Định vị tệp cấu hình</h5>
+<ul>
+<li>Xem danh sách tệp thông thường bằng <code>ls -l</code> và tệp ẩn bằng <code>ls -la</code>. Các tệp cấu hình người dùng thường bắt đầu bằng dấu chấm (<code>.bashrc</code>, <code>.bash_profile</code>).</li>
+<li>So sánh tệp cấu hình hệ thống <code>/etc/bash.bashrc</code> (thuộc sở hữu của <code>root</code>) và tệp cấu hình cá nhân <code>~/.bashrc</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 1:</strong></p>
+<p><strong>Why are user application configuration files saved in the user's home directory and not under /etc with all the other system-wide configuration files?</strong></p>
+<p><em>(Tại sao các tệp cấu hình ứng dụng người dùng được lưu trong thư mục home mà không lưu trong /etc cùng với các tệp cấu hình toàn cục?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Đây là thiết kế bảo mật và kiến trúc đa người dùng (Multi-user Architecture) cốt lõi của Unix/Linux:</p>
+<p>1. <strong>Phân tách quyền hạn và Bảo vệ hệ thống (Principle of Least Privilege):</strong> Thư mục <code>/etc</code> chứa các cấu hình ảnh hưởng đến toàn bộ hệ điều hành và tất cả người dùng; chỉ tài khoản quản trị tối cao (<code>root</code>) mới có quyền ghi vào thư mục này để tránh việc cấu hình sai làm sập các dịch vụ hệ thống.</p>
+<p>2. <strong>Cá nhân hóa độc lập (Customization Isolation):</strong> Mỗi người dùng sở hữu quyền ghi đầy đủ trong thư mục home của chính mình (<code>/home/username</code>). Việc lưu cấu hình tại đây cho phép từng người dùng tự do tùy biến môi trường làm việc (phông chữ, màu sắc shell, alias, biến môi trường) theo nhu cầu cá nhân mà không cần quyền quản trị root và hoàn toàn không làm ảnh hưởng đến những người dùng khác cùng chia sẻ máy chủ.</p>
+</blockquote>
+<h5>Bước 2: Tùy biến biến môi trường PS1 trong .bashrc</h5>
+<ul>
+<li>Mở <code>.bashrc</code> bằng SciTE hoặc nano. Tìm định nghĩa biến <code>PS1</code>:</li>
+<p><code>PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '</code></p>
+<li>Thay mã màu <code>32</code> (xanh lá cây) bằng <code>31</code> (đỏ), lưu lại.</li>
+<li>Mở một cửa sổ Terminal mới: dấu nhắc lệnh chuyển sang màu đỏ.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 2.g:</strong></p>
+<p><strong>Did the terminal window which was already open also change color from green to red? Explain.</strong></p>
+<p><em>(Cửa sổ terminal đang mở sẵn trước đó có tự động đổi màu từ xanh lá cây sang đỏ không? Giải thích lý do.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><strong>Không đổi màu.</strong> Cửa sổ terminal cũ vẫn giữ nguyên màu xanh lá cây ban đầu.</p>
+<p><strong>Giải thích kỹ thuật:</strong> Tệp tin <code>.bashrc</code> là một shell startup script chỉ được đọc và nạp vào bộ nhớ một lần duy nhất tại thời điểm phiên làm việc (shell session) được khởi tạo. Việc chỉnh sửa tệp <code>.bashrc</code> trên ổ đĩa không tự động phát tín hiệu cập nhật môi trường bộ nhớ của các tiến trình shell đang chạy. Để áp dụng thay đổi ngay trong cửa sổ terminal hiện tại mà không cần mở lại, người dùng phải nạp lại tệp cấu hình thủ công bằng lệnh:</p>
+<p><code>source ~/.bashrc</code> hoặc <code>. ~/.bashrc</code></p>
+</blockquote>
+<ul>
+<li>Mở lại <code>.bashrc</code> bằng <code>nano .bashrc</code>, đổi mã màu thành <code>33</code> (vàng), lưu lại bằng <code>Ctrl + X</code> > <code>Y</code> > <code>Enter</code>. Gõ lệnh <code>bash</code> để tải phiên mới, dấu nhắc lệnh chuyển sang màu vàng thành công.</li>
+</ul>
+<h5>Bước 3: Cấu hình dịch vụ mạng Nginx</h5>
+<ul>
+<li>Mở tệp cấu hình dịch vụ web bằng quyền quản trị:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ sudo nano -l /etc/nginx/custom_server.conf</code></pre>
+<li>Điều chỉnh hai thông số cốt lõi:</li>
+<li>Dòng 39: Chuyển cổng lắng nghe từ <code>listen 81;</code> thành <code>listen 8080;</code>.</li>
+<li>Dòng 47: Chuyển thư mục web root thành <code>root /usr/share/nginx/html/text_ed_lab/;</code>.</li>
+<li>Lưu tệp và khởi chạy Nginx với tệp cấu hình vừa sửa:</li>
+<pre><code class="language-bash">[analyst@secOps ~]$ sudo nginx -c custom_server.conf</code></pre>
+<li>Mở trình duyệt web Firefox, truy cập địa chỉ: <code>http://127.0.0.1:8080</code>. Trang web hiển thị thành công.</li>
+<li>Quan sát thông báo lỗi ghi nhận trong cửa sổ terminal chạy lệnh.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.i:</strong></p>
+<p><strong>After successfully opening the nginx homepage, look at the connection message in the terminal window. What is the error message referring to?</strong></p>
+<p><em>(Sau khi mở trang chủ nginx, hãy nhìn thông báo kết nối trong terminal. Thông báo lỗi đang đề cập đến điều gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Thông báo lỗi đề cập đến việc không tìm thấy tệp biểu tượng trang web:</p>
+<p><code>open() "/usr/share/nginx/html/text_ed_lab/favicon.ico" failed (2: No such file or directory)</code>.</p>
+<p>Khi trình duyệt web kết nối đến một trang HTTP, trình duyệt tự động gửi thêm một yêu cầu phụ ngầm để tải tệp <code>favicon.ico</code> hiển thị trên tab. Do thư mục web của bài lab không có sẵn tệp này, Nginx ghi nhận mã lỗi 404 cho tài nguyên đó.</p>
+</blockquote>
+<ul>
+<li>Dừng dịch vụ Nginx bằng lệnh: <code>sudo pkill nginx</code>.</li>
+<li>Xóa lịch sử trình duyệt, mở lại và truy cập <code>127.0.0.1:8080</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI BƯỚC 3.k:</strong></p>
+<p><strong>Does the web page appear?</strong></p>
+<p><em>(Trang web có xuất hiện không?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p><strong>Không xuất hiện.</strong> Trình duyệt hiển thị thông báo lỗi kết nối: <em>"Unable to connect"</em> hoặc <em>"Firefox can’t establish a connection to the server at 127.0.0.1:8080"</em>, do tiến trình Nginx lắng nghe cổng TCP 8080 đã bị tiêu diệt hoàn toàn.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 4: CÂU HỎI THỬ THÁCH VÀ SUY NGẪM (CHALLENGE &amp; REFLECTION)</h4>
+<blockquote>
+<p><strong>CÂU HỎI THỬ THÁCH (CHALLENGE QUESTION):</strong></p>
+<p><strong>Can you edit the /etc/nginx/custom_configuration.conf file with SciTE? Describe the process below.</strong></p>
+<p><em>(Bạn có thể chỉnh sửa tệp /etc/nginx/custom_configuration.conf bằng SciTE được không? Mô tả quy trình thực hiện.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Hoàn toàn có thể được, nhưng bắt buộc phải chạy SciTE với đặc quyền <strong>root</strong> vì tệp tin nằm trong <code>/etc</code> (nếu mở với quyền thường, người dùng chỉ có thể đọc chứ không thể lưu đè).</p>
+<p><strong>Quy trình thực hiện:</strong></p>
+<p>1. Mở cửa sổ Terminal.</p>
+<p>2. Chạy lệnh mở SciTE với quyền quản trị:</p>
+<p><code>sudo scite /etc/nginx/custom_configuration.conf</code></p>
+<p>3. Nhập mật khẩu tài khoản <code>analyst</code> (<code>cyberops</code>) khi được nhắc.</p>
+<p>4. Giao diện đồ họa SciTE sẽ mở tệp với quyền root. Tiến hành chỉnh sửa các tham số cần thiết.</p>
+<p>5. Nhấn <code>Ctrl + S</code> (hoặc File > Save) để lưu thay đổi và đóng ứng dụng.</p>
+</blockquote>
+<blockquote>
+<p><strong>BÀI HỌC SUY NGẪM (REFLECTION):</strong></p>
+<p>1. Cấu hình tệp tin là trái tim của hệ điều hành Linux. Mọi tham số từ mạng, quyền truy cập, dịch vụ đều được định nghĩa rõ ràng qua các tệp văn bản thuần.</p>
+<p>2. Luôn sao lưu (backup) tệp cấu hình gốc trước khi sửa đổi (ví dụ: <code>cp config.conf config.conf.bak</code>).</p>
+<p>3. Kiểm tra cú pháp trước khi khởi động lại dịch vụ (ví dụ <code>nginx -t</code>) để tránh làm sập hệ thống dịch vụ quan trọng trong môi trường doanh nghiệp.</p>
+</blockquote>
+    </div>
+</body>
+</html>

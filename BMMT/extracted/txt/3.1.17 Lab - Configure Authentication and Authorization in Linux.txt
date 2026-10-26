@@ -1,0 +1,324 @@
+Lab - Configure Authentication and Authorization in Linux
+Objectives
+Part 1: Add a New Group for Users
+Part 2: Add Users to the New Group
+Part 3: Switch Users and Modify Permissions
+Part 4: Modify Permissions in Absolute Mode
+Background / Scenario
+In this lab, you will use the Linux command line to create a group for new users and add users to the group. Each user will be assigned a password for authenticating at login. Then you will modify permissions to authorize read, write, and execute privileges for both users and groups.
+Required Resources
+PC with the CSE-LABVM installed in VirtualBox
+Instructions
+Part 1: Add a New Group for Users
+In this part, you will add a new group for users to the virtual machine.
+Step 1: Open a terminal window in the CSE-LABVM.
+a.     Launch the CSE-LABVM.
+b.     Double-click the Terminal icon to open a terminal.
+Step 2: Escalate privileges to the root level.
+Enter the sudo su command and enter password as the password when prompted.
+cisco@labvm:~$ sudo su
+[sudo] password for cisco:
+root@labvm:/home/cisco#
+Step 3: Add a new group named HR.
+Enter the groupadd HR command.
+root@ubuntu:/home/cisco# groupadd HR
+Step 4: Verify the new group has been added.
+Enter the cat /etc/group command to verify that HR was added.
+root@labvm:/home/cisco# cat /etc/group
+root:x:0:
+daemon:x:1:
+bin:x:2:
+sys:x:3:
+<output omitted>
+Alice:x:1000:
+Bob:x:1001:
+Eve:x:1002:
+Eric:x:1003:
+Xnobody:x:1004:
+HR:x:1005:
+The new group HR is shown at the bottom of the /etc/group file with a group ID of 1005.
+Part 2: Add Users to the New Group
+In this part, you will add user accounts for Jenny and Joe to the HR group.
+Step 1: Add Jenny as a new user and move her to the HR group.
+a.     Complete the following to add Jenny as a user:
+1)    Enter the adduser jenny command and press Enter.
+2)    Enter jenPass as the password, and then press Enter.
+3)    Re-type the new password, and then press Enter.
+4)    Enter Jenny for Full Name, and then press Enter.
+5)    For the rest of the configuration, press Enter.
+6)    Enter Y to verify the information is correct, and then press Enter.
+root@labvm:/home/cisco# adduser jenny
+Adding user `jenny' ...
+Adding new group `jenny' (1006) ...
+Adding new user `jenny' (1005) with group `jenny' ...
+Creating home directory `/home/jenny' ...
+Copying files from `/etc/skel' ...
+New password: jenPass
+Retype new password: jenPass
+passwd: password updated successfully
+Changing the user information for jenny
+Enter the new value, or press ENTER for the default
+Full Name []: Jenny
+Room Number []:
+Work Phone []:
+Home Phone []:
+Other []:
+Is the information correct? [Y/n] Y
+root@labvm:/home/cisco#
+b.     Move jenny to the HR group. Enter the usermod -G HR jenny command to move jenny to the HR group.
+root@ubuntu:/home/cisco# usermod –G HR jenny
+Step 2: Add Joe as a new user and move him to the HR group.
+a.     Enter the adduser joe command and then complete the steps to assign joe the password joePass and full name Joe.
+root@labvm:/home/cisco# adduser joe
+Adding user `joe' ...
+Adding new group `joe' (1007) ...
+Adding new user `joe' (1006) with group `joe' ...
+Creating home directory `/home/joe' ...
+Copying files from `/etc/skel' ...
+New password: joePass
+Retype new password: joePass
+passwd: password updated successfully
+Changing the user information for joe
+Enter the new value, or press ENTER for the default
+Full Name []: Joe
+Room Number []:
+Work Phone []:
+Home Phone []:
+Other []:
+Is the information correct? [Y/n] Y
+b.     Place the user joe in the HR group.
+root@labvm:/home/cisco# usermod –G HR joe
+Step 3: Verify the newly created users in the passwd file.
+Enter the cat /etc/passwd command to verify the new users in the passwd file.
+root@labvm:/home/cisco# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+<output omitted>
+Xnobody:x:1004:1004::/home/Xnobody:/bin/sh
+jenny:x:1005:1006:Jenny,,,:/home/jenny:/bin/bash
+joe:x:1006:1007:Joe,,,:/home/joe:/bin/bash
+Step 4: View the created users in the shadow file.
+Enter the cat /etc/shadow command to verify the new users in the shadow file.
+root@labvm:/home/cisco# cat /etc/shadow
+root:!:18704:0:99999:7:::
+daemon:*:18704:0:99999:7:::
+bin:*:18704:0:99999:7:::
+sys:*:18704:0:99999:7:::
+<output omitted>
+Xnobody:!:18704:0:99999:7:::
+jenny:$6$VmEFD7wi6zHV8VH5$m2K8U2wpONkvTXzf9uSxSHitbcwAQMEmNiYg8ICnBpdct9dxqr3Hh8EGvxaIasa9fUw.mtB4GGkQYvoZHAFSa/:18705:0:99999:7:::
+joe:$6$Ga2C7801c2vb7ias$G9OdK91gnLCnq.5vgpUJjn0/KyWKkXmRemqoGJgBFH0QejpmRYZxQhmS42eZG0SBApc1Z2Q/gsfwuD6oLUh.W.:18705:0:99999:7:::
+Part 3: Switch Users and Modify Permissions
+In this part, you will login as jenny, explore directories, and change permissions.
+Step 1: Switch user from root to jenny.
+a.     To switch to Jenny's desktop, click Menu at the bottom left of the desktop, and then click Logout.
+b.     Click Switch User from the dialog box.
+c.     Click Jenny from the list of available users and enter the password jenPass.
+d.     Jenny's desktop loads. From here, you can right click the desktop and choose Open in Terminal.
+jenny@labvm:~/Desktop$
+Step 2: Explore Jenny's environment.
+a.     Enter the pwd command to print the current directory, and then navigate to the /home directory with the cd ../.. command.
+jenny@labvm:~/Desktop$ pwd
+/home/jenny/Desktop
+jenny@labvm:~/Desktop$ cd ../..
+jenny@labvm:/home$
+b.     Enter the ls -l command to list all directories in /home, their permissions, and their users.
+jenny@labvm:/home$ ls -l
+total 28
+drwxr-xr-x 2 Alice Alice 4096 Mar 18 21:58 Alice
+drwxr-xr-x 2 Bob Bob 4096 Mar 18 21:58 Bob
+drwxr-xr-x 12 cisco cisco 4096 Mar 19 20:02 cisco
+drwxr-xr-x 2 Eric Eric 4096 Mar 18 21:58 Eric
+drwxr-xr-x 2 Eve Eve 4096 Mar 18 21:58 Eve
+drwxr-xr-x 9 jenny jenny 4096 Mar 19 19:58 jenny
+drwxr-xr-x 2 joe joe 4096 Mar 19 19:44 joe
+The Linux operating system has a total of 10 letters or dashes in the permissions fields. For example, these home directories have the following permissions: drwxr-xr-x.
+o    A d in the first field indicates that this is a directory. A dash (-) would mean that it is a file.
+o    The next set of three characters is for user permission (rwx). For example, the user, jenny, owns the directory and can read, write, and execute the file.
+o    The second set of three characters is for group permissions (r-x). The group is jenny, meaning that no group, other than jenny, can write to this directory.
+o    The third set of three characters is for any other user or group permissions (r-x). Any other user or group on the computer can read or execute, but not write to the directory.
+c.     As Jenny, enter command cd joe to enter Joe's directory. Notice that we are able to navigate to Joe’s directory because the permission for others is r-x. The x allows anyone to enter the directory.
+jenny@labvm:/home$ cd joe
+jenny@labvm:/home/joe$
+d.     While in Joe's directory, enter the touch new.txt command to create a file. You are denied because user jenny does not have permission to write to Joe's directory.
+jenny@labvm:/home/joe$ touch new.txt
+touch: cannot touch 'new.txt': Permission denied
+jenny@labvm:/home/joe$
+e.     Enter the cd .. command to exit Joe's home directory.
+jenny@labvm:/home/joe$ cd ..
+jenny@labvm:/home$
+Step 3: Login as root.
+Joe may not want Jenny to be able to read the contents of his directory. Root access or another superuser can change the directory permissions to deny Jenny, or any other user or group, read access to Joe's home directory.
+a.     Login as user cisco with password as the password. User the su cisco command.
+jenny@labvm:/home$ su cisco
+Password:
+b.     Enter the sudo -i command to switch to root and enter password as the password.
+cisco@labvm:~$ sudo -i
+[sudo] password for cisco: password
+Step 4: Modify the permissions for Joe's home directory.
+Navigate to the home directory and enter the chmod o-x joe command to change the permission on Joe's home directory to non-executable for other users and groups.
+root@labvm:~# cd /home
+root@labvm:/home# chmod o-x joe
+root@labvm:/home# ls -1
+total 28
+drwxr-xr-x 2 Alice Alice 4096 Mar 18 21:58
+drwxr-xr-x 2 Bob Bob 4096 Mar 18 21:58
+drwxr-xr-x 12 cisco cisco 4096 Mar 19 20:02
+drwxr-xr-x 2 Eric Eric 4096 Mar 18 21:58
+drwxr-xr-x 2 Eve Eve 4096 Mar 18 21:58
+drwxr-xr-x 9 jenny jenny 4096 Mar 20 14:02
+drwxr-xr-- 2 joe joe 4096 Mar 19 19:44
+Step 5: Verify Jenny can no longer access Joe's directory.
+a.     Logout as root and the user cisco.
+root@labvm:/home# exit
+logout
+cisco@labvm:~$ exit
+logout
+jenny@labvm:/home$
+b.     Enter the cd joe command to attempt to navigate to Joe's directory. Notice that permission is denied.
+jenny@labvm:/home$ cd joe
+bash: cd: joe: Permission denied
+jenny@labvm:/home$
+The chart below shows examples of other ways the chmod command can be used:
+chmod command
+Results
+chmod u+rwx
+Adds read, write, and execute permissions for the user
+chmod u+rw
+Adds read and write permission for the user
+chmod o+r
+Adds read permission for others
+chmod g-rwx
+Removes read, write, and execute permissions for the group
+Blank Line, No additional information
+Part 4: Modify Permissions in Absolute Mode
+In the previous part, you changed permissions in symbolic mode. In symbolic mode, the administrator uses the chmod command with a combination of letters and symbols to add or remove permissions. In this part, you will use chmod command and octal values to set permissions for each triplet of permissions (rwx) for user, group, and other.
+Step 1: Switch user from jenny to joe.
+a.     To switch to Joe's desktop, click Menu at the top left of the desktop. At the bottom of the dropdown menu, click the button with the tool tip End the current session.
+b.     Click Switch User from the dialog box.
+c.     Click Joe from the list of available users and enter the password joePass.
+d.     Joe's desktop loads. From here, you can right click the desktop and choose Open in Terminal.
+joe@labvm:~/Desktop$
+Step 2: Explore Joe's environment.
+a.     Enter the pwd command to print the current directory, and then navigate to the /home directory with the cd ../.. command.
+joe@labvm:~/Desktop$ pwd
+/home/joe/Desktop
+joe@labvm:~/Desktop$ cd ../..
+joe@labvm:/home$
+b.     Enter the ls -l command to list all directories in /home, their permissions, and their users. Notice that Joe’s directory is set so that “others” are not able to access it.
+joe@labvm:/home$ ls -l
+total 28
+drwxr-xr-x 2 Alice Alice 4096 Mar 18 21:58 Alice
+drwxr-xr-x 2 Bob Bob 4096 Mar 18 21:58 Bob
+drwxr-xr-x 12 cisco cisco 4096 Mar 19 20:02 cisco
+drwxr-xr-x 2 Eric Eric 4096 Mar 18 21:58 Eric
+drwxr-xr-x 2 Eve Eve 4096 Mar 18 21:58 Eve
+drwxr-xr-x 9 jenny jenny 4096 Mar 20 14:02 jenny
+drwxr-xr-- 9 joe joe 4096 Mar 20 15:01 joe
+Step 3: Use absolute mode to modify, and then verify the permissions for Joe's directory.
+The other way of assigning permissions besides using symbolic permissions is the use of absolute permissions. Absolute permissions use a three-digit octal number to represent the permissions for owner, group and other.
+The table below outlines each absolute value and its corresponding permissions:
+Number
+Permissions
+7
+Read, Write, and Execute
+6
+Read and Write
+5
+Read and Execute
+4
+Read
+3
+Write and Execute
+2
+Write
+1
+Execute
+0
+None
+Blank Line, No additional information
+By typing the chmod 764 examplefile command, the "examplefile" will be assigned the follow permissions:
+Digit
+Binary Equivalent
+Permission
+7 (user)
+111
+1-Read
+1-Write
+1-Execute
+6 (group)
+110
+1-Read
+1-Write
+0-No Execute
+4 (others)
+100
+1-Read
+0-No Write
+0-No Execute
+Blank Line, No additional information
+a.     Modify the “others” field for Joe’s folder so that others will be able read and execute but not write while still maintaining the “user” field to read, write, and execute.
+joe@labvm:/home$ chmod 705 joe
+b.     List the file permissions of the current directory to see that the absolute changes were made.
+joe@labvm:/home$ ls -l
+total 28
+drwxr-xr-x 2 Alice Alice 4096 Mar 18 21:58 Alice
+drwxr-xr-x 2 Bob Bob 4096 Mar 18 21:58 Bob
+drwxr-xr-x 12 cisco cisco 4096 Mar 19 20:02 cisco
+drwxr-xr-x 2 Eric Eric 4096 Mar 18 21:58 Eric
+drwxr-xr-x 2 Eve Eve 4096 Mar 18 21:58 Eve
+drwxr-xr-x 9 jenny jenny 4096 Mar 20 14:02 jenny
+drwx---r-x 9 joe joe 4096 Mar 20 15:01 joe
+joe@labvm:/home$
+Step 4: Create a file in the joe directory.
+Switch to the joe directory, use the touch test.txt command to create a file, and then list the contents of the directory.
+joe@labvm:/home$ cd joe
+joe@labvm:~$ touch test.txt
+joe@labvm:~$ ls -l
+total 12
+drwxr-xr-x 2 joe joe 4096 Mar 20 15:00 Desktop
+drwxr-xr-x 2 joe joe 4096 Mar 20 15:00 Documents
+drwxr-xr-x 2 joe joe 4096 Mar 20 15:00 Downloads
+-rw-rw-r-- 1 joe joe 0 Mar 20 15:33 test.txt
+joe@labvm:~$
+Step 5: Switch user from joe to jenny.
+a.     To switch to Jenny's desktop, click Menu at the top left of the desktop. At the bottom of the dropdown menu, click the button with the tool tip End the current session.
+b.     Click Switch User from the dialog box.
+c.     Click Jenny from the list of available users and enter the password jenPass.
+d.     Jenny's desktop loads. From here, you can right click the desktop and choose Open in Terminal.
+jenny@labvm:~/Desktop$
+Step 6: Change to the home directory and list its contents.
+jenny@labvm:~/Desktop$ cd ../..
+jenny@labvm:/home$ ls -l
+total 28
+drwxr-xr-x 2 Alice Alice 4096 Mar 18 21:58 Alice
+drwxr-xr-x 2 Bob Bob 4096 Mar 18 21:58 Bob
+drwxr-xr-x 12 cisco cisco 4096 Mar 19 20:02 cisco
+drwxr-xr-x 2 Eric Eric 4096 Mar 18 21:58 Eric
+drwxr-xr-x 2 Eve Eve 4096 Mar 18 21:58 Eve
+drwxr-xr-x 9 jenny jenny 4096 Mar 20 14:02 jenny
+drwx---r-x 9 joe joe 4096 Mar 20 15:01 joe
+jenny@labvm:/home$
+Step 7: Change to the joe directory and list the contents of the directory.
+Notice that user jenny, as a member of "others", has read access to the joe directory and also has read access for the "test.txt" file.
+jenny@labvm:/home$ cd joe
+jenny@labvm:/home/joe$ ls -l
+total 12
+drwxr-xr-x 2 joe joe 4096 Mar 20 15:00 Desktop
+drwxr-xr-x 2 joe joe 4096 Mar 20 15:00 Documents
+drwxr-xr-x 2 joe joe 4096 Mar 20 15:00 Downloads
+-rw-rw-r-- 1 joe joe 0 Mar 22 14:33 test.txt
+jenny@labvm:/home/joe$
+Step 8: Attempt to create a file in the joe directory.
+Notice how user jenny is denied permission to write to the joe directory.
+jenny@labvm:/home/joe$ touch jenny.txt
+touch: cannot touch 'jenny.txt': Permission denied
+jenny@labvm:/home/joe$
+Step 9: Switch user from jenny to cisco and close the VM.
+a.     Click Menu at the top left of the desktop. At the bottom of the dropdown menu, click the button with the tool tip End the current session.
+b.     Click Switch User from the dialog box.
+c.     Click Cybersecurity Analyst from the list of available users and enter password as the password.
+d.     Click File > Close, choose Save the machine state, and then click OK.
+End of document

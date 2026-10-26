@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 03 7.3.11 Using Windows PowerShell - 524H0195 - Ngô Lâm Tiến</title>
+    <style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+h1 { font-size: 2rem; border-bottom: 2px solid #3182ce; padding-bottom: 0.5rem; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; }
+p, li { font-size: 1rem; color: #2d3748; }
+blockquote {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+}
+blockquote p { margin: 0.4rem 0; }
+pre {
+    background: #1a202c;
+    color: #edf2f7;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: 600;
+}
+tr:nth-child(even) { background-color: #f7fafc; }
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 2rem 0;
+}
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3182ce;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">ĐẠI HỌC TÔN ĐỨC THẮNG - KHOA CNTT</span>
+        <h1>BÁO CÁO THỰC HÀNH CHI TIẾT</h1>
+<h2>Lab 7.3.11: Using Windows PowerShell</h2>
+<p><strong>Học phần:</strong> An toàn Máy tính / An ninh Mạng</p>
+<p><strong>Sinh viên thực hiện:</strong> Ngô Lâm Tiến</p>
+<p><strong>Mã số sinh viên (MSSV):</strong> 524H0195</p>
+<p><strong>Lớp / Khóa:</strong> Đại học Tôn Đức Thắng (TDTU)</p>
+<p><strong>Thời gian thực hiện:</strong> Học kỳ thực hành - Tuần 7</p>
+<hr>
+<h3>I. MỤC TIÊU BÀI LAB (OBJECTIVES)</h3>
+<ul>
+<li>Khảo sát giao diện điều khiển dòng lệnh mạnh mẽ của <strong>Windows PowerShell</strong> và so sánh với <strong>Command Prompt (CMD)</strong> truyền thống.</li>
+<li>Hiểu cấu trúc đặt tên chuẩn theo dạng <strong>Động từ - Danh từ (Verb-Noun)</strong> của các PowerShell Cmdlets và cơ chế bí danh (Aliases).</li>
+<li>Sử dụng công cụ <code>netstat</code> trong môi trường PowerShell để phân tích bảng định tuyến hệ thống (Routing Table) và các kết nối mạng đang hoạt động.</li>
+<li>Đối chiếu thông tin mạng (cổng kết nối, PID) với Trình quản lý tác vụ (<strong>Task Manager</strong>) để xác định tiến trình chịu trách nhiệm.</li>
+<li>Thực hiện tự động hóa tác vụ quản trị hệ thống bằng lệnh PowerShell (<code>Clear-RecycleBin</code>).</li>
+</ul>
+<hr>
+<h3>II. YÊU CẦU HỆ THỐNG VÀ CÔNG CỤ (REQUIRED RESOURCES)</h3>
+<ul>
+<li>01 Máy tính Windows cài đặt PowerShell (Windows PowerShell 5.1 hoặc PowerShell 7).</li>
+<li>Quyền Quản trị viên (Run as administrator) để thực thi các lệnh mạng nâng cao.</li>
+<li>Trình quản lý tác vụ (Windows Task Manager).</li>
+</ul>
+<hr>
+<h3>III. NỘI DUNG VÀ BÁO CÁO KẾT QUẢ TỪNG BƯỚC</h3>
+<h4>PHẦN 1 &amp; 2: KHẢO SÁT LỆNH CMD VÀ POWERSHELL (COMMAND PROMPT VS. POWERSHELL)</h4>
+<ul>
+<li>Mở song song hai cửa sổ: <strong>Command Prompt</strong> và <strong>Windows PowerShell</strong>.</li>
+<li>Nhập lệnh <code>dir</code> trên cả hai cửa sổ.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2.a:</strong></p>
+<p><strong>What are the outputs to the dir command?</strong></p>
+<p><em>(Kết quả xuất ra của lệnh dir trong hai cửa sổ là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Mặc dù cả hai lệnh đều hiển thị danh sách các tệp và thư mục con trong thư mục làm việc hiện tại (<code>C:\Users\CyberOpsUser</code>), cấu trúc đầu ra có sự khác biệt bản chất:</p>
+<p>1. <strong>Trong Command Prompt (<code>cmd.exe</code>):</strong> Kết quả là chuỗi văn bản thô (plain text stream). Dòng tiêu đề hiển thị Volume Serial Number, sau đó là danh sách định dạng theo cột: Ngày giờ sửa đổi, nhãn <code><DIR></code> hoặc kích thước tệp tính bằng byte, và Tên tệp. Cuối cùng hiển thị tổng số tệp, tổng số thư mục và dung lượng trống trên đĩa.</p>
+<p>2. <strong>Trong Windows PowerShell (<code>powershell.exe</code>):</strong> Kết quả thực chất là một mảng các đối tượng .NET (<code>System.IO.DirectoryInfo</code> và <code>System.IO.FileInfo</code>) được định dạng hiển thị trực quan dưới dạng bảng gồm 4 cột thuộc tính:</p>
+<p>- <code>Mode</code>: Chuỗi cờ thuộc tính tệp (ví dụ <code>d-----</code> cho thư mục, <code>-a----</code> cho tệp lưu trữ Archive, <code>r</code> Read-only, <code>h</code> Hidden).</p>
+<p>- <code>LastWriteTime</code>: Ngày giờ cập nhật mới nhất.</p>
+<p>- <code>Length</code>: Dung lượng tệp tính bằng byte.</p>
+<p>- <code>Name</code>: Tên tệp hoặc thư mục.</p>
+</blockquote>
+<ul>
+<li>Thử nghiệm các lệnh thông dụng khác: <code>ping</code>, <code>cd</code>, <code>ipconfig</code>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 2.b:</strong></p>
+<p><strong>Try another command that you have used in the command prompt, such as ping, cd, and ipconfig. What are the results?</strong></p>
+<p><em>(Thử các lệnh khác đã dùng trong CMD như ping, cd, ipconfig. Kết quả ra sao?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>- Các lệnh <code>ping</code> và <code>ipconfig</code> hoạt động hoàn toàn tương đồng trên cả hai cửa sổ. Lý do: Đây là các chương trình tiện ích nhị phân độc lập nằm trong đường dẫn hệ thống <code>C:\Windows\System32\ping.exe</code> và <code>C:\Windows\System32\ipconfig.exe</code>. Cả CMD và PowerShell đều thực thi cùng một tệp nhị phân này.</p>
+<p>- Lệnh <code>cd</code>: Trong CMD, <code>cd</code> là lệnh nội trú (internal command). Trong PowerShell, <code>cd</code> là một Alias nội bộ trỏ tới cmdlet <code>Set-Location</code>. Kết quả điều hướng thư mục diễn ra như nhau.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 3: KHÁM PHÁ CÁC POWERSHELL CMDLETS (PART 3: EXPLORE CMDLETS)</h4>
+<ul>
+<li>Cú pháp chuẩn của PowerShell Cmdlet tuân thủ nghiêm ngặt quy tắc <code>Verb-Noun</code> (Động từ - Danh từ), ví dụ: <code>Get-Process</code>, <code>Stop-Service</code>, <code>Set-ExecutionPolicy</code>.</li>
+<li>Tại dấu nhắc lệnh PowerShell, gõ: <code>Get-Alias dir</code>.</li>
+<pre><code class="language-powershell">PS C:\Users\CyberOpsUser&gt; Get-Alias dir
+CommandType     Name                    Version    Source
+-----------     ----                    -------    ------
+Alias           dir -&gt; Get-ChildItem</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 3.a:</strong></p>
+<p><strong>What is the PowerShell command for dir?</strong></p>
+<p><em>(Lệnh PowerShell thực sự tương ứng với dir là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Lệnh cmdlet gốc của PowerShell tương ứng với <code>dir</code> là <strong><code>Get-ChildItem</code></strong>. Lệnh <code>dir</code> chỉ là một Alias (tên gọi tắt) được cấu hình sẵn để giúp người dùng quen thuộc với CMD dễ dàng chuyển đổi sang PowerShell.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 4: PHÂN TÍCH LỆNH NETSTAT TRONG POWERSHELL (PART 4: EXPLORE NETSTAT USING POWERSHELL)</h4>
+<h5>Phân tích bảng định tuyến (Routing Table)</h5>
+<ul>
+<li>Gõ lệnh xem bảng định tuyến: <code>netstat -r</code>.</li>
+<li>Kết quả hiển thị <strong>Interface List</strong>, <strong>IPv4 Route Table</strong> và <strong>IPv6 Route Table</strong>.</li>
+<pre><code class="language-text">IPv4 Route Table
+===========================================================================
+Active Routes:
+Network Destination        Netmask          Gateway       Interface  Metric
+          0.0.0.0          0.0.0.0      192.168.1.1     192.168.1.5      25
+        127.0.0.0        255.0.0.0         On-link        127.0.0.1     331
+...</code></pre>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 4.b:</strong></p>
+<p><strong>What is the IPv4 gateway?</strong></p>
+<p><em>(Cổng ngõ mặc định IPv4 Gateway là gì?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Dựa vào dòng định tuyến mặc định (Default Route với Network Destination <code>0.0.0.0</code> và Netmask <code>0.0.0.0</code>), địa chỉ IPv4 Gateway là <strong><code>192.168.1.1</code></strong> (kết nối qua card mạng có IP <code>192.168.1.5</code>).</p>
+</blockquote>
+<h5>Khảo sát kết nối mạng và ánh xạ tiến trình (Process Mapping)</h5>
+<ul>
+<li>Khởi chạy một cửa sổ PowerShell mới với quyền Quản trị viên (<strong>Run as administrator</strong>).</li>
+<li>Thực thi lệnh: <code>netstat -abno</code>.</li>
+<li><code>-a</code>: Hiển thị tất cả kết nối và cổng đang lắng nghe (Listening ports).</li>
+<li><code>-b</code>: Hiển thị tên tệp thực thi (executable) tham gia tạo kết nối.</li>
+<li><code>-n</code>: Hiển thị địa chỉ và số cổng dạng số (không phân giải tên miền/dịch vụ).</li>
+<li><code>-o</code>: Hiển thị mã định danh tiến trình (PID - Process ID) sở hữu kết nối.</li>
+<li>Trích đoạn kết quả quan sát:</li>
+<pre><code class="language-text">  Proto  Local Address          Foreign Address        State           PID
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       756
+  RpcSs
+  [svchost.exe]
+  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4
+  Can not obtain ownership information
+...</code></pre>
+<li>Mở <strong>Task Manager</strong> > chuyển sang thẻ <strong>Details</strong> > nhấp vào cột <strong>PID</strong> để sắp xếp theo thứ tự số.</li>
+<li>Định vị dòng có PID là <code>756</code> (như trong mẫu lab). Nhấp chuột phải chọn <strong>Properties</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 4.g:</strong></p>
+<p><strong>What information can you get from the Details tab and the Properties dialog box for your selected PID?</strong></p>
+<p><em>(Bạn có thể thu thập được những thông tin gì từ thẻ Details và hộp thoại Properties cho PID được chọn?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>1. <strong>Từ thẻ Details của Task Manager:</strong></p>
+<p>- Tên tiến trình nhị phân: <code>svchost.exe</code>.</p>
+<p>- Mã tiến trình (PID): <code>756</code>.</p>
+<p>- Trạng thái hoạt động: <code>Running</code>.</p>
+<p>- Tên tài khoản thực thi (User name): <code>NT AUTHORITY\NETWORK SERVICE</code> (hoặc <code>LOCAL SERVICE</code> / <code>SYSTEM</code>).</p>
+<p>- Mức sử dụng bộ nhớ: Dung lượng RAM cấp phát (Working Set) và cam kết (Commit Size).</p>
+<p>- Mô tả tệp (Description): <code>Host Process for Windows Services</code>.</p>
+<p>2. <strong>Từ hộp thoại Properties của tiến trình:</strong></p>
+<p>- Đường dẫn đầy đủ trên đĩa: <code>C:\Windows\System32\svchost.exe</code>.</p>
+<p>- Chữ ký số điện tử (Digital Signature): Được ký hợp lệ bởi Microsoft Windows Publisher.</p>
+<p>- Thẻ Services (khi chuột phải chọn Go to Service(s)): Hiển thị chính xác tên dịch vụ Windows đang được host bên trong tiến trình này là <strong><code>RpcSs</code></strong> (Remote Procedure Call) và <code>RpcEptMapper</code>.</p>
+<p>- Thông tin phiên bản chi tiết (Product version, File version, Copyright).</p>
+</blockquote>
+<hr>
+<h4>PHẦN 5: DỌN DẸP THÙNG RÁC BẰNG POWERSHELL (EMPTY RECYCLE BIN)</h4>
+<ul>
+<li>Tạo một số tệp văn bản mẫu trong Notepad rồi xóa đưa vào Thùng rác (Recycle Bin).</li>
+<li>Tại cửa sổ PowerShell, thực thi lệnh cmdlet: <code>Clear-RecycleBin</code>.</li>
+<li>Hệ thống hiển thị yêu cầu xác nhận:</li>
+<pre><code class="language-text">Confirm
+Are you sure you want to perform this action?
+Performing the operation &quot;Clear-RecycleBin&quot; on target &quot;All of the contents of the Recycle Bin&quot;.
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is &quot;Y&quot;): y</code></pre>
+<li>Nhập <code>y</code> và nhấn Enter.</li>
+</ul>
+<blockquote>
+<p><strong>CÂU HỎI PHẦN 5.c:</strong></p>
+<p><strong>What happened to the files in the Recycle Bin?</strong></p>
+<p><em>(Điều gì đã xảy ra với các tệp trong Recycle Bin?)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Toàn bộ các tệp tin và thư mục tạm trong Thùng rác đều bị xóa vĩnh viễn khỏi hệ thống lưu trữ mà không thể khôi phục qua các thao tác thông thường. Biểu tượng Recycle Bin trên màn hình Desktop chuyển từ trạng thái đầy sang trạng thái rỗng. Không gian lưu trữ trên ổ đĩa được giải phóng ngay lập tức.</p>
+<p><em>(Ghi chú kỹ thuật: Để thực thi lệnh không cần người dùng xác nhận trong các script tự động hóa, quản trị viên có thể dùng cờ: <code>Clear-RecycleBin -Force</code>)</em>.</p>
+</blockquote>
+<hr>
+<h4>PHẦN 6: CÂU HỎI SUY NGẪM (REFLECTION QUESTION)</h4>
+<blockquote>
+<p><strong>CÂU HỎI SUY NGẪM:</strong></p>
+<p><strong>PowerShell was developed for task automation and configuration management. Using the internet, research commands that you could use to simplify your tasks as a security analyst. Record your findings.</strong></p>
+<p><em>(PowerShell được phát triển để tự động hóa và quản lý cấu hình. Hãy nghiên cứu các lệnh hữu ích phục vụ công việc của một chuyên viên phân tích an ninh mạng - Security Analyst. Ghi lại kết quả.)</em></p>
+<p></p>
+<p><strong>TRẢ LỜI CHI TIẾT:</strong></p>
+<p>Dưới đây là bảng tổng hợp các cmdlet thiết yếu phục vụ công tác giám sát, điều tra số (DFIR) và ứng phó sự cố:</p>
+<p></p>
+<p>| Nhóm tác vụ | Cmdlet PowerShell | Mục đích và ứng dụng an ninh |</p>
+<p>|---|---|---|</p>
+<p>| <strong>Điều tra mạng</strong> | <code>Get-NetTCPConnection</code> | Liệt kê các kết nối TCP thời gian thực kèm Local/Remote IP, Port, State, OwningProcess (thay thế netstat linh hoạt hơn). |</p>
+<p>| <strong>Điều tra mạng</strong> | <code>Test-NetConnection</code> | Kiểm tra độ thông mạng, quét cổng TCP và kiểm tra khả năng định tuyến (<code>Test-NetConnection 192.168.1.1 -Port 80</code>). |</p>
+<p>| <strong>Giám sát tiến trình</strong> | <code>Get-Process</code> | Lấy danh sách tiến trình, kiểm tra mức tải CPU/RAM, kiểm tra chữ ký và đường dẫn file thực thi của tiến trình lạ. |</p>
+<p>| <strong>Ứng phó sự cố</strong> | <code>Stop-Process -Id <PID> -Force</code> | Tiêu diệt khẩn cấp tiến trình độc hại đang chạy. |</p>
+<p>| <strong>Phân tích nhật ký</strong> | <code>Get-WinEvent</code> | Truy vấn và trích xuất chuyên sâu các sự kiện từ Windows Security Log và Sysmon log bằng bộ lọc XML/Hashtable. |</p>
+<p>| <strong>Tính toán toàn vẹn</strong> | <code>Get-FileHash -Algorithm SHA256</code> | Tính toán mã băm SHA256/MD5 của tệp tin để đối chiếu tức thì với chỉ số thỏa hiệp (IoC) trên VirusTotal. |</p>
+<p>| <strong>Kiểm toán tài khoản</strong> | <code>Get-LocalUser</code>, <code>Get-LocalGroupMember</code> | Liệt kê toàn bộ tài khoản cục bộ và thành viên nhóm Administrators để phát hiện tài khoản cửa sau (backdoor). |</p>
+<p>| <strong>Kiểm tra dịch vụ</strong> | <code>Get-Service</code> | Rà soát các dịch vụ đang chạy, tìm kiếm các dịch vụ lạ hoặc dịch vụ tự động khởi động bất thường. |</p>
+<p>| <strong>Phần mềm độc hại</strong> | <code>Get-MpThreatDetection</code>, <code>Start-MpScan</code> | Quản lý Windows Defender, kiểm tra lịch sử phát hiện mã độc và kích hoạt quét nhanh/toàn diện hệ thống. |</p>
+</blockquote>
+    </div>
+</body>
+</html>
