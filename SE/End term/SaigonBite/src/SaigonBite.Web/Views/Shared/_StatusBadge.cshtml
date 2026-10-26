@@ -1,0 +1,16 @@
+@model OrderStatus
+@{
+    var key = "Status." + Model.ToString();
+    var css = Model switch
+    {
+        OrderStatus.Placed => "status-placed",
+        OrderStatus.Confirmed => "status-confirmed",
+        OrderStatus.Preparing => "status-preparing",
+        OrderStatus.Ready => "status-ready",
+        OrderStatus.OutForDelivery => "status-out",
+        OrderStatus.Delivered => "status-delivered",
+        OrderStatus.Cancelled => "status-cancelled",
+        _ => "status-failed",
+    };
+}
+<span class="status-badge @css">@L[key]</span>

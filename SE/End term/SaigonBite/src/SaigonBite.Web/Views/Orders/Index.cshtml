@@ -1,0 +1,64 @@
+@model OrderListVm
+@{
+    ViewData["Title"] = L["Nav.Orders"].Value;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">@L["UseCaseD"]</p>
+        <h1 class="h2 mb-1">@L["Orders.Title"]</h1>
+        <p class="panel-sub mb-0">@L["Orders.Sub"]</p>
+    </div>
+    <a class="btn btn-sm btn-ember" asp-controller="Brands" asp-action="Index">@L["Home.BrowseMenu"]</a>
+</div>
+
+@if (Model.Orders.Count == 0)
+{
+    <div class="empty-state">
+        <p class="mb-3">@L["Orders.Empty"]</p>
+        <a class="btn btn-ember" asp-controller="Brands" asp-action="Index">@L["Home.BrowseMenu"]</a>
+    </div>
+}
+else
+{
+    <div class="panel p-0 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-ink align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">@L["Orders.Number"]</th>
+                        <th scope="col">@L["Common.Hub"]</th>
+                        <th scope="col">@L["Orders.PlacedAt"]</th>
+                        <th scope="col">@L["Common.Status"]</th>
+                        <th scope="col" class="text-end">@L["Price.Total"]</th>
+                        <th scope="col" class="text-end"><span class="visually-hidden">@L["Common.Actions"]</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var order in Model.Orders)
+                {
+                    <tr>
+                        <td class="fw-semibold">#@order.Id</td>
+                        <td>@order.Hub?.Name</td>
+                        <td class="small">@order.PlacedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td><partial name="_StatusBadge" model="order.Status" /></td>
+                        <td class="text-end">
+                            <details class="money-details">
+                                <summary class="money">@Money.Vnd(order.Total)</summary>
+                                <div class="mt-2 text-start" style="min-width: 18rem;">
+                                    <partial name="_PriceBreakdown" model="BreakdownVm.FromOrder(order)" />
+                                </div>
+                            </details>
+                        </td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-ink" asp-controller="Orders" asp-action="Details"
+                               asp-route-id="@order.Id">@L["Orders.Track"]</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p class="panel-sub mt-3 mb-0">@L["Orders.ListNote"] <span class="br-ref">FR-D11</span></p>
+}

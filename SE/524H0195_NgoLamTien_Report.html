@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo cáo Bài tập Lab 4 - Lab 5 - Lab 6 - Kỹ thuật Phần mềm (503074) - 524H0195</title>
+<style>
+    @page {
+        size: A4;
+        margin: 18mm 14mm 18mm 14mm;
+    }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #1e293b;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background-color: #ffffff;
+    }
+    h1 {
+        color: #0f172a;
+        font-size: 22px;
+        font-weight: 800;
+        border-bottom: 3px solid #0284c7;
+        padding-bottom: 8px;
+        margin-top: 35px;
+        margin-bottom: 18px;
+    }
+    h2 {
+        color: #0369a1;
+        font-size: 18px;
+        font-weight: 700;
+        margin-top: 28px;
+        margin-bottom: 14px;
+        border-left: 4px solid #0284c7;
+        padding-left: 10px;
+    }
+    h3 {
+        color: #0f766e;
+        font-size: 15px;
+        font-weight: 700;
+        margin-top: 22px;
+        margin-bottom: 10px;
+    }
+    p, li {
+        font-size: 13.5px;
+        text-align: justify;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 18px 0;
+        font-size: 12.5px;
+        page-break-inside: avoid;
+    }
+    th, td {
+        border: 1px solid #cbd5e1;
+        padding: 8px 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f1f5f9;
+        font-weight: 600;
+        color: #1e293b;
+    }
+    tr:nth-child(even) {
+        background-color: #f8fafc;
+    }
+    blockquote {
+        border-left: 4px solid #0284c7;
+        margin: 15px 0;
+        padding: 10px 16px;
+        background-color: #f0f9ff;
+        color: #0369a1;
+        font-style: italic;
+        border-radius: 0 6px 6px 0;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 18px auto;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+        page-break-inside: avoid;
+    }
+    code {
+        background-color: #f1f5f9;
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-family: Consolas, Monaco, monospace;
+        font-size: 88%;
+        color: #dc2626;
+    }
+    hr {
+        border: none;
+        border-top: 1px solid #e2e8f0;
+        margin: 25px 0;
+    }
+    @media print {
+        body {
+            max-width: 100%;
+            padding: 0;
+            font-size: 10.5pt;
+        }
+        img {
+            max-width: 95% !important;
+            max-height: 220mm !important;
+            page-break-inside: avoid;
+        }
+        h1, h2, h3 {
+            page-break-after: avoid;
+        }
+        table {
+            page-break-inside: avoid;
+        }
+        details {
+            display: none;
+        }
+    }
+</style>
+</head>
+<body>
+<h1>TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG (TDTU)</h1>
+<h2>KHOA CÔNG NGHỆ THÔNG TIN</h2>
+<h3>BỘ MÔN: KỸ THUẬT PHẦN MỀM (SOFTWARE ENGINEERING – 503074)</h3>
+<hr />
+<h1>BÁO CÁO BÀI TẬP THỰC HÀNH: LAB 4 – LAB 5 – LAB 6</h1>
+<h2>CHỦ ĐỀ: CLASS DIAGRAM, SEQUENCE DIAGRAM &amp; ACTIVITY DIAGRAM</h2>
+<p><strong>(Tài liệu tham chiếu: Lab04_6Class_Sequence.pdf)</strong></p>
+<hr />
+<h3>THÔNG TIN SINH VIÊN THỰC HIỆN:</h3>
+<ul>
+<li><strong>Họ và tên:</strong> Ngô Lâm Tiến</li>
+<li><strong>Mã số sinh viên (MSSV):</strong> 524H0195</li>
+<li><strong>Lớp:</strong> Kỹ thuật Phần mềm (503074) – Nhóm thực hành Tuần 04</li>
+<li><strong>Giảng viên hướng dẫn:</strong> ThS. Mai Văn Mạnh</li>
+</ul>
+<hr />
+<h2>MỤC LỤC BÁO CÁO</h2>
+<ol>
+<li><a href="#exercise-1-xây-dựng-mô-hình-lớp-đối-tượng-object-class-modeling">EXERCISE 1 (LAB 4): XÂY DỰNG MÔ HÌNH LỚP ĐỐI TƯỢNG (CLASS DIAGRAM)</a></li>
+<li><a href="#11-mô-hình-hóa-hộp-thư-mailbox-và-thư-điện-tử-e-mail-message">1.1 Mô hình hóa Hộp thư (Mailbox) và Thư điện tử (E-mail Message)</a></li>
+<li><a href="#12-mô-hình-hóa-hệ-thống-quản-lý-khóa-học-courseware-management-system">1.2 Mô hình hóa Hệ thống Quản lý Khóa học (Courseware Management System)</a></li>
+<li><a href="#exercise-2-biểu-đồ-tuần-tự-đăng-ký-học-phần-course-registration-sequence-diagram">EXERCISE 2 (LAB 5): BIỂU ĐỒ TUẦN TỰ ĐĂNG KÝ HỌC PHẦN (SEQUENCE DIAGRAM)</a></li>
+<li><a href="#21-phân-tích-bài-toán--xác-định-các-đối-tượng-tham-gia">2.1 Phân tích bài toán &amp; Xác định các đối tượng tham gia</a></li>
+<li><a href="#22-kịch-bản-tương-tác-tuần-tự-normal--alternative-flows">2.2 Kịch bản tương tác tuần tự (Normal &amp; Alternative Flows)</a></li>
+<li><a href="#23-biểu-đồ-tuần-tự-chi-tiết-sequence-diagram">2.3 Biểu đồ tuần tự chi tiết (Sequence Diagram)</a></li>
+<li><a href="#exercise-3-biểu-đồ-hoạt-động-rút-tiền-tại-cây-atm-atm-cash-withdrawal-activity-diagram">EXERCISE 3 (LAB 6): BIỂU ĐỒ HOẠT ĐỘNG RÚT TIỀN TẠI CÂY ATM (ACTIVITY DIAGRAM)</a></li>
+<li><a href="#31-phân-tích-quy-trình-xử-lý-dữ-liệu-giao-dịch-rút-tiền-mặt">3.1 Phân tích quy trình xử lý dữ liệu giao dịch rút tiền mặt</a></li>
+<li><a href="#32-biểu-đồ-hoạt-động-chi-tiết-activity-diagram">3.2 Biểu đồ hoạt động chi tiết (Activity Diagram)</a></li>
+<li><a href="#33-giải-thích-các-luồng-điều-kiện-song-song-và-xử-lý-ngoại-lệ">3.3 Giải thích các luồng điều kiện, song song và xử lý ngoại lệ</a></li>
+<li><a href="#tổng-kết-và-nguyên-lý-thiết-kế-áp-dụng">TỔNG KẾT VÀ NGUYÊN LÝ THIẾT KẾ ÁP DỤNG</a></li>
+</ol>
+<hr />
+<h1>EXERCISE 1 (LAB 4): XÂY DỰNG MÔ HÌNH LỚP ĐỐI TƯỢNG (CLASS DIAGRAM)</h1>
+<hr />
+<h2>1.1 Mô hình hóa Hộp thư (Mailbox) và Thư điện tử (E-mail Message)</h2>
+<h3>1. Yêu cầu đề bài (Problem Statement)</h3>
+<blockquote>
+<p><em>"Look carefully at how messages and mailboxes are represented in the email system that you use. Model the object classes that might be used in the system implementation to represent a mailbox and an e-mail message."</em></p>
+</blockquote>
+<h3>2. Phân tích thực tế từ hệ thống Email hiện đại (Gmail, Outlook, Apple Mail)</h3>
+<p>Trong các hệ thống email phổ biến hiện nay:
+- <strong>E-mail Message:</strong> Đại diện cho một bức thư điện tử, bao gồm các thông tin định danh (<code>Message-ID</code>), tiêu đề, nội dung (văn bản thuần hoặc định dạng HTML), thời gian gửi/nhận, trạng thái đọc/chưa đọc, mức độ ưu tiên, danh sách tệp đính kèm (<code>Attachment</code>), người gửi (<code>Sender</code>) và người nhận (<code>Recipients</code>: TO, CC, BCC).
+- <strong>Mailbox:</strong> Đại diện cho một ngăn chứa thư (thư mục/hộp thư) của người dùng như <em>Inbox (Hộp thư đến), Sent (Đã gửi), Drafts (Bản nháp), Spam (Thư rác), Trash (Thùng rác)</em> hoặc các thư mục tùy chỉnh. Hộp thư chịu trách nhiệm quản lý danh sách các bức thư, tính toán dung lượng đã sử dụng, số lượng thư chưa đọc, và cung cấp các thao tác tìm kiếm, lọc, phân loại thư.
+- <strong>Mối quan hệ:</strong> 
+  - Một tài khoản email (<code>EmailAccount</code>) sở hữu nhiều <code>Mailbox</code>.
+  - Một <code>Mailbox</code> chứa từ $0$ đến nhiều <code>EmailMessage</code> ($0..<em>$).
+  - Một <code>EmailMessage</code> có thể liên kết với $0$ đến nhiều tệp đính kèm <code>Attachment</code> ($0..</em>$) theo quan hệ sở hữu thành phần (Composition).
+  - Một bức thư gắn liền với các địa chỉ email người gửi và người nhận (<code>EmailAddress</code>).</p>
+<h3>3. Bảng đặc tả chi tiết các Lớp đối tượng</h3>
+<h4>Lớp <code>Mailbox</code></h4>
+<table>
+<thead>
+<tr>
+<th>Thành phần</th>
+<th>Tên</th>
+<th>Kiểu dữ liệu / Kiểu trả về</th>
+<th>Mô tả chi tiết</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Thuộc tính</strong></td>
+<td><code>- mailboxId</code></td>
+<td><code>String</code></td>
+<td>Mã định danh duy nhất của hộp thư</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- name</code></td>
+<td><code>String</code></td>
+<td>Tên hộp thư (<em>Inbox, Sent, Drafts, Trash, v.v.</em>)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- type</code></td>
+<td><code>MailboxType</code></td>
+<td>Phân loại (<em>SYSTEM, USER_DEFINED, ARCHIVE</em>)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- totalMessages</code></td>
+<td><code>int</code></td>
+<td>Tổng số lượng thư hiện có trong hộp thư</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- unreadCount</code></td>
+<td><code>int</code></td>
+<td>Số lượng thư chưa đọc</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- storageSize</code></td>
+<td><code>long</code></td>
+<td>Tổng dung lượng chiếm dụng (bytes)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- maxQuota</code></td>
+<td><code>long</code></td>
+<td>Hạn mức dung lượng cho phép của hộp thư</td>
+</tr>
+<tr>
+<td><strong>Phương thức</strong></td>
+<td><code>+ addMessage(msg: EmailMessage): boolean</code></td>
+<td><code>boolean</code></td>
+<td>Thêm thư mới vào hộp thư</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ removeMessage(msgId: String): boolean</code></td>
+<td><code>boolean</code></td>
+<td>Xóa thư khỏi hộp thư</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ getMessageById(msgId: String): EmailMessage</code></td>
+<td><code>EmailMessage</code></td>
+<td>Lấy thông tin thư theo ID</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ listMessages(page: int, size: int): List&lt;EmailMessage&gt;</code></td>
+<td><code>List&lt;EmailMessage&gt;</code></td>
+<td>Phân trang danh sách thư</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ filterBySender(senderEmail: String): List&lt;EmailMessage&gt;</code></td>
+<td><code>List&lt;EmailMessage&gt;</code></td>
+<td>Lọc danh sách thư theo người gửi</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ search(keyword: String): List&lt;EmailMessage&gt;</code></td>
+<td><code>List&lt;EmailMessage&gt;</code></td>
+<td>Tìm kiếm thư theo từ khóa trong tiêu đề/nội dung</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ emptyFolder(): void</code></td>
+<td><code>void</code></td>
+<td>Dọn sạch tất cả các thư trong hộp thư</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ calculateUnreadCount(): int</code></td>
+<td><code>int</code></td>
+<td>Đếm và cập nhật số lượng thư chưa đọc</td>
+</tr>
+</tbody>
+</table>
+<h4>Lớp <code>EmailMessage</code></h4>
+<table>
+<thead>
+<tr>
+<th>Thành phần</th>
+<th>Tên</th>
+<th>Kiểu dữ liệu / Kiểu trả về</th>
+<th>Mô tả chi tiết</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Thuộc tính</strong></td>
+<td><code>- messageId</code></td>
+<td><code>String</code></td>
+<td>Khóa chính/ID chuẩn RFC 2822 của thư</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- subject</code></td>
+<td><code>String</code></td>
+<td>Tiêu đề của thư điện tử</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- bodyText</code></td>
+<td><code>String</code></td>
+<td>Nội dung thư dạng văn bản thuần (Plain Text)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- bodyHtml</code></td>
+<td><code>String</code></td>
+<td>Nội dung thư có định dạng HTML</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- sentDate</code></td>
+<td><code>DateTime</code></td>
+<td>Ngày giờ gửi thư đi</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- receivedDate</code></td>
+<td><code>DateTime</code></td>
+<td>Ngày giờ máy chủ nhận được thư</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- isRead</code></td>
+<td><code>boolean</code></td>
+<td>Trạng thái đã xem thư hay chưa</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- isStarred</code></td>
+<td><code>boolean</code></td>
+<td>Đánh dấu thư quan trọng / gắn dấu sao</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- isDraft</code></td>
+<td><code>boolean</code></td>
+<td>Cờ nhận diện thư đang soạn dở (Draft)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- priority</code></td>
+<td><code>PriorityLevel</code></td>
+<td>Mức ưu tiên (<em>LOW, NORMAL, HIGH</em>)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>- totalSize</code></td>
+<td><code>long</code></td>
+<td>Kích thước toàn bộ bức thư (bao gồm tệp đính kèm)</td>
+</tr>
+<tr>
+<td><strong>Phương thức</strong></td>
+<td><code>+ markAsRead(): void</code></td>
+<td><code>void</code></td>
+<td>Đánh dấu bức thư là đã đọc</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ markAsUnread(): void</code></td>
+<td><code>void</code></td>
+<td>Đánh dấu bức thư là chưa đọc</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ toggleStarred(): void</code></td>
+<td><code>void</code></td>
+<td>Đảo trạng thái gắn cờ quan trọng</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ moveToMailbox(target: Mailbox): boolean</code></td>
+<td><code>boolean</code></td>
+<td>Di chuyển thư sang hộp thư/thư mục khác</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ reply(replyContent: String, replyAll: boolean): EmailMessage</code></td>
+<td><code>EmailMessage</code></td>
+<td>Tạo thư phản hồi cho người gửi</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ forward(newRecipients: List&lt;EmailAddress&gt;): EmailMessage</code></td>
+<td><code>EmailMessage</code></td>
+<td>Chuyển tiếp bức thư cho người nhận mới</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ addAttachment(file: Attachment): boolean</code></td>
+<td><code>boolean</code></td>
+<td>Đính kèm tệp tin vào thư</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+ removeAttachment(attachmentId: String): boolean</code></td>
+<td><code>boolean</code></td>
+<td>Gỡ bỏ tệp đính kèm</td>
+</tr>
+</tbody>
+</table>
+<h4>Lớp phụ trợ <code>Attachment</code></h4>
+<ul>
+<li><strong>Thuộc tính:</strong> <code>attachmentId: String</code>, <code>fileName: String</code>, <code>contentType: String</code>, <code>fileSize: long</code>, <code>dataPayload: byte[]</code>.</li>
+<li><strong>Phương thức:</strong> <code>download(): byte[]</code>, <code>preview(): FilePreview</code>.</li>
+</ul>
+<h4>Lớp phụ trợ <code>EmailAddress</code></h4>
+<ul>
+<li><strong>Thuộc tính:</strong> <code>displayName: String</code>, <code>emailAddress: String</code>.</li>
+<li><strong>Phương thức:</strong> <code>isValid(): boolean</code>, <code>toString(): String</code>.</li>
+</ul>
+<hr />
+<h3>4. Sơ đồ Lớp UML (Class Diagram) – Bài 1.1</h3>
+<p><img alt="Sơ đồ Lớp UML Mailbox và EmailMessage" src="images/exercise1_1_mailbox_email_class.png" /></p>
+<details style="margin: 15px 0; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 15px;">
+<summary style="cursor: pointer; font-weight: 600; color: #0284c7;">🔍 Xem mã nguồn định nghĩa Mermaid UML (Code Definition)</summary>
+<pre style="margin-top: 10px; background: #ffffff; padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 12px;"><code>classDiagram
+    direction TB
+
+    class EmailAccount {
+        - accountId: String
+        - ownerName: String
+        - emailAddress: String
+        - totalStorageUsed: long
+        + createMailbox(name: String): Mailbox
+        + deleteMailbox(mailboxId: String): boolean
+        + syncMailboxes(): void
+    }
+
+    class Mailbox {
+        - mailboxId: String
+        - name: String
+        - type: MailboxType
+        - totalMessages: int
+        - unreadCount: int
+        - storageSize: long
+        - maxQuota: long
+        + addMessage(msg: EmailMessage): boolean
+        + removeMessage(msgId: String): boolean
+        + getMessageById(msgId: String): EmailMessage
+        + listMessages(page: int, size: int): List~EmailMessage~
+        + filterBySender(sender: String): List~EmailMessage~
+        + search(keyword: String): List~EmailMessage~
+        + emptyFolder(): void
+        + calculateUnreadCount(): int
+    }
+
+    class EmailMessage {
+        - messageId: String
+        - subject: String
+        - bodyText: String
+        - bodyHtml: String
+        - sentDate: DateTime
+        - receivedDate: DateTime
+        - isRead: boolean
+        - isStarred: boolean
+        - isDraft: boolean
+        - priority: PriorityLevel
+        - totalSize: long
+        + markAsRead(): void
+        + markAsUnread(): void
+        + toggleStarred(): void
+        + moveToMailbox(target: Mailbox): boolean
+        + reply(content: String, replyAll: boolean): EmailMessage
+        + forward(recipients: List~EmailAddress~): EmailMessage
+        + addAttachment(file: Attachment): boolean
+        + removeAttachment(attId: String): boolean
+    }
+
+    class Attachment {
+        - attachmentId: String
+        - fileName: String
+        - contentType: String
+        - fileSize: long
+        - fileData: byte[]
+        + download(): byte[]
+        + getFileInfo(): String
+    }
+
+    class EmailAddress {
+        - displayName: String
+        - emailAddress: String
+        + validate(): boolean
+        + getFormatted(): String
+    }
+
+    class Recipient {
+        - recipientType: RecipientType
+        + getType(): RecipientType
+    }
+
+    class PriorityLevel {
+        <<enumeration>>
+        LOW
+        NORMAL
+        HIGH
+    }
+
+    class MailboxType {
+        <<enumeration>>
+        INBOX
+        SENT
+        DRAFTS
+        TRASH
+        SPAM
+        CUSTOM
+    }
+
+    class RecipientType {
+        <<enumeration>>
+        TO
+        CC
+        BCC
+    }
+
+    EmailAccount "1" *-- "1..*" Mailbox : contains
+    Mailbox "1" o-- "0..*" EmailMessage : stores
+    EmailMessage "1" *-- "0..*" Attachment : attaches
+    EmailMessage "1" --> "1" EmailAddress : sender
+    EmailMessage "1" *-- "1..*" Recipient : recipients
+    Recipient "1" --> "1" EmailAddress : refers_to
+    EmailMessage ..> PriorityLevel
+    Mailbox ..> MailboxType
+    Recipient ..> RecipientType</code></pre>
+</details>
+
+<hr />
+<h2>1.2 Mô hình hóa Hệ thống Quản lý Khóa học (Courseware Management System)</h2>
+<h3>1. Phân tích miền bài toán theo đề bài</h3>
+<p>Đề bài cung cấp các thông tin cốt lõi:
+1. <strong>Lĩnh vực và Khóa học (Courses &amp; Areas):</strong> Tổ chức cung cấp nhiều khóa học thuộc các lĩnh vực khác nhau (<em>Kỹ năng quản lý, Ngôn ngữ lập trình, Công nghệ phần mềm</em>). Mỗi khóa học (<code>Course</code>) được cấu thành từ một tập hợp các chủ đề (<code>Topic</code>).
+2. <strong>Giảng viên / Hướng dẫn viên (Tutors):</strong> Các Tutor được phân công giảng dạy các khóa học căn cứ trên <strong>chuyên môn (specialization)</strong> và <strong>thời gian rảnh / tính sẵn sàng (availability)</strong> của họ.
+3. <strong>Lịch biểu thường niên (Annual Calendar):</strong> Tổ chức phát hành và duy trì lịch biểu hàng năm ghi nhận các lớp học được tổ chức và giảng viên được phân công tương ứng.
+4. <strong>Nhân viên quản trị khóa học (Course Administrators):</strong> Quản lý nội dung khóa học, phân công giảng viên vào khóa học, xác định và công bố lịch mở lớp (<code>Course Schedule</code>).
+5. <strong>Mục tiêu của Courseware Management System (CMS):</strong> Giúp tổ chức kiểm soát tốt hơn, tăng tính minh bạch và chuẩn hóa quy trình phân công, lên lịch và quản lý khóa học.</p>
+<h3>2. Các thực thể cốt lõi (Core Domain Entities)</h3>
+<ol>
+<li><code>Course</code> (Khóa học):</li>
+<li>Đại diện cho chương trình đào tạo tổng quát.</li>
+<li>Chứa mã khóa học, tên khóa học, mô tả, lĩnh vực đào tạo (<code>CourseArea</code>), thời lượng, số học viên tối đa.</li>
+<li>Có quan hệ thành phần (Composition) $1..*$ với <code>Topic</code>.</li>
+<li><code>Topic</code> (Chủ đề bài giảng):</li>
+<li>Một phần cấu thành nội dung đào tạo trong khóa học.</li>
+<li>Thuộc tính: mã bài học, tiêu đề bài, mục tiêu học tập, thời lượng dự kiến, thứ tự giảng dạy (<code>orderIndex</code>).</li>
+<li><code>Tutor</code> (Giảng viên / Hướng dẫn viên):</li>
+<li>Chuyên gia chịu trách nhiệm giảng dạy.</li>
+<li>Kế thừa thông tin từ lớp trừu tượng <code>Person</code> (họ tên, email, số điện thoại).</li>
+<li>Có danh sách lĩnh vực chuyên môn (<code>specializations: List&lt;CourseArea&gt;</code>) và lịch rảnh (<code>availabilities: List&lt;TutorAvailability&gt;</code>).</li>
+<li>Có phương thức kiểm tra lịch trống: <code>isAvailable(timeSlot: TimeSlot): boolean</code>.</li>
+<li><code>CourseAdministrator</code> (Người quản trị khóa học):</li>
+<li>Nhân viên quản trị hệ thống đào tạo.</li>
+<li>Thực hiện nghiệp vụ: tạo mới/chỉnh sửa khóa học, phân công giảng viên, xếp lịch mở lớp, xuất bản lịch thường niên.</li>
+<li><code>CourseSchedule</code> (Lớp học / Đợt mở lớp cụ thể):</li>
+<li>Một phiên bản triển khai cụ thể của một <code>Course</code> trong năm học.</li>
+<li>Gắn liền với: thời gian bắt đầu/kết thúc, phòng học/link online, số lượng sinh viên đăng ký, trạng thái lớp (<code>ScheduleStatus</code>).</li>
+<li>Được phân công cho một <code>Tutor</code> cụ thể.</li>
+<li><code>CourseCalendar</code> (Lịch đào tạo thường niên):</li>
+<li>Tập hợp toàn bộ các <code>CourseSchedule</code> được tổ chức trong năm của viện/trung tâm.</li>
+<li>Cung cấp tính năng xuất bản và tra cứu lịch cho toàn tổ chức.</li>
+</ol>
+<hr />
+<h3>3. Bảng đặc tả chi tiết các Lớp của Hệ thống CMS</h3>
+<table>
+<thead>
+<tr>
+<th>Tên Lớp</th>
+<th>Thuộc tính chính</th>
+<th>Phương thức chính</th>
+<th>Trách nhiệm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Course</code></td>
+<td><code>- courseId: String</code><br><code>- courseName: String</code><br><code>- description: String</code><br><code>- area: CourseArea</code><br><code>- totalHours: int</code><br><code>- maxEnrolment: int</code></td>
+<td><code>+ addTopic(t: Topic): void</code><br><code>+ removeTopic(topicId: String): void</code><br><code>+ getSyllabus(): List&lt;Topic&gt;</code><br><code>+ updateDetails(desc: String): void</code></td>
+<td>Quản lý thông tin và đề cương chi tiết của khóa học</td>
+</tr>
+<tr>
+<td><code>Topic</code></td>
+<td><code>- topicId: String</code><br><code>- title: String</code><br><code>- objectives: String</code><br><code>- durationHours: int</code><br><code>- orderIndex: int</code></td>
+<td><code>+ getTopicDetails(): String</code><br><code>+ setOrder(order: int): void</code><br><code>+ updateObjectives(obj: String): void</code></td>
+<td>Quản lý nội dung bài giảng chi tiết trong khóa học</td>
+</tr>
+<tr>
+<td><code>Tutor</code></td>
+<td><code>- tutorId: String</code><br><code>- specializations: List&lt;CourseArea&gt;</code><br><code>- maxWeeklyHours: int</code></td>
+<td><code>+ isAvailable(slot: TimeSlot): boolean</code><br><code>+ addSpecialization(area: CourseArea): void</code><br><code>+ getAssignedSchedules(year: int): List&lt;CourseSchedule&gt;</code><br><code>+ updateAvailability(slot: TimeSlot, free: boolean): void</code></td>
+<td>Lưu trữ chuyên môn, tính khả dụng và nhận lịch dạy</td>
+</tr>
+<tr>
+<td><code>CourseAdministrator</code></td>
+<td><code>- adminId: String</code><br><code>- department: String</code></td>
+<td><code>+ createCourse(c: Course): boolean</code><br><code>+ assignCourseToTutor(cId: String, tId: String): boolean</code><br><code>+ createCourseSchedule(cs: CourseSchedule): boolean</code><br><code>+ publishAnnualCalendar(year: int): CourseCalendar</code></td>
+<td>Điều phối phân công, duyệt lịch và quản trị hệ thống</td>
+</tr>
+<tr>
+<td><code>CourseSchedule</code></td>
+<td><code>- scheduleId: String</code><br><code>- startDate: Date</code><br><code>- endDate: Date</code><br><code>- roomLocation: String</code><br><code>- status: ScheduleStatus</code><br><code>- currentEnrolment: int</code></td>
+<td><code>+ assignTutor(t: Tutor): boolean</code><br><code>+ setTimeSlot(slot: TimeSlot): void</code><br><code>+ checkCapacity(): boolean</code><br><code>+ cancelSchedule(): void</code></td>
+<td>Đại diện cho một lớp học cụ thể diễn ra theo thời gian biểu</td>
+</tr>
+<tr>
+<td><code>CourseCalendar</code></td>
+<td><code>- calendarId: String</code><br><code>- academicYear: int</code><br><code>- publishedDate: Date</code><br><code>- isPublished: boolean</code></td>
+<td><code>+ addSchedule(cs: CourseSchedule): void</code><br><code>+ publish(): void</code><br><code>+ searchByArea(area: CourseArea): List&lt;CourseSchedule&gt;</code><br><code>+ exportCalendar(): File</code></td>
+<td>Quản lý lịch biểu đào tạo toàn diện hàng năm của tổ chức</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>4. Sơ đồ Lớp UML (Class Diagram) – Bài 1.2</h3>
+<p><img alt="Sơ đồ Lớp UML Courseware Management System" src="images/exercise1_2_courseware_cms_class.png" /></p>
+<details style="margin: 15px 0; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 15px;">
+<summary style="cursor: pointer; font-weight: 600; color: #0284c7;">🔍 Xem mã nguồn định nghĩa Mermaid UML (Code Definition)</summary>
+<pre style="margin-top: 10px; background: #ffffff; padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 12px;"><code>classDiagram
+    direction TB
+
+    class Person {
+        <<abstract>>
+        # personId: String
+        # fullName: String
+        # email: String
+        # phone: String
+        + getContactInfo(): String
+    }
+
+    class Tutor {
+        - tutorId: String
+        - specializations: List~CourseArea~
+        - maxWeeklyHours: int
+        + isAvailable(slot: TimeSlot): boolean
+        + addSpecialization(area: CourseArea): void
+        + getAssignedSchedules(year: int): List~CourseSchedule~
+        + updateAvailability(slot: TimeSlot, free: boolean): void
+    }
+
+    class CourseAdministrator {
+        - adminId: String
+        - department: String
+        + createCourse(c: Course): boolean
+        + assignCourseToTutor(courseId: String, tutorId: String): boolean
+        + createCourseSchedule(cs: CourseSchedule): boolean
+        + publishAnnualCalendar(year: int): CourseCalendar
+    }
+
+    class Course {
+        - courseId: String
+        - courseName: String
+        - description: String
+        - area: CourseArea
+        - totalHours: int
+        - maxEnrolment: int
+        + addTopic(t: Topic): void
+        + removeTopic(topicId: String): void
+        + getSyllabus(): List~Topic~
+        + updateDetails(desc: String): void
+    }
+
+    class Topic {
+        - topicId: String
+        - title: String
+        - objectives: String
+        - durationHours: int
+        - orderIndex: int
+        + getTopicDetails(): String
+        + setOrder(order: int): void
+        + updateObjectives(obj: String): void
+    }
+
+    class CourseSchedule {
+        - scheduleId: String
+        - startDate: Date
+        - endDate: Date
+        - roomLocation: String
+        - status: ScheduleStatus
+        - currentEnrolment: int
+        + assignTutor(t: Tutor): boolean
+        + setTimeSlot(slot: TimeSlot): void
+        + checkCapacity(): boolean
+        + cancelSchedule(): void
+    }
+
+    class CourseCalendar {
+        - calendarId: String
+        - academicYear: int
+        - publishedDate: Date
+        - isPublished: boolean
+        + addSchedule(cs: CourseSchedule): void
+        + publish(): void
+        + searchByArea(area: CourseArea): List~CourseSchedule~
+        + exportCalendar(): File
+    }
+
+    class TimeSlot {
+        - dayOfWeek: String
+        - startTime: Time
+        - endTime: Time
+        + conflictsWith(other: TimeSlot): boolean
+    }
+
+    class CourseArea {
+        <<enumeration>>
+        LEARNING_MANAGEMENT
+        SOFTWARE_LANGUAGES
+        SOFTWARE_TECHNOLOGIES
+        DATA_SCIENCE
+        CYBER_SECURITY
+    }
+
+    class ScheduleStatus {
+        <<enumeration>>
+        DRAFT
+        ASSIGNED
+        CONFIRMED
+        IN_PROGRESS
+        COMPLETED
+        CANCELLED
+    }
+
+    Person <|-- Tutor : inheritance
+    Person <|-- CourseAdministrator : inheritance
+    Course "1" *-- "1..*" Topic : consists of
+    Course "1" o-- "0..*" CourseSchedule : instantiated as
+    CourseSchedule "0..*" --> "0..1" Tutor : taught by
+    CourseSchedule "1" *-- "1..*" TimeSlot : scheduled at
+    CourseCalendar "1" o-- "0..*" CourseSchedule : publishes
+    CourseAdministrator ..> Course : manages
+    CourseAdministrator ..> CourseSchedule : schedules
+    CourseAdministrator ..> CourseCalendar : publishes
+    Tutor "1" o-- "0..*" TimeSlot : availability
+    Course ..> CourseArea
+    CourseSchedule ..> ScheduleStatus</code></pre>
+</details>
+
+<hr />
+<h1>EXERCISE 2 (LAB 5): BIỂU ĐỒ TUẦN TỰ ĐĂNG KÝ HỌC PHẦN (SEQUENCE DIAGRAM)</h1>
+<hr />
+<h3>2.1 Phân tích bài toán &amp; Xác định các đối tượng tham gia</h3>
+<blockquote>
+<p><em>"Develop a sequence diagram showing the interactions involved when a student registers for a course in a university. Courses may have limited enrolment, so the registration process must include checks that places are available. Assume that the student accesses an electronic course catalog to find out about available courses."</em></p>
+</blockquote>
+<h4>1. Các Actor và Đối tượng (Lifelines):</h4>
+<ol>
+<li><strong><code>s: Student</code> (Actor):</strong> Sinh viên thực hiện tra cứu và đăng ký học phần trên cổng đào tạo.</li>
+<li><strong><code>: PortalUI</code> (Boundary Layer):</strong> Giao diện cổng thông tin đăng ký học phần trực tuyến (Web/Mobile App).</li>
+<li><strong><code>: CourseCatalog</code> (Control / Catalog Service):</strong> Hệ thống danh mục khóa học điện tử lưu trữ và cung cấp thông tin các môn học được mở trong kỳ.</li>
+<li><strong><code>: RegistrationController</code> (Application Service):</strong> Bộ điều phối nghiệp vụ đăng ký học phần, chịu trách nhiệm kiểm tra điều kiện tiên quyết và điều phối việc cấp chỗ.</li>
+<li><strong><code>: CourseSection</code> (Domain Entity):</strong> Lớp học phần cụ thể được chọn, quản lý giới hạn sĩ số (<code>maxSeats</code>), số lượng đã đăng ký (<code>enrolledCount</code>) và trạng thái còn chỗ.</li>
+<li><strong><code>: EnrollmentDB</code> (Data Persistence Layer):</strong> Cơ sở dữ liệu ghi nhận bản ghi đăng ký chính thức của sinh viên.</li>
+</ol>
+<hr />
+<h3>2.2 Kịch bản tương tác tuần tự (Normal &amp; Alternative Flows)</h3>
+<ol>
+<li><strong>Bước 1: Tra cứu môn học (Browse Catalog):</strong></li>
+<li>Sinh viên truy cập vào giao diện, gửi yêu cầu tìm kiếm danh mục môn học (<code>searchCourses(criteria)</code>).</li>
+<li><code>PortalUI</code> chuyển tiếp yêu cầu đến <code>CourseCatalog</code>.</li>
+<li><code>CourseCatalog</code> truy vấn và trả về danh sách các lớp học phần cùng số chỗ trống hiện thời.</li>
+<li>Giao diện hiển thị danh sách cho sinh viên.</li>
+<li><strong>Bước 2: Gửi yêu cầu đăng ký (Submit Registration):</strong></li>
+<li>Sinh viên chọn mã lớp học phần mong muốn và nhấn "Đăng ký" (<code>submitCourseRegistration(studentId, courseId)</code>).</li>
+<li><code>PortalUI</code> gửi lệnh đăng ký đến <code>RegistrationController</code>.</li>
+<li><strong>Bước 3: Kiểm tra sĩ số &amp; Điều kiện học phần (Validation &amp; Capacity Check):</strong></li>
+<li><code>RegistrationController</code> gửi thông điệp yêu cầu kiểm tra sĩ số tới đối tượng <code>CourseSection</code> (<code>checkAvailability()</code>).</li>
+<li><code>CourseSection</code> đối chiếu số sinh viên hiện có với số lượng tối đa (<code>enrolledCount &lt; maxSeats</code>).</li>
+<li><strong>Bước 4: Rẽ nhánh điều kiện (UML <code>alt</code> fragment):</strong></li>
+<li><strong>Nhánh thành công <code>[Chỗ trống hợp lệ (places available)]</code>:</strong><ul>
+<li><code>CourseSection</code> trả về <code>placesAvailable == true</code>.</li>
+<li><code>RegistrationController</code> gửi lệnh giữ chỗ và tăng sĩ số (<code>reserveSeat()</code>).</li>
+<li><code>RegistrationController</code> tạo bản ghi đăng ký chính thức xuống <code>EnrollmentDB</code> (<code>saveEnrollmentRecord()</code>).</li>
+<li><code>EnrollmentDB</code> xác nhận đã lưu thành công (<code>recordSaved</code>).</li>
+<li><code>RegistrationController</code> gửi thông báo thành công về <code>PortalUI</code>.</li>
+<li><code>PortalUI</code> hiển thị kết quả "Đăng ký thành công kèm mã phiếu đăng ký" cho sinh viên.</li>
+</ul>
+</li>
+<li><strong>Nhánh thất bại 1 <code>[Lớp đã hết chỗ (Course full)]</code>:</strong><ul>
+<li><code>CourseSection</code> trả về <code>placesAvailable == false</code>.</li>
+<li><code>RegistrationController</code> gửi phản hồi lỗi <code>registrationFailed("Lớp học phần đã hết chỗ")</code>.</li>
+<li><code>PortalUI</code> thông báo lỗi và đề xuất cho sinh viên đăng ký vào danh sách chờ (<code>Waitlist</code>) hoặc chọn lớp khác.</li>
+</ul>
+</li>
+<li><strong>Nhánh thất bại 2 <code>[Trùng lịch học hoặc chưa đạt môn tiên quyết]</code>:</strong><ul>
+<li><code>RegistrationController</code> phát hiện xung đột và từ chối đăng ký, thông báo lý do cụ thể về giao diện.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h3>2.3 Biểu đồ tuần tự chi tiết (Sequence Diagram)</h3>
+<p><img alt="Sơ đồ Tuần tự Đăng ký Học phần" src="images/exercise2_course_registration_sequence.png" /></p>
+<details style="margin: 15px 0; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 15px;">
+<summary style="cursor: pointer; font-weight: 600; color: #0284c7;">🔍 Xem mã nguồn định nghĩa Mermaid UML (Code Definition)</summary>
+<pre style="margin-top: 10px; background: #ffffff; padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 12px;"><code>sequenceDiagram
+    autonumber
+    actor Student as s: Student
+    participant UI as : PortalUI
+    participant Catalog as : CourseCatalog
+    participant RegCtrl as : RegistrationController
+    participant Section as : CourseSection
+    participant DB as : EnrollmentDB
+
+    %% Giai đoạn 1: Tra cứu môn học trên Electronic Catalog
+    rect rgb(240, 248, 255)
+        Note over Student, Catalog: Giai đoạn 1: Tra cứu danh mục học phần điện tử
+        Student ->> UI: accessCourseCatalog()
+        UI ->> Catalog: getAvailableCourses(semester)
+        Catalog -->> UI: return courseList (id, name, credits, availablePlaces)
+        UI -->> Student: displayCourseCatalog(courseList)
+    end
+
+    %% Giai đoạn 2: Chọn môn và kiểm tra chỗ trống
+    rect rgb(255, 250, 240)
+        Note over Student, Section: Giai đoạn 2: Gửi yêu cầu đăng ký & Kiểm tra sĩ số
+        Student ->> UI: selectCourse(courseId)
+        Student ->> UI: clickRegisterButton()
+        UI ->> RegCtrl: registerCourse(studentId, courseId)
+
+        RegCtrl ->> Section: checkPrerequisites(studentId)
+        Section -->> RegCtrl: prerequisitesSatisfied (true)
+
+        RegCtrl ->> Section: checkSeatAvailability()
+        Section ->> Section: compare(enrolledCount, maxSeats)
+    end
+
+    %% Giai đoạn 3: Rẽ nhánh xử lý
+    alt Chỗ còn trống (places available > 0)
+        Section -->> RegCtrl: availabilityStatus(true, remainingSeats)
+        RegCtrl ->> Section: incrementEnrollment()
+        Section -->> RegCtrl: seatReservedSuccessfully
+
+        RegCtrl ->> DB: createEnrollmentRecord(studentId, courseId, timestamp)
+        DB -->> RegCtrl: enrollmentRecordConfirmed(recordId)
+
+        RegCtrl -->> UI: registrationSuccess(recordId, courseName)
+        UI -->> Student: showRegistrationConfirmation("Đăng ký thành công!")
+
+    else Hết chỗ (places == 0)
+        Section -->> RegCtrl: availabilityStatus(false, 0)
+        RegCtrl -->> UI: registrationFailed("Lớp học đã đủ sĩ số")
+        UI -->> Student: showErrorMessage("Đăng ký thất bại: Lớp đã kín chỗ! Chọn lớp khác hoặc vào Waitlist")
+
+    else Không thỏa điều kiện tiên quyết (Prerequisites not met)
+        Section -->> RegCtrl: prerequisitesSatisfied (false)
+        RegCtrl -->> UI: registrationFailed("Chưa hoàn thành học phần tiên quyết")
+        UI -->> Student: showErrorMessage("Lỗi: Bạn chưa đủ điều kiện tiên quyết của môn này!")
+    end</code></pre>
+</details>
+
+<hr />
+<h1>EXERCISE 3 (LAB 6): BIỂU ĐỒ HOẠT ĐỘNG RÚT TIỀN TẠI CÂY ATM (ACTIVITY DIAGRAM)</h1>
+<hr />
+<h3>3.1 Phân tích quy trình xử lý dữ liệu giao dịch rút tiền mặt</h3>
+<blockquote>
+<p><em>"Based on your experience with a bank ATM, draw an activity diagram that models the data processing involved when a customer withdraws cash from the machine."</em></p>
+</blockquote>
+<p>Quy trình rút tiền tại cây ATM là một giao dịch ngân hàng đòi hỏi tính toàn vẹn dữ liệu (ACID), bảo mật cao và an toàn vật lý. Quy trình xử lý dữ liệu gồm các bước chặt chẽ:
+1. <strong>Khởi tạo &amp; Đọc thông tin thẻ:</strong>
+   - Khách hàng đưa thẻ vào khe đọc thẻ.
+   - Đầu đọc thẻ (Card Reader) giải mã thông tin tài khoản trên chip EMV/dải từ.
+   - Nếu thẻ không đọc được hoặc thẻ đã hết hạn/bị khóa $\rightarrow$ Trả thẻ kèm thông báo lỗi.
+2. <strong>Nhập mã PIN &amp; Xác thực danh tính:</strong>
+   - Khách hàng nhập mã PIN (4 đến 6 chữ số).
+   - Mã PIN được mã hóa phần cứng (Hardware Security Module - HSM) và gửi về máy chủ ngân hàng (Bank Host) để đối soát.
+   - <strong>Xử lý sai PIN:</strong> Nếu nhập sai, tăng biến đếm số lần thử (<code>attempts = attempts + 1</code>). Nếu sai quá 3 lần liên tiếp, ATM nuốt thẻ (tịch thu thẻ) để bảo vệ tài khoản.
+3. <strong>Lựa chọn loại giao dịch &amp; Số tiền:</strong>
+   - Khách hàng chọn giao dịch "Rút tiền" (Cash Withdrawal).
+   - Chọn loại tài khoản (Thanh toán / Tiết kiệm) và nhập số tiền cần rút.
+4. <strong>Kiểm tra tính hợp lệ dữ liệu (Data &amp; Business Validation):</strong>
+   - <strong>Kiểm tra 1 (Bội số mệnh giá):</strong> Số tiền có phải là bội số của mệnh giá ATM đang có (ví dụ: bội số của 50.000 VNĐ) và nằm trong hạn mức 1 lần rút hay không?
+   - <strong>Kiểm tra 2 (Khả năng chi tiền của ATM):</strong> Hộc đựng tiền mặt trong cây ATM có còn đủ tiền để chi trả hay không?
+   - <strong>Kiểm tra 3 (Số dư tài khoản khách hàng):</strong> Số dư khả dụng trong tài khoản có đủ để chi trả <code>Số tiền rút + Phí giao dịch</code> hay không? Hạn mức rút tiền trong ngày có bị vượt quá không?
+5. <strong>Thực thi giao dịch tài chính (Data Transaction Processing):</strong>
+   - Khởi tạo giao dịch ngân hàng trừ tiền tài khoản khách hàng và ghi nhận nhật ký giao dịch (Audit Log).
+   - Kích hoạt hộc đếm tiền (Cash Dispenser) chuẩn bị các tờ tiền mặt phù hợp.
+6. <strong>Trả thẻ &amp; Chi tiền (Tuân thủ chuẩn an toàn quốc tế):</strong>
+   - <strong>Nguyên tắc an toàn:</strong> Cây ATM luôn <strong>nhả thẻ trước</strong> và phát âm thanh cảnh báo để khách hàng rút thẻ, tránh trường hợp khách lấy tiền xong quên lấy lại thẻ.
+   - Sau khi thẻ đã được rút ra, khe chi tiền mở ra cho khách nhận tiền mặt.
+   - Hỏi khách hàng có muốn in biên lai hay không (In biên lai hoặc gửi e-receipt qua SMS/App).
+7. <strong>Kết thúc phiên giao dịch.</strong></p>
+<hr />
+<h3>3.2 Biểu đồ hoạt động chi tiết (Activity Diagram)</h3>
+<p><img alt="Sơ đồ Hoạt động Rút tiền ATM" src="images/exercise3_atm_cash_withdrawal_activity.png" /></p>
+<details style="margin: 15px 0; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 15px;">
+<summary style="cursor: pointer; font-weight: 600; color: #0284c7;">🔍 Xem mã nguồn định nghĩa Mermaid UML (Code Definition)</summary>
+<pre style="margin-top: 10px; background: #ffffff; padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 12px;"><code>flowchart TD
+    startNode([● Bắt đầu]) --> insertCard[Khách hàng đưa thẻ ATM vào khe]
+    insertCard --> readCard[Đầu đọc đọc thông tin thẻ trên Chip/Từ]
+
+    readCard --> checkCardValid{Thẻ hợp lệ & Còn hạn?}
+    checkCardValid -- Không --> ejectInvalidCard[Nhả thẻ & Báo lỗi thẻ không hợp lệ]
+    ejectInvalidCard --> endNode1([● Kết thúc])
+
+    checkCardValid -- Có --> promptPin[Yêu cầu khách hàng nhập mã PIN]
+    promptPin --> enterPin[Khách hàng nhập mã PIN trên bàn phím số]
+    enterPin --> verifyPin{Xác thực mã PIN tại Bank Host?}
+
+    verifyPin -- Sai PIN --> incPinCount[Tăng số lần thử: attempts = attempts + 1]
+    incPinCount --> checkMaxAttempts{attempts >= 3?}
+    checkMaxAttempts -- Đúng --> swallowCard[Nuốt thẻ ATM & Khóa tài khoản tạm thời]
+    swallowCard --> showLockMsg[Hiển thị cảnh báo: Thẻ bị giữ lại vì nhập sai PIN quá 3 lần]
+    showLockMsg --> endNode2([● Kết thúc])
+    checkMaxAttempts -- Sai --> showRetryPin[Hiển thị: Mã PIN không đúng. Vui lòng nhập lại]
+    showRetryPin --> promptPin
+
+    verifyPin -- Đúng PIN --> resetAttempts[Đặt lại số lần thử attempts = 0]
+    resetAttempts --> selectAccount[Chọn loại tài khoản: Thanh toán / Tiết kiệm]
+    selectAccount --> inputAmount[Khách hàng nhập số tiền cần rút]
+
+    inputAmount --> checkMultiple{Số tiền là bội số hợp lệ & trong hạn mức lần rút?}
+    checkMultiple -- Không --> showInvalidAmount[Báo lỗi: Số tiền không hợp lệ hoặc vượt hạn mức lần rút]
+    showInvalidAmount --> askNewAmount{Thử lại số tiền khác?}
+    askNewAmount -- Có --> inputAmount
+    askNewAmount -- Không --> returnCardEarly[Nhả thẻ ATM] --> endNode3([● Kết thúc])
+
+    checkMultiple -- Có --> checkAtmMoney{ATM còn đủ tiền mặt để chi trả?}
+    checkAtmMoney -- Không --> showAtmEmpty[Báo lỗi: ATM hiện không đủ tiền mặt theo yêu cầu]
+    showAtmEmpty --> returnCardEarly
+
+    checkAtmMoney -- Có --> queryBalance[Gửi yêu cầu kiểm tra số dư tới Hệ thống Ngân hàng Core Banking]
+    queryBalance --> checkBalance{Số dư khả dụng >= Số tiền + Phí giao dịch?}
+    checkBalance -- Không --> showInsufficientFund[Báo lỗi: Số dư tài khoản không đủ]
+    showInsufficientFund --> askNewAmount
+
+    checkBalance -- Có --> fork1[══ Khởi tạo tiến trình xử lý song song ══]
+
+    fork1 --> debitAccount[Core Banking: Trừ số dư tài khoản & Ghi sổ nhật ký giao dịch]
+    fork1 --> countCash[Bộ đếm tiền ATM: Phân bổ và đếm các mệnh giá tiền mặt]
+
+    debitAccount --> join1[══ Đồng bộ hóa tiến trình ══]
+    countCash --> join1
+
+    join1 --> ejectCardFirst[Cây ATM đẩy thẻ ra & Phát âm thanh cảnh báo]
+    ejectCardFirst --> customerTakesCard[Khách hàng rút thẻ khỏi khe nhận thẻ]
+
+    customerTakesCard --> dispenseCash[Mở cửa khe tiền & Đẩy tiền mặt ra]
+    dispenseCash --> customerTakesCash[Khách hàng nhận tiền mặt]
+
+    customerTakesCash --> askReceipt{Khách hàng muốn in biên lai giao dịch?}
+    askReceipt -- Có --> printReceipt[In hóa đơn giấy tại khe biên lai]
+    askReceipt -- Không --> sendSMS[Gửi thông báo biến động số dư qua SMS / Mobile App]
+
+    printReceipt --> completeTransaction[Hoàn tất phiên giao dịch & Cảm ơn quý khách]
+    sendSMS --> completeTransaction
+    completeTransaction --> endNode4([● Kết thúc])</code></pre>
+</details>
+
+<hr />
+<h3>3.3 Giải thích các luồng điều kiện, song song và xử lý ngoại lệ</h3>
+<ol>
+<li><strong>Xử lý rủi ro bảo mật (Security Safeguards):</strong></li>
+<li>Biểu đồ mô hình hóa điều kiện kiểm tra biến đếm mã PIN (<code>attempts &gt;= 3</code>). Đây là yêu cầu bắt buộc của các chuẩn bảo mật ngân hàng nhằm chống lại các cuộc tấn công brute-force dò mã PIN.</li>
+<li><strong>Kiểm tra 3 lớp (3-tier Validation):</strong></li>
+<li>Lớp 1: Ràng buộc logic đầu vào (bội số của 50.000 VNĐ, tối thiểu 50.000, tối đa 5.000.000 VNĐ/lần).</li>
+<li>Lớp 2: Kiểm tra vật lý nội tại của ATM (số lượng tiền còn lại trong hộc tiền mặt <code>Cassette</code>).</li>
+<li>Lớp 3: Kiểm tra tài chính từ Core Banking (số dư khả dụng, hạn mức thẻ trong ngày, trạng thái tài khoản không bị phong tỏa).</li>
+<li><strong>Thanh phân nhánh &amp; Hợp nhất song song (Fork &amp; Join Nodes):</strong></li>
+<li>Sau khi giao dịch được chấp thuận, hai tác vụ được thực thi song song:<ul>
+<li>Giao tiếp mạng: Trừ tiền tài khoản và ghi nhận Transaction Log trên máy chủ trung tâm.</li>
+<li>Cơ điện tử: Động cơ bước trong ATM nhặt từng tờ tiền từ các hộp mệnh giá khác nhau, kiểm tra độ dày tránh dính tờ tiền và đưa ra khay đệm.</li>
+</ul>
+</li>
+<li>Thanh Join đảm bảo cả 2 quá trình đều thành công trước khi tiến hành trả tiền mặt cho khách.</li>
+<li><strong>Quy tắc an toàn nhả thẻ trước (Eject Card Before Cash):</strong></li>
+<li>Điểm thiết kế thực tế quan trọng: ATM luôn yêu cầu khách hàng nhận lại thẻ ATM trước, sau đó mới đẩy tiền ra. Thiết kế này giải quyết triệt để vấn đề tâm lý khách hàng khi đã cầm tiền trong tay thường sẽ bỏ đi ngay và để quên thẻ tại máy.</li>
+</ol>
+<hr />
+<h1>TỔNG KẾT VÀ NGUYÊN LÝ THIẾT KẾ ÁP DỤNG</h1>
+<p>Báo cáo đã giải quyết đầy đủ và toàn diện 3 bài tập lớn trong tài liệu thực hành Tuần 04:</p>
+<ol>
+<li><strong>Exercise 1 (Class Diagram):</strong></li>
+<li><strong>1.1 Mailbox &amp; EmailMessage:</strong> Tách bạch rõ ràng giữa đối tượng lưu trữ (<code>Mailbox</code>) và đối tượng dữ liệu truyền thông (<code>EmailMessage</code>), áp dụng triệt để nguyên lý <em>Single Responsibility Principle (SRP)</em> và quan hệ Composition chặt chẽ với tệp đính kèm.</li>
+<li>
+<p><strong>1.2 Courseware Management System:</strong> Thiết lập mô hình hướng đối tượng phản ánh trung thực toàn bộ nghiệp vụ thực tế của một trung tâm đào tạo: phân cấp đề cương khóa học (<code>Course</code> - <code>Topic</code>), ràng buộc chuyên môn và tính khả dụng của giảng viên (<code>Tutor</code> - <code>TimeSlot</code>), và cơ chế xuất bản lịch thường niên (<code>CourseCalendar</code>).</p>
+</li>
+<li>
+<p><strong>Exercise 2 (Sequence Diagram):</strong></p>
+</li>
+<li>Mô tả chính xác sự tương tác đa tầng giữa Sinh viên, Giao diện Web, Bộ dịch vụ danh mục điện tử, Bộ điều phối đăng ký và Thực thể lớp học phần.</li>
+<li>
+<p>Sử dụng các phân đoạn UML (<code>alt</code>, <code>opt</code>, <code>ref</code>) để biểu diễn các kịch bản thực tế: lớp còn chỗ, lớp hết chỗ, hoặc không thỏa điều kiện tiên quyết.</p>
+</li>
+<li>
+<p><strong>Exercise 3 (Activity Diagram):</strong></p>
+</li>
+<li>Thể hiện một quy trình nghiệp vụ tài chính hoàn chỉnh tại cây ATM theo chuẩn công nghiệp.</li>
+<li>Áp dụng đầy đủ các nút quyết định (Decision Node), thanh song song (Fork/Join) và các luồng xử lý ngoại lệ an ninh (sai PIN 3 lần, thiếu tiền trong máy, vượt số dư).</li>
+</ol>
+</body>
+</html>

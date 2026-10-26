@@ -1,0 +1,170 @@
+@model CheckoutPageVm
+@{
+    ViewData["Title"] = L["Checkout.Title"].Value;
+    var isTourist = Model.CustomerType == CustomerType.Tourist;
+    var canPlace = Model.Computation?.IsAccepted == true && Model.Error is null;
+}
+
+<div class="mb-3">
+    <p class="eyebrow mb-1">@L["UseCaseD"]</p>
+    <h1 class="h2 mb-1">@L["Checkout.Title"]</h1>
+    <p class="panel-sub mb-0">@L["Checkout.Sub"]</p>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Error))
+{
+    <div class="alert alert-danger" role="alert">@Model.Error</div>
+}
+
+@if (Model.Rejections.Count > 0)
+{
+    <div class="alert alert-warning" role="alert">
+        <p class="fw-bold mb-1">@L["Checkout.Rejected"]</p>
+        <ul class="reject-list mb-2">
+            @foreach (var rejection in Model.Rejections)
+            {
+                <li><code>@rejection.Code</code> @rejection.Message</li>
+            }
+        </ul>
+
+        @if (Model.AlternativeHubs.Count > 0)
+        {
+            <p class="mb-1 fw-semibold">@L["Checkout.Alternatives"] <span class="br-ref">FR-B5 · BR8</span></p>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var hub in Model.AlternativeHubs)
+                {
+                    <a class="btn btn-sm btn-outline-ink" asp-controller="Brands" asp-action="Index"
+                       asp-route-hubId="@hub.Id">@hub.Name — @hub.District</a>
+                }
+            </div>
+        }
+    </div>
+}
+
+<form asp-controller="Orders" asp-action="Checkout" method="post" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-7">
+            <section class="panel mb-4">
+                <h2 class="panel-title mb-1">@L["Checkout.Delivery"]</h2>
+                <p class="panel-sub mb-3">@L["Checkout.DeliverySub"] <span class="br-ref">BR2 · BR3</span></p>
+
+                <div class="row g-3">
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label" asp-for="DistanceKm">@L["Checkout.Distance"]</label>
+                        <input class="form-control" asp-for="DistanceKm" type="number" step="0.01" min="0.1" max="20" />
+                        <div class="form-text">@L["Checkout.DistanceHint"]</div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label" asp-for="VoucherCode">@L["Checkout.Voucher"]</label>
+                        <input class="form-control text-uppercase" asp-for="VoucherCode" list="voucher-codes" />
+                        <datalist id="voucher-codes">
+                            @foreach (var code in Model.VoucherCodes)
+                            {
+                                <option value="@code"></option>
+                            }
+                        </datalist>
+                        <div class="form-text">@L["Checkout.VoucherHint"]</div>
+                    </div>
+
+                    @if (isTourist)
+                    {
+                        <div class="col-12 col-sm-6">
+                            <label class="form-label" asp-for="HotelName">@L["Checkout.Hotel"]</label>
+                            <input class="form-control" asp-for="HotelName" />
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <label class="form-label" asp-for="RoomNumber">@L["Checkout.Room"]</label>
+                            <input class="form-control" asp-for="RoomNumber" />
+                        </div>
+                    }
+
+                    <div class="col-12">
+                        <label class="form-label" asp-for="Notes">@L["Checkout.Notes"]</label>
+                        <textarea class="form-control" asp-for="Notes" rows="2"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel mb-4">
+                <h2 class="panel-title mb-1">@L["Checkout.Payment"]</h2>
+                <p class="panel-sub mb-3">
+                    @L["Checkout.PaymentSub"] <span class="br-ref">BR13 · BR14</span>
+                </p>
+
+                @foreach (var strategy in Model.PaymentOptions)
+                {
+                    var isCod = strategy.Method == PaymentMethod.CashOnDelivery;
+                    var disabled = isCod && !Model.CashAllowed;
+                    <div class="form-check payment-option mb-2">
+                        <input class="form-check-input" type="radio" name="Method" id="method-@strategy.Method"
+                               value="@strategy.Method" disabled="@disabled"
+                               checked="@(Model.SelectedMethod == strategy.Method.ToString())" />
+                        <label class="form-check-label d-flex flex-wrap gap-2 align-items-center" for="method-@strategy.Method">
+                            <span class="fw-semibold">@strategy.Method</span>
+                            <span class="menu-meta">@strategy.Key</span>
+                            @if (isCod)
+                            {
+                                <span class="badge-soft">@L["Checkout.CodNote"]</span>
+                            }
+                        </label>
+                    </div>
+                }
+
+                @if (!Model.CashAllowed)
+                {
+                    <p class="small text-ember mb-0">@L["Checkout.CodBlocked"]</p>
+                }
+            </section>
+
+            <section class="panel">
+                <h2 class="panel-title mb-3">@L["Checkout.Basket"]</h2>
+                <div class="table-responsive">
+                    <table class="table table-ink align-middle mb-0">
+                        <tbody>
+                        @foreach (var line in Model.Lines)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="fw-semibold d-block">@line.ItemName</span>
+                                    <span class="menu-meta">@line.BrandName · @line.CategoryName</span>
+                                </td>
+                                <td class="text-center">× @line.Quantity</td>
+                                <td class="text-end money">@Money.Vnd(line.LineTotal)</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-12 col-lg-5">
+            <div class="sticky-summary">
+                <section class="panel">
+                    <h2 class="panel-title mb-2">@L["Checkout.Breakdown"]</h2>
+
+                    @if (Model.Breakdown is not null)
+                    {
+                        <partial name="_PriceBreakdown" model="Model.Breakdown" />
+                    }
+                    else
+                    {
+                        <p class="panel-sub">@L["Cart.NoPrice"]</p>
+                    }
+
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="submit" name="Place" value="true" class="btn btn-ember"
+                                disabled="@(!canPlace)">@L["Checkout.PlaceOrder"]</button>
+                        <button type="submit" name="Place" value="false" class="btn btn-outline-ink">
+                            @L["Checkout.UpdatePrice"]
+                        </button>
+                    </div>
+
+                    <p class="panel-sub mt-3 mb-0">@L["Checkout.SnapshotNote"] <span class="br-ref">BR17</span></p>
+                </section>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,81 @@
+@model EditOrderVm
+@{
+    ViewData["Title"] = L["Orders.EditItems"].Value;
+}
+
+<div class="mb-3">
+    <p class="eyebrow mb-1">@L["Orders.Number"] #@Model.OrderId</p>
+    <h1 class="h2 mb-1">@L["Orders.EditItems"]</h1>
+    <p class="panel-sub mb-0">@L["Orders.EditSub"] <span class="br-ref">FR-D12 · BR17</span></p>
+</div>
+
+<form asp-controller="Orders" asp-action="Edit" asp-route-id="@Model.OrderId" method="post" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-8">
+            <section class="panel mb-4">
+                <h2 class="panel-title mb-3">@L["Orders.CurrentLines"]</h2>
+
+                <div class="table-responsive">
+                    <table class="table table-ink align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">@L["Common.Quantity"]</th>
+                                <th scope="col">@L["Common.Item"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @for (var i = 0; i < Model.Lines.Count; i++)
+                        {
+                            <tr>
+                                <td style="width: 8rem;">
+                                    <input type="hidden" name="Lines[@i].MenuItemId" value="@Model.Lines[i].MenuItemId" />
+                                    <label class="visually-hidden" for="qty-@i">@L["Common.Quantity"]</label>
+                                    <input class="form-control" id="qty-@i" name="Lines[@i].Quantity" type="number"
+                                           min="0" max="20" value="@Model.Lines[i].Quantity" />
+                                </td>
+                                <td class="small text-muted">@L["Orders.SetZeroToRemove"] <span class="br-ref">BR12</span></td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2 class="panel-title mb-3">@L["Orders.AddLine"]</h2>
+                <div class="row g-3 align-items-end">
+                    <div class="col-12 col-md-8">
+                        <label class="form-label" for="new-item">@L["Common.Item"]</label>
+                        <select class="form-select" id="new-item" name="NewMenuItemId">
+                            <option value="">@L["Orders.NoNewItem"]</option>
+                            @foreach (var item in Model.AddableItems)
+                            {
+                                <option value="@item.Id">@item.Category · @item.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label" for="new-qty">@L["Common.Quantity"]</label>
+                        <input class="form-control" id="new-qty" name="NewQuantity" type="number" min="1" max="20" value="1" />
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <div class="sticky-summary">
+                <section class="panel">
+                    <h2 class="panel-title mb-2">@L["Orders.EditSnapshot"]</h2>
+                    <p class="panel-sub mb-3">@L["Orders.EditSnapshotBody"]</p>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-ember">@L["Orders.SaveAndReprice"]</button>
+                        <a class="btn btn-outline-ink" asp-controller="Orders" asp-action="Details"
+                           asp-route-id="@Model.OrderId">@L["Common.Cancel"]</a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</form>

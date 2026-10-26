@@ -1,0 +1,142 @@
+@model RevenueReport
+@{
+    ViewData["Title"] = L["Reports.RevenueTitle"].Value;
+    var from = (DateOnly)ViewData["From"]!;
+    var to = (DateOnly)ViewData["To"]!;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">R1 · @L["Reports.Title"]</p>
+        <h1 class="h2 mb-1">@L["Reports.RevenueTitle"]</h1>
+        <p class="panel-sub mb-0">@L["Reports.RevenueSub"] <span class="br-ref">FR-R1</span></p>
+    </div>
+    <a class="btn btn-sm btn-outline-ink" asp-controller="Admin" asp-action="Index">@L["Nav.Dashboard"]</a>
+</div>
+
+<section class="panel mb-4">
+    <form method="get" asp-controller="Reports" asp-action="Revenue" class="row g-3 align-items-end">
+        <div class="col-12 col-sm-4">
+            <label class="form-label" for="from">@L["Common.From"]</label>
+            <input class="form-control" id="from" name="from" type="date" value="@from.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-12 col-sm-4">
+            <label class="form-label" for="to">@L["Common.To"]</label>
+            <input class="form-control" id="to" name="to" type="date" value="@to.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-12 col-sm-4">
+            <button type="submit" class="btn btn-ember">@L["Common.Apply"]</button>
+        </div>
+    </form>
+</section>
+
+<div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-xl-4">
+        <div class="panel">
+            <p class="kpi-label mb-1">@L["Reports.TotalRevenue"]</p>
+            <p class="kpi mb-0">@Money.Vnd(Model.TotalRevenue)</p>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-4">
+        <div class="panel">
+            <p class="kpi-label mb-1">@L["Reports.OrdersCounted"]</p>
+            <p class="kpi mb-0">@Model.OrderCount</p>
+        </div>
+    </div>
+    <div class="col-12 col-xl-4">
+        <div class="panel">
+            <p class="kpi-label mb-1">@L["Reports.Range"]</p>
+            <p class="mb-0 fw-semibold">@from.ToString("dd/MM/yyyy") – @to.ToString("dd/MM/yyyy")</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-xl-6">
+        <section class="panel h-100">
+            <h2 class="panel-title mb-1">@L["Reports.ByCategory"]</h2>
+            <p class="panel-sub mb-3">@L["Reports.ByCategorySub"]</p>
+
+            @if (Model.ByCategory.Count == 0)
+            {
+                <p class="panel-sub mb-0">@L["Reports.NoData"]</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-ink align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">@L["Common.Category"]</th>
+                                <th scope="col" class="text-end">@L["Reports.Units"]</th>
+                                <th scope="col" class="text-end">@L["Reports.Revenue"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var row in Model.ByCategory)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@row.Category</td>
+                                <td class="text-end">@row.LineCount</td>
+                                <td class="text-end money">@Money.Vnd(row.Revenue)</td>
+                            </tr>
+                        }
+                        </tbody>
+                        <tfoot>
+                            <tr class="fw-bold">
+                                <td>@L["Price.Total"]</td>
+                                <td></td>
+                                <td class="text-end money">@Money.Vnd(Model.ByCategory.Sum(c => c.Revenue))</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
+        </section>
+    </div>
+
+    <div class="col-12 col-xl-6">
+        <section class="panel h-100">
+            <h2 class="panel-title mb-1">@L["Reports.ByPayment"]</h2>
+            <p class="panel-sub mb-3">@L["Reports.ByPaymentSub"]</p>
+
+            @if (Model.ByPayment.Count == 0)
+            {
+                <p class="panel-sub mb-0">@L["Reports.NoData"]</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-ink align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">@L["Orders.PaymentMethod"]</th>
+                                <th scope="col" class="text-end">@L["Reports.Orders"]</th>
+                                <th scope="col" class="text-end">@L["Reports.Revenue"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var row in Model.ByPayment)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@row.Method</td>
+                                <td class="text-end">@row.OrderCount</td>
+                                <td class="text-end money">@Money.Vnd(row.Revenue)</td>
+                            </tr>
+                        }
+                        </tbody>
+                        <tfoot>
+                            <tr class="fw-bold">
+                                <td>@L["Price.Total"]</td>
+                                <td class="text-end">@Model.OrderCount</td>
+                                <td class="text-end money">@Money.Vnd(Model.TotalRevenue)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+<p class="panel-sub mt-3 mb-0">@L["Reports.ExclusionNote"] <span class="br-ref">FR-R1</span></p>

@@ -1,0 +1,749 @@
+{
+  "fr": [
+    {
+      "id": "FR-A1",
+      "statement": "The system shall let an administrator create a brand (name, description, operating hubs) and create its menu items (name, category, positive VND price, brand and availability).",
+      "source": "BR12",
+      "use_case": "A",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Brand entity, menu admin",
+      "component": "BrandsController",
+      "test": "TC-A-01",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-A2",
+      "statement": "The system shall let any visitor view brands and menu items filtered by hub and by category.",
+      "source": "BR12",
+      "use_case": "A",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Catalogue view",
+      "component": "BrandsController",
+      "test": "TC-A-02",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-A3",
+      "statement": "The system shall let an administrator edit brand details and a menu item’s name, category, price and brand.",
+      "source": "BR12",
+      "use_case": "A",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Menu edit form",
+      "component": "BrandsController",
+      "test": "TC-A-03",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-A4",
+      "statement": "The system shall soft-delete brands and menu items, so that historical orders and reports keep their names and prices.",
+      "source": "BR12",
+      "use_case": "A",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Soft-delete filter",
+      "component": "DbContext filters",
+      "test": "TC-A-04",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-A5",
+      "statement": "The system shall let an administrator set item availability; unavailable or inactive items shall not be orderable.",
+      "source": "BR12",
+      "use_case": "A",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Availability flag",
+      "component": "MenuItemService",
+      "test": "TC-A-05",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-A6",
+      "statement": "The system shall reject any order line whose item belongs to a brand the chosen hub does not operate.",
+      "source": "BR12",
+      "use_case": "A",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Hub-brand relation",
+      "component": "OrderService",
+      "test": "TC-A-06",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-B1",
+      "statement": "The system shall let an administrator create a hub with a district, an address and a whole-number kitchen capacity greater than zero.",
+      "source": "BR8",
+      "use_case": "B",
+      "owner": "524H0179",
+      "report": "—",
+      "design": "Hub entity",
+      "component": "HubsController",
+      "test": "TC-B-01",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-B2",
+      "statement": "The system shall display hub load as 100 times the count of Confirmed or Preparing orders divided by positive integer kitchen capacity; the new order is not counted.",
+      "source": "BR8",
+      "use_case": "B",
+      "owner": "524H0179",
+      "report": "—",
+      "design": "Derived load",
+      "component": "HubLoadCalculator",
+      "test": "TC-B-02",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-B3",
+      "statement": "The system shall let an administrator edit a hub’s district, address and positive integer capacity, and recompute displayed load after a capacity change.",
+      "source": "BR8",
+      "use_case": "B",
+      "owner": "524H0179",
+      "report": "—",
+      "design": "Capacity edit",
+      "component": "HubsController",
+      "test": "TC-B-03",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-B4",
+      "statement": "The system shall soft-delete a hub, removing it from ordering while preserving its historical orders and report rows.",
+      "source": "BR8",
+      "use_case": "B",
+      "owner": "524H0179",
+      "report": "—",
+      "design": "Soft-delete filter",
+      "component": "DbContext filters",
+      "test": "TC-B-04",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-B5",
+      "statement": "The system shall refuse a new order when the chosen hub’s load is 90 % or above and shall ask the customer to choose another hub.",
+      "source": "BR8",
+      "use_case": "B",
+      "owner": "524H0179",
+      "report": "—",
+      "design": "Admission rule",
+      "component": "OrderAdmissionService",
+      "test": "TC-B-05",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-C1",
+      "statement": "The system shall let an administrator create a voucher with a code, a type (PERCENT or FIXED), a value, a maximum discount, a minimum subtotal, validity dates and an active flag.",
+      "source": "BR9",
+      "use_case": "C",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Voucher entity",
+      "component": "VouchersController",
+      "test": "TC-C-01",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-C2",
+      "statement": "The system shall let an administrator view, edit and deactivate vouchers.",
+      "source": "BR9",
+      "use_case": "C",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Voucher admin",
+      "component": "VouchersController",
+      "test": "TC-C-02",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-C3",
+      "statement": "The system shall accept at most one active voucher within its validity dates and check its minimum-subtotal condition against S before discounts.",
+      "source": "BR9",
+      "use_case": "C",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Voucher validation",
+      "component": "VoucherService",
+      "test": "TC-C-03",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D1",
+      "statement": "The system shall let a customer build an order from the menus of one hub, with 1 to 30 lines and a quantity of 1 to 20 per line.",
+      "source": "BR12",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Cart, line limits",
+      "component": "OrdersController",
+      "test": "TC-D-01",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D2",
+      "statement": "The system shall reject an order whose item subtotal is below 50,000.",
+      "source": "BR1",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Minimum order",
+      "component": "PricingEngine",
+      "test": "TC-D-02, 03",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D3",
+      "statement": "The system shall reject an order whose delivery distance exceeds 8.0 km.",
+      "source": "BR2",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Coverage check",
+      "component": "PricingEngine",
+      "test": "TC-D-04, 05",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D4",
+      "statement": "The system shall charge D = 15,000 for d ≤ 2 km; 15,000 + 5,000 × ceil(d − 2) for 2 < d ≤ 5; and 30,000 + 7,000 × ceil(d − 5) for 5 < d ≤ 8.",
+      "source": "BR3",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Distance tiers",
+      "component": "PricingEngine",
+      "test": "TC-D-06…08",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D5",
+      "statement": "The system shall charge R = 20% of non-waived D when placement time in Vietnam (UTC+7) is in [11:00, 13:00) or [17:30, 19:30); otherwise R = 0.",
+      "source": "BR4",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Rush windows",
+      "component": "PricingEngine",
+      "test": "TC-D-09…11",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D6",
+      "statement": "The system shall add a flat 10,000 rain surcharge while the administrator’s heavy-rain flag is on, using the flag value snapshotted on the order.",
+      "source": "BR5",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Rain surcharge",
+      "component": "PricingEngine",
+      "test": "TC-D-12, 13",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D7",
+      "statement": "The system shall waive the delivery fee and the rush surcharge when the item subtotal is 300,000 or more, while the rain surcharge still applies.",
+      "source": "BR6",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Free-delivery waiver",
+      "component": "PricingEngine",
+      "test": "TC-D-14, 15",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D8",
+      "statement": "The system shall apply a Quiet Kitchen discount of 10 % of the item subtotal when the hub load at placement is below 30 %.",
+      "source": "BR7",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Quiet Kitchen rule",
+      "component": "PricingEngine",
+      "test": "TC-D-16, 17",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D9",
+      "statement": "The system shall calculate PERCENT voucher V on S − Q, limited by the voucher cap and S − Q; FIXED V shall not exceed S − Q.",
+      "source": "BR9",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Voucher application",
+      "component": "PricingEngine",
+      "test": "TC-D-18…20",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D10",
+      "statement": "The system shall calculate S, Q, V, F = S − Q − V, D, R, R2 and raw total = F + D + R + R2 in BR10 order, retain fractional values without intermediate rounding or truncation, then round once to the nearest 1,000 VND, half up.",
+      "source": "BR10, BR11",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Nine-step order",
+      "component": "PricingEngine",
+      "test": "TC-D-21, 22",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D11",
+      "statement": "The system shall show an itemised price breakdown — subtotal, Quiet Kitchen discount, voucher, food total, delivery fee, rush surcharge, rain surcharge, rounded total — before payment.",
+      "source": "BR10",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Breakdown view",
+      "component": "OrdersController",
+      "test": "TC-D-23",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D12",
+      "statement": "The system shall allow items to be edited only while the order is Placed, and any recalculation shall reuse the stored placement snapshot.",
+      "source": "BR17",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Edit while Placed",
+      "component": "OrderService",
+      "test": "TC-D-24",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D13",
+      "statement": "The system shall allow Customer cancellation in Placed or Confirmed, Kitchen Staff rejection in Placed with a reason, and Admin cancellation in Confirmed; online-paid cancellations shall be refunded in full (simulated).",
+      "source": "BR16",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Cancellation rules",
+      "component": "OrderStateMachine",
+      "test": "TC-D-25, 26",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-D14",
+      "statement": "The system shall store a price snapshot of timestamp, hub load and rain flag at placement so that the price stays reproducible.",
+      "source": "BR17",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Price snapshot",
+      "component": "Order entity",
+      "test": "TC-D-27",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-E1",
+      "statement": "The system shall register a Local Customer with a Vietnamese mobile number of exactly ten digits starting 03, 05, 07, 08 or 09, and a simulated OTP.",
+      "source": "BR18",
+      "use_case": "E",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Local validation",
+      "component": "AccountController",
+      "test": "TC-E-01, 02",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-E2",
+      "statement": "The system shall register a Foreign Tourist with a passport number of 6 to 9 letters or digits, a nationality, a valid email and a simulated email code.",
+      "source": "BR18",
+      "use_case": "E",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Tourist validation",
+      "component": "AccountController",
+      "test": "TC-E-03, 04",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-E3",
+      "statement": "The system shall enforce a unique identifier and a password of at least eight characters stored as a hash.",
+      "source": "BR18",
+      "use_case": "E",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Hash + uniqueness",
+      "component": "AccountService",
+      "test": "TC-E-05",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-E4",
+      "statement": "The system shall store both customer types in one schema using a discriminator, and let an administrator view, edit and deactivate accounts.",
+      "source": "BR18",
+      "use_case": "E",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Discriminator schema",
+      "component": "DbContext",
+      "test": "TC-E-06",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-F1",
+      "statement": "The system shall let an administrator assign an available shipper to a Ready order and record the shipper and assignment time (assumption A1).",
+      "source": "BR15",
+      "use_case": "F",
+      "owner": "524H0179",
+      "report": "—",
+      "design": "Shipper assignment",
+      "component": "DeliveriesController",
+      "test": "TC-F-01",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-F2",
+      "statement": "The system shall enforce all eight transitions and actor/condition constraints in Specification section 2C in the business layer and reject every other transition; Delivered, Cancelled and Failed are terminal.",
+      "source": "BR15",
+      "use_case": "F",
+      "owner": "524H0179",
+      "report": "—",
+      "design": "State machine",
+      "component": "OrderStateMachine",
+      "test": "TC-F-02, 03",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-F3",
+      "statement": "The system shall require a shipper to confirm cash collected before a COD order may become Delivered.",
+      "source": "BR14",
+      "use_case": "F",
+      "owner": "524H0179",
+      "report": "—",
+      "design": "Cash confirmation",
+      "component": "DeliveryService",
+      "test": "TC-F-04",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-F4",
+      "statement": "The system shall let the assigned shipper move Out for Delivery to terminal Failed when the customer is unreachable, recording a reason; financial settlement follows assumption A2.",
+      "source": "BR15, BR16",
+      "use_case": "F",
+      "owner": "524H0179",
+      "report": "—",
+      "design": "Failure path",
+      "component": "DeliveryService",
+      "test": "TC-F-05",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-P1",
+      "statement": "The system shall offer only the payment methods that belong to the customer’s actor group: MoMo, VNPay and cash for Local Customers; Apple Pay, PayPal and cash for Foreign Tourists.",
+      "source": "BR13",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Actor-method map",
+      "component": "PaymentStrategyResolver",
+      "test": "TC-P-01, 02",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-P2",
+      "statement": "The system shall refuse Cash on Delivery when the rounded total exceeds 1,000,000.",
+      "source": "BR14",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "COD ceiling",
+      "component": "CodStrategy",
+      "test": "TC-P-03",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-P3",
+      "statement": "The system shall record each payment attempt with order, selected method, timestamp and success/failure outcome; only an actor-permitted Strategy may be selected.",
+      "source": "BR13",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Payment record",
+      "component": "PaymentService",
+      "test": "TC-P-04",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-P4",
+      "statement": "The system shall integrate the live VNPay sandbox API for eligible Local Customer orders, authenticate callbacks and validate the order and amount before recording success, and process repeated callbacks idempotently.",
+      "source": "Tier 4 instructor table; BR13",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Sandbox adapter and callback validation",
+      "component": "VnPayStrategy / PaymentService",
+      "test": "TC-P-05–09",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-R1",
+      "statement": "The system shall produce a Revenue report for a chosen date range showing total revenue by brand category and by payment method, excluding Cancelled and Failed orders.",
+      "source": "R1",
+      "use_case": "A",
+      "owner": "524H0191",
+      "report": "R1",
+      "design": "Revenue aggregation",
+      "component": "ReportService",
+      "test": "TC-RT-01, 02",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-R2",
+      "statement": "The system shall produce a Hub Utilization report showing, per hub, orders handled, average preparation time from Confirmed to Ready, current load percentage and the number of Quiet Kitchen discounts granted.",
+      "source": "R2",
+      "use_case": "B",
+      "owner": "524H0179",
+      "report": "R2",
+      "design": "Utilisation aggregation",
+      "component": "ReportService",
+      "test": "TC-RT-03, 04",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-S1",
+      "statement": "The system shall let any user switch the interface between English and Vietnamese, and the choice shall persist for the session.",
+      "source": "NFR3",
+      "use_case": "E",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Resource files",
+      "component": "Localisation",
+      "test": "TC-S-01",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-S2",
+      "statement": "The system shall restrict each role to its own functions on the server, not only in the interface.",
+      "source": "NFR4",
+      "use_case": "E",
+      "owner": "524H0191",
+      "report": "—",
+      "design": "Authorisation policy",
+      "component": "Policies",
+      "test": "TC-S-02",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-S3",
+      "statement": "The system shall provide an interactive administrator dashboard for R1 and R2 with revenue date-range and hub-selection controls that refresh the respective charts and tables from the same authorised report data.",
+      "source": "Tier 4 instructor table; R1, R2",
+      "use_case": "A/B",
+      "owner": "524H0191 / 524H0179",
+      "report": "R1, R2",
+      "design": "Dashboard",
+      "component": "AdminController",
+      "test": "TC-S-03a–c",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-S4",
+      "statement": "The system shall let an administrator toggle the heavy-rain flag that the rain surcharge depends on.",
+      "source": "BR5",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Rain flag",
+      "component": "AdminController",
+      "test": "TC-S-04",
+      "status": "Planned; not executed in Part 1"
+    },
+    {
+      "id": "FR-S5",
+      "statement": "The system shall append an audit record for each status change (actor, timestamp, old/new state) and payment attempt (actor, timestamp, method, outcome), without an application-level edit/delete operation.",
+      "source": "BR15, NFR5",
+      "use_case": "D",
+      "owner": "524H0195",
+      "report": "—",
+      "design": "Audit writer",
+      "component": "OrderStatusHistory",
+      "test": "TC-S-05",
+      "status": "Planned; not executed in Part 1"
+    }
+  ],
+  "nfr": [
+    {
+      "id": "NFR1",
+      "attribute": "Performance",
+      "target": "Price calculation for a valid order of 30 lines completes in under 1.5 seconds server-side.",
+      "verification": "Time the engine with 30 valid lines on the documented test machine; record environment, elapsed times and pass/fail in Part 3.",
+      "source": "Case Study section 4B; BR12",
+      "use_case": "D",
+      "owner": "524H0195"
+    },
+    {
+      "id": "NFR2",
+      "attribute": "Maintainability",
+      "target": "Use MVC separation. Adding a payment method requires one new Strategy class and one registration, with zero edits to existing payment classes.",
+      "verification": "Add a sample method in a disposable branch; inspect the diff and rerun existing payment tests. This criterion applies to a payment-extension change request.",
+      "source": "Case Study section 4B; BR13",
+      "use_case": "D",
+      "owner": "524H0195"
+    },
+    {
+      "id": "NFR3",
+      "attribute": "Usability",
+      "target": "All required screens support English/Vietnamese and operate without horizontal page scrolling at 390, 768 and 1440 px; culture switching preserves the cart and session.",
+      "verification": "Check each screen and language at the three widths, verify resource keys and repeat switching with a non-empty cart.",
+      "source": "Case Study section 4B",
+      "use_case": "E",
+      "owner": "524H0191"
+    },
+    {
+      "id": "NFR4",
+      "attribute": "Security",
+      "target": "Passwords are hashed, never stored as plaintext; every role is refused every server action outside its authorised role and resource scope.",
+      "verification": "Inspect stored password representation; run an access matrix for both customer types, Kitchen Staff, Shipper and Admin, including other users’ orders and hubs.",
+      "source": "Case Study section 4B; BR18",
+      "use_case": "E",
+      "owner": "524H0191"
+    },
+    {
+      "id": "NFR5",
+      "attribute": "Auditability",
+      "target": "100% of accepted status changes and payment attempts append a record with actor and timestamp; status changes include old/new state, payment attempts include method/outcome. No application update/delete endpoint is provided.",
+      "verification": "Reconcile accepted transitions and payment attempts against audit rows and verify ordinary roles cannot change recorded history.",
+      "source": "Team-defined; BR15; R2",
+      "use_case": "D/F",
+      "owner": "524H0195 / 524H0179"
+    },
+    {
+      "id": "NFR6",
+      "attribute": "Reliability",
+      "target": "Zero forbidden transitions are accepted; repeated pricing with identical lines and the stored placement snapshot returns identical components and rounded total.",
+      "verification": "Enumerate the state/actor matrix, include at least five forbidden transitions, and repeat boundary pricing inputs against a fixed snapshot.",
+      "source": "Team-defined; BR10, BR11, BR15, BR17",
+      "use_case": "D/F",
+      "owner": "524H0195 / 524H0179"
+    }
+  ],
+  "ambiguities": [
+    {
+      "id": "A1",
+      "topic": "Shipper assignment",
+      "gap": "Section 2C leaves the assignment mechanism open.",
+      "assumption": "An Admin manually selects an available shipper for a Ready order. The system stores assignment time and shipper. Automatic dispatch is outside the initial scope.",
+      "impact": "FR-F1; UC F; assignment screen and service.",
+      "answer": "Not asked; working assumption pending instructor review."
+    },
+    {
+      "id": "A2",
+      "topic": "Settlement after Failed delivery",
+      "gap": "Section 2C leaves the financial result of Failed delivery open.",
+      "assumption": "Refund online-paid orders in full in the simulated ledger; collect no COD cash. Preserve Failed as its own terminal state and exclude it from R1 revenue.",
+      "impact": "FR-F4; UC F/D; payment/refund policy and R1.",
+      "answer": "Not asked; working assumption pending instructor review."
+    },
+    {
+      "id": "A3",
+      "topic": "Tourist delivery address",
+      "gap": "Hotel and room are allowed, but a field structure is not prescribed.",
+      "assumption": "Store street/address text plus optional hotel name and room. Require a usable delivery address for either customer type; tourists are not required to supply a Vietnamese phone.",
+      "impact": "FR-E2 and FR-D1; address validation and checkout.",
+      "answer": "Not asked; working assumption pending instructor review."
+    },
+    {
+      "id": "A4",
+      "topic": "Invalid voucher user flow",
+      "gap": "BR9 specifies eligibility but not whether a refused voucher should block the whole order.",
+      "assumption": "Show the refusal and the corrected breakdown with V=0; require the customer to review and confirm that total before placing the order. Never silently submit a higher total.",
+      "impact": "FR-C3 and FR-D9/D11; checkout confirmation.",
+      "answer": "Not asked; working assumption pending instructor review."
+    },
+    {
+      "id": "A5",
+      "topic": "Catalogue price change before a Placed edit",
+      "gap": "BR17 fixes timestamp/load/rain but does not explicitly say which item prices apply when the catalogue changes before an edit.",
+      "assumption": "Existing lines retain their recorded unit prices; newly added items use the current catalogue price after availability/membership validation. Recalculation still uses the original timestamp, load and rain snapshot.",
+      "impact": "FR-D12/D14 and FR-A4; order-line price storage and edit tests.",
+      "answer": "Not asked; working assumption pending instructor review."
+    }
+  ],
+  "ai": [
+    {
+      "tool": "DeepSeek Harness (DSH), 23 Oct 2026",
+      "purpose": "Earlier draft and project scaffolding",
+      "prompt": "Earlier project log describes extraction of BRs, FR drafting, architecture and rendering. This is a summary from that log, not a recovered raw prompt.",
+      "kept": "Retained the useful document structure and stable FR IDs; corrected conflicting thresholds, ownership and unsupported claims during this revision.",
+      "verification": "Compared current requirements with the three course PDFs; earlier raw prompts/outputs are not available in this workspace."
+    },
+    {
+      "tool": "OpenAI Codex, 24 Oct 2026",
+      "purpose": "Strict Part 1 audit",
+      "prompt": "User requested a lecturer-style audit of existing Part 1 against the screenshot, course requirements, templates and TDTU skills.",
+      "kept": "Recorded faults and repair priorities in PART1_AUDIT_2026-10-24.md; did not use the provisional score as an official course mark.",
+      "verification": "Read the course PDFs, extracted workbook cells, rendered report/slides, checked links and calculated the rounding counterexample independently."
+    },
+    {
+      "tool": "OpenAI Codex, 24 Oct 2026",
+      "purpose": "Correct and synchronise Part 1 deliverables",
+      "prompt": "User: “ok giờ bạn cứ sửa sao cho chuẩn nhất đi đẻ hoàn thiện part 1”.",
+      "kept": "One shared FR/NFR/ambiguity register, corrected report/workbook/pitch and explicit planned verification. No invented signatures or instructor answers.",
+      "verification": "Build and source-consistency checks; rendered output checks are recorded in the Part 1 verification note. Live pitch, sandbox and application tests are outside this document revision."
+    }
+  ],
+  "technology": {
+    "source": "Instructor technology-tier table supplied by the student on 24 October 2026; archived at docs/references/instructor-technology-tiers.png. The image does not show its publication date.",
+    "tiers": [
+      {
+        "tier": "Tier 1",
+        "cap": 7.0,
+        "stack": "C# WinForms + local SQL database / Excel. 3-Tier architecture."
+      },
+      {
+        "tier": "Tier 1B",
+        "cap": 7.5,
+        "stack": "Core PHP (or CodeIgniter) + MySQL + Bootstrap. MVC architecture."
+      },
+      {
+        "tier": "Tier 2",
+        "cap": 8.5,
+        "stack": "ASP.NET Web Forms/MVC (Database First) + SQL Server + Bootstrap. MVC."
+      },
+      {
+        "tier": "Tier 3",
+        "cap": 9.5,
+        "stack": "ASP.NET MVC (Code First) + Entity Framework + Bootstrap. MVC."
+      },
+      {
+        "tier": "Tier 4",
+        "cap": 10.0,
+        "stack": "Tier 3 plus live sandbox API, interactive Admin dashboard and automated tests."
+      }
+    ],
+    "acceptance": [
+      {
+        "criterion": "Tier 3 foundation",
+        "plan": "ASP.NET Core MVC, EF Core Code-First migrations, SQL Server and Bootstrap 5. Retain the MVC layers; confirm the Core variant with the instructor because the table names ASP.NET MVC.",
+        "owner": "524H0191",
+        "evidence": "Part 2 architecture/ERD and migration design; Part 3 reproducible SQL Server setup, migration history and complete CRUD demonstration. SQLite is a local fallback, not the submitted database baseline.",
+        "references": "UC A/B/D; NFR3/4"
+      },
+      {
+        "criterion": "Live sandbox API",
+        "plan": "Use the VNPay sandbox for actor-eligible orders. Validate callbacks and order/amount; prevent duplicate settlement. Keep mock payments explicitly labelled.",
+        "owner": "524H0195",
+        "evidence": "Part 3 redacted provider transaction IDs and callback logs for success, cancellation/failure, invalid signature and repeated callback; automated TC-P-05–09. Credentials are excluded. Mock-only evidence does not meet this criterion.",
+        "references": "FR-P1/P3/P4; FR-S5"
+      },
+      {
+        "criterion": "Interactive Admin dashboard",
+        "plan": "Provide R1 Revenue and R2 Hub Utilization with charts and tables. Revenue date-range and hub-selection controls refresh their respective views from authorised server data.",
+        "owner": "524H0191 / 524H0179",
+        "evidence": "Part 2 dashboard prototype; Part 3 recorded filter interaction, chart/table reconciliation against seeded data, and denied non-Admin access. Automated TC-S-03a–c.",
+        "references": "FR-R1/R2; FR-S2/S3"
+      },
+      {
+        "criterion": "Automated tests",
+        "plan": "Run unit tests for pricing/state rules and integration/E2E tests for orders, sandbox callbacks and the Admin dashboard. Cover at least 20 EP/BVA cases and five forbidden transitions.",
+        "owner": "524H0195 / 524H0191 / 524H0179",
+        "evidence": "Part 3 versioned commands and fixtures, commit identifier and execution reports with counts and PASS/FAIL outcomes. Planned test IDs and screenshots alone do not establish execution.",
+        "references": "RTM; TC-P-05–09; TC-S-03a–c"
+      }
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "_readme": "Điền 4 field còn TBD rồi chạy: bash scripts/render-all.sh. Mọi PDF/deck sẽ tự cập nhật bìa.",
+  "project": {
+    "name": "SaigonBite",
+    "tagline": "Cloud-Kitchen Food Delivery Hub for Ho Chi Minh City",
+    "course": "Software Engineering",
+    "course_code": "SE",
+    "semester": "Sem01_2627",
+    "semester_label": "Semester 1, 2026-2027",
+    "class_code": "TBD",
+    "tier": "Tier 4",
+    "tier_cap": 10.0,
+    "tier_floor": 9.5,
+    "city_year": "HO CHI MINH CITY, 2026",
+    "report_date": "25/10/2026",
+    "course_cover": "SOFTWARE ENGINEERING",
+    "team_id": "TeamG4",
+    "report_version": "v1.0"
+  },
+  "instructor": {
+    "title": "",
+    "honorific": "ThS.",
+    "full_name": "Phạm Thái Kỳ Trung"
+  },
+  "members": [
+    {
+      "student_id": "524H0195",
+      "full_name": "Ngô Lâm Tiến",
+      "full_name_vi": "Ngô Lâm Tiến",
+      "email": "TBD",
+      "github": "TBD",
+      "use_case": "D",
+      "use_case_title": "Place and Manage Orders",
+      "secondary_scope": [
+        "C - Manage Vouchers",
+        "Pricing Engine (BR1-BR12)",
+        "Payment Strategy Module"
+      ],
+      "reports_owned": [],
+      "full_name_ascii": "NGO LAM TIEN"
+    },
+    {
+      "student_id": "524H0191",
+      "full_name": "Nguyễn Công Thành",
+      "full_name_vi": "Nguyễn Công Thành",
+      "email": "TBD",
+      "github": "TBD",
+      "use_case": "A",
+      "use_case_title": "Manage Menu & Brands",
+      "secondary_scope": [
+        "E - Manage User Accounts"
+      ],
+      "reports_owned": [
+        "R1 - Revenue Report"
+      ],
+      "full_name_ascii": "NGUYEN CONG THANH"
+    },
+    {
+      "student_id": "524H0179",
+      "full_name": "Nguyễn Trọng Phú",
+      "full_name_vi": "Nguyễn Trọng Phú",
+      "email": "TBD",
+      "github": "TBD",
+      "use_case": "B",
+      "use_case_title": "Manage Hubs & Capacity",
+      "secondary_scope": [
+        "F - Manage Deliveries",
+        "Change Request Impact Note"
+      ],
+      "reports_owned": [
+        "R2 - Hub Utilization Report"
+      ],
+      "full_name_ascii": "NGUYEN TRONG PHU"
+    }
+  ],
+  "dates": {
+    "part1_due": "2026-10-26T07:00:00+07:00",
+    "part1_due_label": "7:00 Mon 26 Oct 2026",
+    "part2_due": "2026-11-09T07:00:00+07:00",
+    "part2_due_label": "7:00 Mon 9 Nov 2026",
+    "part3_due": "2026-11-30T07:00:00+07:00",
+    "part3_due_label": "7:00 Mon 30 Nov 2026",
+    "final_due": "2026-12-07T07:00:00+07:00",
+    "final_due_label": "7 Dec 2026"
+  },
+  "human_gates": [
+    "project.class_code",
+    "Figma public link",
+    "Video narration voice",
+    "GitHub push + tag release",
+    "VNPay or PayPal sandbox credentials",
+    "eLearning submission",
+    "Peer review forms",
+    "Live presentations"
+  ]
+}

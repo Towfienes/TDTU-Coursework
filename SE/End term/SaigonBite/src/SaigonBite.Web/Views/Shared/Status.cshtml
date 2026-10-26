@@ -1,0 +1,11 @@
+@{
+    ViewData["Title"] = L["Status.Title"].Value;
+    var code = ViewData["StatusCode"] ?? 404;
+}
+
+<section class="panel text-center">
+    <p class="eyebrow mb-2">HTTP @code</p>
+    <h1 class="display-6">@L["Status.Heading"]</h1>
+    <p class="panel-sub mb-3">@L["Status.Body"]</p>
+    <a class="btn btn-ember" asp-controller="Home" asp-action="Index">@L["Common.BackHome"]</a>
+</section>

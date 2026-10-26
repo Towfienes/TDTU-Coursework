@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1030" width="900" height="1030" font-family="Times New Roman, serif">
+  <rect x="0" y="0" width="900" height="1030" fill="#ffffff"/>
+  <text x="450" y="32" font-size="22" font-weight="bold" text-anchor="middle">Use case A — Manage Menu &amp; Brands, including the soft-delete branch</text>
+
+  <!-- lanes -->
+  <rect x="30" y="60" width="220" height="910" fill="#fffdf5" stroke="#8a6d00" stroke-width="1.4"/>
+  <rect x="30" y="60" width="220" height="32" fill="#fff3cd" stroke="#8a6d00" stroke-width="1.4"/>
+  <text x="140" y="82" font-size="15" font-weight="bold" text-anchor="middle">System Admin</text>
+
+  <rect x="250" y="60" width="620" height="910" fill="#f8fbf8" stroke="#2f7a33" stroke-width="1.4"/>
+  <rect x="250" y="60" width="620" height="32" fill="#e2f0e2" stroke="#2f7a33" stroke-width="1.4"/>
+  <text x="560" y="82" font-size="15" font-weight="bold" text-anchor="middle">SaigonBite — BrandsController → BrandService → DbContext</text>
+
+  <!-- start -->
+  <circle cx="140" cy="130" r="10" fill="#000000"/>
+  <text x="158" y="135" font-size="13" font-style="italic">start</text>
+
+  <!-- A1 -->
+  <rect x="55" y="160" width="170" height="56" fill="#ffffff" stroke="#8a6d00" stroke-width="1.3" rx="8"/>
+  <text x="140" y="184" font-size="13.5" text-anchor="middle">Open the brands screen and</text>
+  <text x="140" y="202" font-size="13.5" text-anchor="middle">pick an operation (FR-A2)</text>
+  <line x1="140" y1="140" x2="140" y2="156" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="140,160 135,150 145,150" fill="#000000"/>
+
+  <!-- A1 -> A2 -->
+  <polyline points="140,216 140,257 296,257" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="300,257 290,252 290,262" fill="#000000"/>
+
+  <!-- A2 -->
+  <rect x="300" y="230" width="320" height="54" fill="#ffffff" stroke="#2f7a33" stroke-width="1.3" rx="8"/>
+  <text x="460" y="253" font-size="13.5" text-anchor="middle">Authorise: Admin role required, otherwise the</text>
+  <text x="460" y="271" font-size="13.5" text-anchor="middle">request is refused (FR-S2, NFR4)</text>
+
+  <!-- A3 -->
+  <line x1="460" y1="284" x2="460" y2="301" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="460,305 455,295 465,295" fill="#000000"/>
+  <rect x="300" y="305" width="320" height="54" fill="#ffffff" stroke="#2f7a33" stroke-width="1.3" rx="8"/>
+  <text x="460" y="328" font-size="13.5" text-anchor="middle">Load every brand with its menu items,</text>
+  <text x="460" y="346" font-size="13.5" text-anchor="middle">category, price and availability (FR-A2)</text>
+
+  <!-- D1 -->
+  <line x1="460" y1="359" x2="460" y2="367" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="460,365 529,395 460,425 391,395" fill="#ffffff" stroke="#000000" stroke-width="1.3"/>
+  <text x="460" y="392" font-size="13" font-weight="bold" text-anchor="middle">Which</text>
+  <text x="460" y="407" font-size="13" font-weight="bold" text-anchor="middle">operation?</text>
+
+  <!-- branch arrows -->
+  <polyline points="391,395 335,395 335,451" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="335,455 330,445 340,445" fill="#000000"/>
+  <text x="345" y="387" font-size="12.5" font-style="italic">[create]</text>
+
+  <polyline points="460,425 460,438 515,438 515,451" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="515,455 510,445 520,445" fill="#000000"/>
+  <text x="468" y="433" font-size="12.5" font-style="italic">[edit]</text>
+
+  <polyline points="529,395 695,395 695,451" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="695,455 690,445 700,445" fill="#000000"/>
+  <text x="620" y="387" font-size="12.5" font-style="italic" text-anchor="middle">[delete]</text>
+
+  <!-- B1 create -->
+  <rect x="255" y="455" width="160" height="90" fill="#ffffff" stroke="#2f7a33" stroke-width="1.3" rx="8"/>
+  <text x="335" y="476" font-size="12.5" text-anchor="middle">Enter name, description</text>
+  <text x="335" y="493" font-size="12.5" text-anchor="middle">and at least one hub the</text>
+  <text x="335" y="510" font-size="12.5" text-anchor="middle">brand operates</text>
+  <text x="335" y="531" font-size="12" font-style="italic" text-anchor="middle">FR-A1 · BR12</text>
+
+  <!-- B2 edit -->
+  <rect x="435" y="455" width="160" height="90" fill="#ffffff" stroke="#2f7a33" stroke-width="1.3" rx="8"/>
+  <text x="515" y="476" font-size="12.5" text-anchor="middle">Change name, category</text>
+  <text x="515" y="493" font-size="12.5" text-anchor="middle">or price; set the</text>
+  <text x="515" y="510" font-size="12.5" text-anchor="middle">IsAvailable flag</text>
+  <text x="515" y="531" font-size="12" font-style="italic" text-anchor="middle">FR-A3, FR-A5 · BR12</text>
+
+  <!-- B3 delete -->
+  <rect x="615" y="455" width="160" height="90" fill="#ffffff" stroke="#2f7a33" stroke-width="1.3" rx="8"/>
+  <text x="695" y="476" font-size="12.5" text-anchor="middle">Delete a brand or a</text>
+  <text x="695" y="493" font-size="12.5" text-anchor="middle">menu item — soft</text>
+  <text x="695" y="510" font-size="12.5" text-anchor="middle">delete only, never hard</text>
+  <text x="695" y="531" font-size="12" font-style="italic" text-anchor="middle">FR-A4 · BR12</text>
+
+  <!-- delete decision -->
+  <line x1="695" y1="545" x2="695" y2="554" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="695,558 762,600 695,642 628,600" fill="#ffffff" stroke="#000000" stroke-width="1.3"/>
+  <text x="695" y="596" font-size="12" font-weight="bold" text-anchor="middle">Referenced by a</text>
+  <text x="695" y="612" font-size="12" font-weight="bold" text-anchor="middle">past order?</text>
+
+  <polyline points="628,600 590,600 590,651" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="590,655 585,645 595,645" fill="#000000"/>
+  <text x="584" y="592" font-size="12.5" font-style="italic" text-anchor="end">[yes]</text>
+
+  <polyline points="762,600 785,600 785,651" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="785,655 780,645 790,645" fill="#000000"/>
+  <text x="772" y="592" font-size="12.5" font-style="italic">[no]</text>
+
+  <!-- Y1 -->
+  <rect x="500" y="655" width="180" height="90" fill="#f0f6f0" stroke="#2f7a33" stroke-width="1.3" rx="8"/>
+  <text x="590" y="675" font-size="12" text-anchor="middle">Row stays, IsDeleted = true.</text>
+  <text x="590" y="691" font-size="12" text-anchor="middle">OrderLine keeps ItemName</text>
+  <text x="590" y="707" font-size="12" text-anchor="middle">and UnitPrice; the R1 rows</text>
+  <text x="590" y="723" font-size="12" text-anchor="middle">keep their totals</text>
+  <text x="590" y="739" font-size="12" font-style="italic" text-anchor="middle">FR-A4 · BR12</text>
+
+  <!-- N1 -->
+  <rect x="700" y="655" width="170" height="90" fill="#f0f6f0" stroke="#2f7a33" stroke-width="1.3" rx="8"/>
+  <text x="785" y="675" font-size="12" text-anchor="middle">IsDeleted = true; the global</text>
+  <text x="785" y="691" font-size="12" text-anchor="middle">query filter removes it from</text>
+  <text x="785" y="707" font-size="12" text-anchor="middle">the catalogue. The row is</text>
+  <text x="785" y="723" font-size="12" text-anchor="middle">never deleted physically</text>
+  <text x="785" y="739" font-size="12" font-style="italic" text-anchor="middle">FR-A4</text>
+
+  <!-- merge of the two delete paths -->
+  <polyline points="590,745 590,795 664,795" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polyline points="785,745 785,795 716,795" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="690,780 712,795 690,810 668,795" fill="#ffffff" stroke="#000000" stroke-width="1.3"/>
+
+  <!-- delete path into the main merge -->
+  <polyline points="690,810 690,840 439,840" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="435,840 445,835 445,845" fill="#000000"/>
+
+  <!-- B1 and B2 into the main merge -->
+  <polyline points="335,545 335,840 361,840" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="365,840 355,835 355,845" fill="#000000"/>
+  <polyline points="450,545 450,810 400,810 400,816" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="400,820 395,810 405,810" fill="#000000"/>
+
+  <!-- main merge -->
+  <polygon points="400,820 435,840 400,860 365,840" fill="#ffffff" stroke="#000000" stroke-width="1.3"/>
+
+  <!-- final action -->
+  <line x1="400" y1="860" x2="400" y2="876" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="400,880 395,870 405,870" fill="#000000"/>
+  <rect x="290" y="880" width="380" height="54" fill="#ffffff" stroke="#2f7a33" stroke-width="1.3" rx="8"/>
+  <text x="480" y="903" font-size="13" text-anchor="middle">Refresh the list: gone from the catalogue,</text>
+  <text x="480" y="921" font-size="13" text-anchor="middle">history and R1 untouched (FR-A2, FR-A4)</text>
+
+  <!-- end -->
+  <line x1="480" y1="934" x2="480" y2="944" stroke="#000000" stroke-width="1.3"/>
+  <circle cx="480" cy="958" r="11" fill="#ffffff" stroke="#000000" stroke-width="1.4"/>
+  <circle cx="480" cy="958" r="6" fill="#000000"/>
+
+  <!-- note : guards carried into use case D -->
+  <rect x="650" y="170" width="210" height="118" fill="#fffde7" stroke="#8a8a00" stroke-width="1.1"/>
+  <text x="662" y="190" font-size="12.5" font-weight="bold">Guards used again in case D</text>
+  <text x="662" y="210" font-size="12">An unavailable item cannot be</text>
+  <text x="662" y="226" font-size="12">ordered (FR-A5), and an item of</text>
+  <text x="662" y="242" font-size="12">a brand the chosen hub does not</text>
+  <text x="662" y="258" font-size="12">operate is refused (FR-A6).</text>
+  <text x="662" y="278" font-size="12" font-style="italic">Both rules are BR12.</text>
+
+  <text x="450" y="1000" font-size="15" font-style="italic" text-anchor="middle">Figure 2.3.2: Activity diagram for use case A — Manage Menu &amp; Brands, with the guarded soft-delete</text>
+  <text x="450" y="1020" font-size="15" font-style="italic" text-anchor="middle">branch that keeps historical orders and report rows intact (FR-A1 – FR-A6, BR12)</text>
+</svg>

@@ -1,0 +1,136 @@
+@model MenuPageVm
+@{
+    ViewData["Title"] = L["Nav.Menu"].Value;
+    var isCustomer = User.IsInRole(Roles.Customer);
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">@L["Brands.Eyebrow"]</p>
+        <h1 class="h2 mb-1">@L["Brands.MenuTitle"]</h1>
+        <p class="panel-sub mb-0">@L["Brands.MenuSub"]</p>
+    </div>
+    @if (User.IsInRole(Roles.Admin))
+    {
+        <a class="btn btn-sm btn-ember" asp-controller="Brands" asp-action="Create">@L["Brands.NewBrand"]</a>
+    }
+</div>
+
+<section class="panel mb-4">
+    <form method="get" asp-controller="Brands" asp-action="Index" class="row g-3 align-items-end">
+        <div class="col-12 col-md-4">
+            <label class="form-label" for="hubId">@L["Common.Hub"]</label>
+            <select class="form-select" id="hubId" name="hubId">
+                <option value="">@L["Common.AllHubs"]</option>
+                @foreach (var hub in Model.Hubs)
+                {
+                    var load = Model.Loads.TryGetValue(hub.Id, out var value) ? value : 0;
+                    <option value="@hub.Id" selected="@(Model.Hub?.Id == hub.Id)">
+                        @hub.Name — @hub.District (@load%)
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <label class="form-label" for="category">@L["Common.Category"]</label>
+            <select class="form-select" id="category" name="category">
+                <option value="">@L["Common.AllCategories"]</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category" selected="@(Model.Category == category)">@category</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-12 col-md-4 d-flex gap-2">
+            <button type="submit" class="btn btn-ember">@L["Common.Filter"]</button>
+            <a class="btn btn-outline-ink" asp-controller="Brands" asp-action="Index">@L["Common.Reset"]</a>
+        </div>
+    </form>
+
+    @if (Model.Hub is not null)
+    {
+        var hubLoad = Model.Loads.TryGetValue(Model.Hub.Id, out var value) ? value : 0;
+        <div class="d-flex flex-wrap gap-3 align-items-center mt-3 pt-3 border-top">
+            <span class="badge-soft">@Model.Hub.Name · @Model.Hub.District</span>
+            <span class="badge-soft">@L["Hubs.Load"] @hubLoad%</span>
+            <span class="badge-soft">@L["Hubs.Capacity"] @Model.Hub.KitchenCapacity</span>
+            @if (hubLoad >= 90)
+            {
+                <span class="badge-soft text-ember">@L["Hubs.FullNotice"]</span>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="panel-sub mt-3 mb-0">@L["Brands.ChooseHub"]</p>
+    }
+</section>
+
+@if (Model.Items.Count == 0)
+{
+    <div class="empty-state">@L["Brands.NoItems"]</div>
+}
+else
+{
+    @foreach (var brand in Model.Brands)
+    {
+        var items = Model.Items.Where(i => i.BrandId == brand.Id).ToList();
+        if (items.Count == 0)
+        {
+            continue;
+        }
+
+        <section class="mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                <div>
+                    <h2 class="h4 mb-0">@brand.Name</h2>
+                    <p class="panel-sub mb-0">@brand.Description</p>
+                </div>
+                <a class="btn btn-sm btn-outline-ink" asp-controller="Brands" asp-action="Details"
+                   asp-route-id="@brand.Id">@L["Common.Details"]</a>
+            </div>
+
+            <div class="row g-3">
+                @foreach (var item in items)
+                {
+                    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+                        <article class="panel menu-card">
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+                                <div>
+                                    <p class="menu-name mb-0">@item.Name</p>
+                                    <p class="menu-meta mb-0">@item.Category</p>
+                                </div>
+                                <span class="menu-price">@Money.Vnd(item.Price)</span>
+                            </div>
+
+                            @if (!item.IsAvailable)
+                            {
+                                <p class="small text-ember mb-0">@L["Brands.Unavailable"]</p>
+                            }
+                            else if (isCustomer && Model.Hub is not null)
+                            {
+                                <form asp-controller="Orders" asp-action="AddToCart" method="post" class="qty-form mt-2">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="HubId" value="@Model.Hub.Id" />
+                                    <input type="hidden" name="MenuItemId" value="@item.Id" />
+                                    <input type="hidden" name="ReturnUrl" value="@returnUrl" />
+                                    <label class="visually-hidden" for="qty-@item.Id">@L["Common.Quantity"]</label>
+                                    <input class="form-control form-control-sm qty-input" id="qty-@item.Id"
+                                           name="Quantity" type="number" min="1" max="20" value="1" />
+                                    <button type="submit" class="btn btn-sm btn-ember">@L["Brands.Add"]</button>
+                                </form>
+                            }
+                            else if (Model.Hub is null)
+                            {
+                                <p class="small text-muted mb-0">@L["Brands.PickHubFirst"]</p>
+                            }
+                        </article>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+}

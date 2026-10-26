@@ -1,0 +1,68 @@
+# --- .NET ---
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.dll
+*.pdb
+appsettings.Development.local.json
+.env
+.env.local
+
+# --- Node / Playwright ---
+node_modules/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# --- Report / Office junk ---
+~$*
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# --- Build byproducts ---
+*.log
+*.sqlite
+*.sqlite3
+*.db
+dist/
+build/
+out/
+
+# render build artefacts
+render/.build/
+render/.npm-cache/
+render/.pnpm-store/
+render/node_modules/
+
+# dotnet build homes inside the workspace (host has no SDK)
+.nuget/
+.dotnet/
+
+# agent probe files
+slides/.probe.pdf
+
+# transient SQLite artefacts
+App_Data/
+*.db-shm
+*.db-wal
+
+# build scratch directories
+.build/
+.build-*/

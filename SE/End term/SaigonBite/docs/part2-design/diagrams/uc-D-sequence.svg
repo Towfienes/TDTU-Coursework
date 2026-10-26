@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1035" width="960" height="1035" font-family="Times New Roman, serif">
+  <rect x="0" y="0" width="960" height="1035" fill="#ffffff"/>
+  <text x="480" y="30" font-size="21" font-weight="bold" text-anchor="middle">Use case D — Place and Manage Orders: the placement sequence (FR-D1 – FR-D14)</text>
+
+  <!-- ================= HEADERS ================= -->
+  <!-- Customer : actor -->
+  <circle cx="70" cy="76" r="8" fill="none" stroke="#000000" stroke-width="1.4"/>
+  <line x1="70" y1="84" x2="70" y2="106" stroke="#000000" stroke-width="1.4"/>
+  <line x1="56" y1="92" x2="84" y2="92" stroke="#000000" stroke-width="1.4"/>
+  <line x1="70" y1="106" x2="58" y2="124" stroke="#000000" stroke-width="1.4"/>
+  <line x1="70" y1="106" x2="82" y2="124" stroke="#000000" stroke-width="1.4"/>
+  <text x="70" y="144" font-size="14" text-anchor="middle">Customer</text>
+  <text x="70" y="160" font-size="12" font-style="italic" text-anchor="middle">«actor»</text>
+
+  <!-- rotated participant boxes -->
+  <rect x="169" y="58" width="32" height="160" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.3"/>
+  <text transform="rotate(-90 185 138)" x="185" y="142" font-size="13" font-weight="bold" text-anchor="middle">OrdersController</text>
+
+  <rect x="284" y="58" width="32" height="160" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.3"/>
+  <text transform="rotate(-90 300 138)" x="300" y="142" font-size="13" font-weight="bold" text-anchor="middle">PricingEngine</text>
+
+  <rect x="399" y="58" width="32" height="160" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.3"/>
+  <text transform="rotate(-90 415 138)" x="415" y="142" font-size="13" font-weight="bold" text-anchor="middle">VoucherService</text>
+
+  <rect x="514" y="58" width="32" height="160" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.3"/>
+  <text transform="rotate(-90 530 138)" x="530" y="142" font-size="13" font-weight="bold" text-anchor="middle">PaymentStrategyResolver</text>
+
+  <rect x="629" y="58" width="32" height="160" fill="#fdeaea" stroke="#a52a2a" stroke-width="1.3"/>
+  <text transform="rotate(-90 645 138)" x="645" y="142" font-size="13" font-weight="bold" text-anchor="middle">PaymentStrategy</text>
+
+  <rect x="744" y="58" width="32" height="160" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.3"/>
+  <text transform="rotate(-90 760 138)" x="760" y="142" font-size="13" font-weight="bold" text-anchor="middle">OrderService</text>
+
+  <rect x="859" y="58" width="32" height="160" fill="#fdf3e3" stroke="#a86a12" stroke-width="1.3"/>
+  <text transform="rotate(-90 875 138)" x="875" y="142" font-size="13" font-weight="bold" text-anchor="middle">DbContext</text>
+
+  <!-- ================= LIFELINES ================= -->
+  <line x1="70" y1="165" x2="70" y2="880" stroke="#555555" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="185" y1="218" x2="185" y2="880" stroke="#2a5c9a" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="300" y1="218" x2="300" y2="880" stroke="#2f7a33" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="415" y1="218" x2="415" y2="880" stroke="#2f7a33" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="530" y1="218" x2="530" y2="880" stroke="#6b3fa0" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="645" y1="218" x2="645" y2="880" stroke="#a52a2a" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="760" y1="218" x2="760" y2="880" stroke="#2f7a33" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="875" y1="218" x2="875" y2="880" stroke="#a86a12" stroke-width="1" stroke-dasharray="5,5"/>
+
+  <!-- ================= ACTIVATIONS ================= -->
+  <rect x="181" y="226" width="8" height="654" fill="#d5e3f4" stroke="#2a5c9a" stroke-width="0.8"/>
+  <rect x="296" y="366" width="8" height="36" fill="#d9ecd9" stroke="#2f7a33" stroke-width="0.8"/>
+  <rect x="411" y="302" width="8" height="36" fill="#d9ecd9" stroke="#2f7a33" stroke-width="0.8"/>
+  <rect x="526" y="518" width="8" height="98" fill="#e6daf5" stroke="#6b3fa0" stroke-width="0.8"/>
+  <rect x="641" y="644" width="8" height="36" fill="#f8d5d5" stroke="#a52a2a" stroke-width="0.8"/>
+  <rect x="756" y="708" width="8" height="138" fill="#d9ecd9" stroke="#2f7a33" stroke-width="0.8"/>
+  <rect x="871" y="744" width="8" height="72" fill="#f8ecd2" stroke="#a86a12" stroke-width="0.8"/>
+
+  <!-- ================= MESSAGES ================= -->
+  <line x1="70" y1="232" x2="179" y2="232" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="185,232 175,227 175,237" fill="#000000"/>
+  <text x="76" y="225" font-size="13">1. checkout(hubId, lines, distanceKm, voucherCode) <tspan font-style="italic" font-size="12">FR-D1 – FR-D3</tspan></text>
+
+  <polyline points="189,268 231,268 231,286 191,286" fill="none" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="189,286 199,282 199,290" fill="#000000"/>
+  <text x="240" y="272" font-size="13">2. buildSnapshot(placedAt, hubLoad, rainFlag) <tspan font-style="italic" font-size="12">FR-D14, BR17</tspan></text>
+  <text x="240" y="291" font-size="11.5" font-style="italic">the snapshot is frozen before any price is computed</text>
+
+  <line x1="189" y1="316" x2="409" y2="316" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="415,316 405,311 405,321" fill="#000000"/>
+  <text x="196" y="309" font-size="13">3. validate(code, S, placedAt) <tspan font-style="italic" font-size="12">FR-D9, BR9</tspan></text>
+
+  <line x1="415" y1="346" x2="195" y2="346" stroke="#555555" stroke-width="1" stroke-dasharray="5,4"/>
+  <polygon points="189,346 199,341 199,351" fill="#555555"/>
+  <text x="409" y="339" font-size="12" font-style="italic" text-anchor="end">4. VoucherRequest? — null when inactive, expired or below MinSubtotal</text>
+
+  <line x1="189" y1="378" x2="294" y2="378" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="300,378 290,373 290,383" fill="#000000"/>
+  <text x="196" y="371" font-size="13">5. Calculate(PriceContext) <tspan font-style="italic" font-size="12">FR-D4 – FR-D11, BR3 – BR11</tspan></text>
+
+  <line x1="300" y1="404" x2="195" y2="404" stroke="#555555" stroke-width="1" stroke-dasharray="5,4"/>
+  <polygon points="189,404 199,399 199,409" fill="#555555"/>
+  <text x="196" y="397" font-size="12" font-style="italic">6. PriceResult: S, Q, V, F, D, R, R2, Total — rounded once (BR10, BR11)</text>
+
+  <rect x="40" y="418" width="430" height="72" fill="none" stroke="#333333" stroke-width="1.2"/>
+  <polygon points="40,418 218,418 228,430 218,442 40,442" fill="#eeeeee" stroke="#333333" stroke-width="1.2"/>
+  <text x="48" y="436" font-size="12.5" font-weight="bold">opt [PriceResult.IsAccepted = false]</text>
+  <line x1="70" y1="470" x2="179" y2="470" stroke="#555555" stroke-width="1" stroke-dasharray="5,4"/>
+  <polygon points="185,470 175,465 175,475" fill="#555555"/>
+  <text x="196" y="463" font-size="12" font-style="italic">7. 422 + the first rejection code: BR1, BR2, BR8 or BR12</text>
+
+  <line x1="189" y1="522" x2="524" y2="522" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="530,522 520,517 520,527" fill="#000000"/>
+  <text x="196" y="515" font-size="13">8. AvailableFor(customerType) <tspan font-style="italic" font-size="12">FR-P1, BR13</tspan></text>
+
+  <line x1="526" y1="556" x2="195" y2="556" stroke="#555555" stroke-width="1" stroke-dasharray="5,4"/>
+  <polygon points="189,556 199,551 199,561" fill="#555555"/>
+  <text x="520" y="549" font-size="12" font-style="italic" text-anchor="end">9. IReadOnlyList&lt;IPaymentStrategy&gt; — 3 of the 5 for this actor</text>
+
+  <line x1="189" y1="588" x2="524" y2="588" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="530,588 520,583 520,593" fill="#000000"/>
+  <text x="196" y="581" font-size="13">10. Resolve(method) <tspan font-style="italic" font-size="12">FR-P2, BR14</tspan> [COD needs Total ≤ 1,000,000]</text>
+
+  <line x1="526" y1="620" x2="195" y2="620" stroke="#555555" stroke-width="1" stroke-dasharray="5,4"/>
+  <polygon points="189,620 199,615 199,625" fill="#555555"/>
+  <text x="520" y="613" font-size="12" font-style="italic" text-anchor="end">11. IPaymentStrategy</text>
+
+  <line x1="189" y1="652" x2="639" y2="652" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="645,652 635,647 635,657" fill="#000000"/>
+  <text x="196" y="645" font-size="13">12. ChargeAsync(PaymentRequest) <tspan font-style="italic" font-size="12">FR-P3, BR13</tspan> — mock gateway</text>
+
+  <line x1="641" y1="688" x2="195" y2="688" stroke="#555555" stroke-width="1" stroke-dasharray="5,4"/>
+  <polygon points="189,688 199,683 199,693" fill="#555555"/>
+  <text x="635" y="681" font-size="12" font-style="italic" text-anchor="end">13. PaymentResult(success, gatewayReference)</text>
+
+  <line x1="189" y1="720" x2="754" y2="720" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="760,720 750,715 750,725" fill="#000000"/>
+  <text x="196" y="713" font-size="13">14. PlaceAsync(draft, priceResult, paymentResult) <tspan font-style="italic" font-size="12">FR-D14, BR17</tspan></text>
+
+  <line x1="764" y1="756" x2="869" y2="756" stroke="#000000" stroke-width="1.3"/>
+  <polygon points="875,756 865,751 865,761" fill="#000000"/>
+  <text x="756" y="749" font-size="12" text-anchor="end">15. Add(Order, OrderLines, PaymentRecord) <tspan font-style="italic">FR-P3</tspan></text>
+
+  <line x1="764" y1="798" x2="869" y2="798" stroke="#a52a2a" stroke-width="1.7"/>
+  <polygon points="875,798 865,793 865,803" fill="#a52a2a"/>
+  <text x="756" y="791" font-size="12.5" font-weight="bold" fill="#a52a2a" text-anchor="end">16. Add(OrderStatusHistory: null → Placed)</text>
+  <text x="756" y="807" font-size="11.5" font-style="italic" fill="#a52a2a" text-anchor="end">FR-S5, NFR5, BR15 — the audit write</text>
+
+  <line x1="871" y1="830" x2="768" y2="830" stroke="#555555" stroke-width="1" stroke-dasharray="5,4"/>
+  <polygon points="760,830 770,825 770,835" fill="#555555"/>
+  <text x="866" y="823" font-size="12" font-style="italic" text-anchor="end">17. SaveChanges — one transaction</text>
+
+  <line x1="756" y1="852" x2="195" y2="852" stroke="#555555" stroke-width="1" stroke-dasharray="5,4"/>
+  <polygon points="189,852 199,847 199,857" fill="#555555"/>
+  <text x="750" y="845" font-size="12" font-style="italic" text-anchor="end">18. orderId</text>
+
+  <line x1="181" y1="874" x2="76" y2="874" stroke="#555555" stroke-width="1" stroke-dasharray="5,4"/>
+  <polygon points="70,874 80,869 80,879" fill="#555555"/>
+  <text x="187" y="867" font-size="12" font-style="italic">19. 201 Created + itemised breakdown + tracking link (FR-D11)</text>
+
+  <!-- ================= NOTES ================= -->
+  <rect x="40" y="906" width="420" height="86" fill="#fffde7" stroke="#8a8a00" stroke-width="1.1"/>
+  <text x="52" y="926" font-size="13" font-weight="bold">The price snapshot (step 2)</text>
+  <text x="52" y="946" font-size="12.5">Timestamp, hub load and rain flag are frozen at placement. An edit</text>
+  <text x="52" y="964" font-size="12.5">while the order is Placed re-prices with those stored values, not with</text>
+  <text x="52" y="982" font-size="12.5">the current load or the current flag (FR-D12, FR-D14, BR17).</text>
+
+  <rect x="486" y="906" width="434" height="86" fill="#fdf0f0" stroke="#a52a2a" stroke-width="1.1"/>
+  <text x="498" y="926" font-size="13" font-weight="bold">The audit write (step 16)</text>
+  <text x="498" y="946" font-size="12.5">The OrderStatusHistory row is written in the same transaction as the</text>
+  <text x="498" y="964" font-size="12.5">order, so no status change can exist without its actor, timestamp and</text>
+  <text x="498" y="982" font-size="12.5">from/to pair. A rejected transition writes a row too (FR-S5, NFR5).</text>
+
+  <text x="480" y="1018" font-size="14.5" font-style="italic" text-anchor="middle">Figure 2.3.1: Sequence diagram for use case D, from the checkout request to the persisted order,</text>
+  <text x="480" y="1032" font-size="14.5" font-style="italic" text-anchor="middle">the price snapshot and the audit row (FR-D1 – FR-D14, FR-P1 – FR-P3, BR9 – BR17)</text>
+</svg>

@@ -1,0 +1,48 @@
+@model HubFormVm
+@{
+    ViewData["Title"] = L["Hubs.NewHub"].Value;
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-6">
+        <section class="panel">
+            <p class="eyebrow mb-2">@L["UseCaseB"]</p>
+            <h1 class="h3 mb-1">@L["Hubs.NewHub"]</h1>
+            <p class="panel-sub mb-3">@L["Hubs.NewHubSub"]</p>
+
+            <form asp-controller="Hubs" asp-action="Create" method="post" novalidate>
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Name">@L["Common.Name"]</label>
+                    <input class="form-control" asp-for="Name" />
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label" asp-for="District">@L["Common.District"]</label>
+                        <input class="form-control" asp-for="District" />
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label" asp-for="KitchenCapacity">
+                            @L["Hubs.Capacity"] <span class="br-ref">FR-B1 · BR8</span>
+                        </label>
+                        <input class="form-control" asp-for="KitchenCapacity" type="number" min="1" />
+                        <div class="form-text">@L["Hubs.CapacityHint"]</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Address">@L["Common.Address"]</label>
+                    <input class="form-control" asp-for="Address" />
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-ember">@L["Common.Create"]</button>
+                    <a class="btn btn-outline-ink" asp-controller="Hubs" asp-action="Index">@L["Common.Cancel"]</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

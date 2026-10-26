@@ -1,0 +1,64 @@
+@model IReadOnlyList<HubRowVm>
+@{
+    ViewData["Title"] = L["Nav.Hubs"].Value;
+    var isAdmin = User.IsInRole(Roles.Admin);
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">@L["UseCaseB"]</p>
+        <h1 class="h2 mb-1">@L["Hubs.Title"]</h1>
+        <p class="panel-sub mb-0">@L["Hubs.Sub"]</p>
+    </div>
+    @if (isAdmin)
+    {
+        <a class="btn btn-sm btn-ember" asp-controller="Hubs" asp-action="Create">@L["Hubs.NewHub"]</a>
+    }
+</div>
+
+<div class="row g-3">
+    @foreach (var row in Model)
+    {
+        var meterClass = row.LoadPercent >= 90 ? "is-full" : row.LoadPercent >= 60 ? "is-warm" : "";
+        <div class="col-12 col-md-6 col-xl-4">
+            <article class="panel hub-card">
+                <p class="district mb-1">@row.Hub.District</p>
+                <h2 class="h5 mb-1">@row.Hub.Name</h2>
+                <p class="panel-sub mb-3">@row.Hub.Address</p>
+
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="small">@L["Hubs.Load"]</span>
+                    <span class="load-value">@row.LoadPercent%</span>
+                </div>
+                <div class="load-meter @meterClass mb-2">
+                    <span style="width:@(Math.Min(row.LoadPercent, 100))%"></span>
+                </div>
+                <p class="panel-sub mb-3">
+                    @row.BusyOrders @L["Hubs.OrdersInKitchen"] · @L["Hubs.Capacity"] @row.Hub.KitchenCapacity
+                </p>
+
+                @if (row.IsFull)
+                {
+                    <p class="small text-ember mb-2">@L["Hubs.FullNotice"]</p>
+                }
+
+                <div class="mt-auto d-flex flex-wrap gap-2">
+                    <a class="btn btn-sm btn-outline-ink" asp-controller="Brands" asp-action="Index"
+                       asp-route-hubId="@row.Hub.Id">@L["Hubs.ViewMenu"]</a>
+                    @if (isAdmin)
+                    {
+                        <a class="btn btn-sm btn-outline-ink" asp-controller="Hubs" asp-action="Edit"
+                           asp-route-id="@row.Hub.Id">@L["Common.Edit"]</a>
+                        <form asp-controller="Hubs" asp-action="Delete" method="post" class="m-0">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@row.Hub.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-ink">@L["Common.Delete"]</button>
+                        </form>
+                    }
+                </div>
+            </article>
+        </div>
+    }
+</div>
+
+<p class="panel-sub mt-3">@L["Hubs.LoadNote"] <span class="br-ref">BR8 · FR-B2</span></p>

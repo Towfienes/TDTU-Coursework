@@ -1,0 +1,49 @@
+{
+  "base": "http://localhost:5080",
+  "ranAt": "2026-10-22T18:25:35.564Z",
+  "total": 8,
+  "passed": 8,
+  "failed": 0,
+  "steps": [
+    {
+      "n": "admin can toggle the heavy-rain flag",
+      "ok": true,
+      "d": "flag switched"
+    },
+    {
+      "n": "an order can be placed with rain on",
+      "ok": true,
+      "d": "order 26, totals seen 35000,105000,130000,105000,10500,94500,25000,10000,130000"
+    },
+    {
+      "n": "an order can be placed with rain off",
+      "ok": true,
+      "d": "order 27, totals seen 35000,105000,120000,105000,10500,94500,25000,120000"
+    },
+    {
+      "n": "BR5: the rain surcharge adds exactly 10,000 to the rounded total",
+      "ok": true,
+      "d": "order 26 total 130000 − order 27 total 120000 = 10000"
+    },
+    {
+      "n": "the voucher create form loads",
+      "ok": true,
+      "d": "status 200"
+    },
+    {
+      "n": "a voucher created through the UI appears in the list",
+      "ok": true,
+      "d": "AUTOTEST35292"
+    },
+    {
+      "n": "the brand edit form loads",
+      "ok": true,
+      "d": "status 200"
+    },
+    {
+      "n": "the brand edit form posts somewhere",
+      "ok": true,
+      "d": "/Brands/Edit?id=1"
+    }
+  ]
+}

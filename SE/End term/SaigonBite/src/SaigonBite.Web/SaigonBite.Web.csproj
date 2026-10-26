@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    SaigonBite.Web — presentation tier (CONTRACT.md). ASP.NET Core MVC on net8.0.
+    Owns the EF Core entities, the DbContext, the migrations, the Razor views and the
+    localisation resources. All pricing, state and payment decisions come from
+    SaigonBite.Core; this project only orchestrates them.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>SaigonBite.Web</RootNamespace>
+    <AssemblyName>SaigonBite.Web</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <!-- NFR3: the interface toggles between English and Vietnamese through .resx files. -->
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- SQL Server is the target database (Tier 3 Code-First + EF migrations). -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+    <!-- SQLite is the provider used when USE_SQLITE=1 (container startup proof, local demo). -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
+    <!-- Needed only by `dotnet ef migrations add`; never shipped at runtime. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SaigonBite.Core\SaigonBite.Core.csproj" />
+  </ItemGroup>
+
+</Project>

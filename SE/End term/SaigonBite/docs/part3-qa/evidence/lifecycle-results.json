@@ -1,0 +1,50 @@
+{
+  "base": "http://localhost:5080",
+  "orderId": 25,
+  "ranAt": "2026-10-22T18:25:33.149Z",
+  "total": 8,
+  "passed": 8,
+  "failed": 0,
+  "steps": [
+    {
+      "n": "checkout shows every BR10 component",
+      "ok": true,
+      "d": "Skip to content SaigonBite Menu Hubs Basket My orders EN VI Lan Nguyen Sign out USE CASE D · ORDERS Checkout Check the b"
+    },
+    {
+      "n": "the order is placed and an id is assigned",
+      "ok": true,
+      "d": "http://localhost:5080/orders/25"
+    },
+    {
+      "n": "the placed order shows the status Placed",
+      "ok": true,
+      "d": "Skip to content SaigonBite Menu Hubs Basket My orders EN VI Lan Nguyen Sign out Order placed and payment recorded. ORDER"
+    },
+    {
+      "n": "kitchen moves the order Confirmed → Preparing → Ready",
+      "ok": true,
+      "d": "Confirmed | Preparing | Ready"
+    },
+    {
+      "n": "BR15: the business layer refuses the kitchen the shipper transition",
+      "ok": true,
+      "d": "state stayed Ready"
+    },
+    {
+      "n": "admin assigns a shipper to the ready order",
+      "ok": true,
+      "d": "assignment submitted"
+    },
+    {
+      "n": "shipper drives the order to Delivered",
+      "ok": true,
+      "d": "OutForDelivery → Delivered → cash confirmed → Delivered retried"
+    },
+    {
+      "n": "the order reaches Delivered",
+      "ok": true,
+      "d": "Skip to content SaigonBite Menu Hubs Basket My orders EN VI Lan Nguyen Sign out ORDER #25 SaigonBite Ben Thanh 23/10/2026 01:25 · District 1"
+    }
+  ]
+}

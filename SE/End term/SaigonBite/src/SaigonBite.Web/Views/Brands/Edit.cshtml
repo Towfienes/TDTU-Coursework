@@ -1,0 +1,47 @@
+@model BrandFormVm
+@{
+    ViewData["Title"] = L["Common.Edit"] + " · " + Model.Name;
+    var hubs = ViewData["Hubs"] as List<Hub> ?? new List<Hub>();
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-6">
+        <section class="panel">
+            <p class="eyebrow mb-2">@L["UseCaseA"]</p>
+            <h1 class="h3 mb-1">@L["Common.Edit"] · @Model.Name</h1>
+            <p class="panel-sub mb-3">@L["Brands.EditSub"]</p>
+
+            <form asp-controller="Brands" asp-action="Edit" asp-route-id="@Model.Id" method="post" novalidate>
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Name">@L["Common.Name"]</label>
+                    <input class="form-control" asp-for="Name" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Description">@L["Common.Description"]</label>
+                    <textarea class="form-control" asp-for="Description" rows="3"></textarea>
+                </div>
+
+                <fieldset class="mb-3">
+                    <legend class="form-label">@L["Brands.OperatingHubs"] <span class="br-ref">FR-A1 · BR12</span></legend>
+                    @foreach (var hub in hubs)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="HubIds" value="@hub.Id"
+                                   id="hub-@hub.Id" checked="@Model.HubIds.Contains(hub.Id)" />
+                            <label class="form-check-label" for="hub-@hub.Id">@hub.Name — @hub.District</label>
+                        </div>
+                    }
+                </fieldset>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-ember">@L["Common.Save"]</button>
+                    <a class="btn btn-outline-ink" asp-controller="Brands" asp-action="Details" asp-route-id="@Model.Id">@L["Common.Cancel"]</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

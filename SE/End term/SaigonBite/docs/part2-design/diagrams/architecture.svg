@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 1140" width="980" height="1140" font-family="Times New Roman, serif">
+  <rect x="0" y="0" width="980" height="1140" fill="#ffffff"/>
+
+  <text x="490" y="40" font-size="24" font-weight="bold" text-anchor="middle">SaigonBite — three-tier architecture and the downward dependency direction</text>
+
+  <!-- ============ TIER 1 ============ -->
+  <rect x="30" y="62" width="690" height="182" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.6"/>
+  <text x="44" y="86" font-size="19" font-weight="bold" fill="#1b3f6b">TIER 1 — Presentation</text>
+  <text x="44" y="106" font-size="15" font-style="italic" fill="#1b3f6b">src/SaigonBite.Web: Controllers · Views · ViewModels · Resources · wwwroot</text>
+  <text x="44" y="132" font-size="15">Controllers, thin and rule-free: Account · Brands · Hubs · Vouchers · Orders · Deliveries · Reports · Admin</text>
+  <text x="44" y="154" font-size="15">Razor Views on the Bootstrap 5 grid, 390 / 768 / 1440 px; Chart.js dashboard for R1 and R2 (FR-S3)</text>
+  <text x="44" y="176" font-size="15">Resources/*.resx — English / Vietnamese toggle, held for the session (FR-S1, NFR3)</text>
+  <text x="44" y="198" font-size="15">Authorisation policies: Customer · KitchenStaff · Shipper · Admin (FR-S2, NFR4)</text>
+  <text x="44" y="222" font-size="15" font-style="italic">Knows the business tier through its public types only; it never computes a price or a status.</text>
+
+  <!-- dependency arrow 1 -->
+  <line x1="375" y1="244" x2="375" y2="286" stroke="#000000" stroke-width="1.6"/>
+  <polygon points="375,292 369,282 381,282" fill="#000000"/>
+  <text x="386" y="272" font-size="15" font-style="italic">depends on</text>
+
+  <!-- ============ TIER 2 ============ -->
+  <rect x="30" y="292" width="690" height="404" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.6"/>
+  <text x="44" y="316" font-size="19" font-weight="bold" fill="#245c27">TIER 2 — Business</text>
+  <text x="44" y="336" font-size="15" font-style="italic" fill="#245c27">orchestration services (SaigonBite.Web/Services) + the pure domain library (SaigonBite.Core)</text>
+
+  <!-- services -->
+  <rect x="46" y="350" width="300" height="330" fill="#ffffff" stroke="#2f7a33" stroke-width="1.2"/>
+  <text x="58" y="374" font-size="17" font-weight="bold">SaigonBite.Web / Services</text>
+  <text x="58" y="400" font-size="15">OrderService — place, edit, cancel</text>
+  <text x="58" y="422" font-size="15">VoucherService — BR9 validation</text>
+  <text x="58" y="444" font-size="15">ReportService — R1, R2</text>
+  <text x="58" y="466" font-size="15">AuditWriter — OrderStatusHistory</text>
+  <text x="58" y="488" font-size="15">(FR-S5, NFR5)</text>
+  <text x="58" y="516" font-size="15" font-style="italic">Holds the transaction boundary and</text>
+  <text x="58" y="536" font-size="15" font-style="italic">the only EF Core dependency.</text>
+  <text x="58" y="564" font-size="15" font-style="italic">Calls the domain; the domain never</text>
+  <text x="58" y="584" font-size="15" font-style="italic">calls back (dependency inversion).</text>
+  <text x="58" y="618" font-size="15" font-weight="bold">Depends on:</text>
+  <text x="58" y="638" font-size="15">IPaymentStrategy, PricingEngine,</text>
+  <text x="58" y="658" font-size="15">OrderStateMachine</text>
+
+  <!-- core -->
+  <rect x="366" y="350" width="338" height="330" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.4"/>
+  <text x="378" y="374" font-size="16" font-weight="bold" fill="#4c2c73">SaigonBite.Core — no ASP.NET Core,</text>
+  <text x="378" y="394" font-size="16" font-weight="bold" fill="#4c2c73">no EF Core, no I/O (CONTRACT.md)</text>
+
+  <rect x="378" y="408" width="314" height="76" fill="#ffffff" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="388" y="428" font-size="15" font-weight="bold">Domain/Pricing</text>
+  <text x="388" y="448" font-size="15">PricingEngine.Calculate(PriceContext)</text>
+  <text x="388" y="468" font-size="15">BR1–BR12, one rounding at step 9 (BR11)</text>
+
+  <rect x="378" y="496" width="314" height="76" fill="#ffffff" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="388" y="516" font-size="15" font-weight="bold">Domain/Orders</text>
+  <text x="388" y="536" font-size="15">OrderStateMachine · OrderStatus</text>
+  <text x="388" y="556" font-size="15">BR15, BR16 — CanTransition(from, to, actor)</text>
+
+  <rect x="378" y="584" width="314" height="76" fill="#ffffff" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="388" y="604" font-size="15" font-weight="bold">Domain/Payments</text>
+  <text x="388" y="624" font-size="15">IPaymentStrategy + 5 strategies</text>
+  <text x="388" y="644" font-size="15">PaymentStrategyResolver (BR13, BR14)</text>
+
+  <!-- dependency arrow 2 -->
+  <line x1="375" y1="696" x2="375" y2="722" stroke="#000000" stroke-width="1.6"/>
+  <polygon points="375,728 369,718 381,718" fill="#000000"/>
+  <text x="386" y="716" font-size="15" font-style="italic">depends on</text>
+
+  <!-- ============ TIER 3 ============ -->
+  <rect x="30" y="734" width="690" height="152" fill="#fdf3e3" stroke="#a86a12" stroke-width="1.6"/>
+  <text x="44" y="758" font-size="19" font-weight="bold" fill="#7a4c08">TIER 3 — Data</text>
+  <text x="44" y="778" font-size="15" font-style="italic" fill="#7a4c08">src/SaigonBite.Web/Data: SaigonBiteDbContext · Configurations/ · Migrations/</text>
+  <text x="44" y="802" font-size="15">SQL Server 2022 in Docker; SQLite only as a test double; EF Core 8 Code-First migrations</text>
+  <text x="44" y="824" font-size="15">Query filters implement soft delete for Hub, Brand, MenuItem and User (FR-A4, FR-B4, BR12)</text>
+  <text x="44" y="846" font-size="15">Order and OrderLine are never deleted; OrderLine keeps the item name and unit price snapshot</text>
+  <text x="44" y="870" font-size="15" font-weight="bold">No arrow leaves this tier: data knows nothing about business or presentation.</text>
+
+  <!-- ============ CROSS-CUTTING ============ -->
+  <rect x="740" y="62" width="212" height="824" fill="#f7f7f7" stroke="#555555" stroke-width="1.2"/>
+  <text x="846" y="86" font-size="17" font-weight="bold" text-anchor="middle">Cross-cutting</text>
+  <text x="846" y="105" font-size="14" text-anchor="middle">applied in every tier</text>
+  <text x="754" y="132" font-size="14">Role-based access control</text>
+  <text x="754" y="150" font-size="14">on the server (FR-S2, NFR4)</text>
+  <text x="754" y="180" font-size="14">Password hashing</text>
+  <text x="754" y="198" font-size="14">(FR-E3, NFR4)</text>
+  <text x="754" y="228" font-size="14">Bilingual EN / VI</text>
+  <text x="754" y="246" font-size="14">(FR-S1, NFR3)</text>
+  <text x="754" y="276" font-size="14">Audit row per status change</text>
+  <text x="754" y="294" font-size="14">and payment attempt</text>
+  <text x="754" y="312" font-size="14">(FR-S5, NFR5)</text>
+  <text x="754" y="342" font-size="14">Price snapshot: timestamp,</text>
+  <text x="754" y="360" font-size="14">hub load, rain flag</text>
+  <text x="754" y="378" font-size="14">(FR-D14, BR17)</text>
+  <text x="754" y="408" font-size="14">Heavy-rain flag, global,</text>
+  <text x="754" y="426" font-size="14">snapshotted per order</text>
+  <text x="754" y="444" font-size="14">(FR-S4, BR5)</text>
+  <text x="754" y="474" font-size="14">Rejection codes BR1, BR2,</text>
+  <text x="754" y="492" font-size="14">BR8, BR12 evaluated in</text>
+  <text x="754" y="510" font-size="14">that order (CONTRACT.md)</text>
+  <text x="754" y="540" font-size="14">Money as long VND,</text>
+  <text x="754" y="558" font-size="14">UTC+7 local time</text>
+  <text x="754" y="588" font-size="14">xUnit suite for pricing and</text>
+  <text x="754" y="606" font-size="14">the state machine; Playwright</text>
+  <text x="754" y="624" font-size="14">end-to-end suite (Tier 4)</text>
+  <text x="754" y="654" font-size="14">Soft-delete flags on every</text>
+  <text x="754" y="672" font-size="14">entity an order references</text>
+  <text x="754" y="690" font-size="14">(FR-A4, FR-B4, BR12)</text>
+  <text x="754" y="720" font-size="14">One transaction per</text>
+  <text x="754" y="738" font-size="14">placement: Order, lines,</text>
+  <text x="754" y="756" font-size="14">payment row, audit row</text>
+  <text x="754" y="786" font-size="14">Fixed inputs, fixed price:</text>
+  <text x="754" y="804" font-size="14">the snapshot makes the</text>
+  <text x="754" y="822" font-size="14">result reproducible (NFR6)</text>
+  <text x="754" y="852" font-size="14">Traceability: every class</text>
+  <text x="754" y="870" font-size="14">cites FR and BR IDs</text>
+
+  <line x1="720" y1="150" x2="740" y2="150" stroke="#555555" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="720" y1="470" x2="740" y2="470" stroke="#555555" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="720" y1="800" x2="740" y2="800" stroke="#555555" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- ============ NOTE ============ -->
+  <rect x="30" y="916" width="922" height="112" fill="#fffde7" stroke="#8a8a00" stroke-width="1.2"/>
+  <text x="44" y="940" font-size="16" font-weight="bold">Why pricing and the state machine sit in the middle, and not in a controller</text>
+  <text x="44" y="964" font-size="15">Both are static classes in SaigonBite.Core with no DbContext, no HTTP and no clock of their own: the caller passes</text>
+  <text x="44" y="984" font-size="15">PriceContext and the two OrderStatus values. NFR1 is therefore a stopwatch around one pure call, NFR6 is a unit test with</text>
+  <text x="44" y="1004" font-size="15">no database, and NFR2 is satisfied by adding one class beside IPaymentStrategy instead of editing an if-chain (BR13, BR15).</text>
+
+  <text x="490" y="1078" font-size="15" font-style="italic" text-anchor="middle">Figure 2.5.1: SaigonBite three-tier architecture, the downward dependency direction, and the position of the</text>
+  <text x="490" y="1100" font-size="15" font-style="italic" text-anchor="middle">pricing engine and the order state machine (source: plan.md, CONTRACT.md)</text>
+</svg>

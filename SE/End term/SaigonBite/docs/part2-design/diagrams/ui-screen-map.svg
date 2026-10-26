@@ -1,0 +1,281 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 950" width="1000" height="950" font-family="Times New Roman, serif">
+  <rect x="0" y="0" width="1000" height="950" fill="#ffffff"/>
+  <text x="500" y="28" font-size="21" font-weight="bold" text-anchor="middle">Prototype screen map — the six screens the Part 2 design must show</text>
+  <text x="500" y="48" font-size="13" font-style="italic" text-anchor="middle">Drawn at wireframe fidelity; colour appears only where the real screen carries data (charts, totals, states)</text>
+
+  <!-- ============ 1 : R1 ============ -->
+  <rect x="20" y="62" width="290" height="292" fill="#fbfcfe" stroke="#2a5c9a" stroke-width="1.4"/>
+  <rect x="20" y="62" width="290" height="28" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.4"/>
+  <text x="30" y="81" font-size="13" font-weight="bold">R1 · Revenue report</text>
+  <text x="300" y="81" font-size="11" font-style="italic" text-anchor="end">FR-R1</text>
+  <rect x="34" y="100" width="120" height="18" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <text x="40" y="113" font-size="10.5">From 01/10/2026</text>
+  <rect x="162" y="100" width="120" height="18" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <text x="168" y="113" font-size="10.5">To 31/10/2026</text>
+
+  <line x1="44" y1="196" x2="296" y2="196" stroke="#555555" stroke-width="0.8"/>
+  <rect x="52" y="158" width="26" height="38" fill="#2a5c9a"/>
+  <rect x="92" y="140" width="26" height="56" fill="#2a5c9a"/>
+  <rect x="132" y="168" width="26" height="28" fill="#2a5c9a"/>
+  <rect x="172" y="132" width="26" height="64" fill="#2a5c9a"/>
+  <rect x="212" y="152" width="26" height="44" fill="#2a5c9a"/>
+  <text x="65" y="208" font-size="10" text-anchor="middle">Noodle</text>
+  <text x="105" y="208" font-size="10" text-anchor="middle">Rice</text>
+  <text x="145" y="208" font-size="10" text-anchor="middle">Drink</text>
+  <text x="185" y="208" font-size="10" text-anchor="middle">Side</text>
+  <text x="225" y="208" font-size="10" text-anchor="middle">Sweet</text>
+
+  <line x1="34" y1="222" x2="296" y2="222" stroke="#888888" stroke-width="0.8"/>
+  <text x="34" y="236" font-size="10.5" font-weight="bold">Payment method</text>
+  <text x="296" y="236" font-size="10.5" font-weight="bold" text-anchor="end">Revenue</text>
+  <line x1="34" y1="240" x2="296" y2="240" stroke="#cccccc" stroke-width="0.8"/>
+  <text x="34" y="254" font-size="10.5">MoMo / VNPay / COD / Apple Pay / PayPal</text>
+  <text x="296" y="254" font-size="10.5" text-anchor="end">5 rows</text>
+  <line x1="34" y1="258" x2="296" y2="258" stroke="#cccccc" stroke-width="0.8"/>
+  <text x="34" y="272" font-size="10.5">Totals</text>
+  <text x="296" y="272" font-size="10.5" text-anchor="end">VND</text>
+  <line x1="34" y1="276" x2="296" y2="276" stroke="#cccccc" stroke-width="0.8"/>
+
+  <text x="34" y="300" font-size="10.5" font-style="italic">Excludes Cancelled and Failed orders</text>
+  <text x="34" y="316" font-size="10.5" font-style="italic">Groups by brand category (BR10, FR-R1)</text>
+  <text x="34" y="340" font-size="10.5" fill="#555555">Chart.js bar chart + table, one card per group</text>
+
+  <!-- ============ 2 : R2 ============ -->
+  <rect x="355" y="62" width="290" height="292" fill="#fbfcfe" stroke="#2a5c9a" stroke-width="1.4"/>
+  <rect x="355" y="62" width="290" height="28" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.4"/>
+  <text x="365" y="81" font-size="13" font-weight="bold">R2 · Hub Utilization report</text>
+  <text x="635" y="81" font-size="11" font-style="italic" text-anchor="end">FR-R2</text>
+
+  <text x="369" y="110" font-size="10.5" font-weight="bold">Hub</text>
+  <text x="487" y="110" font-size="10.5" font-weight="bold">Orders</text>
+  <text x="543" y="110" font-size="10.5" font-weight="bold">Prep</text>
+  <text x="600" y="110" font-size="10.5" font-weight="bold">Load</text>
+  <line x1="369" y1="114" x2="631" y2="114" stroke="#888888" stroke-width="0.8"/>
+
+  <text x="369" y="132" font-size="10.5">District 1</text>
+  <text x="487" y="132" font-size="10.5">42</text>
+  <text x="543" y="132" font-size="10.5">11 m</text>
+  <rect x="575" y="122" width="28" height="9" fill="#2f7a33"/>
+  <rect x="575" y="122" width="40" height="9" fill="none" stroke="#888888" stroke-width="0.7"/>
+  <text x="620" y="131" font-size="10">71%</text>
+
+  <text x="369" y="156" font-size="10.5">Binh Thanh</text>
+  <text x="487" y="156" font-size="10.5">35</text>
+  <text x="543" y="156" font-size="10.5">9 m</text>
+  <rect x="575" y="146" width="18" height="9" fill="#2f7a33"/>
+  <rect x="575" y="146" width="40" height="9" fill="none" stroke="#888888" stroke-width="0.7"/>
+  <text x="620" y="155" font-size="10">46%</text>
+
+  <text x="369" y="180" font-size="10.5">Thu Duc</text>
+  <text x="487" y="180" font-size="10.5">28</text>
+  <text x="543" y="180" font-size="10.5">12 m</text>
+  <rect x="575" y="170" width="35" height="9" fill="#a86a12"/>
+  <rect x="575" y="170" width="40" height="9" fill="none" stroke="#888888" stroke-width="0.7"/>
+  <text x="620" y="179" font-size="10">89%</text>
+
+  <text x="369" y="204" font-size="10.5" font-style="italic">Load = (Confirmed + Preparing) ÷ KitchenCapacity</text>
+  <text x="369" y="222" font-size="10.5" font-style="italic">A hub at 90% or more rejects new orders (BR8)</text>
+  <line x1="369" y1="234" x2="631" y2="234" stroke="#cccccc" stroke-width="0.8"/>
+  <text x="369" y="250" font-size="10.5">Quiet Kitchen discounts granted</text>
+  <text x="631" y="250" font-size="10.5" text-anchor="end">column</text>
+  <text x="369" y="268" font-size="10.5">Average preparation time</text>
+  <text x="631" y="268" font-size="10.5" text-anchor="end">Confirmed → Ready</text>
+  <text x="369" y="292" font-size="10.5" font-style="italic">One card per hub, sortable, exportable to CSV</text>
+  <text x="369" y="316" font-size="10.5" fill="#555555">Same dashboard shell as R1 (FR-S3)</text>
+  <text x="369" y="340" font-size="10.5" fill="#555555">Date range is shared by both reports</text>
+
+  <!-- ============ 3 : menu browsing ============ -->
+  <rect x="690" y="62" width="290" height="292" fill="#fbfcfe" stroke="#2a5c9a" stroke-width="1.4"/>
+  <rect x="690" y="62" width="290" height="28" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.4"/>
+  <text x="700" y="81" font-size="13" font-weight="bold">Menu and brands for a hub</text>
+  <text x="970" y="81" font-size="11" font-style="italic" text-anchor="end">FR-A2</text>
+
+  <rect x="700" y="98" width="86" height="18" fill="#2a5c9a"/>
+  <text x="743" y="111" font-size="10.5" fill="#ffffff" text-anchor="middle">District 1</text>
+  <rect x="792" y="98" width="76" height="18" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <text x="830" y="111" font-size="10.5" text-anchor="middle">Binh Thanh</text>
+  <rect x="874" y="98" width="70" height="18" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <text x="909" y="111" font-size="10.5" text-anchor="middle">Thu Duc</text>
+
+  <rect x="700" y="124" width="66" height="17" fill="#eef3fa" stroke="#2a5c9a" stroke-width="0.8"/>
+  <text x="733" y="136" font-size="10" text-anchor="middle">Noodles</text>
+  <rect x="772" y="124" width="46" height="17" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <text x="795" y="136" font-size="10" text-anchor="middle">Rice</text>
+  <rect x="824" y="124" width="56" height="17" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <text x="852" y="136" font-size="10" text-anchor="middle">Drinks</text>
+
+  <rect x="700" y="150" width="88" height="62" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <rect x="700" y="150" width="88" height="22" fill="#e7ecf2"/>
+  <text x="706" y="182" font-size="10">Pho Bo</text>
+  <text x="706" y="196" font-size="10">65,000</text>
+  <rect x="700" y="220" width="88" height="62" fill="#f7f7f7" stroke="#888888" stroke-width="0.8"/>
+  <rect x="700" y="220" width="88" height="22" fill="#e7ecf2"/>
+  <text x="706" y="252" font-size="10" fill="#888888">Pho Ga</text>
+  <text x="706" y="266" font-size="10" fill="#888888">unavailable</text>
+
+  <rect x="798" y="150" width="88" height="62" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <rect x="798" y="150" width="88" height="22" fill="#e7ecf2"/>
+  <text x="804" y="182" font-size="10">Banh Mi</text>
+  <text x="804" y="196" font-size="10">35,000</text>
+  <rect x="798" y="220" width="88" height="62" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <rect x="798" y="220" width="88" height="22" fill="#e7ecf2"/>
+  <text x="804" y="252" font-size="10">Goi Cuon</text>
+  <text x="804" y="266" font-size="10">30,000</text>
+
+  <rect x="896" y="150" width="48" height="132" fill="#ffffff" stroke="#888888" stroke-width="0.8"/>
+  <text x="920" y="170" font-size="10" text-anchor="middle">Cart</text>
+  <text x="920" y="190" font-size="10" text-anchor="middle">2 items</text>
+  <text x="920" y="206" font-size="10" text-anchor="middle">100,000</text>
+
+  <text x="700" y="304" font-size="10.5" font-style="italic">Only items of brands this hub operates appear (FR-A6)</text>
+  <text x="700" y="320" font-size="10.5" font-style="italic">Unavailable items are shown dashed, not orderable (FR-A5)</text>
+  <text x="700" y="340" font-size="10.5" fill="#555555">Bootstrap card grid, 3 / 2 / 1 columns at 1440 / 768 / 390</text>
+
+  <!-- ============ 4 : checkout ============ -->
+  <rect x="20" y="374" width="290" height="292" fill="#fbfcfe" stroke="#2a5c9a" stroke-width="1.4"/>
+  <rect x="20" y="374" width="290" height="28" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.4"/>
+  <text x="30" y="393" font-size="13" font-weight="bold">Checkout · full breakdown</text>
+  <text x="300" y="393" font-size="11" font-style="italic" text-anchor="end">FR-D11</text>
+
+  <text x="34" y="422" font-size="11">Subtotal (S)</text>
+  <text x="296" y="422" font-size="11" text-anchor="end">200,000</text>
+  <line x1="34" y1="427" x2="296" y2="427" stroke="#dddddd" stroke-width="0.7"/>
+  <text x="34" y="443" font-size="11">Quiet Kitchen −10% (Q)</text>
+  <text x="296" y="443" font-size="11" text-anchor="end">−20,000</text>
+  <line x1="34" y1="448" x2="296" y2="448" stroke="#dddddd" stroke-width="0.7"/>
+  <text x="34" y="464" font-size="11">Voucher (V)</text>
+  <text x="296" y="464" font-size="11" text-anchor="end">0</text>
+  <line x1="34" y1="469" x2="296" y2="469" stroke="#dddddd" stroke-width="0.7"/>
+  <text x="34" y="485" font-size="11" font-weight="bold">Food total (F)</text>
+  <text x="296" y="485" font-size="11" font-weight="bold" text-anchor="end">180,000</text>
+  <line x1="34" y1="490" x2="296" y2="490" stroke="#aaaaaa" stroke-width="0.7"/>
+  <text x="34" y="506" font-size="11">Delivery fee, 3.2 km (D)</text>
+  <text x="296" y="506" font-size="11" text-anchor="end">25,000</text>
+  <line x1="34" y1="511" x2="296" y2="511" stroke="#dddddd" stroke-width="0.7"/>
+  <text x="34" y="527" font-size="11">Rush surcharge (R)</text>
+  <text x="296" y="527" font-size="11" text-anchor="end">0</text>
+  <line x1="34" y1="532" x2="296" y2="532" stroke="#dddddd" stroke-width="0.7"/>
+  <text x="34" y="548" font-size="11">Rain surcharge (R2)</text>
+  <text x="296" y="548" font-size="11" text-anchor="end">0</text>
+  <line x1="34" y1="553" x2="296" y2="553" stroke="#dddddd" stroke-width="0.7"/>
+
+  <rect x="28" y="560" width="274" height="30" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.2"/>
+  <text x="34" y="580" font-size="12.5" font-weight="bold">Rounded total (BR11)</text>
+  <text x="296" y="580" font-size="13" font-weight="bold" text-anchor="end">205,000</text>
+
+  <text x="34" y="612" font-size="10.5" font-style="italic">The worked example of SC-001, reproduced line by line</text>
+  <text x="34" y="628" font-size="10.5" font-style="italic">One rounding, at the end — no intermediate rounding (BR10)</text>
+  <text x="34" y="648" font-size="10.5" fill="#555555">Every step number 1–9 of BR10 is visible to the customer</text>
+
+  <!-- ============ 5 : payments ============ -->
+  <rect x="355" y="374" width="290" height="292" fill="#fbfcfe" stroke="#2a5c9a" stroke-width="1.4"/>
+  <rect x="355" y="374" width="290" height="28" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.4"/>
+  <text x="365" y="393" font-size="13" font-weight="bold">Payment · buttons by actor</text>
+  <text x="635" y="393" font-size="11" font-style="italic" text-anchor="end">FR-P1, BR13</text>
+
+  <rect x="365" y="410" width="130" height="150" fill="#ffffff" stroke="#2a5c9a" stroke-width="1.1"/>
+  <text x="430" y="428" font-size="11.5" font-weight="bold" text-anchor="middle">Local Customer</text>
+  <rect x="375" y="438" width="110" height="26" fill="#eef3fa" stroke="#2a5c9a" stroke-width="0.9"/>
+  <text x="430" y="455" font-size="11" text-anchor="middle">MoMo</text>
+  <rect x="375" y="470" width="110" height="26" fill="#eef3fa" stroke="#2a5c9a" stroke-width="0.9"/>
+  <text x="430" y="487" font-size="11" text-anchor="middle">VNPay</text>
+  <rect x="375" y="502" width="110" height="26" fill="#eef3fa" stroke="#2a5c9a" stroke-width="0.9"/>
+  <text x="430" y="519" font-size="11" text-anchor="middle">Cash on Delivery</text>
+  <text x="430" y="546" font-size="10" font-style="italic" text-anchor="middle">BR18: 10-digit mobile</text>
+
+  <rect x="505" y="410" width="130" height="150" fill="#ffffff" stroke="#2a5c9a" stroke-width="1.1"/>
+  <text x="570" y="428" font-size="11.5" font-weight="bold" text-anchor="middle">Foreign Tourist</text>
+  <rect x="515" y="438" width="110" height="26" fill="#eef3fa" stroke="#2a5c9a" stroke-width="0.9"/>
+  <text x="570" y="455" font-size="11" text-anchor="middle">Apple Pay</text>
+  <rect x="515" y="470" width="110" height="26" fill="#eef3fa" stroke="#2a5c9a" stroke-width="0.9"/>
+  <text x="570" y="487" font-size="11" text-anchor="middle">PayPal</text>
+  <rect x="515" y="502" width="110" height="26" fill="#eef3fa" stroke="#2a5c9a" stroke-width="0.9"/>
+  <text x="570" y="519" font-size="11" text-anchor="middle">Cash on Delivery</text>
+  <text x="570" y="546" font-size="10" font-style="italic" text-anchor="middle">BR18: passport + email</text>
+
+  <text x="365" y="580" font-size="10.5" font-style="italic">MoMo and VNPay never render for a Tourist, and the</text>
+  <text x="365" y="596" font-size="10.5" font-style="italic">server refuses them even if the request is forged (FR-S2).</text>
+  <text x="365" y="618" font-size="10.5">COD is hidden when the rounded total is over 1,000,000</text>
+  <text x="365" y="634" font-size="10.5">(FR-P2, BR14); the strategy re-checks it anyway.</text>
+  <text x="365" y="654" font-size="10.5" fill="#555555">Three buttons or two — the list comes from AvailableFor()</text>
+
+  <!-- ============ 6 : tracking ============ -->
+  <rect x="690" y="374" width="290" height="292" fill="#fbfcfe" stroke="#2a5c9a" stroke-width="1.4"/>
+  <rect x="690" y="374" width="290" height="28" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.4"/>
+  <text x="700" y="393" font-size="13" font-weight="bold">Order tracking</text>
+  <text x="970" y="393" font-size="11" font-style="italic" text-anchor="end">FR-F2, BR15</text>
+
+  <text x="700" y="416" font-size="10.5">Order #SB-2041 · 205,000 VND · COD</text>
+  <line x1="712" y1="430" x2="712" y2="622" stroke="#cccccc" stroke-width="1.2"/>
+
+  <circle cx="712" cy="440" r="6" fill="#2f7a33"/>
+  <text x="726" y="444" font-size="10.5" font-weight="bold">Placed</text>
+  <text x="926" y="444" font-size="10" font-style="italic" text-anchor="end">15:00</text>
+
+  <circle cx="712" cy="466" r="6" fill="#2f7a33"/>
+  <text x="726" y="470" font-size="10.5" font-weight="bold">Confirmed</text>
+  <text x="926" y="470" font-size="10" font-style="italic" text-anchor="end">15:02</text>
+
+  <circle cx="712" cy="492" r="6" fill="#2f7a33"/>
+  <text x="726" y="496" font-size="10.5" font-weight="bold">Preparing</text>
+  <text x="926" y="496" font-size="10" font-style="italic" text-anchor="end">15:04</text>
+
+  <circle cx="712" cy="518" r="7" fill="#ffffff" stroke="#a86a12" stroke-width="2"/>
+  <text x="726" y="522" font-size="10.5" font-weight="bold" fill="#a86a12">Ready — waiting for a shipper</text>
+  <text x="926" y="522" font-size="10" font-style="italic" text-anchor="end">15:19</text>
+
+  <circle cx="712" cy="544" r="6" fill="#dddddd" stroke="#999999" stroke-width="1"/>
+  <text x="726" y="548" font-size="10.5" fill="#888888">Out for Delivery</text>
+  <circle cx="712" cy="570" r="6" fill="#dddddd" stroke="#999999" stroke-width="1"/>
+  <text x="726" y="574" font-size="10.5" fill="#888888">Delivered</text>
+  <text x="726" y="598" font-size="10" font-style="italic" fill="#888888">Cancelled and Failed appear here too,</text>
+  <text x="726" y="612" font-size="10" font-style="italic" fill="#888888">as terminal steps with their reason (A2).</text>
+
+  <text x="700" y="634" font-size="10.5" fill="#555555">A COD order keeps "Delivered" disabled until the shipper</text>
+  <text x="700" y="650" font-size="10.5" fill="#555555">confirms the cash (FR-F3, BR14).</text>
+
+  <!-- ============ four stage band ============ -->
+  <rect x="20" y="686" width="960" height="182" fill="#fafafa" stroke="#999999" stroke-width="1"/>
+  <text x="34" y="708" font-size="14" font-weight="bold">The four stages every screen above passes through</text>
+
+  <rect x="34" y="720" width="220" height="128" fill="#ffffff" stroke="#555555" stroke-width="1.1"/>
+  <text x="46" y="740" font-size="12.5" font-weight="bold">1 · Sketch</text>
+  <text x="46" y="760" font-size="10.5">Paper, pencil, no colour.</text>
+  <text x="46" y="776" font-size="10.5">Three structural alternatives</text>
+  <text x="46" y="792" font-size="10.5">per screen, chosen in a</text>
+  <text x="46" y="808" font-size="10.5">15-minute review.</text>
+  <text x="46" y="832" font-size="10" font-style="italic">Answers: what is on the screen?</text>
+
+  <polygon points="254,784 274,774 274,794" fill="#555555"/>
+
+  <rect x="278" y="720" width="220" height="128" fill="#ffffff" stroke="#555555" stroke-width="1.1"/>
+  <text x="290" y="740" font-size="12.5" font-weight="bold">2 · Wireframe</text>
+  <text x="290" y="760" font-size="10.5">Grey boxes, real content,</text>
+  <text x="290" y="776" font-size="10.5">Bootstrap grid at 390, 768</text>
+  <text x="290" y="792" font-size="10.5">and 1440 px, no decoration.</text>
+  <text x="290" y="812" font-size="10.5">Every state drawn, not implied.</text>
+  <text x="290" y="836" font-size="10" font-style="italic">Answers: where is it, at what width?</text>
+
+  <polygon points="498,784 518,774 518,794" fill="#555555"/>
+
+  <rect x="522" y="720" width="220" height="128" fill="#ffffff" stroke="#555555" stroke-width="1.1"/>
+  <text x="534" y="740" font-size="12.5" font-weight="bold">3 · Visual</text>
+  <text x="534" y="760" font-size="10.5">Colour, type scale, spacing</text>
+  <text x="534" y="776" font-size="10.5">and the Bootstrap theme;</text>
+  <text x="534" y="792" font-size="10.5">the estimate total and the</text>
+  <text x="534" y="808" font-size="10.5">status colours appear here.</text>
+  <text x="534" y="832" font-size="10" font-style="italic">Answers: does it read correctly?</text>
+
+  <polygon points="742,784 762,774 762,794" fill="#555555"/>
+
+  <rect x="766" y="720" width="200" height="128" fill="#ffffff" stroke="#555555" stroke-width="1.1"/>
+  <text x="778" y="740" font-size="12.5" font-weight="bold">4 · Interactive</text>
+  <text x="778" y="760" font-size="10.5">The HTML prototype in</text>
+  <text x="778" y="776" font-size="10.5">prototype/: real state</text>
+  <text x="778" y="792" font-size="10.5">changes, EN/VI, keyboard</text>
+  <text x="778" y="808" font-size="10.5">navigation.</text>
+  <text x="778" y="832" font-size="10" font-style="italic">Figma link: TBD</text>
+
+  <text x="500" y="890" font-size="14.5" font-style="italic" text-anchor="middle">Figure 2.6.1: The six screens the prototype must demonstrate, and the four-stage progression from sketch to</text>
+  <text x="500" y="910" font-size="14.5" font-style="italic" text-anchor="middle">interactive prototype (FR-R1, FR-R2, FR-A2, FR-D11, FR-P1, FR-F2; NFR3)</text>
+</svg>

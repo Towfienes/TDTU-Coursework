@@ -1,0 +1,36 @@
+@model VerifyCodeVm
+@{
+    ViewData["Title"] = L["Account.VerifyTitle"].Value;
+    var email = ViewData["Email"] as string;
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-9 col-lg-6 col-xl-5">
+        <section class="panel">
+            <h1 class="h3 mb-1">@L["Account.VerifyTitle"]</h1>
+            <p class="panel-sub mb-3">
+                @L["Account.VerifySentTo"] <strong>@email</strong>
+            </p>
+
+            @if (TempData["DevCode"] is string code)
+            {
+                <div class="alert alert-warning" role="status">
+                    <span class="muted-label d-block mb-1">@L["Account.Simulated"]</span>
+                    @L["Account.EmailCodeIs"] <strong class="fs-5">@code</strong>
+                </div>
+            }
+
+            <form asp-controller="Account" asp-action="VerifyTourist" method="post" novalidate>
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Code">@L["Account.Code"]</label>
+                    <input class="form-control" asp-for="Code" inputmode="numeric" autocomplete="one-time-code" />
+                </div>
+
+                <button type="submit" class="btn btn-ember w-100">@L["Account.Verify"]</button>
+            </form>
+        </section>
+    </div>
+</div>

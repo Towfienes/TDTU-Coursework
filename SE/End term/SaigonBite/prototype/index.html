@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SaigonBite — clickable prototype</title>
+<style>
+/* ============================================================ tokens === */
+:root{
+  --ink:#14201E; --ink-2:#3D4A47; --muted:#6B7A76;
+  --line:#E3DFD5; --line-2:#CFC9BB;
+  --paper:#F6F4EF; --card:#FFFFFF;
+  --brand:#14654F; --brand-2:#0E4C3B; --brand-soft:#E4EFEA;
+  --accent:#C2410C; --accent-soft:#FCEDE5;
+  --warn:#9A3412; --warn-soft:#FDF0E8;
+  --ok:#166534; --ok-soft:#E8F3EA;
+  --r:12px; --r-sm:8px;
+  --shadow:0 1px 2px rgba(20,32,30,.06), 0 8px 24px rgba(20,32,30,.05);
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font); color:var(--ink); background:var(--paper);
+  font-size:14px; line-height:1.45; -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{margin:0;line-height:1.2}
+:focus-visible{outline:2px solid var(--brand); outline-offset:2px; border-radius:6px}
+.num{font-variant-numeric:tabular-nums}
+
+/* ============================================================= shell === */
+.app{
+  display:grid; grid-template-columns:236px 1fr; grid-template-rows:60px 1fr;
+  grid-template-areas:"top top" "side view"; height:100vh; overflow:hidden;
+}
+.topbar{
+  grid-area:top; display:flex; align-items:center; gap:16px; padding:0 20px;
+  background:var(--card); border-bottom:1px solid var(--line); z-index:5;
+}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:-.02em; font-size:17px}
+.brand .mark{width:30px;height:30px;border-radius:9px;background:var(--brand);display:grid;place-items:center}
+.brand .mark svg{width:18px;height:18px}
+.brand small{display:block;font-size:10.5px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.topbar .spacer{flex:1}
+.chip{
+  display:inline-flex; align-items:center; gap:7px; padding:6px 11px; border-radius:999px;
+  background:var(--brand-soft); color:var(--brand-2); font-weight:600; font-size:12.5px; white-space:nowrap;
+}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--brand)}
+.chip.warn{background:var(--warn-soft); color:var(--warn)}
+.chip.warn .dot{background:var(--warn)}
+.seg{display:inline-flex; background:#EFEBE2; border-radius:999px; padding:3px; gap:2px}
+.seg button{
+  border:0; background:transparent; color:var(--ink-2); font-size:12.5px; font-weight:600;
+  padding:5px 11px; border-radius:999px; white-space:nowrap;
+}
+.seg button[aria-pressed="true"]{background:var(--card); color:var(--ink); box-shadow:0 1px 2px rgba(20,32,30,.14)}
+
+.side{
+  grid-area:side; background:var(--card); border-right:1px solid var(--line);
+  padding:14px 12px; overflow-y:auto;
+}
+.side .grp{font-size:10.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted);
+  font-weight:700; padding:14px 10px 6px}
+.side a{
+  display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:9px;
+  color:var(--ink-2); font-weight:600; font-size:13.5px; margin-bottom:2px;
+}
+.side a svg{width:17px;height:17px;flex:0 0 auto;opacity:.75}
+.side a:hover{background:#F4F1EA}
+.side a[aria-current="page"]{background:var(--brand-soft); color:var(--brand-2)}
+.side a[aria-current="page"] svg{opacity:1}
+.side .count{margin-left:auto; background:var(--accent); color:#fff; font-size:11px;
+  border-radius:999px; padding:1px 7px; font-weight:700}
+
+.view{grid-area:view; overflow-y:auto; padding:26px 30px 40px; min-width:0}
+.wrap{max-width:1120px; margin:0 auto; min-width:0}
+.page-head{display:flex; align-items:flex-end; gap:16px; margin-bottom:18px; flex-wrap:wrap}
+.page-head h1{font-size:26px; letter-spacing:-.02em}
+.page-head p{margin:4px 0 0; color:var(--muted); font-size:13.5px; max-width:62ch}
+.page-head .right{margin-left:auto; display:flex; gap:8px; align-items:center}
+
+/* ============================================================= atoms === */
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow)}
+.card.pad{padding:16px 18px}
+.card h2{font-size:15px; letter-spacing:-.01em}
+.card h2 + .sub{margin-top:3px; color:var(--muted); font-size:12.5px}
+.grid{display:grid; gap:14px}
+.grid > *{min-width:0}
+.stack > *{min-width:0}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.split{display:grid; grid-template-columns:minmax(0,1.55fr) minmax(0,1fr); gap:18px; align-items:start}
+.stack{display:grid; gap:14px}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border:1px solid var(--line-2); background:var(--card); color:var(--ink);
+  padding:9px 14px; border-radius:9px; font-weight:650; font-size:13.5px;
+}
+.btn:hover{border-color:#B8B1A1}
+.btn.primary{background:var(--brand); border-color:var(--brand); color:#fff}
+.btn.primary:hover{background:var(--brand-2)}
+.btn.ghost{background:transparent; border-color:transparent}
+.btn:disabled{opacity:.45; cursor:not-allowed}
+.btn.sm{padding:6px 10px; font-size:12.5px; border-radius:8px}
+.pill{display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700;
+  padding:3px 9px; border-radius:999px; letter-spacing:.02em}
+.pill.quiet{background:var(--accent-soft); color:var(--accent)}
+.pill.busy{background:#F1EFE9; color:var(--ink-2); border:1px solid var(--line-2)}
+.pill.stop{background:#FDE8E4; color:#9B2C1B}
+.pill.ok{background:var(--ok-soft); color:var(--ok)}
+.pill.tbd{background:#F1EFE9; color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.tiny{font-size:11px}
+.hr{height:1px;background:var(--line);margin:12px 0}
+.row{display:flex;align-items:center;gap:10px}
+.row.between{justify-content:space-between}
+.wrap-row{flex-wrap:wrap}
+
+/* hub + brand cards */
+.hubcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.hub{padding:15px 16px;cursor:pointer;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--card);box-shadow:var(--shadow);text-align:left;width:100%;display:block}
+.hub[aria-pressed="true"]{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+.hub h3{font-size:15px}
+.hub .addr{color:var(--muted);font-size:12px;margin-top:2px}
+.meter{height:6px;background:#EFEBE2;border-radius:99px;overflow:hidden;margin:11px 0 7px}
+.meter i{display:block;height:100%;border-radius:99px}
+.meter i.quiet{background:var(--accent)}
+.meter i.mid{background:#6B7A76}
+.meter i.full{background:#1B1B1B}
+.brands{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.brandcard{padding:14px 15px;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+.brandcard .avatar{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  font-weight:800;color:#fff;font-size:14px;margin-bottom:9px}
+.brandcard h3{font-size:14px}
+.brandcard .cat{color:var(--muted);font-size:12px;margin-top:2px}
+.brandcard.off{opacity:.55}
+
+/* menu */
+.menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dish{display:flex;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.dish .thumb{width:56px;height:56px;border-radius:10px;flex:0 0 auto;display:grid;place-items:center;
+  font-size:22px;background:#F3F0E8}
+.dish .body{min-width:0;flex:1}
+.dish h3{font-size:14px}
+.dish .brand{color:var(--muted);font-size:11.5px;margin-top:1px}
+.dish .foot{display:flex;align-items:center;gap:8px;margin-top:7px}
+.dish .price{font-weight:750}
+.dish .price small{font-weight:500;color:var(--muted)}
+.dish.soldout{background:#FBFAF7}
+.dish.soldout .thumb,.dish.soldout h3,.dish.soldout .price{opacity:.5}
+.dish .add{margin-left:auto}
+
+/* cart */
+.cartline{display:grid;grid-template-columns:46px 1fr auto auto;gap:12px;align-items:center;
+  padding:11px 0;border-bottom:1px solid var(--line)}
+.cartline:last-child{border-bottom:0}
+.cartline .thumb{width:46px;height:46px;border-radius:9px;background:#F3F0E8;display:grid;place-items:center;font-size:19px}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line-2);border-radius:8px;overflow:hidden}
+.qty button{width:28px;height:28px;border:0;background:var(--card);font-weight:700;color:var(--ink-2)}
+.qty button:hover{background:#F4F1EA}
+.qty span{min-width:26px;text-align:center;font-weight:650;font-size:13px}
+.line-total{font-weight:700;min-width:78px;text-align:right}
+
+/* price breakdown */
+.rows{display:grid;gap:0}
+.prow{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:13.5px;
+  border-bottom:1px dashed #EBE6DB}
+.prow:last-child{border-bottom:0}
+.prow .lbl{color:var(--ink-2);display:flex;gap:8px;align-items:baseline}
+.prow .stp{font-size:10px;color:#9AA3A0;font-weight:700;min-width:9px;font-variant-numeric:tabular-nums}
+.prow .lbl b{color:var(--ink)}
+.prow .amt{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.prow.disc .amt{color:var(--accent)}
+.prow.sub{font-weight:700}
+.prow.raw{color:var(--muted)}
+.prow.raw .lbl{color:var(--muted)}
+.prow.total{border-top:2px solid var(--ink);border-bottom:0;margin-top:6px;padding-top:10px;
+  font-size:17px;font-weight:800}
+.prow.total .amt{font-size:20px}
+.rule-tag{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.04em;margin-left:6px}
+
+/* conditions */
+.cond{display:grid;gap:11px;margin-top:4px}
+.cond label{display:grid;gap:4px;font-size:12.5px;color:var(--ink-2);font-weight:600}
+.cond input[type=range]{width:100%;accent-color:var(--brand)}
+.cond .val{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.cond select,.cond input[type=time],.cond input[type=text]{
+  font:inherit;padding:6px 8px;border:1px solid var(--line-2);border-radius:8px;background:var(--card);width:100%}
+.cond label.switch,.switch{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--ink-2);font-size:12.5px}
+.switch input{accent-color:var(--brand);width:16px;height:16px}
+.alert{display:flex;gap:10px;padding:10px 12px;border-radius:9px;font-size:12.5px;line-height:1.4}
+.alert.stop{background:var(--warn-soft);color:var(--warn);border:1px solid #F3D3C2}
+.alert.ok{background:var(--ok-soft);color:var(--ok);border:1px solid #CFE3D3}
+.alert.info{background:#F2F5F4;color:var(--ink-2);border:1px solid var(--line)}
+
+/* payment */
+.pay{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.payopt{display:flex;align-items:center;gap:11px;padding:13px 14px;border:1px solid var(--line-2);
+  border-radius:11px;background:var(--card);text-align:left;width:100%}
+.payopt[aria-pressed="true"]{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+.payopt .logo{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:11px}
+.payopt .nm{font-weight:700;font-size:13.5px}
+.payopt .hint{font-size:11.5px;color:var(--muted)}
+.payopt:disabled{opacity:.5;cursor:not-allowed}
+
+/* timeline */
+.tl{display:grid;gap:0;margin-top:4px}
+.tlstep{display:grid;grid-template-columns:26px 1fr auto;gap:12px;padding-bottom:14px;position:relative}
+.tlstep:last-child{padding-bottom:0}
+.tlstep .bullet{width:26px;height:26px;border-radius:50%;border:2px solid var(--line-2);
+  display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--muted);background:var(--card);z-index:1}
+.tlstep .bar{position:absolute;left:12px;top:26px;bottom:0;width:2px;background:#C9C2B2}
+.tlstep:last-child .bar{display:none}
+.tlstep.done .bullet{background:var(--brand);border-color:var(--brand);color:#fff}
+.tlstep.done .bar{background:var(--brand)}
+.tlstep.now .bar{background:repeating-linear-gradient(180deg,#C2410C 0 4px,transparent 4px 8px)}
+.tlstep.now .bullet{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.tlstep .name{font-weight:700;font-size:13.5px}
+.tlstep .meta{font-size:12px;color:var(--muted)}
+.tlstep .stamp{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+.terminals{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.term{flex:1;min-width:150px;border:1px dashed var(--line-2);border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--muted)}
+.term b{display:block;color:var(--ink);font-size:13px;margin-bottom:2px}
+.term.hit{border-style:solid;border-color:#9B2C1B;background:#FDF1EE;color:var(--ink-2)}
+.log{max-height:150px;overflow:auto;font-size:12px}
+.log div{display:flex;gap:10px;padding:5px 0;border-bottom:1px solid #F0ECE3}
+.log div:last-child{border-bottom:0}
+.log .t{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* tables */
+.scrollx{overflow-x:auto; -webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;padding:0 10px 8px 0;border-bottom:1px solid var(--line)}
+td{padding:9px 10px 9px 0;border-bottom:1px solid #F0ECE3;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tfoot td{font-weight:800;border-top:2px solid var(--ink);border-bottom:0}
+
+/* kpi */
+.kpi{display:flex;flex-direction:column;gap:3px;padding:14px 16px;border:1px solid var(--line);
+  border-radius:var(--r);background:var(--card);box-shadow:var(--shadow)}
+.kpi .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.kpi .v{font-size:23px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi .d{font-size:12px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+/* rails + chips + diagrams */
+.rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.mini{display:flex;gap:10px;align-items:center;padding:11px 12px;border:1px solid var(--line);
+  border-radius:10px;background:var(--card)}
+.mini .thumb{width:42px;height:42px;border-radius:9px;background:#F3F0E8;display:grid;place-items:center;font-size:18px;flex:0 0 auto}
+.mini h4{font-size:13px;line-height:1.25}
+.mini .p{font-size:12.5px;font-weight:700;margin-top:2px}
+.mini .brand{font-size:11px;color:var(--muted)}
+.mini button{margin-left:auto}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chipbtn{border:1px solid var(--line-2);background:var(--card);border-radius:999px;
+  padding:6px 13px;font-size:12.5px;font-weight:650;color:var(--ink-2)}
+.chipbtn[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.secttl{display:flex;align-items:baseline;gap:10px;margin:24px 0 10px}
+.secttl h2{font-size:15px}
+.secttl span{font-size:12px;color:var(--muted)}
+.meterrow{display:grid;grid-template-columns:120px 1fr 64px;gap:12px;align-items:center;
+  padding:7px 0;font-size:13px}
+.diagramcard{padding:14px 18px 10px}
+.diagramcard svg{width:100%;height:auto;display:block}
+.dlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-2);margin-top:2px}
+.dlegend span{display:inline-flex;align-items:center;gap:6px}
+.dlegend i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.steps3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.step3{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--card)}
+.step3 .n{width:22px;height:22px;border-radius:50%;background:var(--brand-soft);color:var(--brand-2);
+  display:grid;place-items:center;font-size:11.5px;font-weight:800;margin-bottom:7px}
+.step3 b{font-size:13px;display:block}
+.step3 span{font-size:12px;color:var(--muted)}
+.bar-cell{height:6px;border-radius:99px;background:#EFEBE2;overflow:hidden;min-width:70px}
+.bar-cell i{display:block;height:100%;border-radius:99px;background:var(--brand)}
+
+/* misc */
+.note{font-size:12px;color:var(--muted);line-height:1.45}
+.kicker{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.bar-chart text{font-family:var(--font)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ========================================================== responsive == */
+@media (max-width:1180px){
+  .brands{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .split{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:980px){
+  .app{grid-template-columns:minmax(0,1fr); grid-template-rows:56px auto 1fr;
+       grid-template-areas:"top" "side" "view"; height:auto; min-height:100vh; overflow:visible}
+  .side{display:flex; gap:6px; overflow-x:auto; border-right:0; border-bottom:1px solid var(--line);
+        padding:8px 12px; position:sticky; top:56px; z-index:4}
+  .side .grp{display:none}
+  .side a{white-space:nowrap; font-size:13px; padding:7px 10px}
+  .view{padding:18px 16px 32px; overflow:visible}
+  .hubcards,.pay,.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rail{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps3{grid-template-columns:1fr}
+  .menu-grid{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .app{grid-template-rows:auto auto 1fr}
+  .topbar{flex-wrap:wrap; gap:8px; padding:8px 12px; height:auto; min-width:0}
+  .topbar .spacer{display:none}
+  .brand{flex:1 1 auto; min-width:0}
+  .brand small{display:none}
+  .topbar .chip{display:none}
+  .topbar .seg{flex:0 0 auto}
+  .seg button{padding:5px 8px; font-size:12px}
+  .page-head h1{font-size:21px}
+  .page-head .right{margin-left:0}
+  .hubcards,.pay,.g2,.g3,.g4,.brands,.rail{grid-template-columns:minmax(0,1fr)}
+  .view{padding:14px 12px 28px}
+  .cartline{grid-template-columns:40px 1fr; row-gap:8px}
+  .cartline .qty{grid-column:2}
+  .line-total{grid-column:2; text-align:left}
+  .menu-grid{grid-template-columns:1fr}
+  .diagramcard{overflow-x:auto}
+  table{min-width:520px}
+  .diagramcard svg{min-width:620px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+          <path d="M4 10h16"/><path d="M5 10a7 7 0 0 1 14 0"/><path d="M12 3v1.2"/>
+          <path d="M4 14h16"/><path d="M7 17h10"/>
+        </svg>
+      </span>
+      <span>SaigonBite<small data-i18n="tagline">Cloud kitchens · Ho Chi Minh City</small></span>
+    </div>
+    <div class="spacer"></div>
+    <span class="chip" id="hubChip"><span class="dot"></span><span></span></span>
+    <div class="seg" role="group" aria-label="Customer type" id="typeSeg">
+      <button data-act="type" data-v="local" aria-pressed="true" data-i18n="local">Local customer</button>
+      <button data-act="type" data-v="tourist" aria-pressed="false" data-i18n="tourist">Foreign tourist</button>
+    </div>
+    <div class="seg" role="group" aria-label="Language">
+      <button data-act="lang" data-v="en" aria-pressed="true">EN</button>
+      <button data-act="lang" data-v="vi" aria-pressed="false">VI</button>
+    </div>
+  </header>
+
+  <nav class="side" aria-label="Screens">
+    <div class="grp" data-i18n="navOrder">Order</div>
+    <a href="#hubs" data-nav="hubs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10 12 3l9 7"/><path d="M5 10v9h14v-9"/><path d="M10 19v-5h4v5"/></svg><span data-i18n="navHubs">Hubs &amp; brands</span></a>
+    <a href="#menu" data-nav="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h9a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z"/><path d="M16 8h4v11h-4"/><path d="M8 9h4"/></svg><span data-i18n="navMenu">Menu</span></a>
+    <a href="#cart" data-nav="cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M3 4h2l2.6 11h11.2L21 8H6"/></svg><span data-i18n="navCart">Cart</span><span class="count" id="cartCount">4</span></a>
+    <a href="#checkout" data-nav="checkout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-6-4-6 4z"/><path d="M9 8h6"/><path d="M9 12h4"/></svg><span data-i18n="navCheckout">Checkout</span></a>
+    <a href="#payment" data-nav="payment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg><span data-i18n="navPayment">Payment</span></a>
+    <a href="#track" data-nav="track"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.4 6H14a3 3 0 0 1 0 6h-4a3 3 0 0 0 0 6h5.6"/></svg><span data-i18n="navTrack">Track order</span></a>
+
+    <div class="grp" data-i18n="navReports">Reports</div>
+    <a href="#revenue" data-nav="revenue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg><span data-i18n="navRevenue">Revenue</span></a>
+    <a href="#utilization" data-nav="utilization"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4.5-5"/></svg><span data-i18n="navUtil">Hub utilization</span></a>
+    <a href="#dashboard" data-nav="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg><span data-i18n="navDash">Admin dashboard</span></a>
+  </nav>
+
+  <main class="view" id="view" tabindex="-1"></main>
+</div>
+
+<script>
+/* ================================================================ data == */
+const HUBS = [
+  { id:'q1', name:{en:'District 1', vi:'Quận 1'}, addr:'24 Lý Tự Trọng, Bến Thành',
+    capacity:40, load:18, eta:24, brands:['pho','banhmi','green'] },
+  { id:'bt', name:{en:'Binh Thanh', vi:'Bình Thạnh'}, addr:'118 Xô Viết Nghệ Tĩnh, P. 21',
+    capacity:30, load:62, eta:29, brands:['pho','green','comtam'] },
+  { id:'td', name:{en:'Thu Duc', vi:'Thủ Đức'}, addr:'9 Võ Văn Ngân, Linh Chiểu',
+    capacity:24, load:91, eta:35, brands:['banhmi','green','comtam'] }
+];
+
+const BRANDS = [
+  { id:'pho', name:{en:'Phở Express', vi:'Phở Express'}, cat:{en:'Noodle soup', vi:'Phở · Bún'},
+    color:'#8A3B12', initial:'P' },
+  { id:'banhmi', name:{en:'Bánh Mì Corner', vi:'Bánh Mì Corner'}, cat:{en:'Sandwiches', vi:'Bánh mì'},
+    color:'#A16207', initial:'B' },
+  { id:'green', name:{en:'Green Bowl', vi:'Green Bowl'}, cat:{en:'Rolls, salads & drinks', vi:'Gỏi · Salad · Đồ uống'},
+    color:'#14654F', initial:'G' },
+  { id:'comtam', name:{en:'Cơm Tấm Sài Gòn', vi:'Cơm Tấm Sài Gòn'}, cat:{en:'Rice plates', vi:'Cơm'},
+    color:'#7C2D12', initial:'C' }
+];
+
+const ITEMS = [
+  { id:'pho-bo',   brand:'pho',    name:{en:'Special beef phở', vi:'Phở Bò Đặc Biệt'},      price:65000, icon:'🍜', avail:true },
+  { id:'pho-ga',   brand:'pho',    name:{en:'Free-range chicken phở', vi:'Phở Gà Ta'},       price:55000, icon:'🍲', avail:true },
+  { id:'pho-chay', brand:'pho',    name:{en:'Mushroom vegetarian phở', vi:'Phở Chay Nấm'},   price:52000, icon:'🥬', avail:true },
+  { id:'bmi-thit', brand:'banhmi', name:{en:'Grilled pork bánh mì', vi:'Bánh Mì Thịt Nướng'}, price:45000, icon:'🥖', avail:true },
+  { id:'bmi-cha',  brand:'banhmi', name:{en:'Fish-cake bánh mì', vi:'Bánh Mì Chả Cá'},      price:42000, icon:'🥖', avail:false },
+  { id:'bmi-trung',brand:'banhmi', name:{en:'Fried-egg bánh mì', vi:'Bánh Mì Trứng Ốp La'}, price:35000, icon:'🍳', avail:true },
+  { id:'goicuon',  brand:'green',  name:{en:'Prawn summer rolls (2)', vi:'Gỏi Cuốn Tôm (2 cuốn)'}, price:35000, icon:'🥗', avail:true },
+  { id:'salad',    brand:'green',  name:{en:'Grilled chicken salad', vi:'Salad Gà Nướng'},  price:49000, icon:'🥗', avail:true },
+  { id:'comtam',   brand:'comtam', name:{en:'Broken rice, pork & egg', vi:'Cơm Tấm Sườn Bì Chả'}, price:59000, icon:'🍚', avail:true },
+  { id:'tra-dao',  brand:'green',  name:{en:'Peach & lemongrass tea', vi:'Trà Đào Cam Sả'}, price:20000, icon:'🧋', avail:true },
+  { id:'sinhto',   brand:'green',  name:{en:'Avocado smoothie', vi:'Sinh Tố Bơ'},           price:32000, icon:'🥤', avail:true }
+];
+
+const VOUCHERS = [
+  { code:'SAIGON10', type:'PERCENT', value:10, max:30000, min:100000, from:'2026-10-01', to:'2026-11-30', active:true },
+  { code:'BANHMI20', type:'FIXED',   value:20000, max:20000, min:80000, from:'2026-10-01', to:'2026-10-31', active:true },
+  { code:'TET50',    type:'PERCENT', value:50, max:50000, min:150000, from:'2027-01-01', to:'2027-02-15', active:true }
+];
+
+const PAYMENTS = [
+  { id:'momo',   label:'MoMo',            short:'MoMo', color:'#A50064', for:['local'],   hint:{en:'E-wallet · local mobile', vi:'Ví điện tử · số ĐT Việt Nam'} },
+  { id:'vnpay',  label:'VNPay',           short:'VNPAY', color:'#005BAA', for:['local'],  hint:{en:'Bank QR · local mobile', vi:'QR ngân hàng · số ĐT Việt Nam'} },
+  { id:'apple',  label:'Apple Pay',       short:'Pay',   color:'#111111', for:['tourist'],hint:{en:'International card', vi:'Thẻ quốc tế'} },
+  { id:'paypal', label:'PayPal',          short:'PP',    color:'#003087', for:['tourist'],hint:{en:'International wallet', vi:'Ví quốc tế'} },
+  { id:'cod',    label:'Cash on delivery',short:'COD',   color:'#14654F', for:['local','tourist'], hint:{en:'Pay the shipper', vi:'Trả tiền cho shipper'} }
+];
+
+const STATES = [
+  { id:'Placed',       en:'Placed',          vi:'Đã đặt' },
+  { id:'Confirmed',    en:'Confirmed',       vi:'Đã xác nhận' },
+  { id:'Preparing',    en:'Preparing',       vi:'Đang nấu' },
+  { id:'Ready',        en:'Ready',           vi:'Sẵn sàng' },
+  { id:'OutForDelivery', en:'Out for delivery', vi:'Đang giao' },
+  { id:'Delivered',    en:'Delivered',       vi:'Đã giao' }
+];
+
+/* BR15 state table — the only legal moves. Everything else is rejected. */
+const TRANSITIONS = [
+  { from:'Placed',           to:'Confirmed',      roles:['kitchen'] },
+  { from:'Placed',           to:'Cancelled',      roles:['customer','kitchen'] },
+  { from:'Confirmed',        to:'Preparing',      roles:['kitchen'] },
+  { from:'Confirmed',        to:'Cancelled',      roles:['customer','admin'] },
+  { from:'Preparing',        to:'Ready',          roles:['kitchen'] },
+  { from:'Ready',            to:'OutForDelivery', roles:['shipper'] },
+  { from:'OutForDelivery',   to:'Delivered',      roles:['shipper'] },
+  { from:'OutForDelivery',   to:'Failed',         roles:['shipper'] }
+];
+
+const SEED = {
+  revenueByCategory: [
+    { id:'pho',    vnd:12480000 }, { id:'banhmi', vnd:8960000 },
+    { id:'comtam', vnd:6150000 },  { id:'green',  vnd:4320000 },
+    { id:'drinks', vnd:2940000 }
+  ],
+  revenueByMethod: [
+    { id:'momo', vnd:14220000, orders:96 }, { id:'vnpay', vnd:8640000, orders:58 },
+    { id:'cod', vnd:6310000, orders:41 },   { id:'apple', vnd:3480000, orders:12 },
+    { id:'paypal', vnd:2200000, orders:7 }
+  ],
+  utilization: [
+    { hub:'q1', orders:86, prep:11.4, load:18, quiet:34 },
+    { hub:'bt', orders:71, prep:12.8, load:62, quiet:9 },
+    { hub:'td', orders:57, prep:14.2, load:91, quiet:0 }
+  ],
+  excluded: { cancelled:11, failed:3 }
+};
+
+/* ============================================================== strings == */
+const I18N = {
+  en:{
+    tagline:'Cloud kitchens · Ho Chi Minh City', local:'Local customer', tourist:'Foreign tourist',
+    navOrder:'Order', navHubs:'Hubs & brands', navMenu:'Menu', navCart:'Cart', navCheckout:'Checkout',
+    navPayment:'Payment', navTrack:'Track order', navReports:'Reports', navRevenue:'Revenue',
+    navUtil:'Hub utilization', navDash:'Admin dashboard',
+    hubsTitle:'Choose a kitchen', hubsSub:'Each hub cooks for several virtual brands. Load decides both the price and whether the hub accepts your order.',
+    capacity:'Capacity', load:'Current load', orders:'orders', open:'Accepting orders',
+    quiet:'Quiet Kitchen', busy:'Normal', refused:'Refused', brandsHere:'Brands at this hub',
+    notHere:'Not operated by this hub', viewMenu:'View menu', selected:'Selected',
+    menuTitle:'Menu', menuSub:'Prices are per item. Only available items can be ordered, and only from brands this hub operates.',
+    soldOut:'Sold out', add:'Add', remove:'Remove', each:'each', items:'items',
+    cartTitle:'Your cart', cartSub:'One order belongs to one hub. Editing is allowed only while the order is Placed.',
+    emptyCart:'Your cart is empty.', backToMenu:'Back to the menu', subtotalItem:'Item subtotal',
+    checkoutTitle:'Checkout', checkoutSub:'The nine-step calculation of BR10, rounded once at the end.',
+    deliveryTo:'Delivery to', address:'Address', distance:'Distance', placeTime:'Placement time',
+    conditions:'Placement snapshot (demo controls)', rain:'Heavy-rain flag on', voucher:'Voucher',
+    apply:'Apply', clear:'Clear', noVoucher:'No voucher',
+    breakdown:'Price breakdown', sSubtotal:'Subtotal', sQuiet:'Quiet Kitchen discount', sVoucher:'Voucher',
+    sFood:'Food total', sDelivery:'Delivery fee', sRush:'Rush surcharge', sRain:'Rain surcharge',
+    sTotal:'Rounded total', sRaw:'Raw total', placeOrder:'Continue to payment', keepShopping:'Keep shopping',
+    payTitle:'Payment', paySub:'Only the methods that belong to your customer group are offered (BR13).',
+    payWith:'Pay', codLimit:'Cash on delivery is allowed only when the rounded total is 1,000,000 or less.',
+    notAvailable:'not available for this account type', payingAs:'Paying as', orderSummary:'Order summary',
+    trackTitle:'Order tracking', trackSub:'Eight states, eight legal transitions, each bound to named roles. The business layer rejects everything else.',
+    orderNo:'Order', placedAt:'Placed at', actingAs:'Acting as', customer:'Customer', kitchen:'Kitchen staff',
+    shipper:'Shipper', admin:'Admin', history:'Audit trail', noHistory:'No transitions yet.',
+    terminal:'Terminal states', cancelled:'Cancelled', failed:'Failed', delivered:'Delivered',
+    assignShipper:'Assign shipper', cashConfirm:'Confirm cash collected', cashOk:'Cash confirmed',
+    tryIllegal:'Attempt Placed → Preparing', rejected:'Rejected by the business layer',
+    legalMoves:'Available to this role', noMoves:'No move is available to this role from this state.',
+    revenueTitle:'Revenue report', revenueSub:'Delivered orders only; cancelled and failed orders are excluded (R1).',
+    byCategory:'Revenue by brand category', byMethod:'Revenue by payment method', total:'Total',
+    dateRange:'Date range', ordersCount:'Orders', share:'Share', excluded:'Excluded',
+    utilTitle:'Hub utilization report', utilSub:'Load, preparation time and Quiet Kitchen discounts per hub (R2).',
+    hub:'Hub', ordersHandled:'Orders handled', prep:'Avg. preparation', qkGiven:'Quiet Kitchen discounts', status:'Status',
+    dashTitle:'Admin dashboard', dashSub:'Seeded demo data for the two mandatory reports. Tier 4 requires this screen to be interactive.',
+    revChart:'Revenue by brand category', loadChart:'Load by hub against the 90 % refusal threshold',
+    threshold:'Refusal threshold 90 %', demoData:'Demo data', totalRevenue:'Revenue (delivered)', avgPrep:'Avg. preparation',
+    quietGiven:'Quiet Kitchen discounts', hubsOnline:'Hubs accepting orders',
+    m1:'Special beef phở', m2:'Free-range chicken phở', m3:'Mushroom vegetarian phở',
+    m4:'Grilled pork bánh mì', m5:'Fish-cake bánh mì', m6:'Fried-egg bánh mì',
+    m7:'Prawn summer rolls (2)', m8:'Grilled chicken salad', m9:'Broken rice, pork & egg',
+    m10:'Peach & lemongrass tea', m11:'Avocado smoothie',
+    orderPlaced:'Order placed. Kitchen staff at the hub have been notified.',
+    br1:'BR1 · minimum order is 50,000', br2:'BR2 · delivery is limited to 8.0 km',
+    br8:'BR8 · this hub is at 90 % load or above and refuses new orders',
+    priceSafe:'Price calculation runs in the business layer; this screen only renders its result.',
+    person:'Customer', name:'Nguyễn Thu Hà', hotel:'Hotel', room:'Room',
+    popular:'Popular at this hub', moreFrom:'More from this hub', all:'All', filter:'Filter by brand',
+    nextSteps:'After you pay', step1:'Order placed', step1s:'The order is written to the audit trail as Placed.',
+    step2:'Kitchen confirms', step2s:'Only kitchen staff at this hub can move it to Confirmed.',
+    step3:'Shipper delivers', step3s:'Ready → Out for delivery → Delivered, cash confirmed for COD.',
+    machine:'Order state machine (BR15)', assignFirst:'Assign a shipper before dispatch', assigned:'Shipper assigned',
+    loadByHub:'Current load by hub', reporting:'Hubs reporting', ordersByState:'Orders by state today',
+    shareOfTotal:'Share of total', voucherHint:'Try SAIGON10 (10 %, cap 30,000) or BANHMI20 (20,000 fixed)',
+    rush:'rush', calm:'outside rush', prepNote:'Average time from Confirmed to Ready', cat:'Category', method:'Payment method', topDishes:'Top dishes by revenue', units:'Orders', dish:'Dish', prepScale:'scale 0–20 min'
+  },
+  vi:{
+    tagline:'Bếp trung tâm · TP. Hồ Chí Minh', local:'Khách Việt', tourist:'Khách du lịch',
+    navOrder:'Đặt món', navHubs:'Hub & thương hiệu', navMenu:'Thực đơn', navCart:'Giỏ hàng', navCheckout:'Thanh toán',
+    navPayment:'Phương thức', navTrack:'Theo dõi đơn', navReports:'Báo cáo', navRevenue:'Doanh thu',
+    navUtil:'Hiệu suất hub', navDash:'Bảng điều khiển',
+    hubsTitle:'Chọn bếp', hubsSub:'Mỗi hub nấu cho nhiều thương hiệu ảo. Tải của bếp quyết định cả giá lẫn việc hub có nhận đơn hay không.',
+    capacity:'Công suất', load:'Tải hiện tại', orders:'đơn', open:'Đang nhận đơn',
+    quiet:'Bếp vắng', busy:'Bình thường', refused:'Từ chối', brandsHere:'Thương hiệu tại hub này',
+    notHere:'Hub này không phục vụ thương hiệu này', viewMenu:'Xem thực đơn', selected:'Đang chọn',
+    menuTitle:'Thực đơn', menuSub:'Giá tính theo từng món. Chỉ món đang bán mới đặt được, và chỉ thuộc thương hiệu hub này phục vụ.',
+    soldOut:'Hết món', add:'Thêm', remove:'Xoá', each:'mỗi phần', items:'món',
+    cartTitle:'Giỏ hàng', cartSub:'Mỗi đơn thuộc một hub. Chỉ được sửa khi đơn còn ở trạng thái Đã đặt.',
+    emptyCart:'Giỏ hàng đang trống.', backToMenu:'Về thực đơn', subtotalItem:'Tạm tính món',
+    checkoutTitle:'Thanh toán', checkoutSub:'Đúng chín bước của BR10, chỉ làm tròn một lần ở cuối.',
+    deliveryTo:'Giao tới', address:'Địa chỉ', distance:'Khoảng cách', placeTime:'Thời điểm đặt',
+    conditions:'Ảnh chụp tham số (điều khiển demo)', rain:'Bật cờ mưa lớn', voucher:'Mã giảm giá',
+    apply:'Áp dụng', clear:'Bỏ', noVoucher:'Không dùng mã',
+    breakdown:'Chi tiết giá', sSubtotal:'Tạm tính', sQuiet:'Giảm giá Bếp vắng', sVoucher:'Mã giảm giá',
+    sFood:'Tiền món', sDelivery:'Phí giao', sRush:'Phụ phí giờ cao điểm', sRain:'Phụ phí mưa',
+    sTotal:'Tổng làm tròn', sRaw:'Tổng trước khi làm tròn', placeOrder:'Tới bước thanh toán', keepShopping:'Tiếp tục chọn món',
+    payTitle:'Phương thức thanh toán', paySub:'Chỉ hiện các phương thức thuộc nhóm khách của bạn (BR13).',
+    payWith:'Thanh toán', codLimit:'Chỉ dùng COD khi tổng làm tròn từ 1.000.000 trở xuống.',
+    notAvailable:'không dùng được cho loại tài khoản này', payingAs:'Đang thanh toán với', orderSummary:'Tóm tắt đơn',
+    trackTitle:'Theo dõi đơn', trackSub:'Tám trạng thái, tám chuyển tiếp hợp lệ, mỗi bước gắn với vai trò cụ thể. Tầng nghiệp vụ từ chối phần còn lại.',
+    orderNo:'Đơn', placedAt:'Đặt lúc', actingAs:'Đang thao tác với vai', customer:'Khách hàng', kitchen:'Bếp',
+    shipper:'Shipper', admin:'Quản trị', history:'Lịch sử thao tác', noHistory:'Chưa có chuyển trạng thái nào.',
+    terminal:'Trạng thái kết thúc', cancelled:'Đã huỷ', failed:'Thất bại', delivered:'Đã giao',
+    assignShipper:'Gán shipper', cashConfirm:'Xác nhận đã thu tiền', cashOk:'Đã thu tiền',
+    tryIllegal:'Thử Đã đặt → Đang nấu', rejected:'Tầng nghiệp vụ từ chối',
+    legalMoves:'Vai này được phép', noMoves:'Vai này không có bước nào từ trạng thái hiện tại.',
+    revenueTitle:'Báo cáo doanh thu', revenueSub:'Chỉ tính đơn đã giao; đơn huỷ và đơn thất bại bị loại (R1).',
+    byCategory:'Doanh thu theo nhóm thương hiệu', byMethod:'Doanh thu theo phương thức', total:'Tổng',
+    dateRange:'Khoảng ngày', ordersCount:'Số đơn', share:'Tỷ trọng', excluded:'Loại trừ',
+    utilTitle:'Báo cáo hiệu suất hub', utilSub:'Tải, thời gian chuẩn bị và số suất giảm giá Bếp vắng theo từng hub (R2).',
+    hub:'Hub', ordersHandled:'Đơn đã xử lý', prep:'Chuẩn bị TB', qkGiven:'Suất giảm giá Bếp vắng', status:'Trạng thái',
+    dashTitle:'Bảng điều khiển quản trị', dashSub:'Dữ liệu demo cho hai báo cáo bắt buộc. Tier 4 yêu cầu màn hình này phải tương tác được.',
+    revChart:'Doanh thu theo nhóm thương hiệu', loadChart:'Tải từng hub so với ngưỡng từ chối 90 %',
+    threshold:'Ngưỡng từ chối 90 %', demoData:'Dữ liệu demo', totalRevenue:'Doanh thu (đã giao)', avgPrep:'Chuẩn bị TB',
+    quietGiven:'Suất Bếp vắng', hubsOnline:'Hub đang nhận đơn',
+    m1:'Phở Bò Đặc Biệt', m2:'Phở Gà Ta', m3:'Phở Chay Nấm', m4:'Bánh Mì Thịt Nướng', m5:'Bánh Mì Chả Cá',
+    m6:'Bánh Mì Trứng Ốp La', m7:'Gỏi Cuốn Tôm (2 cuốn)', m8:'Salad Gà Nướng', m9:'Cơm Tấm Sườn Bì Chả',
+    m10:'Trà Đào Cam Sả', m11:'Sinh Tố Bơ',
+    orderPlaced:'Đơn đã được đặt. Bếp tại hub đã nhận thông báo.',
+    br1:'BR1 · đơn tối thiểu 50.000', br2:'BR2 · chỉ giao trong 8,0 km',
+    br8:'BR8 · hub đang từ 90 % tải trở lên nên không nhận đơn mới',
+    priceSafe:'Giá được tính ở tầng nghiệp vụ; màn hình này chỉ hiển thị kết quả.',
+    person:'Khách hàng', name:'Nguyễn Thu Hà', hotel:'Khách sạn', room:'Phòng',
+    popular:'Bán chạy tại hub này', moreFrom:'Thêm món từ hub này', all:'Tất cả', filter:'Lọc theo thương hiệu',
+    nextSteps:'Sau khi thanh toán', step1:'Đơn được đặt', step1s:'Đơn được ghi vào lịch sử với trạng thái Đã đặt.',
+    step2:'Bếp xác nhận', step2s:'Chỉ bếp tại hub này được chuyển sang Đã xác nhận.',
+    step3:'Shipper giao', step3s:'Sẵn sàng → Đang giao → Đã giao, COD phải xác nhận tiền mặt.',
+    machine:'Máy trạng thái đơn hàng (BR15)', assignFirst:'Cần gán shipper trước khi giao', assigned:'Đã gán shipper',
+    loadByHub:'Tải hiện tại theo hub', reporting:'Số hub báo cáo', ordersByState:'Đơn theo trạng thái hôm nay',
+    shareOfTotal:'Tỷ trọng', voucherHint:'Thử SAIGON10 (10 %, tối đa 30.000) hoặc BANHMI20 (20.000 cố định)',
+    rush:'cao điểm', calm:'ngoài cao điểm', prepNote:'Thời gian trung bình từ Đã xác nhận đến Sẵn sàng', cat:'Nhóm thương hiệu', method:'Phương thức', topDishes:'Món doanh thu cao nhất', units:'Số đơn', dish:'Món', prepScale:'thang 0–20 phút'
+  }
+};
+
+/* ================================================================ state == */
+const state = {
+  screen:'hubs', lang:'en', type:'local', hub:'q1',
+  role:'kitchen', cat:'all',
+  cart:[ { id:'pho-bo', qty:1 }, { id:'bmi-thit', qty:1 }, { id:'goicuon', qty:2 }, { id:'tra-dao', qty:1 } ],
+  voucher:null,
+  cond:{ load:18, distance:3.2, time:'15:00', rain:false },
+  payMethod:null,
+  order:{ no:'SB-2627-0147', status:'Placed', at:'15:00', method:null, cash:false, shipper:null,
+          log:[ { from:'—', to:'Placed', role:'customer', at:'15:00' } ] },
+  note:''
+};
+
+const T = (k) => (I18N[state.lang] && I18N[state.lang][k]) || I18N.en[k] || k;
+const L = (o) => (o && (o[state.lang] || o.en)) || '';
+const vnd = (n) => new Intl.NumberFormat('vi-VN').format(Math.round(n));
+const item = (id) => ITEMS.find(i => i.id === id);
+const hub = () => HUBS.find(h => h.id === state.hub);
+const brand = (id) => BRANDS.find(b => b.id === id);
+const fmtTime = (t) => t;
+const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+/* ============================================================== pricing == */
+/* BR1–BR11, in the exact order of BR10. Pure: no DOM, no storage. */
+function price(cart, ctx, voucher) {
+  const lines = cart.map(l => ({ ...item(l.id), qty:l.qty })).filter(l => l);
+  const S = lines.reduce((t,l) => t + l.price * l.qty, 0);
+  const rejects = [];
+  if (S > 0 && S < 50000) rejects.push('br1');
+  if (ctx.distance > 8.0) rejects.push('br2');
+  if (ctx.load >= 90) rejects.push('br8');
+
+  const Q = ctx.load < 30 ? Math.round(S * 0.10) : 0;             // BR7
+  let V = 0;
+  if (voucher && voucher.active && S >= voucher.min && S > 0) {   // BR9
+    V = voucher.type === 'PERCENT'
+      ? Math.min(Math.floor((S - Q) * voucher.value / 100), voucher.max)
+      : Math.min(voucher.value, S - Q);
+  }
+  const F = S - Q - V;                                            // BR10 step 4
+
+  let D = ctx.distance <= 2 ? 15000
+        : ctx.distance <= 5 ? 15000 + 5000 * Math.ceil(ctx.distance - 2)
+        : 30000 + 7000 * Math.ceil(ctx.distance - 5);             // BR3
+  if (S >= 300000) D = 0;                                         // BR6
+
+  const mins = (t) => { const [h,m] = t.split(':').map(Number); return h*60+m; };
+  const tm = mins(ctx.time);
+  const rushWin = (tm >= 660 && tm < 780) || (tm >= 1050 && tm < 1170); // BR4 [11:00,13:00) [17:30,19:30)
+  const R = (rushWin && D > 0) ? Math.round(D * 0.20) : 0;
+  const R2 = ctx.rain ? 10000 : 0;                                // BR5
+
+  const raw = F + D + R + R2;
+  const total = Math.round(raw / 1000) * 1000;                    // BR11, once
+  return { S, Q, V, F, D, R, R2, raw, total, rejects, rushWin };
+}
+
+const cartCount = () => state.cart.reduce((t,l) => t + l.qty, 0);
+const currentVoucher = () => VOUCHERS.find(v => v.code === state.voucher) || null;
+const totalNow = () => price(state.cart, state.cond, currentVoucher());
+
+/* ============================================================== helpers == */
+const icon = (id) => `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/></svg>`;
+
+function pageHead(title, sub, right='') {
+  return `<div class="page-head"><div><h1>${title}</h1><p>${sub}</p></div><div class="right">${right}</div></div>`;
+}
+
+function miniItem(i) {
+  const inCart = state.cart.find(l => l.id === i.id);
+  return `<div class="mini">
+    <div class="thumb" aria-hidden="true">${i.icon}</div>
+    <div><h4>${L(i.name)}</h4><div class="brand">${L(brand(i.brand).name)}</div>
+      <div class="p">${vnd(i.price)} ₫</div></div>
+    <button class="btn sm" data-act="add" data-v="${i.id}">${inCart ? '+' + inCart.qty : '+'}</button>
+  </div>`;
+}
+
+function loadClass(l){ return l < 30 ? 'quiet' : l >= 90 ? 'full' : 'mid'; }
+function loadPill(l){
+  const cls = l < 30 ? 'quiet' : l >= 90 ? 'stop' : 'busy';
+  const txt = l < 30 ? T('quiet') : l >= 90 ? T('refused') : T('busy');
+  return `<span class="pill ${cls}">${txt} · ${l} %</span>`;
+}
+
+function priceRows(p) {
+  const rows = [
+    ['sSubtotal', p.S, '', 1], ['sQuiet', -p.Q, p.Q ? 'disc' : '', 2], ['sVoucher', -p.V, p.V ? 'disc' : '', 3],
+    ['sFood', p.F, '', 4], ['sDelivery', p.D, '', 5], ['sRush', p.R, '', 6], ['sRain', p.R2, '', 7],
+    ['sRaw', p.raw, 'raw', 8]
+  ];
+  return `<div class="rows">
+    ${rows.map(([k,v,c,step]) => `<div class="prow ${c}"><span class="lbl"><span class="stp">${step}</span>${T(k)}</span>
+      <span class="amt">${v < 0 ? '−' : ''}${vnd(Math.abs(v))} ₫</span></div>`).join('')}
+    <div class="prow total"><span class="lbl"><span class="stp">9</span>${T('sTotal')}</span>
+      <span class="amt">${vnd(p.total)} ₫</span></div>
+  </div>`;
+}
+
+function rejectBox(p) {
+  if (!p.rejects.length) return '';
+  const map = { br1:'br1', br2:'br2', br8:'br8' };
+  return p.rejects.map(r => `<div class="alert stop"><b>${T(map[r]).split('·')[0]}</b>
+    <span>${T(map[r]).split('·').slice(1).join('·')}</span></div>`).join('');
+}
+
+/* ============================================================== screens == */
+function screenHubs() {
+  const cur = hub();
+  const cards = HUBS.map(h => `
+    <button class="hub" data-act="hub" data-v="${h.id}" aria-pressed="${h.id === state.hub}">
+      <div class="row between"><h3>${L(h.name)}</h3>${h.id === state.hub ? `<span class="pill ok">${T('selected')}</span>` : ''}</div>
+      <div class="addr">${h.addr}</div>
+      <div class="meter"><i class="${loadClass(h.load)}" style="width:${h.load}%"></i></div>
+      <div class="row between small">
+        <span class="muted">${h.load} % · ${T('capacity')} ${h.capacity} · ${h.eta} min</span>
+        ${loadPill(h.load)}
+      </div>
+    </button>`).join('');
+
+  const brands = BRANDS.map(b => {
+    const here = cur.brands.includes(b.id);
+    const n = ITEMS.filter(i => i.brand === b.id && here).length;
+    return `<div class="brandcard ${here ? '' : 'off'}" ${here ? `data-act="brand" data-v="${b.id}"` : ''}>
+      <div class="avatar" style="background:${b.color}">${b.initial}</div>
+      <h3>${L(b.name)}</h3>
+      <div class="cat">${L(b.cat)}</div>
+      <div class="small muted" style="margin-top:6px">${here ? n + ' ' + T('items') : T('notHere')}</div>
+    </div>`;
+  }).join('');
+
+  const pop = ITEMS.filter(i => cur.brands.includes(i.brand) && i.avail).slice(0, 4);
+
+  return pageHead(T('hubsTitle'), T('hubsSub'),
+      `<button class="btn primary" data-act="go" data-v="menu">${T('viewMenu')} →</button>`) +
+    `<div class="hubcards">${cards}</div>
+     <div class="secttl"><h2>${T('brandsHere')}</h2><span>${L(cur.name)} · ${cur.brands.length} ${T('items')}</span></div>
+     <div class="brands">${brands}</div>
+     <div class="secttl"><h2>${T('popular')}</h2><span>${L(cur.name)}</span></div>
+     <div class="rail">${pop.map(miniItem).join('')}</div>`;
+}
+
+function menuForHub() {
+  const h = hub();
+  return ITEMS.filter(i => h.brands.includes(i.brand));
+}
+
+function screenMenu() {
+  const h = hub();
+  const items = menuForHub();
+  const cats = ['all', ...h.brands];
+  const shown = state.cat === 'all' ? items : items.filter(i => i.brand === state.cat);
+  const grid = shown.map(i => {
+    const inCart = state.cart.find(l => l.id === i.id);
+    return `<article class="dish ${i.avail ? '' : 'soldout'}">
+      <div class="thumb" aria-hidden="true">${i.icon}</div>
+      <div class="body">
+        <h3>${L(i.name)}</h3>
+        <div class="brand">${L(brand(i.brand).name)}</div>
+        <div class="foot">
+          <span class="price">${vnd(i.price)} <small>₫</small></span>
+          ${i.avail
+            ? `<button class="btn sm add" data-act="add" data-v="${i.id}">+ ${T('add')}${inCart ? ` (${inCart.qty})` : ''}</button>`
+            : `<span class="pill tbd add">${T('soldOut')}</span>`}
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+
+  return pageHead(T('menuTitle') + ' · ' + L(h.name), T('menuSub'),
+      `<span class="chip"><span class="dot"></span>${T('capacity')} ${h.capacity} · ${h.load} %</span>`) +
+    `<div class="chips" role="group" aria-label="${T('filter')}">
+      ${cats.map(c => `<button class="chipbtn" data-act="cat" data-v="${c}" aria-pressed="${state.cat === c}">
+        ${c === 'all' ? T('all') : L(brand(c).name)}</button>`).join('')}
+    </div>
+    <div class="menu-grid">${grid}</div>`;
+}
+
+function screenCart() {
+  if (!state.cart.length) {
+    return pageHead(T('cartTitle'), T('cartSub')) +
+      `<div class="card pad"><p class="muted">${T('emptyCart')}</p>
+       <a class="btn primary" href="#menu">${T('backToMenu')}</a></div>`;
+  }
+  const p = totalNow();
+  const lines = state.cart.map(l => {
+    const i = item(l.id);
+    return `<div class="cartline">
+      <div class="thumb" aria-hidden="true">${i.icon}</div>
+      <div><h3 style="font-size:14px">${L(i.name)}</h3>
+        <div class="small muted">${L(brand(i.brand).name)} · ${vnd(i.price)} ₫ ${T('each')}</div></div>
+      <div class="qty">
+        <button data-act="dec" data-v="${i.id}" aria-label="-">−</button>
+        <span>${l.qty}</span>
+        <button data-act="inc" data-v="${i.id}" aria-label="+">+</button>
+      </div>
+      <div class="line-total">${vnd(i.price * l.qty)} ₫</div>
+    </div>`;
+  }).join('');
+
+  const rest = ITEMS.filter(i => !state.cart.some(l => l.id === i.id) && hub().brands.includes(i.brand) && i.avail).slice(0, 4);
+
+  return pageHead(T('cartTitle'), T('cartSub')) +
+    `<div class="split">
+      <div class="card pad">
+        ${lines}
+        <div class="hr"></div>
+        <div class="row between"><span class="muted">${T('subtotalItem')}</span>
+          <b class="num">${vnd(p.S)} ₫</b></div>
+      </div>
+      <div class="stack">
+        <div class="card pad">
+          <h2>${L(hub().name)}</h2>
+          <div class="sub">${hub().addr}</div>
+          <div class="hr"></div>
+          <div class="row between small"><span class="muted">${T('load')}</span>${loadPill(hub().load)}</div>
+          <div class="row between small" style="margin-top:6px"><span class="muted">${T('distance')}</span><b>${state.cond.distance.toFixed(1)} km</b></div>
+          <div class="hr"></div>
+          <div class="prow"><span class="lbl">${T('sSubtotal')}</span><span class="amt">${vnd(p.S)} ₫</span></div>
+          <div class="prow disc"><span class="lbl">${T('sQuiet')}</span><span class="amt">−${vnd(p.Q)} ₫</span></div>
+          <div class="prow"><span class="lbl">${T('sDelivery')}</span><span class="amt">${vnd(p.D)} ₫</span></div>
+          <div class="prow total"><span class="lbl">${T('sTotal')}</span><span class="amt">${vnd(p.total)} ₫</span></div>
+          <a class="btn primary" style="width:100%;margin-top:12px" href="#checkout">${T('placeOrder')}</a>
+          <a class="btn ghost" style="width:100%;margin-top:6px" href="#menu">${T('keepShopping')}</a>
+        </div>
+      </div>
+    </div>
+    <div class="secttl"><h2>${T('moreFrom')}</h2><span>${L(hub().name)}</span></div>
+    <div class="rail">${rest.map(miniItem).join('')}</div>`;
+}
+
+function screenCheckout() {
+  const p = totalNow();
+  const v = currentVoucher();
+  const times = ['11:00','12:30','13:00','15:00','17:45','19:30'];
+  const rush = (t) => { const m = t.split(':').map(Number); const x = m[0]*60+m[1];
+    return (x >= 660 && x < 780) || (x >= 1050 && x < 1170); };
+  return pageHead(T('checkoutTitle'), T('checkoutSub')) +
+    `<div class="split">
+      <div class="stack">
+        <div class="card pad">
+          <h2>${T('deliveryTo')}</h2>
+          <div class="rows" style="margin-top:8px">
+            <div class="prow"><span class="lbl">${T('name')}</span><span class="amt">Nguyễn Thu Hà</span></div>
+            <div class="prow"><span class="lbl">${T('address')}</span>
+              <span class="amt">${state.type === 'tourist' ? 'Khách sạn Mường Thanh, P. 802' : '12 Nguyễn Huệ, P. Bến Nghé'}</span></div>
+            <div class="prow"><span class="lbl">${T('distance')}</span><span class="amt">${state.cond.distance.toFixed(2)} km</span></div>
+            <div class="prow"><span class="lbl">${T('placeTime')}</span><span class="amt">${state.cond.time} · 23/10/2026</span></div>
+          </div>
+        </div>
+
+        <div class="card pad">
+          <h2>${T('conditions')}</h2>
+          <div class="sub">BR7 · BR3 · BR4 · BR5 · BR9</div>
+          <div class="cond">
+            <label><span class="row between"><span>${T('load')}</span><b class="val" id="loadVal">${state.cond.load} %</b></span>
+              <input type="range" min="0" max="100" value="${state.cond.load}" data-cond="load" aria-label="${T('load')}">
+            </label>
+            <label><span class="row between"><span>${T('distance')}</span><b class="val">${state.cond.distance.toFixed(2)} km</b></span>
+              <input type="range" min="0.5" max="9" step="0.01" value="${state.cond.distance}" data-cond="distance" aria-label="${T('distance')}">
+            </label>
+            <label>${T('placeTime')}
+              <select data-cond="time" aria-label="${T('placeTime')}">
+                ${times.map(t => `<option value="${t}" ${state.cond.time === t ? 'selected' : ''}>${t} — ${rush(t) ? T('rush') : T('calm')}${rush(t) ? ' (+20 % ' + T('sRush').toLowerCase() + ')' : ''}</option>`).join('')}
+              </select>
+            </label>
+            <label class="switch"><input type="checkbox" data-cond="rain" ${state.cond.rain ? 'checked' : ''}>
+              ${T('rain')} (+10,000 ₫ · BR5)</label>
+            <div>
+              <div class="small" style="font-weight:600;margin-bottom:4px">${T('voucher')}</div>
+              <div class="row">
+                <span class="pill ${v ? 'ok' : 'tbd'}" style="flex:1">${v ? v.code + ' · ' + (v.type === 'PERCENT' ? v.value + ' %' : vnd(v.value) + ' ₫') : T('noVoucher')}</span>
+                <button class="btn sm" data-act="voucher" data-v="${v ? '' : 'SAIGON10'}">${v ? T('clear') : T('apply')}</button>
+              </div>
+              <div class="note" style="margin-top:6px">${T('voucherHint')}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card pad" id="pricePane">
+        ${pricePaneInner()}
+      </div>
+    </div>`;
+}
+
+function pricePaneInner() {
+  const p = totalNow();
+  return `<h2>${T('breakdown')}</h2>
+    <div class="sub">${L(hub().name)} · ${hub().addr}</div><div class="hr"></div>
+    ${rejectBox(p)}${p.rejects.length ? '' : priceRows(p)}
+    <div class="hr"></div>
+    <a class="btn primary" style="width:100%;${p.rejects.length ? 'pointer-events:none;opacity:.45' : ''}" href="#payment">${T('placeOrder')}</a>
+    <p class="note" style="margin:10px 0 0">${T('priceSafe')}</p>`;
+}
+
+function availablePayments() {
+  return PAYMENTS.filter(m => m.for.includes(state.type));
+}
+
+function screenPayment() {
+  const p = totalNow();
+  const methods = availablePayments();
+  if (!methods.some(m => m.id === state.payMethod)) state.payMethod = methods[0].id;
+  const hidden = PAYMENTS.filter(m => !m.for.includes(state.type));
+  return pageHead(T('payTitle'), T('paySub'),
+      `<span class="chip">${T('payingAs')}: ${state.type === 'local' ? T('local') : T('tourist')}</span>`) +
+    `<div class="split">
+      <div class="stack">
+        <div class="card pad">
+          <div class="pay">
+            ${methods.map(m => {
+              const blocked = m.id === 'cod' && p.total > 1000000;
+              return `<button class="payopt" data-act="pay" data-v="${m.id}" aria-pressed="${state.payMethod === m.id}" ${blocked ? 'disabled' : ''}>
+                <span class="logo" style="background:${m.color}">${m.short}</span>
+                <span><span class="nm">${m.label}</span><br><span class="hint">${L(m.hint)}</span></span>
+              </button>`;
+            }).join('')}
+          </div>
+          ${p.total > 1000000 ? `<div class="alert stop" style="margin-top:12px">${T('codLimit')}</div>` : ''}
+          <div class="alert info" style="margin-top:12px;display:block">
+            ${hidden.map(m => `<div><b>${m.label}</b> — ${T('notAvailable')}</div>`).join('')}
+          </div>
+          <div class="hr"></div>
+          <button class="btn primary" style="width:100%" data-act="place" ${p.rejects.length ? 'disabled' : ''}>
+            ${T('payWith')} ${PAYMENTS.find(m => m.id === state.payMethod).label} · ${vnd(p.total)} ₫
+          </button>
+        </div>
+        <div class="card pad">
+          <h2>${T('orderSummary')}</h2>
+          <div class="rows" style="margin-top:6px">
+            ${state.cart.map(l => `<div class="prow"><span class="lbl">${l.qty} × ${L(item(l.id).name)}</span>
+              <span class="amt">${vnd(item(l.id).price * l.qty)} ₫</span></div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card pad">
+          <h2>${T('breakdown')}</h2>
+          <div class="sub">${L(hub().name)} · ${state.cond.distance.toFixed(1)} km · ${state.cond.load} % ${T('load').toLowerCase()}</div>
+          <div class="hr"></div>
+          ${priceRows(p)}
+        </div>
+      </div>
+    </div>
+    <div class="secttl"><h2>${T('nextSteps')}</h2><span>BR15</span></div>
+    <div class="steps3">
+      <div class="step3"><div class="n">1</div><b>${T('step1')}</b><span>${T('step1s')}</span></div>
+      <div class="step3"><div class="n">2</div><b>${T('step2')}</b><span>${T('step2s')}</span></div>
+      <div class="step3"><div class="n">3</div><b>${T('step3')}</b><span>${T('step3s')}</span></div>
+    </div>`;
+}
+
+function legalMoves() {
+  return TRANSITIONS.filter(t => t.from === state.order.status && t.roles.includes(state.role));
+}
+
+function stateMachineSVG() {
+  const bw=140, bh=38, y=14, xs=[10,186,362,538,714,890];
+  const K='#14654F', S='#1D4ED8', C='#C2410C', A='#8A8F8D', F='#9B2C1B';
+  const arrows = xs.slice(0,5).map((x,i) => {
+    const col = i < 3 ? K : S;
+    return `<line x1="${x+bw}" y1="${y+bh/2}" x2="${xs[i+1]-6}" y2="${y+bh/2}"
+      stroke="${col}" stroke-width="1.8" marker-end="url(#ah)"/>`;
+  }).join('');
+  const boxes = STATES.map((st,i) => `<g>
+      <rect x="${xs[i]}" y="${y}" width="${bw}" height="${bh}" rx="8" fill="#fff" stroke="#14201E" stroke-width="1.2"/>
+      <text x="${xs[i]+bw/2}" y="${y+bh/2+4}" font-size="11.5" text-anchor="middle" fill="#14201E" font-weight="600">${L(st)}</text>
+    </g>`).join('');
+  return `<svg viewBox="0 0 1040 176" role="img" aria-label="${T('machine')}">
+    <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="context-stroke"/></marker></defs>
+    ${boxes}
+    ${arrows}
+    <rect x="138" y="118" width="140" height="38" rx="8" fill="#FDF1EE" stroke="${C}" stroke-width="1.2"/>
+    <text x="208" y="142" font-size="11.5" text-anchor="middle" fill="#14201E" font-weight="600">${T('cancelled')}</text>
+    <path d="M80 52 V82 H170 V112" fill="none" stroke="${C}" stroke-width="1.6" marker-end="url(#ah)"/>
+    <path d="M256 52 V96 H246 V112" fill="none" stroke="${A}" stroke-width="1.6" marker-end="url(#ah)"/>
+    <rect x="714" y="118" width="140" height="38" rx="8" fill="#FDF1EE" stroke="${F}" stroke-width="1.2"/>
+    <text x="784" y="142" font-size="11.5" text-anchor="middle" fill="#14201E" font-weight="600">${T('failed')}</text>
+    <path d="M784 52 V112" fill="none" stroke="${F}" stroke-width="1.6" marker-end="url(#ah)"/>
+  </svg>
+  <div class="dlegend">
+    <span><i style="background:${K}"></i>${T('kitchen')}</span>
+    <span><i style="background:${S}"></i>${T('shipper')}</span>
+    <span><i style="background:${C}"></i>${T('customer')} / ${T('kitchen')} — ${T('cancelled').toLowerCase()}</span>
+    <span><i style="background:${A}"></i>${T('customer')} / ${T('admin')} — ${T('cancelled').toLowerCase()}</span>
+    <span><i style="background:${F}"></i>${T('shipper')} — ${T('failed').toLowerCase()}</span>
+  </div>`;
+}
+
+function screenTrack() {
+  const o = state.order;
+  const order = ['Placed','Confirmed','Preparing','Ready','OutForDelivery','Delivered'];
+  const idx = order.indexOf(o.status);
+  const done = o.status === 'Delivered' ? order.length : idx;
+
+  const steps = STATES.map((s, i) => {
+    const cls = (i < done ? 'done' : '') + (i === idx ? ' now' : '');
+    const stamp = o.log.find(l => l.to === s.id);
+    return `<div class="tlstep ${cls}"><span class="bar"></span>
+      <span class="bullet">${i < done ? '✓' : i + 1}</span>
+      <span><span class="name">${L(s)}</span>
+        <span class="meta">${stamp ? '· ' + stamp.at : ''}</span></span>
+      <span class="stamp">${stamp ? stamp.at : ''}</span></div>`;
+  }).join('');
+
+  const moves = legalMoves();
+  const buttons = moves.map(m => {
+    const isDispatch = m.to === 'OutForDelivery';
+    const isDeliver = m.to === 'Delivered';
+    let disabled = false, hint = '';
+    if (isDispatch && !o.shipper) { disabled = true; hint = T('assignFirst'); }
+    if (isDeliver && o.method === 'cod' && !o.cash) { disabled = true; hint = T('cashConfirm'); }
+    const label = isDispatch ? T('assignShipper') + ' →' + L(STATES.find(s => s.id === 'OutForDelivery'))
+      : L(STATES.find(s => s.id === m.to) || { en:m.to, vi:m.to });
+    return `<div><button class="btn ${isDeliver ? 'primary' : ''}" data-act="move" data-v="${m.to}" ${disabled ? 'disabled' : ''}>${label}</button>
+      ${hint ? `<div class="tiny muted" style="margin-top:4px">${hint}</div>` : ''}</div>`;
+  }).join('');
+
+  const canAssign = o.status === 'Ready' && !o.shipper && ['shipper','admin'].includes(state.role);
+  const log = o.log.slice().reverse().slice(0, 8).map(l => `<div>
+      <span class="t">${l.at}</span>
+      <span class="small">${l.from === '—' ? '' : l.from + ' → '}${l.to} · <b>${l.role}</b></span></div>`).join('');
+
+  return pageHead(T('trackTitle'), T('trackSub'),
+      `<span class="chip"><span class="dot"></span>${T('orderNo')} ${o.no}</span>`) +
+    `<div class="split">
+      <div class="card pad">
+        <div class="row between">
+          <div><h2>${T('orderNo')} ${o.no}</h2>
+            <div class="sub">${L(hub().name)} · ${T('placedAt')} ${o.at} · ${vnd(totalNow().total)} ₫</div></div>
+          ${loadPill(state.cond.load)}
+        </div>
+        <div class="hr"></div>
+        <div class="tl">${steps}</div>
+        <div class="terminals">
+          <div class="term ${o.status === 'Cancelled' ? 'hit' : ''}"><b>${T('cancelled')}</b>${T('terminal')}</div>
+          <div class="term ${o.status === 'Failed' ? 'hit' : ''}"><b>${T('failed')}</b>${T('terminal')}</div>
+        </div>
+        ${o.status === 'Delivered' ? `<div class="alert ok" style="margin-top:14px">${T('delivered')} · ${o.no}</div>` : ''}
+      </div>
+
+      <div class="stack">
+        <div class="card pad">
+          <h2>${T('actingAs')}</h2>
+          <div class="seg" style="margin-top:8px;flex-wrap:wrap" role="group">
+            ${['customer','kitchen','shipper','admin'].map(r =>
+              `<button data-act="role" data-v="${r}" aria-pressed="${state.role === r}">${T(r)}</button>`).join('')}
+          </div>
+          <div class="hr"></div>
+          <div class="kicker">${T('legalMoves')}</div>
+          <div class="row wrap-row" style="margin-top:8px;gap:10px">
+            ${buttons || `<span class="muted small">${T('noMoves')}</span>`}
+          </div>
+          ${canAssign ? `<button class="btn sm" style="margin-top:10px" data-act="assign">${T('assignShipper')} · Trần Quốc Bảo</button>` : ''}
+          ${o.shipper ? `<div class="alert ok" style="margin-top:10px">${T('assigned')}: ${o.shipper}</div>` : ''}
+          ${o.method === 'cod' && o.status === 'OutForDelivery' ? `
+            <label class="switch" style="margin-top:12px">
+              <input type="checkbox" data-act="cash" ${o.cash ? 'checked' : ''}> ${T('cashOk')} · BR14
+            </label>` : ''}
+          <div class="hr"></div>
+          <button class="btn sm" data-act="illegal">${T('tryIllegal')}</button>
+          <div id="illegalMsg">${state.note ? `<div class="alert stop" style="margin-top:8px">${state.note}</div>` : ''}</div>
+        </div>
+
+        <div class="card pad">
+          <h2>${T('history')}</h2>
+          <div class="log" style="margin-top:8px">${log || `<span class="muted small">${T('noHistory')}</span>`}</div>
+        </div>
+      </div>
+    </div>
+    <div class="secttl"><h2>${T('machine')}</h2><span>BR15 · BR16</span></div>
+    <div class="card diagramcard">${stateMachineSVG()}</div>`;
+}
+
+function screenRevenue() {
+  const total = SEED.revenueByCategory.reduce((t, r) => t + r.vnd, 0);
+  const rows = SEED.revenueByCategory.map(r => {
+    const b = r.id === 'drinks' ? { name:{en:'Drinks', vi:'Đồ uống'} } : brand(r.id);
+    const share = r.vnd / total * 100;
+    const maxShare = SEED.revenueByCategory[0].vnd / total * 100;
+    return `<tr><td>${L(b.name)}</td>
+      <td class="n">${vnd(r.vnd)} ₫</td>
+      <td class="n">${share.toFixed(1)} %</td>
+      <td style="width:120px"><div class="bar-cell"><i style="width:${(share / maxShare * 100).toFixed(0)}%"></i></div></td></tr>`;
+  }).join('');
+  const meth = SEED.revenueByMethod.map(m => {
+    const p = PAYMENTS.find(x => x.id === m.id);
+    return `<tr><td><span class="row" style="gap:8px"><i style="width:9px;height:9px;border-radius:3px;background:${p.color};display:inline-block"></i>${p.label}</span></td>
+      <td class="n">${m.orders}</td><td class="n">${vnd(m.vnd)} ₫</td></tr>`;
+  }).join('');
+
+  return pageHead(T('revenueTitle'), T('revenueSub'),
+      `<span class="chip">01/10/2026 – 23/10/2026</span>`) +
+    `<div class="grid g3" style="margin-bottom:14px">
+      <div class="kpi"><span class="k">${T('totalRevenue')}</span><span class="v num">${vnd(total)} ₫</span>
+        <span class="d">214 ${T('orders').toLowerCase()}</span></div>
+      <div class="kpi"><span class="k">${T('excluded')}</span><span class="v num">14</span>
+        <span class="d">11 ${T('cancelled').toLowerCase()} · 3 ${T('failed').toLowerCase()}</span></div>
+      <div class="kpi"><span class="k">${T('avgPrep')}</span><span class="v num">12,4 min</span>
+        <span class="d">${T('prepNote')}</span></div>
+    </div>
+    <div class="grid g2">
+      <div class="card pad">
+        <h2>${T('byCategory')}</h2>
+        <div class="scrollx"><table style="margin-top:10px"><thead><tr><th>${T('cat')}</th>
+          <th class="n">VND</th><th class="n">${T('share')}</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot><tr><td>${T('total')}</td><td class="n">${vnd(total)} ₫</td><td class="n">100 %</td><td></td></tr></tfoot>
+        </table></div>
+      </div>
+      <div class="stack">
+        <div class="card pad">
+          <h2>${T('byMethod')}</h2>
+          <div class="scrollx"><table style="margin-top:10px"><thead><tr><th>${T('method')}</th>
+            <th class="n">${T('ordersCount')}</th><th class="n">VND</th></tr></thead>
+            <tbody>${meth}</tbody></table></div>
+        </div>
+        <div class="alert info">${T('revenueSub')} ${T('demoData')} · R1</div>
+      </div>
+    </div>
+    <div class="card pad" style="margin-top:14px">
+      <h2>${T('topDishes')}</h2>
+      <div class="scrollx"><table style="margin-top:10px">
+        <thead><tr><th>${T('dish')}</th><th class="n">${T('units')}</th>
+          <th class="n">VND</th><th style="width:160px"></th></tr></thead>
+        <tbody>
+          ${[['pho-bo',54,3240000],['bmi-thit',64,2880000],['comtam',42,2460000],['goicuon',54,1890000],['tra-dao',48,960000]]
+            .map(([id,n,v]) => {
+              const it = item(id);
+              return `<tr><td>${L(it.name)} <span class="tiny muted">· ${L(brand(it.brand).name)}</span></td>
+                <td class="n">${n}</td><td class="n">${vnd(v)} ₫</td>
+                <td><div class="bar-cell"><i style="width:${(v / 3240000 * 100).toFixed(0)}%"></i></div></td></tr>`;
+            }).join('')}
+        </tbody></table></div>
+    </div>`;
+}
+
+function screenUtilization() {
+  const rows = SEED.utilization.map(u => {
+    const h = HUBS.find(x => x.id === u.hub);
+    return `<tr><td><b>${L(h.name)}</b><div class="tiny muted">${h.addr}</div></td>
+      <td class="n">${u.orders}</td><td class="n">${u.prep.toFixed(1)} min</td>
+      <td class="n">${u.load} %</td><td class="n">${u.quiet}</td>
+      <td>${loadPill(u.load)}</td></tr>`;
+  }).join('');
+  const meters = SEED.utilization.map(u => {
+    const h = HUBS.find(x => x.id === u.hub);
+    const cls = u.load < 30 ? 'quiet' : u.load >= 90 ? 'full' : 'mid';
+    return `<div class="meterrow"><span>${L(h.name)}</span>
+      <span class="meter" style="margin:0"><i class="${cls}" style="width:${u.load}%"></i></span>
+      <b class="num" style="text-align:right">${u.load} %</b></div>`;
+  }).join('');
+  const orders = SEED.utilization.reduce((t, u) => t + u.orders, 0);
+  const quiet = SEED.utilization.reduce((t, u) => t + u.quiet, 0);
+  const prep = SEED.utilization.reduce((t, u) => t + u.prep, 0) / SEED.utilization.length;
+
+  return pageHead(T('utilTitle'), T('utilSub'), `<span class="chip">01/10/2026 – 23/10/2026</span>`) +
+    `<div class="grid g3" style="margin-bottom:14px">
+      <div class="kpi"><span class="k">${T('reporting')}</span><span class="v num">3</span>
+        <span class="d">${T('ordersHandled')}: ${orders}</span></div>
+      <div class="kpi"><span class="k">${T('avgPrep')}</span><span class="v num">${prep.toFixed(1)} min</span>
+        <span class="d">${T('prepNote')}</span></div>
+      <div class="kpi"><span class="k">${T('quietGiven')}</span><span class="v num">${quiet}</span>
+        <span class="d">BR7 · 10 % off</span></div>
+    </div>
+    <div class="grid g2">
+      <div class="card pad">
+        <h2>${T('loadByHub')}</h2>
+        <div class="sub">BR8 · 90 % = ${T('refused').toLowerCase()}</div>
+        <div style="margin-top:10px">${meters}</div>
+      </div>
+      <div class="card pad">
+        <h2>${T('prep')}</h2>
+        <div class="sub">Confirmed → Ready · ${T('prepScale')}</div>
+        <div style="margin-top:10px">
+          ${SEED.utilization.map(u => {
+            const h = HUBS.find(x => x.id === u.hub);
+            const pct = Math.round(u.prep / 20 * 100);
+            return `<div class="meterrow"><span>${L(h.name)}</span>
+              <span class="meter" style="margin:0"><i class="mid" style="width:${pct}%"></i></span>
+              <b class="num" style="text-align:right">${u.prep.toFixed(1)}′</b></div>`;
+          }).join('')}
+        </div>
+        <p class="note" style="margin-top:10px">${T('prepNote')}</p>
+      </div>
+    </div>
+    <div class="card pad" style="margin-top:14px">
+      <div class="scrollx"><table><thead><tr><th>${T('hub')}</th><th class="n">${T('ordersHandled')}</th>
+        <th class="n">${T('prep')}</th><th class="n">${T('load')}</th>
+        <th class="n">${T('qkGiven')}</th><th>${T('status')}</th></tr></thead>
+        <tbody>${rows}</tbody></table></div>
+      <p class="note" style="margin-top:12px">${T('demoData')} · R2 · ${T('prep')}: Confirmed → Ready</p>
+    </div>`;
+}
+
+/* --- inline SVG charts ------------------------------------------------- */
+function chartRevenue() {
+  const data = SEED.revenueByCategory;
+  const max = Math.max(...data.map(d => d.vnd));
+  const rowH = 34, top = 8, left = 132, w = 520;
+  const h = top + data.length * rowH + 18;
+  const bars = data.map((d, i) => {
+    const y = top + i * rowH;
+    const bw = Math.round((d.vnd / max) * (w - left - 90));
+    const b = d.id === 'drinks' ? { name:{en:'Drinks', vi:'Đồ uống'} } : brand(d.id);
+    const ramp = ['#0E4C3B', '#14654F', '#2F7A63', '#5B9C88', '#9CC3B6'];
+    return `<g>
+      <text x="0" y="${y + 15}" font-size="12" fill="#3D4A47">${L(b.name)}</text>
+      <rect x="${left}" y="${y + 3}" width="${w - left - 90}" height="17" rx="4" fill="#F0ECE3"></rect>
+      <rect class="bar-chart" x="${left}" y="${y + 3}" width="${bw}" height="17" rx="4" fill="${ramp[i]}"></rect>
+      <text x="${left + bw + 8}" y="${y + 16}" font-size="11.5" fill="#14201E" font-weight="700">${vnd(d.vnd / 1000)}k</text>
+    </g>`;
+  }).join('');
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${T('revChart')}">
+    <text x="0" y="${h - 2}" font-size="10.5" fill="#6B7A76">VND (thousands) · ${T('demoData')}</text>
+    ${bars}</svg>`;
+}
+
+function chartLoad() {
+  const data = SEED.utilization;
+  const w = 520, h = 210, left = 34, bottom = h - 34, top = 12;
+  const bw = 74, gap = 54;
+  const bars = data.map((u, i) => {
+    const x = left + i * (bw + gap);
+    const bh = Math.round((u.load / 100) * (bottom - top));
+    const y = bottom - bh;
+    const fill = u.load < 30 ? '#C2410C' : u.load >= 90 ? '#1B1B1B' : '#14654F';
+    const name = L(HUBS.find(x => x.id === u.hub).name);
+    return `<g>
+      <rect x="${x}" y="${top}" width="${bw}" height="${bottom - top}" fill="#F5F2EA" rx="6"></rect>
+      <rect x="${x}" y="${y}" width="${bw}" height="${bh}" fill="${fill}" rx="6"></rect>
+      <text x="${x + bw / 2}" y="${y - 6}" font-size="11.5" text-anchor="middle" font-weight="700" fill="#14201E">${u.load} %</text>
+      <text x="${x + bw / 2}" y="${bottom + 16}" font-size="11" text-anchor="middle" fill="#3D4A47">${name}</text>
+    </g>`;
+  }).join('');
+  const ty = Math.round(bottom - (90 / 100) * (bottom - top));
+  const grid = [0, 25, 50, 75, 100].map(v => {
+    const y = Math.round(bottom - (v / 100) * (bottom - top));
+    return `<line x1="${left - 6}" y1="${y}" x2="${w - 12}" y2="${y}" stroke="#EDE8DD"></line>
+      <text x="${left - 10}" y="${y + 3.5}" font-size="9.5" text-anchor="end" fill="#8A8F8D">${v}</text>`;
+  }).join('');
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${T('loadChart')}">
+    ${grid}
+    <line x1="${left - 6}" y1="${ty}" x2="${w - 12}" y2="${ty}" stroke="#C2410C" stroke-width="1.6" stroke-dasharray="6 4"></line>
+    <text x="${w - 12}" y="${ty - 6}" font-size="10.5" text-anchor="end" fill="#C2410C" font-weight="700">${T('threshold')}</text>
+    <line x1="${left - 6}" y1="${bottom}" x2="${w - 12}" y2="${bottom}" stroke="#CFC9BB"></line>
+    ${bars}</svg>`;
+}
+
+function screenDashboard() {
+  const total = SEED.revenueByCategory.reduce((t, r) => t + r.vnd, 0);
+  const avgPrep = (SEED.utilization.reduce((t, u) => t + u.prep, 0) / SEED.utilization.length);
+  const quiet = SEED.utilization.reduce((t, u) => t + u.quiet, 0);
+  const byState = [
+    { id:'Placed', n:6 }, { id:'Confirmed', n:4 }, { id:'Preparing', n:3 }, { id:'Ready', n:2 },
+    { id:'OutForDelivery', n:5 }, { id:'Delivered', n:87 }, { id:'Cancelled', n:11 }, { id:'Failed', n:3 }
+  ];
+  const nameOfState = (id) => {
+    const st = STATES.find(x => x.id === id);
+    return st ? L(st) : (id === 'Cancelled' ? T('cancelled') : T('failed'));
+  };
+  return pageHead(T('dashTitle'), T('dashSub'),
+      `<span class="pill busy">${T('demoData')}</span>`) +
+    `<div class="grid g4" style="margin-bottom:14px">
+      <div class="kpi"><span class="k">${T('totalRevenue')}</span><span class="v num">${vnd(total)} ₫</span></div>
+      <div class="kpi"><span class="k">${T('quietGiven')}</span><span class="v num">${quiet}</span></div>
+      <div class="kpi"><span class="k">${T('avgPrep')}</span><span class="v num">${avgPrep.toFixed(1)} min</span></div>
+      <div class="kpi"><span class="k">${T('hubsOnline')}</span><span class="v num">2 / 3</span></div>
+    </div>
+    <div class="grid g2">
+      <div class="card pad"><h2>${T('revChart')}</h2><div class="sub">R1 · ${T('byCategory')}</div>
+        <div style="margin-top:12px">${chartRevenue()}</div>
+      </div>
+      <div class="card pad"><h2>${T('loadChart')}</h2><div class="sub">R2 · ${T('load')}</div>
+        <div style="margin-top:12px">${chartLoad()}</div>
+        <div class="legend">
+          <span><i style="background:#C2410C"></i>${T('quiet')} (&lt; 30 %)</span>
+          <span><i style="background:#14654F"></i>${T('busy')} (30–89 %)</span>
+          <span><i style="background:#1B1B1B"></i>${T('refused')} (≥ 90 %)</span>
+        </div>
+      </div>
+    </div>
+    <div class="card pad" style="margin-top:14px">
+      <h2>${T('ordersByState')}</h2>
+      <div class="grid" style="grid-template-columns:repeat(8,minmax(0,1fr));gap:10px;margin-top:10px">
+        ${byState.map(s => `<div style="border:1px solid var(--line);border-radius:9px;padding:9px 10px">
+          <div class="tiny muted" style="font-weight:700">${nameOfState(s.id)}</div>
+          <div style="font-size:19px;font-weight:800" class="num">${s.n}</div></div>`).join('')}
+      </div>
+    </div>`;
+}
+
+/* =============================================================== render == */
+const SCREENS = {
+  hubs:screenHubs, menu:screenMenu, cart:screenCart, checkout:screenCheckout,
+  payment:screenPayment, track:screenTrack, revenue:screenRevenue,
+  utilization:screenUtilization, dashboard:screenDashboard
+};
+
+function render() {
+  const view = document.getElementById('view');
+  view.innerHTML = `<div class="wrap">${SCREENS[state.screen]()}</div>`;
+  document.documentElement.lang = state.lang;
+  document.querySelectorAll('[data-nav]').forEach(a =>
+    a.setAttribute('aria-current', a.dataset.nav === state.screen ? 'page' : 'false'));
+  document.querySelectorAll('#typeSeg button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.v === state.type)));
+  document.querySelectorAll('.topbar .seg button[data-act="lang"]').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.v === state.lang)));
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = T(el.dataset.i18n); });
+  const chip = document.getElementById('hubChip');
+  chip.querySelector('span:last-child').textContent = `${L(hub().name)} · ${hub().load} %`;
+  chip.className = 'chip' + (hub().load >= 90 ? ' warn' : '');
+  document.getElementById('cartCount').textContent = cartCount();
+  document.getElementById('cartCount').style.display = cartCount() ? '' : 'none';
+}
+
+/* live re-price without losing the slider handle */
+function refreshPrice() {
+  if (state.screen === 'checkout') {
+    const pane = document.getElementById('pricePane');
+    if (pane) pane.innerHTML = pricePaneInner();
+    const lv = document.getElementById('loadVal');
+    if (lv) lv.textContent = state.cond.load + ' %';
+  } else {
+    render();
+  }
+}
+
+/* =============================================================== events == */
+function go(screen) {
+  state.screen = screen;
+  if (location.hash !== '#' + screen) history.replaceState(null, '', '#' + screen);
+  render();
+  document.getElementById('view').scrollTop = 0;
+}
+
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-act]');
+  if (!el) return;
+  const act = el.dataset.act, v = el.dataset.v;
+
+  if (act === 'lang') { state.lang = v; render(); return; }
+  if (act === 'type') {
+    state.type = v;
+    state.payMethod = null;
+    render(); return;
+  }
+  if (act === 'hub') { state.hub = v; state.cat = 'all'; render(); return; }
+  if (act === 'cat') { state.cat = v; render(); return; }
+  if (act === 'assign') { state.order.shipper = 'Trần Quốc Bảo'; state.note = ''; render(); return; }
+  if (act === 'brand') { go('menu'); return; }
+  if (act === 'go') { go(v); return; }
+  if (act === 'add') {
+    const l = state.cart.find(x => x.id === v);
+    if (l) l.qty += 1; else state.cart.push({ id:v, qty:1 });
+    render(); return;
+  }
+  if (act === 'inc') { state.cart.find(x => x.id === v).qty += 1; render(); return; }
+  if (act === 'dec') {
+    const l = state.cart.find(x => x.id === v);
+    l.qty -= 1;
+    if (l.qty <= 0) state.cart = state.cart.filter(x => x.id !== v);
+    render(); return;
+  }
+  if (act === 'voucher') { state.voucher = v || null; render(); return; }
+  if (act === 'pay') { state.payMethod = v; render(); return; }
+
+  if (act === 'place') {
+    state.order.method = state.payMethod;
+    state.order.status = 'Placed';
+    state.order.at = state.cond.time;
+    state.order.log = [{ from:'—', to:'Placed', role:'customer', at:state.cond.time }];
+    state.note = T('orderPlaced');
+    go('track');
+    return;
+  }
+  if (act === 'role') { state.role = v; state.note = ''; render(); return; }
+  if (act === 'move') {
+    const t = TRANSITIONS.find(x => x.from === state.order.status && x.to === v && x.roles.includes(state.role));
+    if (!t) { state.note = T('rejected') + ': ' + state.order.status + ' → ' + v; render(); return; }
+    if (v === 'Delivered' && state.order.method === 'cod' && !state.order.cash) {
+      state.note = T('rejected') + ': BR14 — ' + T('cashConfirm'); render(); return;
+    }
+    state.order.log.push({ from:state.order.status, to:v, role:state.role, at:state.cond.time });
+    state.order.status = v;
+    state.note = '';
+    render(); return;
+  }
+  if (act === 'illegal') {
+    const legal = TRANSITIONS.some(t => t.from === 'Placed' && t.to === 'Preparing');
+    state.note = legal ? 'allowed' : T('rejected') + ': Placed → Preparing (BR15)';
+    render(); return;
+  }
+});
+
+document.addEventListener('input', (e) => {
+  const el = e.target.closest('[data-cond]');
+  if (el) {
+    const k = el.dataset.cond;
+    state.cond[k] = el.type === 'checkbox' ? el.checked : (k === 'time' ? el.value : Number(el.value));
+    refreshPrice();
+  }
+});
+
+document.addEventListener('change', (e) => {
+  const el = e.target.closest('[data-act="cash"]');
+  if (el) { state.order.cash = el.checked; render(); }
+});
+
+window.addEventListener('hashchange', () => {
+  const s = location.hash.replace('#','');
+  if (SCREENS[s] && s !== state.screen) { state.screen = s; render(); }
+});
+
+/* ================================================================ start == */
+state.screen = SCREENS[location.hash.replace('#','')] ? location.hash.replace('#','') : 'hubs';
+render();
+</script>
+</body>
+</html>

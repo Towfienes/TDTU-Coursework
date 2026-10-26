@@ -1,0 +1,48 @@
+@model MenuItemFormVm
+@{
+    ViewData["Title"] = L["Common.Edit"] + " · " + Model.Name;
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-6">
+        <section class="panel">
+            <p class="eyebrow mb-2">@L["UseCaseA"]</p>
+            <h1 class="h3 mb-1">@L["Common.Edit"] · @Model.Name</h1>
+            <p class="panel-sub mb-3">@L["Brands.EditItemSub"]</p>
+
+            <form asp-controller="Brands" asp-action="EditItem" asp-route-id="@Model.Id" method="post" novalidate>
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+                <input type="hidden" asp-for="BrandId" />
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Name">@L["Common.Item"]</label>
+                    <input class="form-control" asp-for="Name" />
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label" asp-for="Category">@L["Common.Category"]</label>
+                        <input class="form-control" asp-for="Category" />
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label" asp-for="Price">@L["Common.Price"] (₫)</label>
+                        <input class="form-control" asp-for="Price" type="number" min="1" step="1000" />
+                    </div>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" asp-for="IsAvailable" />
+                    <label class="form-check-label" asp-for="IsAvailable">
+                        @L["Common.Available"] <span class="br-ref">FR-A5 · BR12</span>
+                    </label>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-ember">@L["Common.Save"]</button>
+                    <a class="btn btn-outline-ink" asp-controller="Brands" asp-action="Details" asp-route-id="@Model.BrandId">@L["Common.Cancel"]</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

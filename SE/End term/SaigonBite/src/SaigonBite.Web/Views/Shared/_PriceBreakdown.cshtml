@@ -1,0 +1,63 @@
+@model BreakdownVm
+@*
+    The itemised BR10 breakdown. Every screen that shows money renders this panel, so a total is never shown
+    without the seven lines that produced it (FR-D11). The snapshot line repeats the BR17 inputs.
+*@
+<div class="breakdown">
+    <table class="table table-sm align-middle mb-0">
+        <caption class="visually-hidden">@L["Price.Caption"]</caption>
+        <tbody>
+            <tr>
+                <th scope="row">@L["Price.Subtotal"] <span class="br-ref">BR10 · 1</span></th>
+                <td class="text-end">@Money.Vnd(Model.Subtotal)</td>
+            </tr>
+            <tr>
+                <th scope="row">@L["Price.QuietKitchen"] <span class="br-ref">BR7</span></th>
+                <td class="text-end text-jade">−@Money.Vnd(Model.QuietKitchenDiscount)</td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    @L["Price.Voucher"] <span class="br-ref">BR9</span>
+                    @if (!string.IsNullOrWhiteSpace(Model.VoucherCode))
+                    {
+                        <span class="chip">@Model.VoucherCode</span>
+                    }
+                </th>
+                <td class="text-end text-jade">−@Money.Vnd(Model.VoucherDiscount)</td>
+            </tr>
+            <tr class="row-emphasis">
+                <th scope="row">@L["Price.FoodTotal"] <span class="br-ref">BR10 · 4</span></th>
+                <td class="text-end">@Money.Vnd(Model.FoodTotal)</td>
+            </tr>
+            <tr>
+                <th scope="row">@L["Price.Delivery"] <span class="br-ref">BR3</span></th>
+                <td class="text-end">@Money.Vnd(Model.DeliveryFee)</td>
+            </tr>
+            <tr>
+                <th scope="row">@L["Price.Rush"] <span class="br-ref">BR4</span></th>
+                <td class="text-end">@Money.Vnd(Model.RushSurcharge)</td>
+            </tr>
+            <tr>
+                <th scope="row">@L["Price.Rain"] <span class="br-ref">BR5</span></th>
+                <td class="text-end">@Money.Vnd(Model.RainSurcharge)</td>
+            </tr>
+            <tr class="row-total">
+                <th scope="row">@L["Price.Total"] <span class="br-ref">BR11</span></th>
+                <td class="text-end">@Money.Vnd(Model.Total)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    @if (!string.IsNullOrWhiteSpace(Model.VoucherNotice))
+    {
+        <p class="small text-ember mt-2 mb-0">@Model.VoucherNotice</p>
+    }
+
+    <p class="snapshot mb-0">
+        <span class="snapshot-label">@L["Price.Snapshot"]</span>
+        @Model.PlacedAt.ToString("dd/MM/yyyy HH:mm") ·
+        @L["Price.Load"] @Model.HubLoadPercent% ·
+        @L["Price.RainState"] @(Model.RainFlag ? L["Common.On"].Value : L["Common.Off"].Value)
+        <span class="br-ref">BR17</span>
+    </p>
+</div>

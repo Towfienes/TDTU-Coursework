@@ -1,0 +1,1050 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account.Code" xml:space="preserve">
+    <value>Mã xác nhận</value>
+  </data>
+  <data name="Account.ConfirmPassword" xml:space="preserve">
+    <value>Nhập lại mật khẩu</value>
+  </data>
+  <data name="Account.DeniedBody" xml:space="preserve">
+    <value>Phân quyền được kiểm tra ở phía máy chủ: mỗi vai trò chỉ dùng được chức năng của mình (FR-S2, NFR4).</value>
+  </data>
+  <data name="Account.DeniedTitle" xml:space="preserve">
+    <value>Bạn không có quyền dùng chức năng này</value>
+  </data>
+  <data name="Account.DisplayName" xml:space="preserve">
+    <value>Tên hiển thị</value>
+  </data>
+  <data name="Account.Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Account.EmailCodeIs" xml:space="preserve">
+    <value>Mã email của bạn là</value>
+  </data>
+  <data name="Account.EmailHint" xml:space="preserve">
+    <value>Dùng làm tên đăng nhập.</value>
+  </data>
+  <data name="Account.Eyebrow" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="Account.LocalEyebrow" xml:space="preserve">
+    <value>Đăng ký · khách trong nước</value>
+  </data>
+  <data name="Account.LocalSub" xml:space="preserve">
+    <value>Số điện thoại Việt Nam và mã OTP mô phỏng (BR18).</value>
+  </data>
+  <data name="Account.LoginSub" xml:space="preserve">
+    <value>Khách trong nước đăng nhập bằng số điện thoại, khách du lịch bằng email.</value>
+  </data>
+  <data name="Account.LoginTitle" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="Account.Mobile" xml:space="preserve">
+    <value>Số điện thoại</value>
+  </data>
+  <data name="Account.MobileHint" xml:space="preserve">
+    <value>10 chữ số, bắt đầu bằng 03, 05, 07, 08 hoặc 09.</value>
+  </data>
+  <data name="Account.Nationality" xml:space="preserve">
+    <value>Quốc tịch</value>
+  </data>
+  <data name="Account.NoAccount" xml:space="preserve">
+    <value>Chưa có tài khoản?</value>
+  </data>
+  <data name="Account.OtpIs" xml:space="preserve">
+    <value>Mã OTP của bạn là</value>
+  </data>
+  <data name="Account.Passport" xml:space="preserve">
+    <value>Số hộ chiếu</value>
+  </data>
+  <data name="Account.PassportHint" xml:space="preserve">
+    <value>Từ 6 đến 9 chữ cái hoặc chữ số.</value>
+  </data>
+  <data name="Account.Password" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="Account.PasswordHint" xml:space="preserve">
+    <value>Tối thiểu 8 ký tự; lưu dưới dạng băm.</value>
+  </data>
+  <data name="Account.RegisterLocal" xml:space="preserve">
+    <value>Khách hàng trong nước</value>
+  </data>
+  <data name="Account.RegisterTourist" xml:space="preserve">
+    <value>Khách du lịch nước ngoài</value>
+  </data>
+  <data name="Account.Registered" xml:space="preserve">
+    <value>Đã tạo tài khoản:</value>
+  </data>
+  <data name="Account.SendEmailCode" xml:space="preserve">
+    <value>Gửi mã qua email</value>
+  </data>
+  <data name="Account.SendOtp" xml:space="preserve">
+    <value>Gửi mã</value>
+  </data>
+  <data name="Account.SignIn" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="Account.Simulated" xml:space="preserve">
+    <value>Gửi mô phỏng</value>
+  </data>
+  <data name="Account.TouristEyebrow" xml:space="preserve">
+    <value>Đăng ký · khách du lịch</value>
+  </data>
+  <data name="Account.TouristSub" xml:space="preserve">
+    <value>Số hộ chiếu, quốc tịch, email và mã xác nhận mô phỏng (BR18).</value>
+  </data>
+  <data name="Account.Username" xml:space="preserve">
+    <value>Số điện thoại, email hoặc tài khoản nhân viên</value>
+  </data>
+  <data name="Account.UsernameHint" xml:space="preserve">
+    <value>Ví dụ có sẵn: 0901234567, emma.wilson@example.com, admin</value>
+  </data>
+  <data name="Account.Verify" xml:space="preserve">
+    <value>Xác nhận và tạo tài khoản</value>
+  </data>
+  <data name="Account.VerifySentTo" xml:space="preserve">
+    <value>Mã đã gửi đến</value>
+  </data>
+  <data name="Account.VerifyTitle" xml:space="preserve">
+    <value>Nhập mã xác nhận</value>
+  </data>
+  <data name="Admin.Account" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="Admin.Active" xml:space="preserve">
+    <value>Đang hoạt động</value>
+  </data>
+  <data name="Admin.ChartCategorySub" xml:space="preserve">
+    <value>Doanh thu theo danh mục (₫).</value>
+  </data>
+  <data name="Admin.ChartLoadSub" xml:space="preserve">
+    <value>Tải hiện tại của từng bếp.</value>
+  </data>
+  <data name="Admin.ChartPaymentSub" xml:space="preserve">
+    <value>Tỉ trọng doanh thu theo phương thức thanh toán (₫).</value>
+  </data>
+  <data name="Admin.CustomerType" xml:space="preserve">
+    <value>Loại khách</value>
+  </data>
+  <data name="Admin.DashboardSub" xml:space="preserve">
+    <value>Doanh thu, tải bếp và dòng đơn trong khoảng đã chọn.</value>
+  </data>
+  <data name="Admin.DashboardTitle" xml:space="preserve">
+    <value>Bảng điều khiển</value>
+  </data>
+  <data name="Admin.Deactivate" xml:space="preserve">
+    <value>Vô hiệu hoá</value>
+  </data>
+  <data name="Admin.Deactivated" xml:space="preserve">
+    <value>Đã vô hiệu</value>
+  </data>
+  <data name="Admin.Eyebrow" xml:space="preserve">
+    <value>Quản trị viên</value>
+  </data>
+  <data name="Admin.Funnel" xml:space="preserve">
+    <value>Dòng trạng thái đơn</value>
+  </data>
+  <data name="Admin.FunnelSub" xml:space="preserve">
+    <value>Tất cả đơn đã đặt, theo trạng thái.</value>
+  </data>
+  <data name="Admin.OrdersInFlight" xml:space="preserve">
+    <value>Đơn đang chạy</value>
+  </data>
+  <data name="Admin.OrdersInFlightSub" xml:space="preserve">
+    <value>Đã đặt, đã xác nhận, đang nấu, sẵn sàng hoặc đang giao.</value>
+  </data>
+  <data name="Admin.RainFlag" xml:space="preserve">
+    <value>Cờ mưa lớn</value>
+  </data>
+  <data name="Admin.RainFlagNote" xml:space="preserve">
+    <value>Chỉ áp cho đơn mới; đơn đã đặt giữ nguyên dữ liệu chụp.</value>
+  </data>
+  <data name="Admin.Reactivate" xml:space="preserve">
+    <value>Kích hoạt lại</value>
+  </data>
+  <data name="Admin.Role" xml:space="preserve">
+    <value>Vai trò</value>
+  </data>
+  <data name="Admin.TurnRainOff" xml:space="preserve">
+    <value>Tắt phụ phí</value>
+  </data>
+  <data name="Admin.TurnRainOn" xml:space="preserve">
+    <value>Bật phụ phí</value>
+  </data>
+  <data name="Admin.UsersNote" xml:space="preserve">
+    <value>Vô hiệu hoá là xoá mềm: tài khoản không đăng nhập được nhưng đơn của họ vẫn nguyên.</value>
+  </data>
+  <data name="Admin.UsersSub" xml:space="preserve">
+    <value>Hai loại khách hàng và mọi vai trò nhân viên nằm trong cùng một lược đồ với cột phân biệt.</value>
+  </data>
+  <data name="Admin.UsersTitle" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="Admin.UtilisationSub" xml:space="preserve">
+    <value>Số liệu từng bếp trong cùng khoảng thời gian.</value>
+  </data>
+  <data name="Brands.Add" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="Brands.CategoryHint" xml:space="preserve">
+    <value>Dùng cho báo cáo doanh thu, ví dụ: Mì, Cơm, Đồ uống.</value>
+  </data>
+  <data name="Brands.ChooseHub" xml:space="preserve">
+    <value>Chọn một bếp để xem món và thêm vào giỏ.</value>
+  </data>
+  <data name="Brands.DangerZone" xml:space="preserve">
+    <value>Trạng thái thương hiệu</value>
+  </data>
+  <data name="Brands.DeleteBrand" xml:space="preserve">
+    <value>Xoá thương hiệu này</value>
+  </data>
+  <data name="Brands.DeleteBrandNote" xml:space="preserve">
+    <value>Thương hiệu biến khỏi thực đơn; đơn cũ vẫn giữ tên (FR-A4).</value>
+  </data>
+  <data name="Brands.EditItemSub" xml:space="preserve">
+    <value>Sửa tên, danh mục, giá và tình trạng bán.</value>
+  </data>
+  <data name="Brands.EditSub" xml:space="preserve">
+    <value>Sửa thương hiệu và các bếp vận hành.</value>
+  </data>
+  <data name="Brands.Eyebrow" xml:space="preserve">
+    <value>Thực đơn &amp; thương hiệu</value>
+  </data>
+  <data name="Brands.Items" xml:space="preserve">
+    <value>Các món</value>
+  </data>
+  <data name="Brands.MarkAvailable" xml:space="preserve">
+    <value>Mở bán</value>
+  </data>
+  <data name="Brands.MarkUnavailable" xml:space="preserve">
+    <value>Ngừng bán</value>
+  </data>
+  <data name="Brands.MenuSub" xml:space="preserve">
+    <value>Hãy chọn bếp trước: món chỉ đặt được từ bếp có vận hành thương hiệu của món đó.</value>
+  </data>
+  <data name="Brands.MenuTitle" xml:space="preserve">
+    <value>Thực đơn hôm nay</value>
+  </data>
+  <data name="Brands.NewBrand" xml:space="preserve">
+    <value>Thương hiệu mới</value>
+  </data>
+  <data name="Brands.NewBrandSub" xml:space="preserve">
+    <value>Thương hiệu cần tên, mô tả và ít nhất một bếp vận hành.</value>
+  </data>
+  <data name="Brands.NewItem" xml:space="preserve">
+    <value>Món mới</value>
+  </data>
+  <data name="Brands.NoHubsYet" xml:space="preserve">
+    <value>Hãy tạo bếp trước: thương hiệu phải có ít nhất một bếp.</value>
+  </data>
+  <data name="Brands.NoItems" xml:space="preserve">
+    <value>Không có món nào cho bộ lọc này.</value>
+  </data>
+  <data name="Brands.OperatingHubs" xml:space="preserve">
+    <value>Bếp đang vận hành</value>
+  </data>
+  <data name="Brands.PickHubFirst" xml:space="preserve">
+    <value>Chọn bếp để đặt món.</value>
+  </data>
+  <data name="Brands.SoftDeleteNote" xml:space="preserve">
+    <value>Xoá là xoá mềm: đơn cũ và báo cáo vẫn giữ tên và giá món (FR-A4).</value>
+  </data>
+  <data name="Brands.Unavailable" xml:space="preserve">
+    <value>Tạm ngừng bán</value>
+  </data>
+  <data name="Cart.Checkout" xml:space="preserve">
+    <value>Tiến hành đặt hàng</value>
+  </data>
+  <data name="Cart.Clear" xml:space="preserve">
+    <value>Xoá giỏ</value>
+  </data>
+  <data name="Cart.ContinueShopping" xml:space="preserve">
+    <value>Tiếp tục chọn món</value>
+  </data>
+  <data name="Cart.DistanceNote" xml:space="preserve">
+    <value>Khoảng cách giao mô phỏng:</value>
+  </data>
+  <data name="Cart.Empty" xml:space="preserve">
+    <value>Giỏ hàng đang trống.</value>
+  </data>
+  <data name="Cart.NoPrice" xml:space="preserve">
+    <value>Chưa tính được giá cho đến khi giỏ hợp lệ.</value>
+  </data>
+  <data name="Cart.Rejections" xml:space="preserve">
+    <value>Giỏ hàng này chưa đặt được:</value>
+  </data>
+  <data name="Cart.Remove" xml:space="preserve">
+    <value>Bỏ</value>
+  </data>
+  <data name="Cart.Sub" xml:space="preserve">
+    <value>Mỗi giỏ chỉ một bếp. Giá bên dưới là giá hệ thống sẽ tính.</value>
+  </data>
+  <data name="Cart.Summary" xml:space="preserve">
+    <value>Tóm tắt</value>
+  </data>
+  <data name="Cart.Title" xml:space="preserve">
+    <value>Giỏ hàng của bạn</value>
+  </data>
+  <data name="Checkout.Alternatives" xml:space="preserve">
+    <value>Các bếp khác vận hành cùng thương hiệu và có thể nhận đơn:</value>
+  </data>
+  <data name="Checkout.Basket" xml:space="preserve">
+    <value>Các món đã chọn</value>
+  </data>
+  <data name="Checkout.Breakdown" xml:space="preserve">
+    <value>Chi tiết giá</value>
+  </data>
+  <data name="Checkout.CodBlocked" xml:space="preserve">
+    <value>Đơn này vượt 1.000.000 ₫ nên không dùng được thanh toán khi nhận hàng.</value>
+  </data>
+  <data name="Checkout.CodNote" xml:space="preserve">
+    <value>shipper xác nhận tiền mặt trước khi giao</value>
+  </data>
+  <data name="Checkout.Delivery" xml:space="preserve">
+    <value>Giao hàng</value>
+  </data>
+  <data name="Checkout.DeliverySub" xml:space="preserve">
+    <value>Khoảng cách quyết định bậc phí và điều kiện phủ sóng.</value>
+  </data>
+  <data name="Checkout.Distance" xml:space="preserve">
+    <value>Khoảng cách (km)</value>
+  </data>
+  <data name="Checkout.DistanceHint" xml:space="preserve">
+    <value>Mô phỏng: không định vị, được lưu trên đơn.</value>
+  </data>
+  <data name="Checkout.Hotel" xml:space="preserve">
+    <value>Tên khách sạn</value>
+  </data>
+  <data name="Checkout.Notes" xml:space="preserve">
+    <value>Ghi chú cho bếp</value>
+  </data>
+  <data name="Checkout.Payment" xml:space="preserve">
+    <value>Thanh toán</value>
+  </data>
+  <data name="Checkout.PaymentSub" xml:space="preserve">
+    <value>Chỉ hiện các phương thức thuộc nhóm khách của bạn.</value>
+  </data>
+  <data name="Checkout.PlaceOrder" xml:space="preserve">
+    <value>Đặt đơn</value>
+  </data>
+  <data name="Checkout.Rejected" xml:space="preserve">
+    <value>Đơn đã bị từ chối:</value>
+  </data>
+  <data name="Checkout.Room" xml:space="preserve">
+    <value>Số phòng</value>
+  </data>
+  <data name="Checkout.SnapshotNote" xml:space="preserve">
+    <value>Thời điểm, tải bếp và cờ mưa được lưu cùng đơn hàng.</value>
+  </data>
+  <data name="Checkout.Sub" xml:space="preserve">
+    <value>Xem kỹ cách tính giá, rồi chọn phương thức thuộc nhóm khách của bạn.</value>
+  </data>
+  <data name="Checkout.Title" xml:space="preserve">
+    <value>Đặt hàng</value>
+  </data>
+  <data name="Checkout.UpdatePrice" xml:space="preserve">
+    <value>Cập nhật giá</value>
+  </data>
+  <data name="Checkout.Voucher" xml:space="preserve">
+    <value>Mã giảm giá</value>
+  </data>
+  <data name="Checkout.VoucherHint" xml:space="preserve">
+    <value>Mỗi đơn tối đa một mã (BR9).</value>
+  </data>
+  <data name="Common.Actions" xml:space="preserve">
+    <value>Thao tác</value>
+  </data>
+  <data name="Common.Address" xml:space="preserve">
+    <value>Địa chỉ</value>
+  </data>
+  <data name="Common.AllCategories" xml:space="preserve">
+    <value>Tất cả danh mục</value>
+  </data>
+  <data name="Common.AllHubs" xml:space="preserve">
+    <value>Tất cả bếp</value>
+  </data>
+  <data name="Common.Apply" xml:space="preserve">
+    <value>Áp dụng</value>
+  </data>
+  <data name="Common.Availability" xml:space="preserve">
+    <value>Tình trạng bán</value>
+  </data>
+  <data name="Common.Available" xml:space="preserve">
+    <value>Đang bán</value>
+  </data>
+  <data name="Common.Back" xml:space="preserve">
+    <value>Quay lại</value>
+  </data>
+  <data name="Common.BackHome" xml:space="preserve">
+    <value>Về trang chủ</value>
+  </data>
+  <data name="Common.Cancel" xml:space="preserve">
+    <value>Huỷ</value>
+  </data>
+  <data name="Common.Category" xml:space="preserve">
+    <value>Danh mục</value>
+  </data>
+  <data name="Common.Close" xml:space="preserve">
+    <value>Đóng</value>
+  </data>
+  <data name="Common.Create" xml:space="preserve">
+    <value>Tạo</value>
+  </data>
+  <data name="Common.Delete" xml:space="preserve">
+    <value>Xoá</value>
+  </data>
+  <data name="Common.Deleted" xml:space="preserve">
+    <value>Đã xoá</value>
+  </data>
+  <data name="Common.Description" xml:space="preserve">
+    <value>Mô tả</value>
+  </data>
+  <data name="Common.Details" xml:space="preserve">
+    <value>Chi tiết</value>
+  </data>
+  <data name="Common.District" xml:space="preserve">
+    <value>Quận</value>
+  </data>
+  <data name="Common.Edit" xml:space="preserve">
+    <value>Sửa</value>
+  </data>
+  <data name="Common.Filter" xml:space="preserve">
+    <value>Lọc</value>
+  </data>
+  <data name="Common.From" xml:space="preserve">
+    <value>Từ ngày</value>
+  </data>
+  <data name="Common.Hub" xml:space="preserve">
+    <value>Bếp trung tâm</value>
+  </data>
+  <data name="Common.Item" xml:space="preserve">
+    <value>Món</value>
+  </data>
+  <data name="Common.LineTotal" xml:space="preserve">
+    <value>Thành tiền</value>
+  </data>
+  <data name="Common.Name" xml:space="preserve">
+    <value>Tên</value>
+  </data>
+  <data name="Common.No" xml:space="preserve">
+    <value>Không</value>
+  </data>
+  <data name="Common.Off" xml:space="preserve">
+    <value>Tắt</value>
+  </data>
+  <data name="Common.On" xml:space="preserve">
+    <value>Bật</value>
+  </data>
+  <data name="Common.Price" xml:space="preserve">
+    <value>Đơn giá</value>
+  </data>
+  <data name="Common.Quantity" xml:space="preserve">
+    <value>Số lượng</value>
+  </data>
+  <data name="Common.Reset" xml:space="preserve">
+    <value>Đặt lại</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>Lưu</value>
+  </data>
+  <data name="Common.SkipToContent" xml:space="preserve">
+    <value>Chuyển đến nội dung</value>
+  </data>
+  <data name="Common.Status" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+  <data name="Common.To" xml:space="preserve">
+    <value>Đến ngày</value>
+  </data>
+  <data name="Common.ToggleNavigation" xml:space="preserve">
+    <value>Mở thanh điều hướng</value>
+  </data>
+  <data name="Common.Unavailable" xml:space="preserve">
+    <value>Ngừng bán</value>
+  </data>
+  <data name="Common.WholeVnd" xml:space="preserve">
+    <value>Đơn vị đồng, không có phần thập phân.</value>
+  </data>
+  <data name="Common.Yes" xml:space="preserve">
+    <value>Có</value>
+  </data>
+  <data name="Deliveries.AdminCancel" xml:space="preserve">
+    <value>Huỷ đơn này</value>
+  </data>
+  <data name="Deliveries.AdminSub" xml:space="preserve">
+    <value>Toàn bộ đơn đang chạy, kèm phân công shipper cho đơn đã sẵn sàng.</value>
+  </data>
+  <data name="Deliveries.Assign" xml:space="preserve">
+    <value>Phân công</value>
+  </data>
+  <data name="Deliveries.AssignShipper" xml:space="preserve">
+    <value>Phân công shipper</value>
+  </data>
+  <data name="Deliveries.CancelOrder" xml:space="preserve">
+    <value>Huỷ đơn</value>
+  </data>
+  <data name="Deliveries.CashFirst" xml:space="preserve">
+    <value>Xác nhận tiền mặt trước khi đánh dấu đã giao.</value>
+  </data>
+  <data name="Deliveries.ConfirmCash" xml:space="preserve">
+    <value>Đã thu tiền</value>
+  </data>
+  <data name="Deliveries.Empty" xml:space="preserve">
+    <value>Hiện chưa có đơn nào.</value>
+  </data>
+  <data name="Deliveries.FailureReason" xml:space="preserve">
+    <value>Lý do</value>
+  </data>
+  <data name="Deliveries.KitchenSub" xml:space="preserve">
+    <value>Đơn tại</value>
+  </data>
+  <data name="Deliveries.Mode" xml:space="preserve">
+    <value>Chế độ</value>
+  </data>
+  <data name="Deliveries.MoveTo" xml:space="preserve">
+    <value>Chuyển sang</value>
+  </data>
+  <data name="Deliveries.ReasonRequired" xml:space="preserve">
+    <value>Bắt buộc nhập lý do</value>
+  </data>
+  <data name="Deliveries.Reject" xml:space="preserve">
+    <value>Từ chối đơn này</value>
+  </data>
+  <data name="Deliveries.RejectOrder" xml:space="preserve">
+    <value>Từ chối</value>
+  </data>
+  <data name="Deliveries.ReportFailure" xml:space="preserve">
+    <value>Báo giao thất bại</value>
+  </data>
+  <data name="Deliveries.ShipperSub" xml:space="preserve">
+    <value>Các chuyến được giao cho bạn.</value>
+  </data>
+  <data name="Deliveries.SubmitFailure" xml:space="preserve">
+    <value>Gửi báo cáo</value>
+  </data>
+  <data name="Deliveries.Title" xml:space="preserve">
+    <value>Bảng giao hàng</value>
+  </data>
+  <data name="Error.Body" xml:space="preserve">
+    <value>Không thể hoàn tất thao tác. Không có dữ liệu nào được lưu.</value>
+  </data>
+  <data name="Error.Title" xml:space="preserve">
+    <value>Đã có lỗi xảy ra</value>
+  </data>
+  <data name="Footer.Note" xml:space="preserve">
+    <value>Đồ án môn học · thanh toán và OTP được mô phỏng</value>
+  </data>
+  <data name="Footer.Tagline" xml:space="preserve">
+    <value>Giao đồ ăn từ bếp trung tâm cho TP. Hồ Chí Minh</value>
+  </data>
+  <data name="Home.Badge.Lifecycle" xml:space="preserve">
+    <value>Theo dõi trạng thái</value>
+  </data>
+  <data name="Home.Badge.Load" xml:space="preserve">
+    <value>Giá theo tải bếp</value>
+  </data>
+  <data name="Home.Badge.Payments" xml:space="preserve">
+    <value>Năm phương thức thanh toán</value>
+  </data>
+  <data name="Home.BrandsSub" xml:space="preserve">
+    <value>Mỗi bếp nấu nhiều thương hiệu trong cùng một bếp.</value>
+  </data>
+  <data name="Home.BrandsTitle" xml:space="preserve">
+    <value>Thương hiệu ảo</value>
+  </data>
+  <data name="Home.BrowseMenu" xml:space="preserve">
+    <value>Xem thực đơn</value>
+  </data>
+  <data name="Home.Eyebrow" xml:space="preserve">
+    <value>Giao đồ ăn từ bếp trung tâm · TP. Hồ Chí Minh</value>
+  </data>
+  <data name="Home.HeroLead" xml:space="preserve">
+    <value>Đặt món từ một bếp, xem đầy đủ cách tính giá trước khi trả tiền và theo dõi đơn từ bếp đến tận cửa.</value>
+  </data>
+  <data name="Home.HeroTitle" xml:space="preserve">
+    <value>Bữa trưa từ căn bếp đang thật sự rảnh rang.</value>
+  </data>
+  <data name="Home.HubsSub" xml:space="preserve">
+    <value>Tải là phần công suất bếp đã dành cho các đơn đã xác nhận hoặc đang nấu.</value>
+  </data>
+  <data name="Home.HubsTitle" xml:space="preserve">
+    <value>Các bếp hiện tại</value>
+  </data>
+  <data name="Home.LoginHint" xml:space="preserve">
+    <value>Tài khoản mẫu có đủ hai loại khách hàng, nhân viên bếp, shipper và quản trị viên.</value>
+  </data>
+  <data name="Home.LoginHintTitle" xml:space="preserve">
+    <value>Dùng thử tài khoản mẫu</value>
+  </data>
+  <data name="Home.OrderHere" xml:space="preserve">
+    <value>Đặt tại bếp này</value>
+  </data>
+  <data name="Home.RainOff" xml:space="preserve">
+    <value>Không có phụ phí mưa</value>
+  </data>
+  <data name="Home.RainOn" xml:space="preserve">
+    <value>Đang áp phụ phí mưa lớn</value>
+  </data>
+  <data name="Home.SeeHubs" xml:space="preserve">
+    <value>Xem tải của bếp</value>
+  </data>
+  <data name="Home.Title" xml:space="preserve">
+    <value>SaigonBite — bếp trung tâm tại TP. Hồ Chí Minh</value>
+  </data>
+  <data name="Home.TouristSignup" xml:space="preserve">
+    <value>Tôi là khách du lịch</value>
+  </data>
+  <data name="Hubs.BusySlots" xml:space="preserve">
+    <value>chỗ đang dùng</value>
+  </data>
+  <data name="Hubs.Capacity" xml:space="preserve">
+    <value>Công suất</value>
+  </data>
+  <data name="Hubs.CapacityHint" xml:space="preserve">
+    <value>Số nguyên lớn hơn không.</value>
+  </data>
+  <data name="Hubs.EditSub" xml:space="preserve">
+    <value>Đổi công suất sẽ tính lại tải ngay.</value>
+  </data>
+  <data name="Hubs.FullNotice" xml:space="preserve">
+    <value>Từ 90 % trở lên bếp này từ chối đơn mới.</value>
+  </data>
+  <data name="Hubs.Load" xml:space="preserve">
+    <value>Tải</value>
+  </data>
+  <data name="Hubs.LoadNote" xml:space="preserve">
+    <value>Tải = số đơn Đã xác nhận hoặc Đang nấu ÷ công suất bếp, làm tròn xuống.</value>
+  </data>
+  <data name="Hubs.NewHub" xml:space="preserve">
+    <value>Bếp mới</value>
+  </data>
+  <data name="Hubs.NewHubSub" xml:space="preserve">
+    <value>Quận, địa chỉ và công suất tối thiểu là một.</value>
+  </data>
+  <data name="Hubs.OrdersInKitchen" xml:space="preserve">
+    <value>đơn trong bếp</value>
+  </data>
+  <data name="Hubs.Sub" xml:space="preserve">
+    <value>Từng bếp với tải tính được. Công suất là số đơn nấu song song.</value>
+  </data>
+  <data name="Hubs.Title" xml:space="preserve">
+    <value>Bếp và công suất</value>
+  </data>
+  <data name="Hubs.ViewMenu" xml:space="preserve">
+    <value>Xem thực đơn</value>
+  </data>
+  <data name="Nav.Admin" xml:space="preserve">
+    <value>Quản trị</value>
+  </data>
+  <data name="Nav.Cart" xml:space="preserve">
+    <value>Giỏ hàng</value>
+  </data>
+  <data name="Nav.Dashboard" xml:space="preserve">
+    <value>Bảng điều khiển</value>
+  </data>
+  <data name="Nav.Deliveries" xml:space="preserve">
+    <value>Giao hàng</value>
+  </data>
+  <data name="Nav.Hubs" xml:space="preserve">
+    <value>Bếp</value>
+  </data>
+  <data name="Nav.Language" xml:space="preserve">
+    <value>Ngôn ngữ</value>
+  </data>
+  <data name="Nav.Login" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="Nav.Logout" xml:space="preserve">
+    <value>Đăng xuất</value>
+  </data>
+  <data name="Nav.Menu" xml:space="preserve">
+    <value>Thực đơn</value>
+  </data>
+  <data name="Nav.NewBrand" xml:space="preserve">
+    <value>Thêm thương hiệu</value>
+  </data>
+  <data name="Nav.NewHub" xml:space="preserve">
+    <value>Thêm bếp</value>
+  </data>
+  <data name="Nav.Orders" xml:space="preserve">
+    <value>Đơn của tôi</value>
+  </data>
+  <data name="Nav.Register" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="Nav.RevenueReport" xml:space="preserve">
+    <value>Báo cáo doanh thu (R1)</value>
+  </data>
+  <data name="Nav.Users" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="Nav.UtilisationReport" xml:space="preserve">
+    <value>Hiệu suất bếp (R2)</value>
+  </data>
+  <data name="Nav.Vouchers" xml:space="preserve">
+    <value>Mã giảm giá</value>
+  </data>
+  <data name="Orders.Actions" xml:space="preserve">
+    <value>Bạn có thể làm gì</value>
+  </data>
+  <data name="Orders.AddLine" xml:space="preserve">
+    <value>Thêm món</value>
+  </data>
+  <data name="Orders.Amount" xml:space="preserve">
+    <value>Số tiền</value>
+  </data>
+  <data name="Orders.Audit" xml:space="preserve">
+    <value>Lịch sử trạng thái</value>
+  </data>
+  <data name="Orders.AuditSub" xml:space="preserve">
+    <value>Mọi chuyển trạng thái, kể cả bị từ chối, đều được ghi cùng người thực hiện.</value>
+  </data>
+  <data name="Orders.BackToList" xml:space="preserve">
+    <value>Tất cả đơn</value>
+  </data>
+  <data name="Orders.Breakdown" xml:space="preserve">
+    <value>Chi tiết giá</value>
+  </data>
+  <data name="Orders.CancelNote" xml:space="preserve">
+    <value>Chỉ huỷ được khi đơn ở trạng thái Đã đặt hoặc Đã xác nhận; thanh toán online được hoàn toàn bộ.</value>
+  </data>
+  <data name="Orders.CancelOrder" xml:space="preserve">
+    <value>Huỷ đơn này</value>
+  </data>
+  <data name="Orders.CashConfirmed" xml:space="preserve">
+    <value>Đã xác nhận tiền mặt</value>
+  </data>
+  <data name="Orders.CurrentLines" xml:space="preserve">
+    <value>Các món hiện tại</value>
+  </data>
+  <data name="Orders.Delivery" xml:space="preserve">
+    <value>Thông tin giao hàng</value>
+  </data>
+  <data name="Orders.Distance" xml:space="preserve">
+    <value>Khoảng cách</value>
+  </data>
+  <data name="Orders.EditItems" xml:space="preserve">
+    <value>Sửa món</value>
+  </data>
+  <data name="Orders.EditItemsTitle" xml:space="preserve">
+    <value>Sửa món</value>
+  </data>
+  <data name="Orders.EditSnapshot" xml:space="preserve">
+    <value>Dữ liệu chụp giá</value>
+  </data>
+  <data name="Orders.EditSnapshotBody" xml:space="preserve">
+    <value>Giỏ sau khi sửa được tính lại với thời điểm, tải bếp và cờ mưa ban đầu; tổng mới hiện trên trang đơn hàng.</value>
+  </data>
+  <data name="Orders.EditSub" xml:space="preserve">
+    <value>Chỉ đơn ở trạng thái Đã đặt mới sửa được; giá mới được tính lại từ dữ liệu chụp lúc đặt.</value>
+  </data>
+  <data name="Orders.Empty" xml:space="preserve">
+    <value>Bạn chưa có đơn nào.</value>
+  </data>
+  <data name="Orders.Failed" xml:space="preserve">
+    <value>Thất bại</value>
+  </data>
+  <data name="Orders.GatewayRef" xml:space="preserve">
+    <value>Mã tham chiếu</value>
+  </data>
+  <data name="Orders.Lines" xml:space="preserve">
+    <value>Các món</value>
+  </data>
+  <data name="Orders.ListNote" xml:space="preserve">
+    <value>Mở con số tổng để xem chi tiết giá.</value>
+  </data>
+  <data name="Orders.NoActions" xml:space="preserve">
+    <value>Hiện không có thao tác nào cho đơn này.</value>
+  </data>
+  <data name="Orders.NoNewItem" xml:space="preserve">
+    <value>— không thêm món —</value>
+  </data>
+  <data name="Orders.NoPayments" xml:space="preserve">
+    <value>Chưa ghi nhận lần thanh toán nào.</value>
+  </data>
+  <data name="Orders.Number" xml:space="preserve">
+    <value>Đơn</value>
+  </data>
+  <data name="Orders.Pay" xml:space="preserve">
+    <value>Thanh toán</value>
+  </data>
+  <data name="Orders.PaymentMethod" xml:space="preserve">
+    <value>Phương thức thanh toán</value>
+  </data>
+  <data name="Orders.Payments" xml:space="preserve">
+    <value>Các lần thanh toán</value>
+  </data>
+  <data name="Orders.PlacedAt" xml:space="preserve">
+    <value>Thời điểm đặt</value>
+  </data>
+  <data name="Orders.Rejected" xml:space="preserve">
+    <value>bị từ chối</value>
+  </data>
+  <data name="Orders.RetryPayment" xml:space="preserve">
+    <value>Thử thanh toán lại</value>
+  </data>
+  <data name="Orders.SaveAndReprice" xml:space="preserve">
+    <value>Lưu và tính lại giá</value>
+  </data>
+  <data name="Orders.SetZeroToRemove" xml:space="preserve">
+    <value>Đặt số lượng 0 để bỏ món.</value>
+  </data>
+  <data name="Orders.Shipper" xml:space="preserve">
+    <value>Shipper</value>
+  </data>
+  <data name="Orders.Strategy" xml:space="preserve">
+    <value>Chiến lược</value>
+  </data>
+  <data name="Orders.Sub" xml:space="preserve">
+    <value>Mỗi đơn giữ nguyên giá tại thời điểm đặt.</value>
+  </data>
+  <data name="Orders.Success" xml:space="preserve">
+    <value>Thành công</value>
+  </data>
+  <data name="Orders.Title" xml:space="preserve">
+    <value>Đơn hàng của tôi</value>
+  </data>
+  <data name="Orders.Track" xml:space="preserve">
+    <value>Theo dõi</value>
+  </data>
+  <data name="Orders.When" xml:space="preserve">
+    <value>Thời điểm</value>
+  </data>
+  <data name="Price.Caption" xml:space="preserve">
+    <value>Chi tiết cách tính giá</value>
+  </data>
+  <data name="Price.Delivery" xml:space="preserve">
+    <value>Phí giao (D)</value>
+  </data>
+  <data name="Price.FoodTotal" xml:space="preserve">
+    <value>Tiền món (F)</value>
+  </data>
+  <data name="Price.Load" xml:space="preserve">
+    <value>tải</value>
+  </data>
+  <data name="Price.QuietKitchen" xml:space="preserve">
+    <value>Giảm giá Bếp Vắng (Q)</value>
+  </data>
+  <data name="Price.Rain" xml:space="preserve">
+    <value>Phụ phí mưa lớn (R2)</value>
+  </data>
+  <data name="Price.RainState" xml:space="preserve">
+    <value>mưa</value>
+  </data>
+  <data name="Price.Rush" xml:space="preserve">
+    <value>Phụ phí cao điểm (R)</value>
+  </data>
+  <data name="Price.Snapshot" xml:space="preserve">
+    <value>Dữ liệu chụp</value>
+  </data>
+  <data name="Price.Subtotal" xml:space="preserve">
+    <value>Tạm tính món (S)</value>
+  </data>
+  <data name="Price.Total" xml:space="preserve">
+    <value>Tổng đã làm tròn</value>
+  </data>
+  <data name="Price.Voucher" xml:space="preserve">
+    <value>Mã giảm giá (V)</value>
+  </data>
+  <data name="Reports.AvgPrep" xml:space="preserve">
+    <value>Thời gian nấu TB</value>
+  </data>
+  <data name="Reports.ByCategory" xml:space="preserve">
+    <value>Doanh thu theo danh mục</value>
+  </data>
+  <data name="Reports.ByCategorySub" xml:space="preserve">
+    <value>Tổng của mỗi đơn được phân bổ cho các danh mục theo tỉ lệ thành tiền.</value>
+  </data>
+  <data name="Reports.ByPayment" xml:space="preserve">
+    <value>Doanh thu theo phương thức thanh toán</value>
+  </data>
+  <data name="Reports.ByPaymentSub" xml:space="preserve">
+    <value>Phương thức được ghi trên mỗi đơn lúc đặt.</value>
+  </data>
+  <data name="Reports.CurrentLoad" xml:space="preserve">
+    <value>Tải hiện tại</value>
+  </data>
+  <data name="Reports.ExclusionNote" xml:space="preserve">
+    <value>Đơn Đã huỷ và Giao thất bại không được tính trong mọi con số trên trang này.</value>
+  </data>
+  <data name="Reports.NoData" xml:space="preserve">
+    <value>Không có đơn trong khoảng này.</value>
+  </data>
+  <data name="Reports.Orders" xml:space="preserve">
+    <value>đơn</value>
+  </data>
+  <data name="Reports.OrdersCounted" xml:space="preserve">
+    <value>Số đơn được tính</value>
+  </data>
+  <data name="Reports.OrdersHandled" xml:space="preserve">
+    <value>Đơn đã xử lý</value>
+  </data>
+  <data name="Reports.QuietKitchen" xml:space="preserve">
+    <value>Bếp Vắng</value>
+  </data>
+  <data name="Reports.QuietKitchenSub" xml:space="preserve">
+    <value>Số đơn được giảm 10 % vì bếp vắng.</value>
+  </data>
+  <data name="Reports.Range" xml:space="preserve">
+    <value>Khoảng thời gian</value>
+  </data>
+  <data name="Reports.RefusingHubs" xml:space="preserve">
+    <value>Bếp đang từ chối đơn</value>
+  </data>
+  <data name="Reports.RefusingHubsSub" xml:space="preserve">
+    <value>Bếp có tải từ 90 % trở lên.</value>
+  </data>
+  <data name="Reports.Revenue" xml:space="preserve">
+    <value>Doanh thu</value>
+  </data>
+  <data name="Reports.RevenueSub" xml:space="preserve">
+    <value>Tổng doanh thu theo danh mục thương hiệu và theo phương thức thanh toán trong khoảng đã chọn.</value>
+  </data>
+  <data name="Reports.RevenueTitle" xml:space="preserve">
+    <value>Báo cáo doanh thu</value>
+  </data>
+  <data name="Reports.Title" xml:space="preserve">
+    <value>Báo cáo</value>
+  </data>
+  <data name="Reports.TotalRevenue" xml:space="preserve">
+    <value>Tổng doanh thu</value>
+  </data>
+  <data name="Reports.Units" xml:space="preserve">
+    <value>Số phần</value>
+  </data>
+  <data name="Reports.UtilisationNote" xml:space="preserve">
+    <value>Chỉ tính các chuyển trạng thái thành công, nên lần bị từ chối không làm sai thời gian nấu.</value>
+  </data>
+  <data name="Reports.UtilisationSub" xml:space="preserve">
+    <value>Số đơn đã xử lý, thời gian trung bình Đã xác nhận → Sẵn sàng, tải hiện tại và số ưu đãi Bếp Vắng mỗi bếp.</value>
+  </data>
+  <data name="Reports.UtilisationTitle" xml:space="preserve">
+    <value>Hiệu suất bếp</value>
+  </data>
+  <data name="Status.Body" xml:space="preserve">
+    <value>Hãy kiểm tra địa chỉ, hoặc quay lại thực đơn.</value>
+  </data>
+  <data name="Status.Cancelled" xml:space="preserve">
+    <value>Đã huỷ</value>
+  </data>
+  <data name="Status.Confirmed" xml:space="preserve">
+    <value>Đã xác nhận</value>
+  </data>
+  <data name="Status.Delivered" xml:space="preserve">
+    <value>Đã giao</value>
+  </data>
+  <data name="Status.Failed" xml:space="preserve">
+    <value>Giao thất bại</value>
+  </data>
+  <data name="Status.Heading" xml:space="preserve">
+    <value>Trang này không tồn tại</value>
+  </data>
+  <data name="Status.OutForDelivery" xml:space="preserve">
+    <value>Đang giao</value>
+  </data>
+  <data name="Status.Placed" xml:space="preserve">
+    <value>Đã đặt</value>
+  </data>
+  <data name="Status.Preparing" xml:space="preserve">
+    <value>Đang nấu</value>
+  </data>
+  <data name="Status.Ready" xml:space="preserve">
+    <value>Sẵn sàng</value>
+  </data>
+  <data name="Status.Title" xml:space="preserve">
+    <value>Không tìm thấy trang</value>
+  </data>
+  <data name="UseCaseA" xml:space="preserve">
+    <value>Use case A · Thực đơn &amp; thương hiệu</value>
+  </data>
+  <data name="UseCaseB" xml:space="preserve">
+    <value>Use case B · Bếp &amp; công suất</value>
+  </data>
+  <data name="UseCaseC" xml:space="preserve">
+    <value>Use case C · Mã giảm giá</value>
+  </data>
+  <data name="UseCaseD" xml:space="preserve">
+    <value>Use case D · Đơn hàng</value>
+  </data>
+  <data name="UseCaseE" xml:space="preserve">
+    <value>Use case E · Tài khoản</value>
+  </data>
+  <data name="UseCaseF" xml:space="preserve">
+    <value>Use case F · Giao hàng</value>
+  </data>
+  <data name="Vouchers.Activate" xml:space="preserve">
+    <value>Bật</value>
+  </data>
+  <data name="Vouchers.Active" xml:space="preserve">
+    <value>Đang áp dụng</value>
+  </data>
+  <data name="Vouchers.Cap" xml:space="preserve">
+    <value>Giảm tối đa</value>
+  </data>
+  <data name="Vouchers.Code" xml:space="preserve">
+    <value>Mã</value>
+  </data>
+  <data name="Vouchers.Deactivate" xml:space="preserve">
+    <value>Ngừng</value>
+  </data>
+  <data name="Vouchers.EditSub" xml:space="preserve">
+    <value>Chỉnh thông số; đơn đã đặt giữ nguyên dữ liệu chụp.</value>
+  </data>
+  <data name="Vouchers.Expired" xml:space="preserve">
+    <value>Hết hạn</value>
+  </data>
+  <data name="Vouchers.Inactive" xml:space="preserve">
+    <value>Ngừng áp dụng</value>
+  </data>
+  <data name="Vouchers.MinSubtotal" xml:space="preserve">
+    <value>Tạm tính tối thiểu</value>
+  </data>
+  <data name="Vouchers.New" xml:space="preserve">
+    <value>Mã giảm giá mới</value>
+  </data>
+  <data name="Vouchers.NewSub" xml:space="preserve">
+    <value>Mã, loại, giá trị, mức giảm tối đa, tạm tính tối thiểu và thời hạn.</value>
+  </data>
+  <data name="Vouchers.Note" xml:space="preserve">
+    <value>Mã chỉ bị ngừng, không bị xoá, để đơn cũ giữ đúng mã đã dùng.</value>
+  </data>
+  <data name="Vouchers.RulesNote" xml:space="preserve">
+    <value>PERCENT: giảm theo tỉ lệ trên tiền món, có mức tối đa. FIXED: không vượt quá tiền món. Cả hai so mức tối thiểu với tạm tính.</value>
+  </data>
+  <data name="Vouchers.Sub" xml:space="preserve">
+    <value>Mỗi đơn tối đa một mã; phần tính toán nằm trong bộ tính giá.</value>
+  </data>
+  <data name="Vouchers.Title" xml:space="preserve">
+    <value>Mã giảm giá</value>
+  </data>
+  <data name="Vouchers.Type" xml:space="preserve">
+    <value>Loại</value>
+  </data>
+  <data name="Vouchers.ValidFrom" xml:space="preserve">
+    <value>Hiệu lực từ</value>
+  </data>
+  <data name="Vouchers.ValidTo" xml:space="preserve">
+    <value>Hiệu lực đến</value>
+  </data>
+  <data name="Vouchers.Validity" xml:space="preserve">
+    <value>Hiệu lực</value>
+  </data>
+  <data name="Vouchers.Value" xml:space="preserve">
+    <value>Giá trị</value>
+  </data>
+  <data name="Vouchers.ValueHint" xml:space="preserve">
+    <value>Điểm phần trăm, hoặc số tiền cho mã cố định.</value>
+  </data>
+</root>

@@ -1,0 +1,406 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500" width="1000" height="1500" font-family="Times New Roman, serif">
+  <rect x="0" y="0" width="1000" height="1500" fill="#ffffff"/>
+  <text x="500" y="28" font-size="21" font-weight="bold" text-anchor="middle">SaigonBite class diagram and ERD — entities, domain types and the payment Strategy</text>
+
+  <!-- =============== ZONE LABELS =============== -->
+  <text x="172" y="44" font-size="12" font-style="italic" text-anchor="middle" fill="#1b3f6b">Identity — one schema, a discriminator</text>
+  <text x="520" y="44" font-size="12" font-style="italic" text-anchor="middle" fill="#7a4c08">Catalogue</text>
+  <text x="855" y="44" font-size="12" font-style="italic" text-anchor="middle" fill="#4c2c73">Pricing — BR1–BR12, pure</text>
+
+  <!-- =============== USER =============== -->
+  <rect x="15" y="52" width="180" height="135" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.5"/>
+  <text x="105" y="70" font-size="11.5" font-style="italic" text-anchor="middle" fill="#1b3f6b">«entity»</text>
+  <text x="105" y="87" font-size="16" font-weight="bold" text-anchor="middle">User</text>
+  <line x1="15" y1="93" x2="195" y2="93" stroke="#2a5c9a" stroke-width="1.1"/>
+  <text x="24" y="108" font-size="12">Id : Guid</text>
+  <text x="24" y="122" font-size="12">Username : string</text>
+  <text x="24" y="136" font-size="12">PasswordHash : string</text>
+  <text x="24" y="150" font-size="12">Role : ActorRole</text>
+  <text x="24" y="164" font-size="12">CustomerType? : CustomerType</text>
+  <text x="24" y="178" font-size="12">IsDeleted : bool</text>
+
+  <!-- profiles -->
+  <rect x="215" y="52" width="115" height="60" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.3"/>
+  <text x="272" y="67" font-size="10.5" font-style="italic" text-anchor="middle">«entity»</text>
+  <text x="272" y="82" font-size="12.5" font-weight="bold" text-anchor="middle">LocalCustomerProfile</text>
+  <line x1="215" y1="86" x2="330" y2="86" stroke="#2a5c9a" stroke-width="1"/>
+  <text x="222" y="102" font-size="12">Mobile : string</text>
+
+  <rect x="215" y="122" width="115" height="84" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.3"/>
+  <text x="272" y="137" font-size="10.5" font-style="italic" text-anchor="middle">«entity»</text>
+  <text x="272" y="152" font-size="12.5" font-weight="bold" text-anchor="middle">TouristProfile</text>
+  <line x1="215" y1="156" x2="330" y2="156" stroke="#2a5c9a" stroke-width="1"/>
+  <text x="222" y="171" font-size="11.5">PassportNumber : string</text>
+  <text x="222" y="185" font-size="11.5">Nationality : string</text>
+  <text x="222" y="199" font-size="11.5">Email : string</text>
+
+  <line x1="195" y1="80" x2="211" y2="80" stroke="#000000" stroke-width="1.1"/>
+  <text x="199" y="76" font-size="11">1</text>
+  <line x1="195" y1="140" x2="211" y2="140" stroke="#000000" stroke-width="1.1"/>
+  <text x="199" y="136" font-size="11">1</text>
+  <text x="318" y="76" font-size="11">0..1</text>
+  <text x="318" y="136" font-size="11">0..1</text>
+
+  <rect x="215" y="220" width="115" height="62" fill="#fffde7" stroke="#8a8a00" stroke-width="1"/>
+  <text x="272" y="235" font-size="11" text-anchor="middle">{discriminator}</text>
+  <text x="272" y="250" font-size="11" text-anchor="middle">CustomerType? picks</text>
+  <text x="272" y="265" font-size="11" text-anchor="middle">the profile (FR-E4)</text>
+
+  <!-- Order -> User -->
+  <line x1="105" y1="187" x2="105" y2="346" stroke="#000000" stroke-width="1.1"/>
+  <text x="110" y="204" font-size="11">1</text>
+  <text x="110" y="340" font-size="11">*</text>
+
+  <!-- =============== CATALOGUE =============== -->
+  <rect x="345" y="52" width="130" height="100" fill="#fdf3e3" stroke="#a86a12" stroke-width="1.4"/>
+  <text x="410" y="67" font-size="11" font-style="italic" text-anchor="middle" fill="#7a4c08">«entity»</text>
+  <text x="410" y="82" font-size="15" font-weight="bold" text-anchor="middle">Brand</text>
+  <line x1="345" y1="88" x2="475" y2="88" stroke="#a86a12" stroke-width="1"/>
+  <text x="353" y="104" font-size="12">Name : string</text>
+  <text x="353" y="119" font-size="12">Description : string</text>
+  <text x="353" y="134" font-size="12">IsDeleted : bool</text>
+
+  <rect x="490" y="60" width="60" height="62" fill="#fdf3e3" stroke="#a86a12" stroke-width="1.3"/>
+  <text x="520" y="74" font-size="10" font-style="italic" text-anchor="middle">«join»</text>
+  <text x="520" y="88" font-size="11.5" font-weight="bold" text-anchor="middle">HubBrand</text>
+  <line x1="490" y1="93" x2="550" y2="93" stroke="#a86a12" stroke-width="1"/>
+  <text x="495" y="107" font-size="10.5">HubId</text>
+  <text x="495" y="118" font-size="10.5">BrandId</text>
+
+  <rect x="565" y="52" width="130" height="118" fill="#fdf3e3" stroke="#a86a12" stroke-width="1.4"/>
+  <text x="630" y="67" font-size="11" font-style="italic" text-anchor="middle" fill="#7a4c08">«entity»</text>
+  <text x="630" y="82" font-size="15" font-weight="bold" text-anchor="middle">Hub</text>
+  <line x1="565" y1="88" x2="695" y2="88" stroke="#a86a12" stroke-width="1"/>
+  <text x="573" y="104" font-size="12">Name : string</text>
+  <text x="573" y="119" font-size="12">District : string</text>
+  <text x="573" y="134" font-size="12">Address : string</text>
+  <text x="573" y="149" font-size="12">KitchenCapacity : int</text>
+  <text x="573" y="164" font-size="12">IsDeleted : bool</text>
+
+  <rect x="345" y="166" width="130" height="118" fill="#fdf3e3" stroke="#a86a12" stroke-width="1.4"/>
+  <text x="410" y="181" font-size="11" font-style="italic" text-anchor="middle" fill="#7a4c08">«entity»</text>
+  <text x="410" y="196" font-size="15" font-weight="bold" text-anchor="middle">MenuItem</text>
+  <line x1="345" y1="202" x2="475" y2="202" stroke="#a86a12" stroke-width="1"/>
+  <text x="353" y="218" font-size="12">BrandId : int</text>
+  <text x="353" y="233" font-size="12">Category : string</text>
+  <text x="353" y="248" font-size="12">Name : string</text>
+  <text x="353" y="263" font-size="12">Price : long</text>
+  <text x="353" y="278" font-size="12">IsAvailable, IsDeleted : bool</text>
+
+  <rect x="565" y="182" width="130" height="143" fill="#fdf3e3" stroke="#a86a12" stroke-width="1.4"/>
+  <text x="630" y="197" font-size="11" font-style="italic" text-anchor="middle" fill="#7a4c08">«entity»</text>
+  <text x="630" y="212" font-size="15" font-weight="bold" text-anchor="middle">Voucher</text>
+  <line x1="565" y1="218" x2="695" y2="218" stroke="#a86a12" stroke-width="1"/>
+  <text x="573" y="234" font-size="12">Code : string</text>
+  <text x="573" y="249" font-size="12">Type : VoucherType</text>
+  <text x="573" y="264" font-size="12">Value, MaxDiscount : long</text>
+  <text x="573" y="279" font-size="12">MinSubtotal : long</text>
+  <text x="573" y="294" font-size="12">ValidFrom, ValidTo : DateOnly</text>
+  <text x="573" y="309" font-size="12">IsActive : bool</text>
+
+  <!-- catalogue relationships -->
+  <line x1="475" y1="100" x2="486" y2="100" stroke="#000000" stroke-width="1.1"/>
+  <text x="478" y="96" font-size="11">1</text>
+  <line x1="554" y1="100" x2="561" y2="100" stroke="#000000" stroke-width="1.1"/>
+  <text x="556" y="96" font-size="11">*</text>
+  <line x1="410" y1="152" x2="410" y2="162" stroke="#000000" stroke-width="1.1"/>
+  <text x="415" y="150" font-size="11">1</text>
+  <text x="415" y="164" font-size="11">*</text>
+
+  <!-- =============== PRICING =============== -->
+  <rect x="725" y="52" width="260" height="88" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.4"/>
+  <text x="855" y="67" font-size="11" font-style="italic" text-anchor="middle" fill="#4c2c73">«utility, pure»</text>
+  <text x="855" y="84" font-size="15" font-weight="bold" text-anchor="middle">PricingEngine</text>
+  <line x1="725" y1="90" x2="985" y2="90" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="733" y="107" font-size="12">+ Calculate(PriceContext) : PriceResult</text>
+  <text x="733" y="124" font-size="11.5" font-style="italic">no I/O, no state (NFR1, NFR2)</text>
+
+  <line x1="855" y1="140" x2="855" y2="152" stroke="#000000" stroke-width="1.1"/>
+  <polygon points="855,156 850,146 860,146" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <rect x="725" y="158" width="260" height="150" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.4"/>
+  <text x="855" y="173" font-size="11" font-style="italic" text-anchor="middle" fill="#4c2c73">«record»</text>
+  <text x="855" y="190" font-size="15" font-weight="bold" text-anchor="middle">PriceContext</text>
+  <line x1="725" y1="196" x2="985" y2="196" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="733" y="212" font-size="12">Lines : IReadOnlyList&lt;PriceLineRequest&gt;</text>
+  <text x="733" y="227" font-size="12">DistanceKm : decimal</text>
+  <text x="733" y="242" font-size="12">PlacementTime : DateTime   (UTC+7)</text>
+  <text x="733" y="257" font-size="12">RainFlagOn : bool</text>
+  <text x="733" y="272" font-size="12">HubLoadPercent : int   (0..100)</text>
+  <text x="733" y="287" font-size="12">HubRejectsNewOrders : bool   (BR8)</text>
+  <text x="733" y="302" font-size="12">Voucher : VoucherRequest?</text>
+
+  <line x1="855" y1="308" x2="855" y2="320" stroke="#000000" stroke-width="1.1"/>
+  <polygon points="855,324 850,314 860,314" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <rect x="725" y="330" width="260" height="196" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.4"/>
+  <text x="855" y="345" font-size="11" font-style="italic" text-anchor="middle" fill="#4c2c73">«record»</text>
+  <text x="855" y="362" font-size="15" font-weight="bold" text-anchor="middle">PriceResult</text>
+  <line x1="725" y1="368" x2="985" y2="368" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="733" y="384" font-size="12">Subtotal : long            (S)</text>
+  <text x="733" y="399" font-size="12">QuietKitchenDiscount : long   (Q)</text>
+  <text x="733" y="414" font-size="12">VoucherDiscount : long   (V)</text>
+  <text x="733" y="429" font-size="12">FoodTotal : long   (F = S − Q − V)</text>
+  <text x="733" y="444" font-size="12">DeliveryFee : long   (D)</text>
+  <text x="733" y="459" font-size="12">RushSurcharge : long   (R)</text>
+  <text x="733" y="474" font-size="12">RainSurcharge : long   (R2)</text>
+  <text x="733" y="489" font-size="12">Total : long   (rounded once, BR11)</text>
+  <text x="733" y="504" font-size="12">Rejections : IReadOnlyList&lt;PriceRejection&gt;</text>
+  <text x="733" y="519" font-size="12">IsAccepted =&gt; Rejections.Count == 0</text>
+
+  <rect x="725" y="542" width="260" height="130" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.4"/>
+  <text x="855" y="557" font-size="11" font-style="italic" text-anchor="middle" fill="#4c2c73">«record»</text>
+  <text x="855" y="574" font-size="15" font-weight="bold" text-anchor="middle">VoucherRequest</text>
+  <line x1="725" y1="580" x2="985" y2="580" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="733" y="596" font-size="12">Type : VoucherType</text>
+  <text x="733" y="611" font-size="12">Value, MaxDiscount : long</text>
+  <text x="733" y="626" font-size="12">MinSubtotal : long</text>
+  <text x="733" y="641" font-size="12">IsActive : bool</text>
+  <text x="733" y="656" font-size="12">ValidFrom, ValidTo : DateOnly</text>
+
+  <rect x="725" y="686" width="260" height="60" fill="#fffde7" stroke="#8a8a00" stroke-width="1"/>
+  <text x="733" y="703" font-size="11.5">PriceContext is assembled by OrderService from</text>
+  <text x="733" y="718" font-size="11.5">the Order snapshot; the engine never reads a</text>
+  <text x="733" y="733" font-size="11.5">database (FR-D14, BR17, NFR1).</text>
+
+  <!-- =============== ORDER =============== -->
+  <rect x="15" y="350" width="650" height="196" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.8"/>
+  <text x="340" y="367" font-size="11.5" font-style="italic" text-anchor="middle" fill="#245c27">«entity, aggregate root»</text>
+  <text x="340" y="386" font-size="16" font-weight="bold" text-anchor="middle">Order</text>
+  <line x1="15" y1="392" x2="665" y2="392" stroke="#2f7a33" stroke-width="1.1"/>
+  <text x="26" y="410" font-size="12.5">CustomerId : Guid</text>
+  <text x="26" y="426" font-size="12.5">HubId : int</text>
+  <text x="26" y="442" font-size="12.5">Status : OrderStatus</text>
+  <text x="26" y="458" font-size="12.5">PlacedAt : DateTime</text>
+  <text x="26" y="474" font-size="12.5">DistanceKm : decimal</text>
+  <text x="26" y="490" font-size="12.5">HubLoadPercent : int</text>
+  <text x="26" y="506" font-size="12.5">RainFlag : bool</text>
+  <text x="26" y="522" font-size="12.5">AssignedShipperId? : Guid</text>
+  <text x="26" y="538" font-size="12.5">PaymentMethod? : PaymentMethod</text>
+
+  <text x="240" y="410" font-size="12.5">Subtotal : long</text>
+  <text x="240" y="426" font-size="12.5">QuietKitchenDiscount : long</text>
+  <text x="240" y="442" font-size="12.5">VoucherDiscount : long</text>
+  <text x="240" y="458" font-size="12.5">FoodTotal : long</text>
+  <text x="240" y="474" font-size="12.5">DeliveryFee : long</text>
+  <text x="240" y="490" font-size="12.5">RushSurcharge : long</text>
+  <text x="240" y="506" font-size="12.5">RainSurcharge : long</text>
+  <text x="240" y="522" font-size="12.5">Total : long</text>
+  <text x="240" y="538" font-size="12.5">IsCashConfirmed : bool</text>
+
+  <text x="444" y="410" font-size="11.5" font-style="italic">The snapshot columns:</text>
+  <text x="444" y="426" font-size="11.5" font-style="italic">PlacedAt, HubLoadPercent,</text>
+  <text x="444" y="442" font-size="11.5" font-style="italic">RainFlag (FR-D14, BR17).</text>
+  <text x="444" y="464" font-size="11.5" font-style="italic">Money is long VND;</text>
+  <text x="444" y="480" font-size="11.5" font-style="italic">never deleted, never</text>
+  <text x="444" y="496" font-size="11.5" font-style="italic">recomputed after Placed</text>
+  <text x="444" y="512" font-size="11.5" font-style="italic">except from the snapshot</text>
+  <text x="444" y="528" font-size="11.5" font-style="italic">(FR-D12).</text>
+
+  <!-- Order -> Voucher (through the corridor) -->
+  <line x1="630" y1="325" x2="630" y2="346" stroke="#000000" stroke-width="1.1"/>
+  <text x="635" y="338" font-size="11">0..1</text>
+
+  <!-- =============== ORDER CHILDREN =============== -->
+  <line x1="105" y1="546" x2="105" y2="564" stroke="#000000" stroke-width="1.1"/>
+  <line x1="330" y1="546" x2="330" y2="564" stroke="#000000" stroke-width="1.1"/>
+  <line x1="560" y1="546" x2="560" y2="564" stroke="#000000" stroke-width="1.1"/>
+
+  <rect x="15" y="568" width="200" height="112" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.4"/>
+  <text x="115" y="583" font-size="11" font-style="italic" text-anchor="middle" fill="#245c27">«entity»</text>
+  <text x="115" y="600" font-size="15" font-weight="bold" text-anchor="middle">OrderLine</text>
+  <line x1="15" y1="606" x2="215" y2="606" stroke="#2f7a33" stroke-width="1"/>
+  <text x="24" y="622" font-size="12">MenuItemId : int</text>
+  <text x="24" y="638" font-size="12">ItemName : string</text>
+  <text x="24" y="654" font-size="12">UnitPrice : long</text>
+  <text x="24" y="670" font-size="12">Quantity : int   (1..20, BR12)</text>
+
+  <rect x="230" y="568" width="215" height="142" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.4"/>
+  <text x="337" y="583" font-size="11" font-style="italic" text-anchor="middle" fill="#245c27">«entity, audit»</text>
+  <text x="337" y="600" font-size="15" font-weight="bold" text-anchor="middle">OrderStatusHistory</text>
+  <line x1="230" y1="606" x2="445" y2="606" stroke="#2f7a33" stroke-width="1"/>
+  <text x="239" y="622" font-size="12">OrderId : Guid</text>
+  <text x="239" y="638" font-size="12">FromStatus, ToStatus : OrderStatus</text>
+  <text x="239" y="654" font-size="12">ActorRole : ActorRole</text>
+  <text x="239" y="670" font-size="12">ActorId : Guid</text>
+  <text x="239" y="686" font-size="12">Reason : string?</text>
+  <text x="239" y="702" font-size="12">OccurredAt : DateTime   (NFR5)</text>
+
+  <rect x="460" y="568" width="205" height="130" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.4"/>
+  <text x="562" y="583" font-size="11" font-style="italic" text-anchor="middle" fill="#245c27">«entity»</text>
+  <text x="562" y="600" font-size="15" font-weight="bold" text-anchor="middle">PaymentRecord</text>
+  <line x1="460" y1="606" x2="665" y2="606" stroke="#2f7a33" stroke-width="1"/>
+  <text x="469" y="622" font-size="12">OrderId : Guid</text>
+  <text x="469" y="638" font-size="12">StrategyKey : string</text>
+  <text x="469" y="654" font-size="12">Amount : long</text>
+  <text x="469" y="670" font-size="12">GatewayReference : string?</text>
+  <text x="469" y="686" font-size="12">Success : bool · CreatedAt : DateTime</text>
+
+  <rect x="15" y="702" width="215" height="36" fill="#fffde7" stroke="#8a8a00" stroke-width="1"/>
+  <text x="23" y="718" font-size="10.5">ItemName and UnitPrice are a snapshot</text>
+  <text x="23" y="731" font-size="10.5">of MenuItem (FR-A4, BR12)</text>
+
+  <!-- =============== STATE MACHINE =============== -->
+  <rect x="15" y="748" width="300" height="118" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.4"/>
+  <text x="165" y="763" font-size="11" font-style="italic" text-anchor="middle" fill="#4c2c73">«utility»</text>
+  <text x="165" y="780" font-size="15" font-weight="bold" text-anchor="middle">OrderStateMachine</text>
+  <line x1="15" y1="786" x2="315" y2="786" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="24" y="802" font-size="11.5">+ CanTransition(from, to, actor) : TransitionResult</text>
+  <text x="24" y="818" font-size="11.5">+ IsTerminal(status) : bool</text>
+  <text x="24" y="834" font-size="11.5">+ AllowedNext(from, actor) : IReadOnlyCollection</text>
+  <text x="24" y="852" font-size="11" font-style="italic">BR15, BR16 — the only place a transition is judged</text>
+
+  <rect x="330" y="740" width="150" height="178" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.4"/>
+  <text x="405" y="755" font-size="11" font-style="italic" text-anchor="middle" fill="#4c2c73">«enumeration»</text>
+  <text x="405" y="772" font-size="14" font-weight="bold" text-anchor="middle">OrderStatus</text>
+  <line x1="330" y1="778" x2="480" y2="778" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="338" y="794" font-size="11.5">Placed = 0</text>
+  <text x="338" y="808" font-size="11.5">Confirmed = 1</text>
+  <text x="338" y="822" font-size="11.5">Preparing = 2</text>
+  <text x="338" y="836" font-size="11.5">Ready = 3</text>
+  <text x="338" y="850" font-size="11.5">OutForDelivery = 4</text>
+  <text x="338" y="864" font-size="11.5">Delivered = 5</text>
+  <text x="338" y="878" font-size="11.5">Cancelled = 6</text>
+  <text x="338" y="892" font-size="11.5">Failed = 7</text>
+
+  <rect x="495" y="740" width="160" height="120" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.4"/>
+  <text x="575" y="755" font-size="11" font-style="italic" text-anchor="middle" fill="#4c2c73">«enumeration»</text>
+  <text x="575" y="772" font-size="14" font-weight="bold" text-anchor="middle">ActorRole</text>
+  <line x1="495" y1="778" x2="655" y2="778" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="503" y="794" font-size="11.5">Customer = 0</text>
+  <text x="503" y="808" font-size="11.5">KitchenStaff = 1</text>
+  <text x="503" y="822" font-size="11.5">Shipper = 2</text>
+  <text x="503" y="836" font-size="11.5">Admin = 3</text>
+  <text x="503" y="850" font-size="11.5">System = 4</text>
+
+  <line x1="315" y1="790" x2="326" y2="790" stroke="#333333" stroke-width="1" stroke-dasharray="4,3"/>
+  <polyline points="250,748 250,725 575,725 575,736" fill="none" stroke="#333333" stroke-width="1" stroke-dasharray="4,3"/>
+  <polygon points="575,740 570,730 580,730" fill="#ffffff" stroke="#333333" stroke-width="1"/>
+  <text x="330" y="722" font-size="11" font-style="italic">«use»</text>
+
+  <!-- =============== STRATEGY =============== -->
+  <line x1="15" y1="905" x2="985" y2="905" stroke="#a52a2a" stroke-width="0.8" stroke-dasharray="8,5"/>
+  <text x="500" y="920" font-size="13" font-weight="bold" text-anchor="middle" fill="#7d1f1f">STRATEGY PATTERN FOR PAYMENTS — BR13, BR14, NFR2</text>
+
+  <rect x="15" y="930" width="340" height="145" fill="#fdeaea" stroke="#a52a2a" stroke-width="1.8"/>
+  <text x="185" y="946" font-size="11.5" font-style="italic" text-anchor="middle" fill="#7d1f1f">«interface»</text>
+  <text x="185" y="964" font-size="16" font-weight="bold" text-anchor="middle">IPaymentStrategy</text>
+  <line x1="15" y1="971" x2="355" y2="971" stroke="#a52a2a" stroke-width="1.1"/>
+  <text x="25" y="988" font-size="12">+ Method : PaymentMethod   { get; }</text>
+  <text x="25" y="1004" font-size="12">+ Key : string   { get; }</text>
+  <text x="25" y="1020" font-size="12">+ IsAvailableFor(CustomerType) : bool</text>
+  <text x="25" y="1036" font-size="12">+ ChargeAsync(PaymentRequest, CancellationToken)</text>
+  <text x="25" y="1052" font-size="12">      : Task&lt;PaymentResult&gt;</text>
+  <text x="25" y="1068" font-size="11" font-style="italic">one class per method; a new method adds no edit here</text>
+
+  <rect x="370" y="930" width="300" height="112" fill="#fdeaea" stroke="#a52a2a" stroke-width="1.4"/>
+  <text x="520" y="946" font-size="11.5" font-style="italic" text-anchor="middle" fill="#7d1f1f">«interface»</text>
+  <text x="520" y="964" font-size="15" font-weight="bold" text-anchor="middle">IPaymentStrategyResolver</text>
+  <line x1="370" y1="971" x2="670" y2="971" stroke="#a52a2a" stroke-width="1"/>
+  <text x="380" y="988" font-size="12">+ Resolve(PaymentMethod) : IPaymentStrategy</text>
+  <text x="380" y="1004" font-size="12">+ AvailableFor(CustomerType)</text>
+  <text x="380" y="1020" font-size="12">      : IReadOnlyList&lt;IPaymentStrategy&gt;</text>
+  <text x="380" y="1036" font-size="11" font-style="italic">FR-P1 — the actor filter lives here</text>
+
+  <rect x="685" y="930" width="300" height="112" fill="#fdeaea" stroke="#a52a2a" stroke-width="1.4"/>
+  <text x="835" y="946" font-size="11.5" font-style="italic" text-anchor="middle" fill="#7d1f1f">«record»</text>
+  <text x="835" y="964" font-size="15" font-weight="bold" text-anchor="middle">PaymentRequest</text>
+  <line x1="685" y1="971" x2="985" y2="971" stroke="#a52a2a" stroke-width="1"/>
+  <text x="695" y="988" font-size="12">OrderId : Guid · Amount : long</text>
+  <text x="695" y="1004" font-size="12">Method : PaymentMethod</text>
+  <text x="695" y="1020" font-size="12">CustomerType : CustomerType</text>
+  <text x="695" y="1036" font-size="12">ReturnUrl : string?</text>
+
+  <rect x="685" y="1055" width="300" height="112" fill="#fdeaea" stroke="#a52a2a" stroke-width="1.4"/>
+  <text x="835" y="1071" font-size="11.5" font-style="italic" text-anchor="middle" fill="#7d1f1f">«record»</text>
+  <text x="835" y="1089" font-size="15" font-weight="bold" text-anchor="middle">PaymentResult</text>
+  <line x1="685" y1="1096" x2="985" y2="1096" stroke="#a52a2a" stroke-width="1"/>
+  <text x="695" y="1113" font-size="12">Success : bool</text>
+  <text x="695" y="1129" font-size="12">GatewayReference : string?</text>
+  <text x="695" y="1145" font-size="12">Error : string?</text>
+  <text x="695" y="1161" font-size="12">RequiresCashConfirmation : bool</text>
+
+  <rect x="370" y="1080" width="300" height="112" fill="#fdeaea" stroke="#a52a2a" stroke-width="1.4"/>
+  <text x="520" y="1096" font-size="11.5" font-style="italic" text-anchor="middle" fill="#7d1f1f">«service»</text>
+  <text x="520" y="1114" font-size="15" font-weight="bold" text-anchor="middle">PaymentStrategyResolver</text>
+  <line x1="370" y1="1121" x2="670" y2="1121" stroke="#a52a2a" stroke-width="1"/>
+  <text x="380" y="1138" font-size="12">- strategies : IReadOnlyList&lt;IPaymentStrategy&gt;</text>
+  <text x="380" y="1154" font-size="12">+ Resolve(PaymentMethod) : IPaymentStrategy</text>
+  <text x="380" y="1170" font-size="12">+ AvailableFor(CustomerType) : …</text>
+  <text x="380" y="1186" font-size="11" font-style="italic">registered once in DI (NFR2)</text>
+
+  <!-- realization : resolver -->
+  <line x1="520" y1="1080" x2="520" y2="1048" stroke="#333333" stroke-width="1" stroke-dasharray="5,3"/>
+  <polygon points="520,1042 515,1052 525,1052" fill="#ffffff" stroke="#333333" stroke-width="1"/>
+
+  <!-- aggregation : resolver -> IPaymentStrategy -->
+  <polyline points="370,1140 358,1140 358,1010 359,1010" fill="none" stroke="#333333" stroke-width="1"/>
+  <polygon points="355,1010 367,1005 367,1015" fill="#ffffff" stroke="#333333" stroke-width="1"/>
+  <text x="363" y="1136" font-size="11">1</text>
+  <text x="363" y="1006" font-size="11">0..*</text>
+
+  <!-- the five implementations -->
+  <polyline points="185,1084 185,1204 105,1204 105,1210" fill="none" stroke="#333333" stroke-width="1"/>
+  <polygon points="185,1076 179,1086 191,1086" fill="#ffffff" stroke="#333333" stroke-width="1"/>
+  <polyline points="185,1204 295,1204 295,1210" fill="none" stroke="#333333" stroke-width="1"/>
+  <polyline points="185,1204 485,1204 485,1210" fill="none" stroke="#333333" stroke-width="1"/>
+  <polyline points="185,1204 675,1204 675,1210" fill="none" stroke="#333333" stroke-width="1"/>
+  <polyline points="185,1204 865,1204 865,1210" fill="none" stroke="#333333" stroke-width="1"/>
+
+  <rect x="15" y="1212" width="180" height="98" fill="#ffffff" stroke="#a52a2a" stroke-width="1.3"/>
+  <text x="105" y="1231" font-size="14" font-weight="bold" text-anchor="middle">MomoStrategy</text>
+  <line x1="15" y1="1237" x2="195" y2="1237" stroke="#a52a2a" stroke-width="1"/>
+  <text x="24" y="1253" font-size="11.5">Key = "momo"</text>
+  <text x="24" y="1268" font-size="11.5">IsAvailableFor: Local</text>
+  <text x="24" y="1283" font-size="11.5">BR13</text>
+
+  <rect x="205" y="1212" width="180" height="98" fill="#ffffff" stroke="#a52a2a" stroke-width="1.3"/>
+  <text x="295" y="1231" font-size="14" font-weight="bold" text-anchor="middle">VnPayStrategy</text>
+  <line x1="205" y1="1237" x2="385" y2="1237" stroke="#a52a2a" stroke-width="1"/>
+  <text x="214" y="1253" font-size="11.5">Key = "vnpay"</text>
+  <text x="214" y="1268" font-size="11.5">IsAvailableFor: Local</text>
+  <text x="214" y="1283" font-size="11.5">BR13 · live sandbox (Tier 4)</text>
+
+  <rect x="395" y="1212" width="180" height="98" fill="#ffffff" stroke="#a52a2a" stroke-width="1.3"/>
+  <text x="485" y="1231" font-size="14" font-weight="bold" text-anchor="middle">ApplePayStrategy</text>
+  <line x1="395" y1="1237" x2="575" y2="1237" stroke="#a52a2a" stroke-width="1"/>
+  <text x="404" y="1253" font-size="11.5">Key = "applepay"</text>
+  <text x="404" y="1268" font-size="11.5">IsAvailableFor: Tourist</text>
+  <text x="404" y="1283" font-size="11.5">BR13</text>
+
+  <rect x="585" y="1212" width="180" height="98" fill="#ffffff" stroke="#a52a2a" stroke-width="1.3"/>
+  <text x="675" y="1231" font-size="14" font-weight="bold" text-anchor="middle">PayPalStrategy</text>
+  <line x1="585" y1="1237" x2="765" y2="1237" stroke="#a52a2a" stroke-width="1"/>
+  <text x="594" y="1253" font-size="11.5">Key = "paypal"</text>
+  <text x="594" y="1268" font-size="11.5">IsAvailableFor: Tourist</text>
+  <text x="594" y="1283" font-size="11.5">BR13</text>
+
+  <rect x="775" y="1212" width="180" height="98" fill="#ffffff" stroke="#a52a2a" stroke-width="1.3"/>
+  <text x="865" y="1231" font-size="14" font-weight="bold" text-anchor="middle">CodStrategy</text>
+  <line x1="775" y1="1237" x2="955" y2="1237" stroke="#a52a2a" stroke-width="1"/>
+  <text x="784" y="1253" font-size="11.5">Key = "cod"</text>
+  <text x="784" y="1268" font-size="11.5">Local and Tourist</text>
+  <text x="784" y="1283" font-size="11.5">refuses Total &gt; 1,000,000 (BR14)</text>
+
+  <!-- enums and note -->
+  <rect x="15" y="1330" width="240" height="98" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.3"/>
+  <text x="135" y="1345" font-size="11" font-style="italic" text-anchor="middle" fill="#4c2c73">«enumeration»</text>
+  <text x="135" y="1360" font-size="13.5" font-weight="bold" text-anchor="middle">PaymentMethod</text>
+  <line x1="15" y1="1366" x2="255" y2="1366" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="24" y="1382" font-size="11.5">Momo = 0 · VnPay = 1 · ApplePay = 2</text>
+  <text x="24" y="1397" font-size="11.5">PayPal = 3 · CashOnDelivery = 4</text>
+
+  <rect x="270" y="1330" width="190" height="72" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.3"/>
+  <text x="365" y="1345" font-size="11" font-style="italic" text-anchor="middle" fill="#4c2c73">«enumeration»</text>
+  <text x="365" y="1360" font-size="13.5" font-weight="bold" text-anchor="middle">CustomerType</text>
+  <line x1="270" y1="1366" x2="460" y2="1366" stroke="#6b3fa0" stroke-width="1"/>
+  <text x="279" y="1382" font-size="11.5">Local = 0 · Tourist = 1</text>
+  <text x="279" y="1397" font-size="11.5">BR18</text>
+
+  <rect x="475" y="1330" width="480" height="98" fill="#fffde7" stroke="#8a8a00" stroke-width="1.1"/>
+  <text x="486" y="1348" font-size="12.5" font-weight="bold">Why this is the right structure for BR13 (NFR2)</text>
+  <text x="486" y="1367" font-size="11.5">OrderService asks the resolver for an IPaymentStrategy and never names a gateway. A new method is</text>
+  <text x="486" y="1384" font-size="11.5">one class implementing this interface plus one DI registration line: no existing class is edited, and the</text>
+  <text x="486" y="1401" font-size="11.5">actor restriction of BR13 stays inside IsAvailableFor, next to the method it belongs to.</text>
+
+  <text x="500" y="1462" font-size="14.5" font-style="italic" text-anchor="middle">Figure 2.4.2: SaigonBite class diagram — the twelve CONTRACT entities, the customer generalisation with its</text>
+  <text x="500" y="1482" font-size="14.5" font-style="italic" text-anchor="middle">discriminator, the pure pricing types and the payment Strategy (BR13, BR14, NFR2)</text>
+</svg>

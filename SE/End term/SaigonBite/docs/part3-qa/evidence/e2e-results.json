@@ -1,0 +1,95 @@
+{
+  "base": "http://localhost:5080",
+  "ranAt": "2026-10-22T18:25:26.979Z",
+  "total": 17,
+  "passed": 17,
+  "failed": 0,
+  "screenshotDir": "/home/towfienes/TDTU/SE/End term/SaigonBite/docs/part3-qa/screenshots",
+  "results": [
+    {
+      "name": "NFR3 GET / responds",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "NFR3 GET / has content",
+      "ok": true,
+      "detail": "1717 chars"
+    },
+    {
+      "name": "NFR3 GET /account/login responds",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "NFR3 GET /account/login has content",
+      "ok": true,
+      "detail": "431 chars"
+    },
+    {
+      "name": "NFR3 GET /account/register/local responds",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "NFR3 GET /account/register/local has content",
+      "ok": true,
+      "detail": "429 chars"
+    },
+    {
+      "name": "NFR3 GET /account/register/tourist responds",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "NFR3 GET /account/register/tourist has content",
+      "ok": true,
+      "detail": "480 chars"
+    },
+    {
+      "name": "NFR3 no horizontal scroll at 390px",
+      "ok": true,
+      "detail": "overflow 0px"
+    },
+    {
+      "name": "NFR3 no horizontal scroll at 768px",
+      "ok": true,
+      "detail": "overflow 0px"
+    },
+    {
+      "name": "NFR3 no horizontal scroll at 1440px",
+      "ok": true,
+      "detail": "overflow 0px"
+    },
+    {
+      "name": "NFR4 /orders refuses anonymous access",
+      "ok": true,
+      "detail": "redirected to login"
+    },
+    {
+      "name": "NFR4 /admin refuses anonymous access",
+      "ok": true,
+      "detail": "redirected to login"
+    },
+    {
+      "name": "NFR4 /reports/revenue refuses anonymous access",
+      "ok": true,
+      "detail": "redirected to login"
+    },
+    {
+      "name": "NFR4 /deliveries refuses anonymous access",
+      "ok": true,
+      "detail": "redirected to login"
+    },
+    {
+      "name": "FR-S1 language toggle present",
+      "ok": true,
+      "detail": "EN"
+    },
+    {
+      "name": "NFR3 landing page console is clean",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

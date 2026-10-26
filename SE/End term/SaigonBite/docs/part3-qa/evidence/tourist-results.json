@@ -1,0 +1,44 @@
+{
+  "base": "http://localhost:5080",
+  "ranAt": "2026-10-22T18:25:36.724Z",
+  "total": 7,
+  "passed": 7,
+  "failed": 0,
+  "steps": [
+    {
+      "n": "the tourist registration form asks for a passport, not a mobile number",
+      "ok": true,
+      "d": "Skip to content SaigonBite Menu Hubs EN VI Sign in Register REGISTER · FOREIGN VISITOR Foreign visitor Passport number, "
+    },
+    {
+      "n": "the seeded tourist account signs in",
+      "ok": true,
+      "d": "http://localhost:5080/brands"
+    },
+    {
+      "n": "a tourist can fill a basket",
+      "ok": true,
+      "d": "http://localhost:5080/brands?hubId=1"
+    },
+    {
+      "n": "BR13: the tourist is offered Apple Pay, PayPal and cash only",
+      "ok": true,
+      "d": "ApplePay, CashOnDelivery, PayPal"
+    },
+    {
+      "n": "BR10: the tourist checkout shows the full breakdown",
+      "ok": true,
+      "d": "Skip to content SaigonBite Menu Hubs Basket My orders EN VI Emma Wilson Sign out USE CASE D · ORDERS"
+    },
+    {
+      "n": "the tourist order is placed",
+      "ok": true,
+      "d": "order 28, /orders/28"
+    },
+    {
+      "n": "the tourist order stores the hotel delivery address",
+      "ok": true,
+      "d": "Skip to content SaigonBite Menu Hubs Basket My orders EN VI Emma Wilson Sign out Order placed and payment recorded. ORDE"
+    }
+  ]
+}

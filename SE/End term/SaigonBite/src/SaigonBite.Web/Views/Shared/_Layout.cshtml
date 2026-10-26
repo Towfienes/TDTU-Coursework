@@ -1,0 +1,141 @@
+@using System.Globalization
+@{
+    var culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isVi = culture == "vi";
+    var role = User.GetRole();
+    var controller = (string?)ViewContext.RouteData.Values["controller"] ?? string.Empty;
+    var path = ViewContext.HttpContext.Request.Path.ToString();
+}
+<!DOCTYPE html>
+<html lang="@culture">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · SaigonBite</title>
+    <link rel="stylesheet" href="~/vendor/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* Inline SVG favicon: avoids a 404 for /favicon.ico on every page load *@
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23111'/%3E%3Ctext x='16' y='23' font-family='Times New Roman,serif' font-size='20' font-weight='700' fill='%23fff' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+<a class="skip-link" href="#main">@L["Common.SkipToContent"]</a>
+
+<header class="site-header">
+    <nav class="navbar navbar-expand-lg container-xxl">
+        <a class="navbar-brand brand-mark" asp-controller="Home" asp-action="Index">
+            <span class="brand-dot"></span> SaigonBite
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="@L["Common.ToggleNavigation"]">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link @(controller == "Brands" ? "active" : "")"
+                       asp-controller="Brands" asp-action="Index">@L["Nav.Menu"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(controller == "Hubs" ? "active" : "")"
+                       asp-controller="Hubs" asp-action="Index">@L["Nav.Hubs"]</a>
+                </li>
+
+                @if (role == Roles.Customer)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(controller == "Orders" && path.EndsWith("/cart") ? "active" : "")"
+                           asp-controller="Orders" asp-action="Cart">@L["Nav.Cart"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(path == "/orders" ? "active" : "")"
+                           asp-controller="Orders" asp-action="Index">@L["Nav.Orders"]</a>
+                    </li>
+                }
+
+                @if (role == Roles.KitchenStaff || role == Roles.Shipper || role == Roles.Admin)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(controller == "Deliveries" ? "active" : "")"
+                           asp-controller="Deliveries" asp-action="Index">@L["Nav.Deliveries"]</a>
+                    </li>
+                }
+
+                @if (role == Roles.Admin)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">@L["Nav.Admin"]</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index">@L["Nav.Dashboard"]</a></li>
+                            <li><a class="dropdown-item" asp-controller="Reports" asp-action="Revenue">@L["Nav.RevenueReport"]</a></li>
+                            <li><a class="dropdown-item" asp-controller="Reports" asp-action="Utilisation">@L["Nav.UtilisationReport"]</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" asp-controller="Vouchers" asp-action="Index">@L["Nav.Vouchers"]</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="Users">@L["Nav.Users"]</a></li>
+                            <li><a class="dropdown-item" asp-controller="Brands" asp-action="Create">@L["Nav.NewBrand"]</a></li>
+                            <li><a class="dropdown-item" asp-controller="Hubs" asp-action="Create">@L["Nav.NewHub"]</a></li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+
+            <div class="d-flex align-items-center gap-3 nav-tools">
+                <div class="lang-toggle" role="group" aria-label="@L["Nav.Language"]">
+                    <a class="lang-option @(isVi ? "" : "is-active")" aria-current="@(isVi ? null : "true")"
+                       asp-controller="Account" asp-action="Language" asp-route-culture="en"
+                       asp-route-returnUrl="@(path + ViewContext.HttpContext.Request.QueryString)">EN</a>
+                    <a class="lang-option @(isVi ? "is-active" : "")" aria-current="@(isVi ? "true" : null)"
+                       asp-controller="Account" asp-action="Language" asp-route-culture="vi"
+                       asp-route-returnUrl="@(path + ViewContext.HttpContext.Request.QueryString)">VI</a>
+                </div>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <span class="nav-user d-none d-lg-inline">@User.GetDisplayName()</span>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-outline-ink">@L["Nav.Logout"]</button>
+                    </form>
+                }
+                else
+                {
+                    <a class="btn btn-sm btn-outline-ink" asp-controller="Account" asp-action="Login">@L["Nav.Login"]</a>
+                    <a class="btn btn-sm btn-ember" asp-controller="Account" asp-action="RegisterLocal">@L["Nav.Register"]</a>
+                }
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main id="main" class="container-xxl py-4 py-lg-5">
+    @if (TempData["Message"] is string message)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="status">
+            @message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@L["Common.Close"]"></button>
+        </div>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @error
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@L["Common.Close"]"></button>
+        </div>
+    }
+
+    @RenderBody()
+</main>
+
+<footer class="site-footer">
+    <div class="container-xxl d-flex flex-column flex-md-row justify-content-between gap-2">
+        <span>SaigonBite — @L["Footer.Tagline"]</span>
+        <span class="text-muted small">@L["Footer.Note"]</span>
+    </div>
+</footer>
+
+<script src="~/vendor/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

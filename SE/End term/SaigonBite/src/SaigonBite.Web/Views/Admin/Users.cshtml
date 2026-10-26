@@ -1,0 +1,65 @@
+@model IReadOnlyList<User>
+@{
+    ViewData["Title"] = L["Admin.UsersTitle"].Value;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">@L["UseCaseE"]</p>
+        <h1 class="h2 mb-1">@L["Admin.UsersTitle"]</h1>
+        <p class="panel-sub mb-0">@L["Admin.UsersSub"] <span class="br-ref">FR-E4</span></p>
+    </div>
+    <a class="btn btn-sm btn-outline-ink" asp-controller="Admin" asp-action="Index">@L["Nav.Dashboard"]</a>
+</div>
+
+<div class="panel p-0 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-ink align-middle mb-0">
+            <thead>
+                <tr>
+                    <th scope="col">@L["Admin.Account"]</th>
+                    <th scope="col">@L["Admin.Role"]</th>
+                    <th scope="col">@L["Admin.CustomerType"]</th>
+                    <th scope="col">@L["Common.Hub"]</th>
+                    <th scope="col">@L["Common.Status"]</th>
+                    <th scope="col" class="text-end">@L["Common.Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        <span class="fw-semibold d-block">@user.DisplayName</span>
+                        <span class="menu-meta">@user.Username</span>
+                    </td>
+                    <td>@user.Role</td>
+                    <td>@(user.CustomerType?.ToString() ?? "—")</td>
+                    <td>@(user.Hub?.Name ?? "—")</td>
+                    <td>
+                        @if (user.IsDeleted)
+                        {
+                            <span class="status-badge status-cancelled">@L["Admin.Deactivated"]</span>
+                        }
+                        else
+                        {
+                            <span class="status-badge status-delivered">@L["Admin.Active"]</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <form asp-controller="Admin" asp-action="ToggleUser" method="post" class="m-0">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-ink">
+                                @(user.IsDeleted ? L["Admin.Reactivate"] : L["Admin.Deactivate"])
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p class="panel-sub mt-3 mb-0">@L["Admin.UsersNote"] <span class="br-ref">FR-E4 · NFR4</span></p>

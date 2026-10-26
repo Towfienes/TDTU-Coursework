@@ -1,0 +1,216 @@
+@model OrderDetailsVm
+@{
+    var order = Model.Order;
+    ViewData["Title"] = L["Orders.Track"] + " #" + order.Id;
+    var isCash = order.PaymentMethod == PaymentMethod.CashOnDelivery;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">@L["Orders.Number"] #@order.Id</p>
+        <h1 class="h2 mb-1">@order.Hub?.Name</h1>
+        <p class="panel-sub mb-0">
+            @order.PlacedAt.ToString("dd/MM/yyyy HH:mm") · @order.Hub?.District
+        </p>
+    </div>
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+        <partial name="_StatusBadge" model="order.Status" />
+        <a class="btn btn-sm btn-outline-ink" asp-controller="Orders" asp-action="Index">@L["Orders.BackToList"]</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-lg-7">
+        <section class="panel mb-4">
+            <h2 class="panel-title mb-3">@L["Orders.Lines"]</h2>
+            <div class="table-responsive">
+                <table class="table table-ink align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">@L["Common.Item"]</th>
+                            <th scope="col" class="text-end">@L["Common.Price"]</th>
+                            <th scope="col" class="text-center">@L["Common.Quantity"]</th>
+                            <th scope="col" class="text-end">@L["Common.LineTotal"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var line in Model.Lines)
+                    {
+                        <tr>
+                            <td>
+                                <span class="fw-semibold d-block">@line.ItemName</span>
+                                <span class="menu-meta">@line.BrandName · @line.CategoryName</span>
+                            </td>
+                            <td class="text-end money">@Money.Vnd(line.UnitPrice)</td>
+                            <td class="text-center">@line.Quantity</td>
+                            <td class="text-end money">@Money.Vnd(line.LineTotal)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel mb-4">
+            <h2 class="panel-title mb-2">@L["Orders.Audit"]</h2>
+            <p class="panel-sub mb-3">@L["Orders.AuditSub"] <span class="br-ref">FR-S5 · NFR5</span></p>
+
+            <ol class="timeline mb-0">
+                @foreach (var entry in Model.History)
+                {
+                    var css = entry.Applied ? "is-ok" : "is-rejected";
+                    <li class="@css">
+                        <span class="what">
+                            @L["Status." + entry.FromStatus] → @L["Status." + entry.ToStatus]
+                        </span>
+                        <span class="when d-block">
+                            @entry.OccurredAt.ToString("dd/MM/yyyy HH:mm:ss") · @entry.ActorRole
+                            @if (!entry.Applied)
+                            {
+                                <span class="status-badge status-failed ms-1">@L["Orders.Rejected"]</span>
+                            }
+                        </span>
+                        @if (!string.IsNullOrWhiteSpace(entry.Reason))
+                        {
+                            <span class="why d-block">@entry.Reason</span>
+                        }
+                    </li>
+                }
+            </ol>
+        </section>
+
+        <section class="panel">
+            <h2 class="panel-title mb-2">@L["Orders.Payments"]</h2>
+            @if (Model.Payments.Count == 0)
+            {
+                <p class="panel-sub mb-0">@L["Orders.NoPayments"]</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-ink align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">@L["Orders.Strategy"]</th>
+                                <th scope="col" class="text-end">@L["Orders.Amount"]</th>
+                                <th scope="col">@L["Orders.GatewayRef"]</th>
+                                <th scope="col">@L["Common.Status"]</th>
+                                <th scope="col">@L["Orders.When"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var payment in Model.Payments)
+                        {
+                            <tr>
+                                <td>@payment.StrategyKey</td>
+                                <td class="text-end money">@Money.VndSigned(payment.Amount)</td>
+                                <td class="small">@(payment.GatewayReference ?? "—")</td>
+                                <td>
+                                    @if (payment.Success)
+                                    {
+                                        <span class="status-badge status-delivered">@L["Orders.Success"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge status-failed">@L["Orders.Failed"]</span>
+                                    }
+                                </td>
+                                <td class="small">@payment.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
+    </div>
+
+    <div class="col-12 col-lg-5">
+        <div class="sticky-summary">
+            <section class="panel mb-4">
+                <h2 class="panel-title mb-2">@L["Orders.Breakdown"]</h2>
+                @if (Model.Breakdown is not null)
+                {
+                    <partial name="_PriceBreakdown" model="Model.Breakdown" />
+                }
+            </section>
+
+            <section class="panel mb-4">
+                <h2 class="panel-title mb-2">@L["Orders.Delivery"]</h2>
+                <dl class="row mb-0 small">
+                    <dt class="col-6 text-muted fw-normal">@L["Orders.Distance"]</dt>
+                    <dd class="col-6 text-end mb-1">@order.DistanceKm.ToString("0.##") km</dd>
+
+                    <dt class="col-6 text-muted fw-normal">@L["Orders.PaymentMethod"]</dt>
+                    <dd class="col-6 text-end mb-1">@(order.PaymentMethod?.ToString() ?? "—")</dd>
+
+                    @if (isCash)
+                    {
+                        <dt class="col-6 text-muted fw-normal">@L["Orders.CashConfirmed"]</dt>
+                        <dd class="col-6 text-end mb-1">
+                            @(order.IsCashConfirmed ? L["Common.Yes"].Value : L["Common.No"].Value)
+                        </dd>
+                    }
+
+                    <dt class="col-6 text-muted fw-normal">@L["Orders.Shipper"]</dt>
+                    <dd class="col-6 text-end mb-1">@(order.AssignedShipper?.DisplayName ?? "—")</dd>
+
+                    @if (!string.IsNullOrWhiteSpace(order.HotelName))
+                    {
+                        <dt class="col-6 text-muted fw-normal">@L["Checkout.Hotel"]</dt>
+                        <dd class="col-6 text-end mb-1">@order.HotelName</dd>
+
+                        <dt class="col-6 text-muted fw-normal">@L["Checkout.Room"]</dt>
+                        <dd class="col-6 text-end mb-1">@order.RoomNumber</dd>
+                    }
+                </dl>
+
+                @if (!string.IsNullOrWhiteSpace(order.Notes))
+                {
+                    <p class="panel-sub mt-2 mb-0">@L["Checkout.Notes"]: @order.Notes</p>
+                }
+            </section>
+
+            <section class="panel">
+                <h2 class="panel-title mb-3">@L["Orders.Actions"]</h2>
+
+                <div class="d-grid gap-2">
+                    @if (Model.CanEdit)
+                    {
+                        <a class="btn btn-outline-ink" asp-controller="Orders" asp-action="Edit"
+                           asp-route-id="@order.Id">@L["Orders.EditItems"]</a>
+                    }
+
+                    @if (Model.CanCancel)
+                    {
+                        <form asp-controller="Orders" asp-action="Cancel" method="post" class="m-0">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-outline-ink w-100">@L["Orders.CancelOrder"]</button>
+                        </form>
+                        <p class="panel-sub mb-0">@L["Orders.CancelNote"] <span class="br-ref">BR16</span></p>
+                    }
+
+                    @if (Model.CanRetryPayment)
+                    {
+                        <form asp-controller="Orders" asp-action="Pay" method="post" class="m-0">
+                            @Html.AntiForgeryToken()
+                            <label class="form-label d-block mt-2" for="pay-method">@L["Orders.RetryPayment"]</label>
+                            <select class="form-select mb-2" id="pay-method" name="method">
+                                @foreach (var strategy in Model.PaymentOptions)
+                                {
+                                    <option value="@strategy.Method">@strategy.Method</option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-ember w-100">@L["Orders.Pay"]</button>
+                        </form>
+                    }
+
+                    @if (!Model.CanEdit && !Model.CanCancel && !Model.CanRetryPayment)
+                    {
+                        <p class="panel-sub mb-0">@L["Orders.NoActions"]</p>
+                    }
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

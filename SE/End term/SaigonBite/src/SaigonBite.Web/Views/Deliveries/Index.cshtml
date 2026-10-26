@@ -1,0 +1,188 @@
+@model DeliveryBoardVm
+@{
+    ViewData["Title"] = L["Deliveries.Title"].Value;
+    var isAdmin = Model.Mode == "Admin";
+    var isKitchen = Model.Mode == "Kitchen";
+    var isShipper = Model.Mode == "Shipper";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">@L["UseCaseF"]</p>
+        <h1 class="h2 mb-1">@L["Deliveries.Title"]</h1>
+        <p class="panel-sub mb-0">
+            @if (isKitchen && Model.KitchenHub is not null)
+            {
+                @L["Deliveries.KitchenSub"] <strong>@Model.KitchenHub.Name</strong>
+            }
+            else if (isShipper)
+            {
+                @L["Deliveries.ShipperSub"]
+            }
+            else
+            {
+                @L["Deliveries.AdminSub"]
+            }
+        </p>
+    </div>
+    <span class="badge-soft">@L["Deliveries.Mode"]: @Model.Mode</span>
+</div>
+
+@if (Model.Orders.Count == 0)
+{
+    <div class="empty-state">@L["Deliveries.Empty"]</div>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var order in Model.Orders)
+        {
+            var canConfirmCash = order.PaymentMethod == PaymentMethod.CashOnDelivery && !order.IsCashConfirmed;
+            <div class="col-12 col-xl-6">
+                <article class="panel h-100">
+                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                        <div>
+                            <p class="muted-label mb-0">@L["Orders.Number"] #@order.Id</p>
+                            <h2 class="h5 mb-0">@order.Hub?.Name</h2>
+                            <p class="panel-sub mb-0">
+                                @order.PlacedAt.ToString("dd/MM/yyyy HH:mm") ·
+                                @(order.Customer?.DisplayName ?? "—")
+                            </p>
+                        </div>
+                        <partial name="_StatusBadge" model="order.Status" />
+                    </div>
+
+                    <ul class="list-unstyled small mb-2">
+                        @foreach (var line in order.Lines.Where(l => !l.IsRemoved))
+                        {
+                            <li>@line.Quantity × @line.ItemName</li>
+                        }
+                    </ul>
+
+                    <div class="d-flex flex-wrap gap-3 align-items-center mb-2">
+                        <span class="badge-soft">@(order.PaymentMethod?.ToString() ?? "—")</span>
+                        <span class="badge-soft">@order.DistanceKm.ToString("0.##") km</span>
+                        @if (order.PaymentMethod == PaymentMethod.CashOnDelivery)
+                        {
+                            <span class="badge-soft">
+                                @L["Orders.CashConfirmed"]: @(order.IsCashConfirmed ? L["Common.Yes"].Value : L["Common.No"].Value)
+                            </span>
+                        }
+                    </div>
+
+                    @* The money panel is the BR10 breakdown: the board never shows a bare total (FR-D11). *@
+                    <details class="mb-2">
+                        <summary class="badge-soft">@L["Price.Total"] @Money.Vnd(order.Total)</summary>
+                        <div class="mt-2">
+                            <partial name="_PriceBreakdown" model="BreakdownVm.FromOrder(order)" />
+                        </div>
+                    </details>
+
+                    @if (!string.IsNullOrWhiteSpace(order.HotelName))
+                    {
+                        <p class="panel-sub mb-2">
+                            @L["Checkout.Hotel"]: <strong>@order.HotelName</strong> · @L["Checkout.Room"] @order.RoomNumber
+                        </p>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(order.Notes))
+                    {
+                        <p class="panel-sub mb-2">@order.Notes</p>
+                    }
+
+                    @* Advance buttons are rendered only for transitions the state machine allows; the POST
+                       is still re-checked server-side (BR15, NFR4). *@
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+                        @foreach (var next in OrderStateMachine.AllowedNext(order.Status, User.GetActorRole()))
+                        {
+                            <form asp-controller="Deliveries" asp-action="Advance" method="post" class="m-0">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@order.Id" />
+                                <input type="hidden" name="to" value="@next" />
+                                <button type="submit" class="btn btn-sm btn-ember">@L["Deliveries.MoveTo"] @L["Status." + next]</button>
+                            </form>
+                        }
+                    </div>
+
+                    @if (isShipper && order.Status == OrderStatus.OutForDelivery && canConfirmCash)
+                    {
+                        <form asp-controller="Deliveries" asp-action="ConfirmCash" method="post" class="mb-2 m-0">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@order.Id" />
+                            <button type="submit" class="btn btn-sm btn-jade">@L["Deliveries.ConfirmCash"]</button>
+                        </form>
+                    }
+
+                    @if (isShipper && order.Status == OrderStatus.OutForDelivery && canConfirmCash)
+                    {
+                        <p class="small text-ember mb-2">@L["Deliveries.CashFirst"] <span class="br-ref">BR14</span></p>
+                    }
+
+                    @if (isShipper && order.Status == OrderStatus.OutForDelivery)
+                    {
+                        <details class="mt-1">
+                            <summary class="small">@L["Deliveries.ReportFailure"]</summary>
+                            <form asp-controller="Deliveries" asp-action="Fail" method="post" class="mt-2">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@order.Id" />
+                                <label class="form-label small" for="reason-@order.Id">@L["Deliveries.FailureReason"]</label>
+                                <input class="form-control form-control-sm mb-2" id="reason-@order.Id" name="reason" />
+                                <button type="submit" class="btn btn-sm btn-outline-ink">@L["Deliveries.SubmitFailure"]</button>
+                            </form>
+                        </details>
+                    }
+
+                    @if (isAdmin && order.Status == OrderStatus.Ready)
+                    {
+                        <form asp-controller="Deliveries" asp-action="Assign" method="post" class="mt-2">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@order.Id" />
+                            <label class="form-label small" for="shipper-@order.Id">@L["Deliveries.AssignShipper"]</label>
+                            <div class="d-flex gap-2">
+                                <select class="form-select form-select-sm" id="shipper-@order.Id" name="shipperId">
+                                    @foreach (var shipper in Model.Shippers)
+                                    {
+                                        <option value="@shipper.Id">@shipper.DisplayName</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-outline-ink">@L["Deliveries.Assign"]</button>
+                            </div>
+                        </form>
+                    }
+
+                    @if (isKitchen && order.Status == OrderStatus.Placed)
+                    {
+                        <details class="mt-2">
+                            <summary class="small">@L["Deliveries.Reject"]</summary>
+                            <form asp-controller="Deliveries" asp-action="Cancel" method="post" class="mt-2">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@order.Id" />
+                                <label class="form-label small" for="reject-@order.Id">
+                                    @L["Deliveries.ReasonRequired"] <span class="br-ref">BR16 · A5</span>
+                                </label>
+                                <input class="form-control form-control-sm mb-2" id="reject-@order.Id" name="reason" />
+                                <button type="submit" class="btn btn-sm btn-outline-ink">@L["Deliveries.RejectOrder"]</button>
+                            </form>
+                        </details>
+                    }
+
+                    @if (isAdmin && order.Status == OrderStatus.Confirmed)
+                    {
+                        <details class="mt-2">
+                            <summary class="small">@L["Deliveries.AdminCancel"]</summary>
+                            <form asp-controller="Deliveries" asp-action="Cancel" method="post" class="mt-2">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@order.Id" />
+                                <label class="form-label small" for="admin-cancel-@order.Id">
+                                    @L["Deliveries.ReasonRequired"] <span class="br-ref">BR16 · A5</span>
+                                </label>
+                                <input class="form-control form-control-sm mb-2" id="admin-cancel-@order.Id" name="reason" />
+                                <button type="submit" class="btn btn-sm btn-outline-ink">@L["Deliveries.CancelOrder"]</button>
+                            </form>
+                        </details>
+                    }
+                </article>
+            </div>
+        }
+    </div>
+}

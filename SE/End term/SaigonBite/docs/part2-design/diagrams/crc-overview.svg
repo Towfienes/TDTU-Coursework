@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 970 1120" width="970" height="1120" font-family="Times New Roman, serif">
+  <rect x="0" y="0" width="970" height="1120" fill="#ffffff"/>
+  <text x="485" y="36" font-size="24" font-weight="bold" text-anchor="middle">CRC cards for the six classes that carry the design</text>
+  <text x="485" y="58" font-size="15" font-style="italic" text-anchor="middle">Class · Responsibilities · Collaborators — full tables for ten classes are in part2.md, Section 4</text>
+
+  <!-- ================= CARD 1 : Order ================= -->
+  <rect x="25" y="76" width="440" height="300" fill="#ffffff" stroke="#2a5c9a" stroke-width="1.6"/>
+  <rect x="25" y="76" width="440" height="46" fill="#e8f0fb" stroke="#2a5c9a" stroke-width="1.6"/>
+  <text x="38" y="106" font-size="19" font-weight="bold" fill="#1b3f6b">Order</text>
+  <text x="452" y="105" font-size="14" font-style="italic" text-anchor="end" fill="#1b3f6b">«entity»</text>
+  <text x="38" y="146" font-size="14" font-weight="bold">Responsibilities</text>
+  <text x="38" y="170" font-size="14">• Holds 1 to 30 lines and the placement snapshot (FR-D1, FR-D14)</text>
+  <text x="38" y="192" font-size="14">• Exposes Status only as an OrderStatus value (BR15)</text>
+  <text x="38" y="214" font-size="14">• Stores every money field; recomputes nothing (BR10)</text>
+  <text x="38" y="236" font-size="14">• Holds AssignedShipperId and IsCashConfirmed (BR14, A1)</text>
+  <text x="38" y="258" font-size="14">• Never deleted; lines editable only while Placed (BR17)</text>
+  <text x="38" y="292" font-size="14" font-weight="bold">Collaborators</text>
+  <text x="38" y="314" font-size="14">OrderLine · OrderStatusHistory · PaymentRecord · Hub · User · Voucher</text>
+  <text x="38" y="344" font-size="14" font-style="italic">It knows its own data and none of the rules.</text>
+
+  <!-- ================= CARD 2 : OrderService ================= -->
+  <rect x="505" y="76" width="440" height="300" fill="#ffffff" stroke="#2f7a33" stroke-width="1.6"/>
+  <rect x="505" y="76" width="440" height="46" fill="#eaf6ea" stroke="#2f7a33" stroke-width="1.6"/>
+  <text x="518" y="106" font-size="19" font-weight="bold" fill="#245c27">OrderService</text>
+  <text x="932" y="105" font-size="14" font-style="italic" text-anchor="end" fill="#245c27">«service»</text>
+  <text x="518" y="146" font-size="14" font-weight="bold">Responsibilities</text>
+  <text x="518" y="170" font-size="14">• Places one order inside one transaction (FR-D11)</text>
+  <text x="518" y="192" font-size="14">• Builds PriceContext from the stored snapshot (BR17)</text>
+  <text x="518" y="214" font-size="14">• Resolves the strategy, charges, records the outcome (FR-P3)</text>
+  <text x="518" y="236" font-size="14">• Writes one OrderStatusHistory row per transition (FR-S5)</text>
+  <text x="518" y="258" font-size="14">• Refuses any transition the state machine rejects (BR15)</text>
+  <text x="518" y="292" font-size="14" font-weight="bold">Collaborators</text>
+  <text x="518" y="314" font-size="14">PricingEngine · IPaymentStrategyResolver · OrderStateMachine</text>
+  <text x="518" y="336" font-size="14">SaigonBiteDbContext · VoucherService</text>
+  <text x="518" y="364" font-size="14" font-style="italic">It owns the order of events, not the rules.</text>
+
+  <!-- ================= CARD 3 : PricingEngine ================= -->
+  <rect x="25" y="396" width="440" height="300" fill="#ffffff" stroke="#6b3fa0" stroke-width="1.6"/>
+  <rect x="25" y="396" width="440" height="46" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.6"/>
+  <text x="38" y="426" font-size="19" font-weight="bold" fill="#4c2c73">PricingEngine</text>
+  <text x="452" y="425" font-size="14" font-style="italic" text-anchor="end" fill="#4c2c73">«utility, pure»</text>
+  <text x="38" y="466" font-size="14" font-weight="bold">Responsibilities</text>
+  <text x="38" y="490" font-size="14">• Rejects on BR1, BR2, BR8, BR12 in that order (CONTRACT.md)</text>
+  <text x="38" y="512" font-size="14">• Applies the nine steps of BR10 and nothing else</text>
+  <text x="38" y="534" font-size="14">• Rounds once, at step 9, half up (BR11)</text>
+  <text x="38" y="556" font-size="14">• Returns PriceRejection values; it never throws (BR1–BR12)</text>
+  <text x="38" y="578" font-size="14">• Performs no I/O and holds no state (NFR1, NFR6)</text>
+  <text x="38" y="612" font-size="14" font-weight="bold">Collaborators</text>
+  <text x="38" y="634" font-size="14">PriceContext · PriceResult · PriceLineRequest · VoucherRequest</text>
+  <text x="38" y="656" font-size="14">PriceRejection</text>
+  <text x="38" y="680" font-size="14" font-style="italic">Nobody calls it except OrderService.</text>
+
+  <!-- ================= CARD 4 : OrderStateMachine ================= -->
+  <rect x="505" y="396" width="440" height="300" fill="#ffffff" stroke="#6b3fa0" stroke-width="1.6"/>
+  <rect x="505" y="396" width="440" height="46" fill="#f3e8fb" stroke="#6b3fa0" stroke-width="1.6"/>
+  <text x="518" y="426" font-size="19" font-weight="bold" fill="#4c2c73">OrderStateMachine</text>
+  <text x="932" y="425" font-size="14" font-style="italic" text-anchor="end" fill="#4c2c73">«utility»</text>
+  <text x="518" y="466" font-size="14" font-weight="bold">Responsibilities</text>
+  <text x="518" y="490" font-size="14">• CanTransition(from, to, actor) is the whole of BR15</text>
+  <text x="518" y="512" font-size="14">• Demands a reason for staff cancellation (BR16, A5)</text>
+  <text x="518" y="534" font-size="14">• IsTerminal answers for Delivered, Cancelled, Failed</text>
+  <text x="518" y="556" font-size="14">• AllowedNext shapes the buttons; it never enforces alone</text>
+  <text x="518" y="578" font-size="14">• Rejects every unlisted pair, server-side (NFR6)</text>
+  <text x="518" y="612" font-size="14" font-weight="bold">Collaborators</text>
+  <text x="518" y="634" font-size="14">OrderStatus · ActorRole · TransitionResult · OrderService</text>
+  <text x="518" y="664" font-size="14" font-style="italic">Pure, so all five illegal-transition tests run without a host.</text>
+
+  <!-- ================= CARD 5 : IPaymentStrategy ================= -->
+  <rect x="25" y="716" width="440" height="300" fill="#ffffff" stroke="#a52a2a" stroke-width="1.6"/>
+  <rect x="25" y="716" width="440" height="46" fill="#fdeaea" stroke="#a52a2a" stroke-width="1.6"/>
+  <text x="38" y="746" font-size="19" font-weight="bold" fill="#7d1f1f">IPaymentStrategy</text>
+  <text x="452" y="745" font-size="14" font-style="italic" text-anchor="end" fill="#7d1f1f">«interface»</text>
+  <text x="38" y="786" font-size="14" font-weight="bold">Responsibilities</text>
+  <text x="38" y="810" font-size="14">• ChargeAsync per gateway: async and cancellable (BR13)</text>
+  <text x="38" y="832" font-size="14">• IsAvailableFor(CustomerType) encodes the actor matrix (BR13)</text>
+  <text x="38" y="854" font-size="14">• Key is stored verbatim on PaymentRecord (FR-P3)</text>
+  <text x="38" y="876" font-size="14">• COD refuses a rounded total over 1,000,000 (FR-P2, BR14)</text>
+  <text x="38" y="898" font-size="14">• Five implementations: MoMo, VNPay, Apple Pay, PayPal, COD</text>
+  <text x="38" y="932" font-size="14" font-weight="bold">Collaborators</text>
+  <text x="38" y="954" font-size="14">PaymentRequest · PaymentResult · CustomerType · PaymentMethod</text>
+  <text x="38" y="984" font-size="14" font-style="italic">One class per method; adding a sixth touches no existing class.</text>
+
+  <!-- ================= CARD 6 : PaymentStrategyResolver ================= -->
+  <rect x="505" y="716" width="440" height="300" fill="#ffffff" stroke="#a52a2a" stroke-width="1.6"/>
+  <rect x="505" y="716" width="440" height="46" fill="#fdeaea" stroke="#a52a2a" stroke-width="1.6"/>
+  <text x="518" y="746" font-size="19" font-weight="bold" fill="#7d1f1f">PaymentStrategyResolver</text>
+  <text x="932" y="745" font-size="14" font-style="italic" text-anchor="end" fill="#7d1f1f">«service»</text>
+  <text x="518" y="786" font-size="14" font-weight="bold">Responsibilities</text>
+  <text x="518" y="810" font-size="14">• Resolve(PaymentMethod) returns the one registered strategy</text>
+  <text x="518" y="832" font-size="14">• AvailableFor(CustomerType) lists what the actor may use (FR-P1)</text>
+  <text x="518" y="854" font-size="14">• One DI registration per new class, zero edits (NFR2)</text>
+  <text x="518" y="876" font-size="14">• An unknown method fails loudly instead of falling back</text>
+  <text x="518" y="898" font-size="14">• Implements IPaymentStrategyResolver (CONTRACT.md)</text>
+  <text x="518" y="932" font-size="14" font-weight="bold">Collaborators</text>
+  <text x="518" y="954" font-size="14">IPaymentStrategy · PaymentMethod · CustomerType · DI container</text>
+  <text x="518" y="984" font-size="14" font-style="italic">The only place that knows all five names.</text>
+
+  <text x="485" y="1064" font-size="15" font-style="italic" text-anchor="middle">Figure 2.4.1: CRC cards for Order, OrderService, PricingEngine, OrderStateMachine, IPaymentStrategy and</text>
+  <text x="485" y="1086" font-size="15" font-style="italic" text-anchor="middle">PaymentStrategyResolver</text>
+</svg>

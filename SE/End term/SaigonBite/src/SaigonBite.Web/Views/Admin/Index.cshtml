@@ -1,0 +1,178 @@
+@model DashboardVm
+@{
+    ViewData["Title"] = L["Admin.DashboardTitle"].Value;
+    var from = (DateOnly)ViewData["From"]!;
+    var to = (DateOnly)ViewData["To"]!;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">@L["Admin.Eyebrow"]</p>
+        <h1 class="h2 mb-1">@L["Admin.DashboardTitle"]</h1>
+        <p class="panel-sub mb-0">@L["Admin.DashboardSub"] <span class="br-ref">FR-S3</span></p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-sm btn-outline-ink" asp-controller="Reports" asp-action="Revenue">@L["Nav.RevenueReport"]</a>
+        <a class="btn btn-sm btn-outline-ink" asp-controller="Reports" asp-action="Utilisation">@L["Nav.UtilisationReport"]</a>
+        <a class="btn btn-sm btn-outline-ink" asp-controller="Admin" asp-action="Users">@L["Nav.Users"]</a>
+    </div>
+</div>
+
+<section class="panel mb-4">
+    <form method="get" asp-controller="Admin" asp-action="Index" class="row g-3 align-items-end">
+        <div class="col-12 col-sm-3">
+            <label class="form-label" for="from">@L["Common.From"]</label>
+            <input class="form-control" id="from" name="from" type="date" value="@from.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-12 col-sm-3">
+            <label class="form-label" for="to">@L["Common.To"]</label>
+            <input class="form-control" id="to" name="to" type="date" value="@to.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-12 col-sm-3">
+            <button type="submit" class="btn btn-ember">@L["Common.Apply"]</button>
+        </div>
+    </form>
+</section>
+
+<div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="panel h-100">
+            <p class="kpi-label mb-1">@L["Reports.TotalRevenue"]</p>
+            <p class="kpi mb-0">@Money.Vnd(Model.Revenue.TotalRevenue)</p>
+            <p class="panel-sub mb-0">@Model.Revenue.OrderCount @L["Reports.Orders"]</p>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="panel h-100">
+            <p class="kpi-label mb-1">@L["Admin.OrdersInFlight"]</p>
+            <p class="kpi mb-0">
+                @(Model.StatusCounts.Where(kv => kv.Key is OrderStatus.Placed or OrderStatus.Confirmed
+                        or OrderStatus.Preparing or OrderStatus.Ready or OrderStatus.OutForDelivery)
+                    .Sum(kv => kv.Value))
+            </p>
+            <p class="panel-sub mb-0">@L["Admin.OrdersInFlightSub"]</p>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="panel h-100">
+            <p class="kpi-label mb-1">@L["Reports.RefusingHubs"]</p>
+            <p class="kpi mb-0">@Model.Utilisation.RefusingHubCount</p>
+            <p class="panel-sub mb-0">@L["Reports.RefusingHubsSub"] <span class="br-ref">BR8</span></p>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="panel h-100">
+            <p class="kpi-label mb-1">@L["Admin.RainFlag"]</p>
+            <p class="kpi mb-1">@(Model.RainFlag ? L["Common.On"].Value : L["Common.Off"].Value)</p>
+            <form asp-controller="Admin" asp-action="RainFlag" method="post" class="m-0">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="enabled" value="@(Model.RainFlag ? "false" : "true")" />
+                <button type="submit" class="btn btn-sm btn-outline-ink">
+                    @(Model.RainFlag ? L["Admin.TurnRainOff"] : L["Admin.TurnRainOn"])
+                </button>
+            </form>
+            <p class="panel-sub mb-0 mt-2">@L["Admin.RainFlagNote"] <span class="br-ref">BR5 · FR-S4</span></p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-12 col-xl-7">
+        <section class="panel h-100">
+            <h2 class="panel-title mb-1">@L["Reports.ByCategory"]</h2>
+            <p class="panel-sub mb-3">@L["Admin.ChartCategorySub"]</p>
+            <div class="chart-box">
+                <canvas id="categoryChart" aria-label="@L["Reports.ByCategory"]" role="img"></canvas>
+            </div>
+        </section>
+    </div>
+    <div class="col-12 col-xl-5">
+        <section class="panel h-100">
+            <h2 class="panel-title mb-1">@L["Reports.ByPayment"]</h2>
+            <p class="panel-sub mb-3">@L["Admin.ChartPaymentSub"]</p>
+            <div class="chart-box">
+                <canvas id="paymentChart" aria-label="@L["Reports.ByPayment"]" role="img"></canvas>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-xl-6">
+        <section class="panel h-100">
+            <h2 class="panel-title mb-1">@L["Reports.CurrentLoad"]</h2>
+            <p class="panel-sub mb-3">@L["Admin.ChartLoadSub"] <span class="br-ref">BR8</span></p>
+            <div class="chart-box">
+                <canvas id="loadChart" aria-label="@L["Reports.CurrentLoad"]" role="img"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-12 col-xl-6">
+        <section class="panel h-100">
+            <h2 class="panel-title mb-1">@L["Admin.Funnel"]</h2>
+            <p class="panel-sub mb-3">@L["Admin.FunnelSub"]</p>
+            <div class="table-responsive">
+                <table class="table table-ink align-middle mb-0">
+                    <tbody>
+                    @foreach (var status in Enum.GetValues<OrderStatus>())
+                    {
+                        <tr>
+                            <td><partial name="_StatusBadge" model="status" /></td>
+                            <td class="text-end money">
+                                @(Model.StatusCounts.TryGetValue(status, out var count) ? count : 0)
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+
+<section class="panel mt-4">
+    <h2 class="panel-title mb-1">@L["Reports.UtilisationTitle"]</h2>
+    <p class="panel-sub mb-3">@L["Admin.UtilisationSub"]</p>
+    <div class="table-responsive">
+        <table class="table table-ink align-middle mb-0">
+            <thead>
+                <tr>
+                    <th scope="col">@L["Common.Hub"]</th>
+                    <th scope="col" class="text-end">@L["Reports.OrdersHandled"]</th>
+                    <th scope="col" class="text-end">@L["Reports.AvgPrep"]</th>
+                    <th scope="col" class="text-end">@L["Reports.CurrentLoad"]</th>
+                    <th scope="col" class="text-end">@L["Reports.QuietKitchen"]</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var row in Model.Utilisation.Rows)
+            {
+                <tr>
+                    <td class="fw-semibold">@row.HubName</td>
+                    <td class="text-end">@row.OrdersHandled</td>
+                    <td class="text-end">@row.AveragePreparationMinutes.ToString("0.0") min</td>
+                    <td class="text-end">@row.CurrentLoadPercent%</td>
+                    <td class="text-end">@row.QuietKitchenCount</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/vendor/chart.umd.min.js"></script>
+    <script>
+        (function () {
+            if (typeof Chart === "undefined") { return; }
+            var category = @Html.Raw(Model.CategoryChartJson);
+            var payment = @Html.Raw(Model.PaymentChartJson);
+            var load = @Html.Raw(Model.LoadChartJson);
+
+            new Chart(document.getElementById("categoryChart"), category);
+            new Chart(document.getElementById("paymentChart"), payment);
+            new Chart(document.getElementById("loadChart"), load);
+        })();
+    </script>
+}

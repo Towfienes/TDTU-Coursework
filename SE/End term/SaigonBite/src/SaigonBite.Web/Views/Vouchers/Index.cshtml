@@ -1,0 +1,78 @@
+@model IReadOnlyList<Voucher>
+@{
+    ViewData["Title"] = L["Nav.Vouchers"].Value;
+    var today = VietnamTime.Today;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">@L["UseCaseC"]</p>
+        <h1 class="h2 mb-1">@L["Vouchers.Title"]</h1>
+        <p class="panel-sub mb-0">@L["Vouchers.Sub"]</p>
+    </div>
+    <a class="btn btn-sm btn-ember" asp-controller="Vouchers" asp-action="Create">@L["Vouchers.New"]</a>
+</div>
+
+<div class="panel p-0 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-ink align-middle mb-0">
+            <thead>
+                <tr>
+                    <th scope="col">@L["Vouchers.Code"]</th>
+                    <th scope="col">@L["Vouchers.Type"]</th>
+                    <th scope="col" class="text-end">@L["Vouchers.Value"]</th>
+                    <th scope="col" class="text-end">@L["Vouchers.Cap"]</th>
+                    <th scope="col" class="text-end">@L["Vouchers.MinSubtotal"]</th>
+                    <th scope="col">@L["Vouchers.Validity"]</th>
+                    <th scope="col">@L["Common.Status"]</th>
+                    <th scope="col" class="text-end">@L["Common.Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var voucher in Model)
+            {
+                var expired = voucher.ValidTo < today;
+                <tr>
+                    <td class="fw-semibold">@voucher.Code</td>
+                    <td>@voucher.Type</td>
+                    <td class="text-end money">
+                        @(voucher.Type == VoucherType.Percent ? $"{voucher.Value}%" : Money.Vnd(voucher.Value))
+                    </td>
+                    <td class="text-end money">@Money.Vnd(voucher.MaxDiscount)</td>
+                    <td class="text-end money">@Money.Vnd(voucher.MinSubtotal)</td>
+                    <td class="small">@voucher.ValidFrom.ToString("dd/MM/yyyy") – @voucher.ValidTo.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        @if (!voucher.IsActive)
+                        {
+                            <span class="status-badge status-cancelled">@L["Vouchers.Inactive"]</span>
+                        }
+                        else if (expired)
+                        {
+                            <span class="status-badge status-failed">@L["Vouchers.Expired"]</span>
+                        }
+                        else
+                        {
+                            <span class="status-badge status-delivered">@L["Vouchers.Active"]</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <div class="d-inline-flex flex-wrap gap-1 justify-content-end">
+                            <a class="btn btn-sm btn-outline-ink" asp-controller="Vouchers" asp-action="Edit"
+                               asp-route-id="@voucher.Id">@L["Common.Edit"]</a>
+                            <form asp-controller="Vouchers" asp-action="Toggle" method="post" class="m-0">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@voucher.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-ink">
+                                    @(voucher.IsActive ? L["Vouchers.Deactivate"] : L["Vouchers.Activate"])
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p class="panel-sub mt-3 mb-0">@L["Vouchers.Note"] <span class="br-ref">BR9</span></p>

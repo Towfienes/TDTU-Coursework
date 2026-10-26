@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = L["Error.Title"].Value;
+}
+
+<section class="panel">
+    <p class="eyebrow mb-2">SaigonBite</p>
+    <h1 class="h3">@L["Error.Title"]</h1>
+    <p class="panel-sub mb-3">@L["Error.Body"]</p>
+    <a class="btn btn-ember" asp-controller="Home" asp-action="Index">@L["Common.BackHome"]</a>
+</section>

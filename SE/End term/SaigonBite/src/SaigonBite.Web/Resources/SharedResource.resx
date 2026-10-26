@@ -1,0 +1,1050 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account.Code" xml:space="preserve">
+    <value>Verification code</value>
+  </data>
+  <data name="Account.ConfirmPassword" xml:space="preserve">
+    <value>Repeat password</value>
+  </data>
+  <data name="Account.DeniedBody" xml:space="preserve">
+    <value>Roles are enforced on the server: each role only reaches its own functions (FR-S2, NFR4).</value>
+  </data>
+  <data name="Account.DeniedTitle" xml:space="preserve">
+    <value>You do not have access to that function</value>
+  </data>
+  <data name="Account.DisplayName" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="Account.Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Account.EmailCodeIs" xml:space="preserve">
+    <value>Your email code is</value>
+  </data>
+  <data name="Account.EmailHint" xml:space="preserve">
+    <value>Used as the sign-in identifier.</value>
+  </data>
+  <data name="Account.Eyebrow" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Account.LocalEyebrow" xml:space="preserve">
+    <value>Register · local customer</value>
+  </data>
+  <data name="Account.LocalSub" xml:space="preserve">
+    <value>A Vietnamese mobile number and a simulated one-time code (BR18).</value>
+  </data>
+  <data name="Account.LoginSub" xml:space="preserve">
+    <value>Local customers sign in with a mobile number, visitors with an email address.</value>
+  </data>
+  <data name="Account.LoginTitle" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Account.Mobile" xml:space="preserve">
+    <value>Mobile number</value>
+  </data>
+  <data name="Account.MobileHint" xml:space="preserve">
+    <value>10 digits starting 03, 05, 07, 08 or 09.</value>
+  </data>
+  <data name="Account.Nationality" xml:space="preserve">
+    <value>Nationality</value>
+  </data>
+  <data name="Account.NoAccount" xml:space="preserve">
+    <value>No account yet?</value>
+  </data>
+  <data name="Account.OtpIs" xml:space="preserve">
+    <value>Your one-time code is</value>
+  </data>
+  <data name="Account.Passport" xml:space="preserve">
+    <value>Passport number</value>
+  </data>
+  <data name="Account.PassportHint" xml:space="preserve">
+    <value>6 to 9 letters or digits.</value>
+  </data>
+  <data name="Account.Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Account.PasswordHint" xml:space="preserve">
+    <value>At least 8 characters; stored as a hash.</value>
+  </data>
+  <data name="Account.RegisterLocal" xml:space="preserve">
+    <value>Local customer</value>
+  </data>
+  <data name="Account.RegisterTourist" xml:space="preserve">
+    <value>Foreign visitor</value>
+  </data>
+  <data name="Account.Registered" xml:space="preserve">
+    <value>Account created:</value>
+  </data>
+  <data name="Account.SendEmailCode" xml:space="preserve">
+    <value>Send the email code</value>
+  </data>
+  <data name="Account.SendOtp" xml:space="preserve">
+    <value>Send the code</value>
+  </data>
+  <data name="Account.SignIn" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Account.Simulated" xml:space="preserve">
+    <value>Simulated delivery</value>
+  </data>
+  <data name="Account.TouristEyebrow" xml:space="preserve">
+    <value>Register · foreign visitor</value>
+  </data>
+  <data name="Account.TouristSub" xml:space="preserve">
+    <value>Passport number, nationality, email and a simulated email code (BR18).</value>
+  </data>
+  <data name="Account.Username" xml:space="preserve">
+    <value>Mobile number, email or staff account</value>
+  </data>
+  <data name="Account.UsernameHint" xml:space="preserve">
+    <value>Seeded examples: 0901234567, emma.wilson@example.com, admin</value>
+  </data>
+  <data name="Account.Verify" xml:space="preserve">
+    <value>Verify and create the account</value>
+  </data>
+  <data name="Account.VerifySentTo" xml:space="preserve">
+    <value>Code sent to</value>
+  </data>
+  <data name="Account.VerifyTitle" xml:space="preserve">
+    <value>Enter the verification code</value>
+  </data>
+  <data name="Admin.Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Admin.Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Admin.ChartCategorySub" xml:space="preserve">
+    <value>Revenue per brand category (₫).</value>
+  </data>
+  <data name="Admin.ChartLoadSub" xml:space="preserve">
+    <value>Live load per hub.</value>
+  </data>
+  <data name="Admin.ChartPaymentSub" xml:space="preserve">
+    <value>Share of revenue per payment method (₫).</value>
+  </data>
+  <data name="Admin.CustomerType" xml:space="preserve">
+    <value>Customer type</value>
+  </data>
+  <data name="Admin.DashboardSub" xml:space="preserve">
+    <value>Revenue, hub load and the order funnel for the chosen range.</value>
+  </data>
+  <data name="Admin.DashboardTitle" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Admin.Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="Admin.Deactivated" xml:space="preserve">
+    <value>Deactivated</value>
+  </data>
+  <data name="Admin.Eyebrow" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="Admin.Funnel" xml:space="preserve">
+    <value>Order funnel</value>
+  </data>
+  <data name="Admin.FunnelSub" xml:space="preserve">
+    <value>All orders ever placed, by state.</value>
+  </data>
+  <data name="Admin.OrdersInFlight" xml:space="preserve">
+    <value>Orders in flight</value>
+  </data>
+  <data name="Admin.OrdersInFlightSub" xml:space="preserve">
+    <value>Placed, confirmed, preparing, ready or out for delivery.</value>
+  </data>
+  <data name="Admin.RainFlag" xml:space="preserve">
+    <value>Heavy-rain flag</value>
+  </data>
+  <data name="Admin.RainFlagNote" xml:space="preserve">
+    <value>Applies to new orders only; placed orders keep their snapshot.</value>
+  </data>
+  <data name="Admin.Reactivate" xml:space="preserve">
+    <value>Reactivate</value>
+  </data>
+  <data name="Admin.Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Admin.TurnRainOff" xml:space="preserve">
+    <value>Turn the surcharge off</value>
+  </data>
+  <data name="Admin.TurnRainOn" xml:space="preserve">
+    <value>Turn the surcharge on</value>
+  </data>
+  <data name="Admin.UsersNote" xml:space="preserve">
+    <value>Deactivating is a soft delete: the account disappears from sign-in but its orders stay intact.</value>
+  </data>
+  <data name="Admin.UsersSub" xml:space="preserve">
+    <value>Both customer types and every staff role live in one schema with a discriminator.</value>
+  </data>
+  <data name="Admin.UsersTitle" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="Admin.UtilisationSub" xml:space="preserve">
+    <value>Per-hub totals for the same range.</value>
+  </data>
+  <data name="Brands.Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Brands.CategoryHint" xml:space="preserve">
+    <value>Used by the revenue report, for example Noodles, Rice, Drinks.</value>
+  </data>
+  <data name="Brands.ChooseHub" xml:space="preserve">
+    <value>Choose a hub to see what it is cooking and to add items to your basket.</value>
+  </data>
+  <data name="Brands.DangerZone" xml:space="preserve">
+    <value>Brand status</value>
+  </data>
+  <data name="Brands.DeleteBrand" xml:space="preserve">
+    <value>Delete this brand</value>
+  </data>
+  <data name="Brands.DeleteBrandNote" xml:space="preserve">
+    <value>The brand disappears from the menu; historical orders keep its name (FR-A4).</value>
+  </data>
+  <data name="Brands.EditItemSub" xml:space="preserve">
+    <value>Edit name, category, price and availability.</value>
+  </data>
+  <data name="Brands.EditSub" xml:space="preserve">
+    <value>Edit the brand and the hubs that operate it.</value>
+  </data>
+  <data name="Brands.Eyebrow" xml:space="preserve">
+    <value>Menu &amp; brands</value>
+  </data>
+  <data name="Brands.Items" xml:space="preserve">
+    <value>Menu items</value>
+  </data>
+  <data name="Brands.MarkAvailable" xml:space="preserve">
+    <value>Mark available</value>
+  </data>
+  <data name="Brands.MarkUnavailable" xml:space="preserve">
+    <value>Mark unavailable</value>
+  </data>
+  <data name="Brands.MenuSub" xml:space="preserve">
+    <value>Pick a hub first: an item can only be ordered from a hub that operates its brand.</value>
+  </data>
+  <data name="Brands.MenuTitle" xml:space="preserve">
+    <value>Menu of the day</value>
+  </data>
+  <data name="Brands.NewBrand" xml:space="preserve">
+    <value>New brand</value>
+  </data>
+  <data name="Brands.NewBrandSub" xml:space="preserve">
+    <value>A brand needs a name, a description and at least one operating hub.</value>
+  </data>
+  <data name="Brands.NewItem" xml:space="preserve">
+    <value>New item</value>
+  </data>
+  <data name="Brands.NoHubsYet" xml:space="preserve">
+    <value>Create a hub first: a brand must run at least one kitchen.</value>
+  </data>
+  <data name="Brands.NoItems" xml:space="preserve">
+    <value>Nothing to show for this filter.</value>
+  </data>
+  <data name="Brands.OperatingHubs" xml:space="preserve">
+    <value>Operating hubs</value>
+  </data>
+  <data name="Brands.PickHubFirst" xml:space="preserve">
+    <value>Choose a hub to order.</value>
+  </data>
+  <data name="Brands.SoftDeleteNote" xml:space="preserve">
+    <value>Deleting is a soft delete: past orders and reports keep the item name and price (FR-A4).</value>
+  </data>
+  <data name="Brands.Unavailable" xml:space="preserve">
+    <value>Currently unavailable</value>
+  </data>
+  <data name="Cart.Checkout" xml:space="preserve">
+    <value>Go to checkout</value>
+  </data>
+  <data name="Cart.Clear" xml:space="preserve">
+    <value>Empty the basket</value>
+  </data>
+  <data name="Cart.ContinueShopping" xml:space="preserve">
+    <value>Keep browsing</value>
+  </data>
+  <data name="Cart.DistanceNote" xml:space="preserve">
+    <value>Simulated delivery distance:</value>
+  </data>
+  <data name="Cart.Empty" xml:space="preserve">
+    <value>Your basket is empty.</value>
+  </data>
+  <data name="Cart.NoPrice" xml:space="preserve">
+    <value>The price cannot be calculated until the basket is valid.</value>
+  </data>
+  <data name="Cart.Rejections" xml:space="preserve">
+    <value>This basket cannot be ordered yet:</value>
+  </data>
+  <data name="Cart.Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Cart.Sub" xml:space="preserve">
+    <value>One hub per basket. The price below is what the engine will charge.</value>
+  </data>
+  <data name="Cart.Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Cart.Title" xml:space="preserve">
+    <value>Your basket</value>
+  </data>
+  <data name="Checkout.Alternatives" xml:space="preserve">
+    <value>Other hubs that operate the same brands and can take the order:</value>
+  </data>
+  <data name="Checkout.Basket" xml:space="preserve">
+    <value>What you ordered</value>
+  </data>
+  <data name="Checkout.Breakdown" xml:space="preserve">
+    <value>Price breakdown</value>
+  </data>
+  <data name="Checkout.CodBlocked" xml:space="preserve">
+    <value>Cash on Delivery is not available above 1,000,000 ₫ for this order.</value>
+  </data>
+  <data name="Checkout.CodNote" xml:space="preserve">
+    <value>cash is confirmed by the shipper before delivery</value>
+  </data>
+  <data name="Checkout.Delivery" xml:space="preserve">
+    <value>Delivery</value>
+  </data>
+  <data name="Checkout.DeliverySub" xml:space="preserve">
+    <value>Distance decides the fee tier and the coverage check.</value>
+  </data>
+  <data name="Checkout.Distance" xml:space="preserve">
+    <value>Distance (km)</value>
+  </data>
+  <data name="Checkout.DistanceHint" xml:space="preserve">
+    <value>Simulated: not geocoded, stored on the order.</value>
+  </data>
+  <data name="Checkout.Hotel" xml:space="preserve">
+    <value>Hotel name</value>
+  </data>
+  <data name="Checkout.Notes" xml:space="preserve">
+    <value>Note for the kitchen</value>
+  </data>
+  <data name="Checkout.Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="Checkout.PaymentSub" xml:space="preserve">
+    <value>Only the methods of your customer type are listed.</value>
+  </data>
+  <data name="Checkout.PlaceOrder" xml:space="preserve">
+    <value>Place the order</value>
+  </data>
+  <data name="Checkout.Rejected" xml:space="preserve">
+    <value>The order was refused:</value>
+  </data>
+  <data name="Checkout.Room" xml:space="preserve">
+    <value>Room number</value>
+  </data>
+  <data name="Checkout.SnapshotNote" xml:space="preserve">
+    <value>The timestamp, hub load and rain flag are stored with the order.</value>
+  </data>
+  <data name="Checkout.Sub" xml:space="preserve">
+    <value>Check the breakdown, then choose a method that belongs to your customer type.</value>
+  </data>
+  <data name="Checkout.Title" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="Checkout.UpdatePrice" xml:space="preserve">
+    <value>Update the price</value>
+  </data>
+  <data name="Checkout.Voucher" xml:space="preserve">
+    <value>Voucher code</value>
+  </data>
+  <data name="Checkout.VoucherHint" xml:space="preserve">
+    <value>At most one voucher per order (BR9).</value>
+  </data>
+  <data name="Common.Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Common.Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Common.AllCategories" xml:space="preserve">
+    <value>All categories</value>
+  </data>
+  <data name="Common.AllHubs" xml:space="preserve">
+    <value>All hubs</value>
+  </data>
+  <data name="Common.Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Common.Availability" xml:space="preserve">
+    <value>Availability</value>
+  </data>
+  <data name="Common.Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="Common.Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Common.BackHome" xml:space="preserve">
+    <value>Back to home</value>
+  </data>
+  <data name="Common.Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common.Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Common.Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Common.Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Common.Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Common.Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Common.Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Common.Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Common.District" xml:space="preserve">
+    <value>District</value>
+  </data>
+  <data name="Common.Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Common.Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Common.From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Common.Hub" xml:space="preserve">
+    <value>Hub</value>
+  </data>
+  <data name="Common.Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Common.LineTotal" xml:space="preserve">
+    <value>Line total</value>
+  </data>
+  <data name="Common.Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Common.No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Common.Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Common.On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Common.Price" xml:space="preserve">
+    <value>Unit price</value>
+  </data>
+  <data name="Common.Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Common.Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Common.SkipToContent" xml:space="preserve">
+    <value>Skip to content</value>
+  </data>
+  <data name="Common.Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Common.To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Common.ToggleNavigation" xml:space="preserve">
+    <value>Toggle navigation</value>
+  </data>
+  <data name="Common.Unavailable" xml:space="preserve">
+    <value>Unavailable</value>
+  </data>
+  <data name="Common.WholeVnd" xml:space="preserve">
+    <value>Whole Vietnamese dong, no decimals.</value>
+  </data>
+  <data name="Common.Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Deliveries.AdminCancel" xml:space="preserve">
+    <value>Cancel this order</value>
+  </data>
+  <data name="Deliveries.AdminSub" xml:space="preserve">
+    <value>Every active order, with shipper assignment for Ready orders.</value>
+  </data>
+  <data name="Deliveries.Assign" xml:space="preserve">
+    <value>Assign</value>
+  </data>
+  <data name="Deliveries.AssignShipper" xml:space="preserve">
+    <value>Assign a shipper</value>
+  </data>
+  <data name="Deliveries.CancelOrder" xml:space="preserve">
+    <value>Cancel the order</value>
+  </data>
+  <data name="Deliveries.CashFirst" xml:space="preserve">
+    <value>Confirm the cash before marking the order delivered.</value>
+  </data>
+  <data name="Deliveries.ConfirmCash" xml:space="preserve">
+    <value>Cash collected</value>
+  </data>
+  <data name="Deliveries.Empty" xml:space="preserve">
+    <value>Nothing on the board right now.</value>
+  </data>
+  <data name="Deliveries.FailureReason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="Deliveries.KitchenSub" xml:space="preserve">
+    <value>Orders at</value>
+  </data>
+  <data name="Deliveries.Mode" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Deliveries.MoveTo" xml:space="preserve">
+    <value>Move to</value>
+  </data>
+  <data name="Deliveries.ReasonRequired" xml:space="preserve">
+    <value>A reason is required</value>
+  </data>
+  <data name="Deliveries.Reject" xml:space="preserve">
+    <value>Reject this order</value>
+  </data>
+  <data name="Deliveries.RejectOrder" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="Deliveries.ReportFailure" xml:space="preserve">
+    <value>Report a failed delivery</value>
+  </data>
+  <data name="Deliveries.ShipperSub" xml:space="preserve">
+    <value>The runs assigned to you.</value>
+  </data>
+  <data name="Deliveries.SubmitFailure" xml:space="preserve">
+    <value>Submit the failure</value>
+  </data>
+  <data name="Deliveries.Title" xml:space="preserve">
+    <value>Delivery board</value>
+  </data>
+  <data name="Error.Body" xml:space="preserve">
+    <value>The action could not be completed. Nothing was saved.</value>
+  </data>
+  <data name="Error.Title" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+  <data name="Footer.Note" xml:space="preserve">
+    <value>Course project · payments and OTP are simulated</value>
+  </data>
+  <data name="Footer.Tagline" xml:space="preserve">
+    <value>Cloud-kitchen food delivery for Ho Chi Minh City</value>
+  </data>
+  <data name="Home.Badge.Lifecycle" xml:space="preserve">
+    <value>Tracked lifecycle</value>
+  </data>
+  <data name="Home.Badge.Load" xml:space="preserve">
+    <value>Load-aware pricing</value>
+  </data>
+  <data name="Home.Badge.Payments" xml:space="preserve">
+    <value>Five payment methods</value>
+  </data>
+  <data name="Home.BrandsSub" xml:space="preserve">
+    <value>Each hub cooks several brands from one kitchen.</value>
+  </data>
+  <data name="Home.BrandsTitle" xml:space="preserve">
+    <value>Virtual brands</value>
+  </data>
+  <data name="Home.BrowseMenu" xml:space="preserve">
+    <value>Browse the menu</value>
+  </data>
+  <data name="Home.Eyebrow" xml:space="preserve">
+    <value>Cloud-kitchen food delivery · Ho Chi Minh City</value>
+  </data>
+  <data name="Home.HeroLead" xml:space="preserve">
+    <value>Order from one hub, see the whole price before you pay, and follow the order from the kitchen to your door.</value>
+  </data>
+  <data name="Home.HeroTitle" xml:space="preserve">
+    <value>Lunch from the kitchen that is actually quiet.</value>
+  </data>
+  <data name="Home.HubsSub" xml:space="preserve">
+    <value>Load is the share of a kitchen's capacity already committed to confirmed or preparing orders.</value>
+  </data>
+  <data name="Home.HubsTitle" xml:space="preserve">
+    <value>Kitchens right now</value>
+  </data>
+  <data name="Home.LoginHint" xml:space="preserve">
+    <value>The seeded accounts cover both customer types, kitchen staff, a shipper and the administrator.</value>
+  </data>
+  <data name="Home.LoginHintTitle" xml:space="preserve">
+    <value>Try the seeded accounts</value>
+  </data>
+  <data name="Home.OrderHere" xml:space="preserve">
+    <value>Order here</value>
+  </data>
+  <data name="Home.RainOff" xml:space="preserve">
+    <value>No rain surcharge</value>
+  </data>
+  <data name="Home.RainOn" xml:space="preserve">
+    <value>Heavy-rain surcharge is on</value>
+  </data>
+  <data name="Home.SeeHubs" xml:space="preserve">
+    <value>See hub load</value>
+  </data>
+  <data name="Home.Title" xml:space="preserve">
+    <value>SaigonBite — cloud kitchens in Ho Chi Minh City</value>
+  </data>
+  <data name="Home.TouristSignup" xml:space="preserve">
+    <value>I am a visitor</value>
+  </data>
+  <data name="Hubs.BusySlots" xml:space="preserve">
+    <value>slots busy</value>
+  </data>
+  <data name="Hubs.Capacity" xml:space="preserve">
+    <value>Capacity</value>
+  </data>
+  <data name="Hubs.CapacityHint" xml:space="preserve">
+    <value>A whole number above zero.</value>
+  </data>
+  <data name="Hubs.EditSub" xml:space="preserve">
+    <value>Changing the capacity recomputes the load immediately.</value>
+  </data>
+  <data name="Hubs.FullNotice" xml:space="preserve">
+    <value>At 90 % or more this hub refuses new orders.</value>
+  </data>
+  <data name="Hubs.Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="Hubs.LoadNote" xml:space="preserve">
+    <value>Load = orders in Confirmed or Preparing ÷ kitchen capacity, floored.</value>
+  </data>
+  <data name="Hubs.NewHub" xml:space="preserve">
+    <value>New hub</value>
+  </data>
+  <data name="Hubs.NewHubSub" xml:space="preserve">
+    <value>District, address and a capacity of at least one.</value>
+  </data>
+  <data name="Hubs.OrdersInKitchen" xml:space="preserve">
+    <value>orders in the kitchen</value>
+  </data>
+  <data name="Hubs.Sub" xml:space="preserve">
+    <value>Every hub with its derived load. Capacity is a whole number of concurrent orders.</value>
+  </data>
+  <data name="Hubs.Title" xml:space="preserve">
+    <value>Hubs and capacity</value>
+  </data>
+  <data name="Hubs.ViewMenu" xml:space="preserve">
+    <value>View the menu</value>
+  </data>
+  <data name="Nav.Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Nav.Cart" xml:space="preserve">
+    <value>Basket</value>
+  </data>
+  <data name="Nav.Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Nav.Deliveries" xml:space="preserve">
+    <value>Deliveries</value>
+  </data>
+  <data name="Nav.Hubs" xml:space="preserve">
+    <value>Hubs</value>
+  </data>
+  <data name="Nav.Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Nav.Login" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Nav.Logout" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="Nav.Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="Nav.NewBrand" xml:space="preserve">
+    <value>New brand</value>
+  </data>
+  <data name="Nav.NewHub" xml:space="preserve">
+    <value>New hub</value>
+  </data>
+  <data name="Nav.Orders" xml:space="preserve">
+    <value>My orders</value>
+  </data>
+  <data name="Nav.Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Nav.RevenueReport" xml:space="preserve">
+    <value>Revenue report (R1)</value>
+  </data>
+  <data name="Nav.Users" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="Nav.UtilisationReport" xml:space="preserve">
+    <value>Hub utilisation (R2)</value>
+  </data>
+  <data name="Nav.Vouchers" xml:space="preserve">
+    <value>Vouchers</value>
+  </data>
+  <data name="Orders.Actions" xml:space="preserve">
+    <value>What you can do</value>
+  </data>
+  <data name="Orders.AddLine" xml:space="preserve">
+    <value>Add an item</value>
+  </data>
+  <data name="Orders.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Orders.Audit" xml:space="preserve">
+    <value>Status history</value>
+  </data>
+  <data name="Orders.AuditSub" xml:space="preserve">
+    <value>Every accepted and rejected transition is recorded with its actor.</value>
+  </data>
+  <data name="Orders.BackToList" xml:space="preserve">
+    <value>All orders</value>
+  </data>
+  <data name="Orders.Breakdown" xml:space="preserve">
+    <value>Breakdown</value>
+  </data>
+  <data name="Orders.CancelNote" xml:space="preserve">
+    <value>Cancelling is possible in Placed or Confirmed; an online payment is refunded in full.</value>
+  </data>
+  <data name="Orders.CancelOrder" xml:space="preserve">
+    <value>Cancel this order</value>
+  </data>
+  <data name="Orders.CashConfirmed" xml:space="preserve">
+    <value>Cash confirmed</value>
+  </data>
+  <data name="Orders.CurrentLines" xml:space="preserve">
+    <value>Current items</value>
+  </data>
+  <data name="Orders.Delivery" xml:space="preserve">
+    <value>Delivery details</value>
+  </data>
+  <data name="Orders.Distance" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="Orders.EditItems" xml:space="preserve">
+    <value>Edit items</value>
+  </data>
+  <data name="Orders.EditItemsTitle" xml:space="preserve">
+    <value>Edit items</value>
+  </data>
+  <data name="Orders.EditSnapshot" xml:space="preserve">
+    <value>Price snapshot</value>
+  </data>
+  <data name="Orders.EditSnapshotBody" xml:space="preserve">
+    <value>The edited basket is re-priced with the original timestamp, hub load and rain flag, and the new total appears on the order page.</value>
+  </data>
+  <data name="Orders.EditSub" xml:space="preserve">
+    <value>Only a Placed order can be edited; the new price is recalculated from the placement snapshot.</value>
+  </data>
+  <data name="Orders.Empty" xml:space="preserve">
+    <value>You have not ordered yet.</value>
+  </data>
+  <data name="Orders.Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="Orders.GatewayRef" xml:space="preserve">
+    <value>Gateway reference</value>
+  </data>
+  <data name="Orders.Lines" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="Orders.ListNote" xml:space="preserve">
+    <value>Expand a total to see the full breakdown.</value>
+  </data>
+  <data name="Orders.NoActions" xml:space="preserve">
+    <value>Nothing to do on this order right now.</value>
+  </data>
+  <data name="Orders.NoNewItem" xml:space="preserve">
+    <value>— no new item —</value>
+  </data>
+  <data name="Orders.NoPayments" xml:space="preserve">
+    <value>No payment attempt recorded yet.</value>
+  </data>
+  <data name="Orders.Number" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Orders.Pay" xml:space="preserve">
+    <value>Pay now</value>
+  </data>
+  <data name="Orders.PaymentMethod" xml:space="preserve">
+    <value>Payment method</value>
+  </data>
+  <data name="Orders.Payments" xml:space="preserve">
+    <value>Payment attempts</value>
+  </data>
+  <data name="Orders.PlacedAt" xml:space="preserve">
+    <value>Placed at</value>
+  </data>
+  <data name="Orders.Rejected" xml:space="preserve">
+    <value>rejected</value>
+  </data>
+  <data name="Orders.RetryPayment" xml:space="preserve">
+    <value>Retry the payment</value>
+  </data>
+  <data name="Orders.SaveAndReprice" xml:space="preserve">
+    <value>Save and re-price</value>
+  </data>
+  <data name="Orders.SetZeroToRemove" xml:space="preserve">
+    <value>Set the quantity to 0 to remove a line.</value>
+  </data>
+  <data name="Orders.Shipper" xml:space="preserve">
+    <value>Shipper</value>
+  </data>
+  <data name="Orders.Strategy" xml:space="preserve">
+    <value>Strategy</value>
+  </data>
+  <data name="Orders.Sub" xml:space="preserve">
+    <value>Every order keeps the price it was placed with.</value>
+  </data>
+  <data name="Orders.Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="Orders.Title" xml:space="preserve">
+    <value>My orders</value>
+  </data>
+  <data name="Orders.Track" xml:space="preserve">
+    <value>Track</value>
+  </data>
+  <data name="Orders.When" xml:space="preserve">
+    <value>When</value>
+  </data>
+  <data name="Price.Caption" xml:space="preserve">
+    <value>Itemised price breakdown</value>
+  </data>
+  <data name="Price.Delivery" xml:space="preserve">
+    <value>Delivery fee (D)</value>
+  </data>
+  <data name="Price.FoodTotal" xml:space="preserve">
+    <value>Food total (F)</value>
+  </data>
+  <data name="Price.Load" xml:space="preserve">
+    <value>load</value>
+  </data>
+  <data name="Price.QuietKitchen" xml:space="preserve">
+    <value>Quiet Kitchen discount (Q)</value>
+  </data>
+  <data name="Price.Rain" xml:space="preserve">
+    <value>Heavy-rain surcharge (R2)</value>
+  </data>
+  <data name="Price.RainState" xml:space="preserve">
+    <value>rain</value>
+  </data>
+  <data name="Price.Rush" xml:space="preserve">
+    <value>Rush-hour surcharge (R)</value>
+  </data>
+  <data name="Price.Snapshot" xml:space="preserve">
+    <value>Snapshot</value>
+  </data>
+  <data name="Price.Subtotal" xml:space="preserve">
+    <value>Item subtotal (S)</value>
+  </data>
+  <data name="Price.Total" xml:space="preserve">
+    <value>Rounded total</value>
+  </data>
+  <data name="Price.Voucher" xml:space="preserve">
+    <value>Voucher (V)</value>
+  </data>
+  <data name="Reports.AvgPrep" xml:space="preserve">
+    <value>Avg. prep time</value>
+  </data>
+  <data name="Reports.ByCategory" xml:space="preserve">
+    <value>Revenue by brand category</value>
+  </data>
+  <data name="Reports.ByCategorySub" xml:space="preserve">
+    <value>Each order total is allocated across its categories in proportion to the line subtotals.</value>
+  </data>
+  <data name="Reports.ByPayment" xml:space="preserve">
+    <value>Revenue by payment method</value>
+  </data>
+  <data name="Reports.ByPaymentSub" xml:space="preserve">
+    <value>The method recorded on each order at checkout.</value>
+  </data>
+  <data name="Reports.CurrentLoad" xml:space="preserve">
+    <value>Current load</value>
+  </data>
+  <data name="Reports.ExclusionNote" xml:space="preserve">
+    <value>Cancelled and Failed orders are excluded from every figure on this page.</value>
+  </data>
+  <data name="Reports.NoData" xml:space="preserve">
+    <value>No orders in this range.</value>
+  </data>
+  <data name="Reports.Orders" xml:space="preserve">
+    <value>orders</value>
+  </data>
+  <data name="Reports.OrdersCounted" xml:space="preserve">
+    <value>Orders counted</value>
+  </data>
+  <data name="Reports.OrdersHandled" xml:space="preserve">
+    <value>Orders handled</value>
+  </data>
+  <data name="Reports.QuietKitchen" xml:space="preserve">
+    <value>Quiet Kitchen</value>
+  </data>
+  <data name="Reports.QuietKitchenSub" xml:space="preserve">
+    <value>Orders that received the 10 % Quiet Kitchen discount.</value>
+  </data>
+  <data name="Reports.Range" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="Reports.RefusingHubs" xml:space="preserve">
+    <value>Hubs refusing orders</value>
+  </data>
+  <data name="Reports.RefusingHubsSub" xml:space="preserve">
+    <value>Hubs at 90 % load or more.</value>
+  </data>
+  <data name="Reports.Revenue" xml:space="preserve">
+    <value>Revenue</value>
+  </data>
+  <data name="Reports.RevenueSub" xml:space="preserve">
+    <value>Total revenue by brand category and by payment method for the chosen range.</value>
+  </data>
+  <data name="Reports.RevenueTitle" xml:space="preserve">
+    <value>Revenue report</value>
+  </data>
+  <data name="Reports.Title" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Reports.TotalRevenue" xml:space="preserve">
+    <value>Total revenue</value>
+  </data>
+  <data name="Reports.Units" xml:space="preserve">
+    <value>Units</value>
+  </data>
+  <data name="Reports.UtilisationNote" xml:space="preserve">
+    <value>Only applied transitions are counted, so a rejected attempt never inflates preparation time.</value>
+  </data>
+  <data name="Reports.UtilisationSub" xml:space="preserve">
+    <value>Orders handled, average Confirmed → Ready time, current load and Quiet Kitchen discounts per hub.</value>
+  </data>
+  <data name="Reports.UtilisationTitle" xml:space="preserve">
+    <value>Hub utilisation</value>
+  </data>
+  <data name="Status.Body" xml:space="preserve">
+    <value>Check the address, or go back to the menu.</value>
+  </data>
+  <data name="Status.Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Status.Confirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+  <data name="Status.Delivered" xml:space="preserve">
+    <value>Delivered</value>
+  </data>
+  <data name="Status.Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="Status.Heading" xml:space="preserve">
+    <value>That page does not exist</value>
+  </data>
+  <data name="Status.OutForDelivery" xml:space="preserve">
+    <value>Out for delivery</value>
+  </data>
+  <data name="Status.Placed" xml:space="preserve">
+    <value>Placed</value>
+  </data>
+  <data name="Status.Preparing" xml:space="preserve">
+    <value>Preparing</value>
+  </data>
+  <data name="Status.Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="Status.Title" xml:space="preserve">
+    <value>Page not found</value>
+  </data>
+  <data name="UseCaseA" xml:space="preserve">
+    <value>Use case A · Menu &amp; brands</value>
+  </data>
+  <data name="UseCaseB" xml:space="preserve">
+    <value>Use case B · Hubs &amp; capacity</value>
+  </data>
+  <data name="UseCaseC" xml:space="preserve">
+    <value>Use case C · Vouchers</value>
+  </data>
+  <data name="UseCaseD" xml:space="preserve">
+    <value>Use case D · Orders</value>
+  </data>
+  <data name="UseCaseE" xml:space="preserve">
+    <value>Use case E · Accounts</value>
+  </data>
+  <data name="UseCaseF" xml:space="preserve">
+    <value>Use case F · Deliveries</value>
+  </data>
+  <data name="Vouchers.Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="Vouchers.Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Vouchers.Cap" xml:space="preserve">
+    <value>Maximum discount</value>
+  </data>
+  <data name="Vouchers.Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Vouchers.Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="Vouchers.EditSub" xml:space="preserve">
+    <value>Change the parameters; existing orders keep their snapshot.</value>
+  </data>
+  <data name="Vouchers.Expired" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="Vouchers.Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="Vouchers.MinSubtotal" xml:space="preserve">
+    <value>Minimum subtotal</value>
+  </data>
+  <data name="Vouchers.New" xml:space="preserve">
+    <value>New voucher</value>
+  </data>
+  <data name="Vouchers.NewSub" xml:space="preserve">
+    <value>Code, type, value, cap, minimum subtotal and validity window.</value>
+  </data>
+  <data name="Vouchers.Note" xml:space="preserve">
+    <value>A voucher is deactivated, never deleted, so historical orders keep the code they used.</value>
+  </data>
+  <data name="Vouchers.RulesNote" xml:space="preserve">
+    <value>PERCENT: discount is a share of the food amount, capped. FIXED: never above the food amount. Both check the minimum against the item subtotal.</value>
+  </data>
+  <data name="Vouchers.Sub" xml:space="preserve">
+    <value>At most one voucher per order; the discount arithmetic lives in the pricing engine.</value>
+  </data>
+  <data name="Vouchers.Title" xml:space="preserve">
+    <value>Vouchers</value>
+  </data>
+  <data name="Vouchers.Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Vouchers.ValidFrom" xml:space="preserve">
+    <value>Valid from</value>
+  </data>
+  <data name="Vouchers.ValidTo" xml:space="preserve">
+    <value>Valid to</value>
+  </data>
+  <data name="Vouchers.Validity" xml:space="preserve">
+    <value>Validity</value>
+  </data>
+  <data name="Vouchers.Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Vouchers.ValueHint" xml:space="preserve">
+    <value>Percent points, or whole VND for a fixed voucher.</value>
+  </data>
+</root>

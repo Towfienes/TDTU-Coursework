@@ -1,0 +1,42 @@
+[
+  {
+    "id": "2.1.1",
+    "caption": "Figure 2.1.1: Overall use case diagram of SaigonBite, with the abstract Customer generalising Local Customer and Foreign Tourist, and the two «include» steps of use case D.",
+    "file": "diagrams/use-case-overall.svg"
+  },
+  {
+    "id": "2.3.1",
+    "caption": "Figure 2.3.1: Sequence diagram for use case D, from the checkout request to the persisted order, the price snapshot and the audit row (FR-D1 – FR-D14, FR-P1 – FR-P3, BR9 – BR17).",
+    "file": "diagrams/uc-D-sequence.svg"
+  },
+  {
+    "id": "2.3.2",
+    "caption": "Figure 2.3.2: Activity diagram for use case A — Manage Menu & Brands, with the guarded soft-delete branch that keeps historical orders and report rows intact (FR-A1 – FR-A6, BR12).",
+    "file": "diagrams/uc-A-activity.svg"
+  },
+  {
+    "id": "2.3.3",
+    "caption": "Figure 2.3.3: Order state diagram — eight states, eight permitted transitions, the actor of each and the guard the business layer evaluates (BR15, BR16).",
+    "file": "diagrams/order-state.svg"
+  },
+  {
+    "id": "2.4.1",
+    "caption": "Figure 2.4.1: CRC cards for Order, OrderService, PricingEngine, OrderStateMachine, IPaymentStrategy and PaymentStrategyResolver.",
+    "file": "diagrams/crc-overview.svg"
+  },
+  {
+    "id": "2.4.2",
+    "caption": "Figure 2.4.2: SaigonBite class diagram — the twelve CONTRACT entities, the customer generalisation with its discriminator, the pure pricing types and the payment Strategy (BR13, BR14, NFR2).",
+    "file": "diagrams/class-diagram.svg"
+  },
+  {
+    "id": "2.5.1",
+    "caption": "Figure 2.5.1: SaigonBite three-tier architecture, the downward dependency direction, and the position of the pricing engine and the order state machine (source: plan.md, CONTRACT.md).",
+    "file": "diagrams/architecture.svg"
+  },
+  {
+    "id": "2.6.1",
+    "caption": "Figure 2.6.1: The six screens the prototype must demonstrate, and the four-stage progression from sketch to interactive prototype (FR-R1, FR-R2, FR-A2, FR-D11, FR-P1, FR-F2; NFR3).",
+    "file": "diagrams/ui-screen-map.svg"
+  }
+]

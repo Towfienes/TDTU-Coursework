@@ -1,0 +1,94 @@
+{
+  "base": "http://localhost:5080",
+  "ranAt": "2026-10-22T18:25:29.767Z",
+  "total": 17,
+  "passed": 17,
+  "failed": 0,
+  "steps": [
+    {
+      "name": "local customer signs in",
+      "ok": true,
+      "detail": "http://localhost:5080/brands"
+    },
+    {
+      "name": "brands page loads for the customer",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "a hub can be selected",
+      "ok": true,
+      "detail": "http://localhost:5080/brands?hubId=1"
+    },
+    {
+      "name": "menu items are listed with prices",
+      "ok": true,
+      "detail": "2194 chars on the page"
+    },
+    {
+      "name": "add-to-cart control is rendered for a customer",
+      "ok": true,
+      "detail": "29 forms"
+    },
+    {
+      "name": "an item can be added to the cart",
+      "ok": true,
+      "detail": "http://localhost:5080/brands?hubId=1"
+    },
+    {
+      "name": "cart page loads",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "cart holds the added item",
+      "ok": true,
+      "detail": "Skip to content SaigonBite Menu Hubs Basket My orders EN VI Lan Nguyen Sign out USE CASE D · ORDERS Your basket One hub per basket. The price below is what the "
+    },
+    {
+      "name": "checkout displays a price breakdown",
+      "ok": true,
+      "detail": "status 200, 1303 chars"
+    },
+    {
+      "name": "BR13 local customer sees only local methods",
+      "ok": true,
+      "detail": "local=true tourist=false"
+    },
+    {
+      "name": "kitchen staff signs in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "shipper signs in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "delivery board loads for the shipper",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "admin signs in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "R1 revenue report renders",
+      "ok": true,
+      "detail": "status 200, 1004 chars"
+    },
+    {
+      "name": "R2 hub utilisation report renders",
+      "ok": true,
+      "detail": "status 200, 1025 chars"
+    },
+    {
+      "name": "admin dashboard shows the heavy-rain flag (BR5)",
+      "ok": true,
+      "detail": "1265 chars"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = L["Account.DeniedTitle"].Value;
+}
+
+<section class="panel">
+    <p class="eyebrow mb-2">403</p>
+    <h1 class="h3">@L["Account.DeniedTitle"]</h1>
+    <p class="panel-sub mb-3">@L["Account.DeniedBody"]</p>
+    <a class="btn btn-ember" asp-controller="Home" asp-action="Index">@L["Common.BackHome"]</a>
+</section>

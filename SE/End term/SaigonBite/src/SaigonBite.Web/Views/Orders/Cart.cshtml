@@ -1,0 +1,115 @@
+@model CartPageVm
+@{
+    ViewData["Title"] = L["Nav.Cart"].Value;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+    <div>
+        <p class="eyebrow mb-1">@L["UseCaseD"]</p>
+        <h1 class="h2 mb-1">@L["Cart.Title"]</h1>
+        <p class="panel-sub mb-0">@L["Cart.Sub"]</p>
+    </div>
+    <a class="btn btn-sm btn-outline-ink" asp-controller="Brands" asp-action="Index"
+       asp-route-hubId="@Model.Hub?.Id">@L["Cart.ContinueShopping"]</a>
+</div>
+
+@if (Model.Hub is null || Model.Lines.Count == 0)
+{
+    <div class="empty-state">
+        <p class="mb-3">@L["Cart.Empty"]</p>
+        <a class="btn btn-ember" asp-controller="Brands" asp-action="Index">@L["Home.BrowseMenu"]</a>
+    </div>
+}
+else
+{
+    if (!string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <div class="alert alert-danger" role="alert">@Model.Error</div>
+    }
+
+    @if (Model.Rejections.Count > 0)
+    {
+        <div class="alert alert-warning" role="alert">
+            <p class="fw-bold mb-1">@L["Cart.Rejections"]</p>
+            <ul class="reject-list mb-0">
+                @foreach (var rejection in Model.Rejections)
+                {
+                    <li><code>@rejection.Code</code> @rejection.Message</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-7">
+            <section class="panel p-0 overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-ink align-middle mb-0">
+                        <caption class="visually-hidden">@L["Cart.Title"]</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">@L["Common.Item"]</th>
+                                <th scope="col" class="text-end">@L["Common.Price"]</th>
+                                <th scope="col" class="text-center">@L["Common.Quantity"]</th>
+                                <th scope="col" class="text-end">@L["Common.LineTotal"]</th>
+                                <th scope="col" class="text-end"><span class="visually-hidden">@L["Common.Actions"]</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var line in Model.Lines)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="fw-semibold d-block">@line.ItemName</span>
+                                    <span class="menu-meta">@line.BrandName · @line.CategoryName</span>
+                                </td>
+                                <td class="text-end money">@Money.Vnd(line.UnitPrice)</td>
+                                <td class="text-center">@line.Quantity</td>
+                                <td class="text-end money">@Money.Vnd(line.LineTotal)</td>
+                                <td class="text-end">
+                                    <form asp-controller="Orders" asp-action="RemoveLine" method="post" class="m-0">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="menuItemId" value="@line.MenuItemId" />
+                                        <button type="submit" class="btn btn-sm btn-outline-ink">@L["Cart.Remove"]</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3">
+                <form asp-controller="Orders" asp-action="Clear" method="post" class="m-0">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-sm btn-outline-ink">@L["Cart.Clear"]</button>
+                </form>
+                <span class="panel-sub mb-0">@Model.Hub.Name · @Model.Hub.District</span>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-5">
+            <div class="sticky-summary">
+                @if (Model.Breakdown is not null)
+                {
+                    <section class="panel">
+                        <h2 class="panel-title mb-2">@L["Cart.Summary"]</h2>
+                        <partial name="_PriceBreakdown" model="Model.Breakdown" />
+                        <p class="panel-sub mt-2 mb-3">
+                            @L["Cart.DistanceNote"] @Model.DistanceKm km <span class="br-ref">BR2 · BR3</span>
+                        </p>
+                        <a class="btn btn-ember w-100 @(Model.Computation?.IsAccepted == true ? "" : "disabled")"
+                           asp-controller="Orders" asp-action="Checkout">@L["Cart.Checkout"]</a>
+                    </section>
+                }
+                else
+                {
+                    <section class="panel">
+                        <p class="panel-sub mb-0">@L["Cart.NoPrice"]</p>
+                    </section>
+                }
+            </div>
+        </div>
+    </div>
+}

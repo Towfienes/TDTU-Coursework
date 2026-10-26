@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    SaigonBite.Core — domain layer (CONTRACT.md: "SaigonBite.Core must not reference ASP.NET Core,
+    EF Core, or any I/O assembly").
+
+    Deliberately carries no <PackageReference>: the pricing engine, the order state machine and the
+    payment strategies depend only on the .NET 8 shared framework. Agent B references this project
+    from SaigonBite.Web; the unit tests reference it from tests/SaigonBite.UnitTests.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>SaigonBite.Core</RootNamespace>
+    <AssemblyName>SaigonBite.Core</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- CS1591: XML docs are written anyway; suppression only stops the build failing on trivia. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+</Project>

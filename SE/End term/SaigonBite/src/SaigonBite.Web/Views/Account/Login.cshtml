@@ -1,0 +1,48 @@
+@model LoginVm
+@{
+    ViewData["Title"] = L["Account.LoginTitle"].Value;
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-9 col-lg-6 col-xl-5">
+        <section class="panel">
+            <p class="eyebrow mb-2">@L["Account.Eyebrow"]</p>
+            <h1 class="h3 mb-1">@L["Account.LoginTitle"]</h1>
+            <p class="panel-sub mb-3">@L["Account.LoginSub"]</p>
+
+            @if (TempData["Registered"] is string registered)
+            {
+                <div class="alert alert-success" role="status">
+                    @L["Account.Registered"] <strong>@registered</strong>
+                </div>
+            }
+
+            <form asp-controller="Account" asp-action="Login" method="post" novalidate>
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Username">@L["Account.Username"]</label>
+                    <input class="form-control" asp-for="Username" autocomplete="username" />
+                    <div class="form-text">@L["Account.UsernameHint"]</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Password">@L["Account.Password"]</label>
+                    <input class="form-control" asp-for="Password" type="password" autocomplete="current-password" />
+                </div>
+
+                <button type="submit" class="btn btn-ember w-100">@L["Account.SignIn"]</button>
+            </form>
+
+            <hr class="my-4" />
+            <p class="panel-sub mb-2">@L["Account.NoAccount"]</p>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-sm btn-outline-ink" asp-controller="Account" asp-action="RegisterLocal">@L["Account.RegisterLocal"]</a>
+                <a class="btn btn-sm btn-outline-ink" asp-controller="Account" asp-action="RegisterTourist">@L["Account.RegisterTourist"]</a>
+            </div>
+        </section>
+    </div>
+</div>
