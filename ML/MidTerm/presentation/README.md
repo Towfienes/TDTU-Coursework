@@ -9,7 +9,7 @@ report và các artifact thực nghiệm trong `../results/`.
 |---|---|
 | `midterm_presentation.pptx` | Deck chính, 14 slide, 16:9 (13.333 × 7.5 in), có speaker notes tiếng Việt cho từng slide |
 | `midterm_presentation.pdf` | Bản chiếu 14 trang, khổ 960 × 540 pt (đúng 16:9), dùng khi máy trình chiếu không có PowerPoint |
-| `TRANSCRIPT.md` | Lời thoại (1329 từ ≈ 8:52) cho 3 người, câu chốt và mốc thời gian từng slide, bảng câu hỏi dự kiến; sinh từ `src/talk_content.json` |
+| `TRANSCRIPT.md` | Lời thoại (1341 từ ≈ 8:56) dùng được khi một người trình bày cả bài hoặc cả nhóm chia phần; câu chốt và mốc thời gian từng slide, bảng câu hỏi dự kiến; sinh từ `src/talk_content.json` |
 | `figures/` | 6 hình được vẽ riêng cho slide, đọc trực tiếp từ `../results/` |
 | `src/make_deck_figures.py` | Script vẽ hình + kiểm tra lại 11 con số so với `results/*.json` |
 | `src/build_deck.js` | Script dựng PPTX và `preview.html`; speaker notes đọc từ `src/talk_content.json` |
@@ -21,20 +21,21 @@ report và các artifact thực nghiệm trong `../results/`.
 
 14 slide ≈ 40 giây/slide — mức thoải mái cho một bài có công thức. Cấu trúc:
 
-| Slide | Nội dung | Người nói | Mốc |
+| Slide | Nội dung | Phụ trách (nếu chia phần) | Mốc |
 |---|---|---|---|
 | 1–2 | Bìa · nội dung ba phần | Tiến | 0:00 |
-| 3–4 | Câu 1: hồi quy tuyến tính, mô hình → gradient → GD | Tiến | 0:50 |
-| 5 | Câu 1: logistic, sigmoid → cross-entropy → gradient | Tiến | 2:16 |
-| 6–7 | Câu 1: kết quả hai mô hình trên tập test | Tiến | 2:58 |
-| 8 | Câu 2: dữ liệu credit-g, mất cân bằng lớp | Thành | 4:14 |
-| 9 | Câu 2: quy trình chống rò rỉ dữ liệu | Thành | 4:55 |
-| 10–11 | Câu 2: chọn mô hình bằng CV, kết quả test | Thành | 5:32 |
-| 12 | Đọc kết quả: recall lớp bad | Tâm | 6:48 |
-| 13 | Overfitting và biện pháp | Tâm | 7:27 |
-| 14 | Kết luận, hạn chế, Q&A | Tâm | 8:12 |
+| 3–4 | Câu 1: hồi quy tuyến tính, mô hình → gradient → GD | Tiến | 0:51 |
+| 5 | Câu 1: logistic, sigmoid → cross-entropy → gradient | Tiến | 2:18 |
+| 6–7 | Câu 1: kết quả hai mô hình trên tập test | Tiến | 3:00 |
+| 8 | Câu 2: dữ liệu credit-g, mất cân bằng lớp | Thành | 4:17 |
+| 9 | Câu 2: quy trình chống rò rỉ dữ liệu | Thành | 4:58 |
+| 10–11 | Câu 2: chọn mô hình bằng CV, kết quả test | Thành | 5:35 |
+| 12 | Đọc kết quả: recall lớp bad | Tâm | 6:53 |
+| 13 | Overfitting và biện pháp | Tâm | 7:32 |
+| 14 | Kết luận, hạn chế, Q&A | Tâm | 8:17 |
 
-Tổng lời thoại **1329 từ ≈ 8:52** khi đọc 150 từ/phút; phần còn lại của 10 phút dành cho chuyển slide và Q&A.
+Tổng lời thoại **1341 từ ≈ 8:56** khi đọc 150 từ/phút; phần còn lại của 10 phút dành cho chuyển slide và Q&A.
+Lời thoại không gắn tên người nói, nên một người có thể trình bày cả 14 slide; khi chia phần, chỉ thêm câu chuyển lời ở slide 7 và 11 (trường `handoff` trong `src/talk_content.json`).
 
 Nếu chỉ được **7 phút**, bỏ slide 2 (nội dung) và gộp 6–7 thành một slide chỉ giữ hình bên trái + 3 chỉ số,
 hoặc bỏ slide 5 và nói logistic bằng lời ở slide 7.

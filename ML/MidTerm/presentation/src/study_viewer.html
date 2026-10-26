@@ -109,6 +109,13 @@ math { font-size: 1.08em; }
 .key math, .trap math { font-size: 1.04em; }
 .points li, .key, .trap p { overflow-x: auto; overflow-y: hidden; }
 
+.presenter { display: flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; margin-left: auto; }
+.presenter button { border: 0; background: transparent; padding: 3px 11px; border-radius: 999px; font-size: 12.5px; color: var(--muted); cursor: pointer; }
+.presenter button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: inset 0 0 0 1px var(--rule); }
+body.solo .who { display: none; }
+.handoff { margin: 12px 0 0; padding: 10px 12px; border: 1px dashed var(--rule); border-radius: 6px; font-size: 14.5px; line-height: 1.6; color: var(--muted); }
+.handoff b { color: var(--ink); font-weight: 600; }
+
 /* stopwatch (rehearsal) */
 .watch { display: none; align-items: center; gap: 10px; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 8px; flex-wrap: wrap; }
 body.rehearse .watch { display: flex; }
@@ -146,7 +153,7 @@ body.rehearse .watch { display: flex; }
 .item { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; align-items: center; border: 1px solid transparent; background: transparent; border-radius: 8px; padding: 6px; cursor: pointer; text-align: left; }
 .item:hover { background: var(--surface); }
 .item.cur { border-color: var(--accent); background: var(--accent-soft); }
-.item img { width: 112px; aspect-ratio: 16 / 9; border: 1px solid var(--slide-frame); border-radius: 4px; display: block; background: #fff; }
+.item img { width: 112px; height: auto; aspect-ratio: 16 / 9; border: 1px solid var(--slide-frame); border-radius: 4px; display: block; background: #fff; }
 .item-t { font-size: 14px; font-weight: 500; line-height: 1.35; }
 .item-m { font-size: 12px; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; }
 
@@ -203,6 +210,10 @@ body.rehearse .watch { display: flex; }
     <div class="meta">
       <span class="who" id="who"><i>T</i>Ngô Lâm Tiến</span>
       <span class="when" id="when">0:00 · ~23s</span>
+      <div class="presenter" role="group" aria-label="Cách trình bày">
+        <button type="button" id="pres-group" aria-pressed="true">Nhóm</button>
+        <button type="button" id="pres-solo" aria-pressed="false">Một mình</button>
+      </div>
     </div>
     <div class="watch" id="watch">
       <button type="button" id="watch-toggle">Bắt đầu</button>
@@ -215,6 +226,7 @@ body.rehearse .watch { display: flex; }
 
     <div class="label">Lời nói</div>
     <p class="script" id="script"></p>
+    <p class="handoff" id="handoff" hidden></p>
 
     <details class="deep" id="deep" open>
       <summary>Hiểu sâu<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary>
@@ -257,7 +269,8 @@ body.rehearse .watch { display: flex; }
 (function () {
   var SLIDES = __DATA__;
   var N = SLIDES.length;
-  var GROUPS = { "Tiến": "Câu 1 · Ngô Lâm Tiến", "Thành": "Câu 2 · Nguyễn Công Thành", "Tâm": "Kết quả và kết luận · Nguyễn Lê Nhật Tâm" };
+  var PARTS = { "Tiến": "Câu 1 · Hồi quy tự cài đặt", "Thành": "Câu 2 · Phân loại trên credit-g", "Tâm": "Đọc kết quả, overfitting, kết luận" };
+  var solo = false;
   var $ = function (id) { return document.getElementById(id); };
   var cur = 0;
 
@@ -290,7 +303,7 @@ body.rehearse .watch { display: flex; }
   var list = $("sheet-list"), lastSp = null, box = null;
   SLIDES.forEach(function (s, i) {
     if (s.speaker !== lastSp) {
-      var h = document.createElement("p"); h.className = "group-h"; h.textContent = GROUPS[s.speaker];
+      var h = document.createElement("p"); h.className = "group-h"; h.dataset.sp = s.speaker; h.dataset.full = s.speakerFull;
       list.appendChild(h);
       box = document.createElement("div"); box.className = "items"; list.appendChild(box);
       lastSp = s.speaker;
@@ -313,6 +326,9 @@ body.rehearse .watch { display: flex; }
     $("eyebrow").textContent = s.n + " · " + s.eyebrow;
     $("title").textContent = s.title;
     $("script").textContent = s.script;
+    var ho = $("handoff");
+    ho.hidden = solo || !s.handoff;
+    ho.innerHTML = s.handoff ? "<b>Chuyển lời (chỉ khi chia phần):</b> “" + esc(s.handoff) + "”" : "";
     $("key").innerHTML = "<small>Ý chốt</small>" + rich(s.key);
     $("points").innerHTML = s.points.map(function (p) { return "<li>" + rich(p) + "</li>"; }).join("");
     var trap = $("trap");
@@ -399,6 +415,21 @@ body.rehearse .watch { display: flex; }
   $("mode-study").addEventListener("click", function () { setMode("study"); });
   $("mode-rehearse").addEventListener("click", function () { setMode("rehearse"); });
 
+  // presenter: whole group or one person
+  function setPresenter(m) {
+    solo = m === "solo";
+    document.body.classList.toggle("solo", solo);
+    $("pres-group").setAttribute("aria-pressed", String(!solo));
+    $("pres-solo").setAttribute("aria-pressed", String(solo));
+    Array.prototype.forEach.call(list.querySelectorAll(".group-h"), function (h) {
+      h.textContent = PARTS[h.dataset.sp] + (solo ? "" : " · " + h.dataset.full);
+    });
+    store("mlmid-presenter", m);
+    render();
+  }
+  $("pres-group").addEventListener("click", function () { setPresenter("group"); });
+  $("pres-solo").addEventListener("click", function () { setPresenter("solo"); });
+
   // stopwatch
   var running = false, t0 = 0, acc = 0, timer = null;
   function elapsed() { return acc + (running ? (Date.now() - t0) / 1000 : 0); }
@@ -427,7 +458,7 @@ body.rehearse .watch { display: flex; }
   cur = h !== null ? h : (isNaN(saved) ? 0 : saved);
   cur = Math.max(0, Math.min(N - 1, cur));
   setMode(store("mlmid-mode") === "rehearse" ? "rehearse" : "study");
-  render();
+  setPresenter(store("mlmid-presenter") === "solo" ? "solo" : "group");
   window.addEventListener("hashchange", function () { var x = fromHash(); if (x !== null) go(x); });
 })();
 </script>

@@ -51,12 +51,12 @@ def build_transcript():
         "",
         "**Đề tài:** Hồi quy & Phân loại — Câu 1 (Gradient Descent tự cài đặt) và Câu 2 (phân loại trên OpenML credit-g)  ",
         f"**Thời lượng:** tổng lời thoại {TOTAL_WORDS} từ, đọc ở nhịp ~{WPM} từ/phút ≈ **{mmss(TOTAL)}**; phần còn lại của slot 10 phút dành cho chuyển slide và hỏi đáp.  ",
-        "**Người trình bày:** Tiến (Câu 1) · Thành (Câu 2: dữ liệu, quy trình, chọn mô hình) · Tâm (đọc kết quả, overfitting, kết luận)",
+        "**Cách trình bày:** lời thoại không gắn tên người nói, nên dùng nguyên văn được cho cả hai trường hợp: **một người trình bày cả 14 slide**, hoặc **cả nhóm chia phần** theo gợi ý bên dưới (khi đó thêm câu chuyển lời ở slide 7 và 11).",
         "",
         "> File này được sinh từ `src/talk_content.json` bằng `python3 src/build_talk.py`; speaker notes trong `midterm_presentation.pptx` dùng cùng nguồn.",
         "> Muốn sửa lời thoại thì sửa file JSON rồi dựng lại, đừng sửa trực tiếp file này. Số liệu đã đối chiếu với `../results/*.json`.",
         "",
-        "## Phân chia và mốc thời gian",
+        "## Nếu cả nhóm chia phần",
         "",
         "| Người | Slide | Bắt đầu | Thời lượng | Số từ |",
         "|---|---|---|---|---|",
@@ -72,6 +72,8 @@ def build_transcript():
         f"- Mốc kiểm tra: bắt đầu slide 5 ở **{mmss(SLIDES[4]['start'])}**, slide 8 ở **{mmss(SLIDES[7]['start'])}**, slide 12 ở **{mmss(SLIDES[11]['start'])}**. Trễ hơn 30 giây thì bỏ câu kiểm chứng gradient ở slide 4 và câu về kNN ở slide 10.",
         "- Không đọc công thức từng ký hiệu: nói ý nghĩa rồi chỉ vào slide.",
         "- Nói chậm lại ở câu chốt của mỗi slide (dòng **Chốt** bên dưới).",
+        "- Thầy có thể gọi một người bất kỳ lên trình bày cả bài, nên **mỗi thành viên tập đủ 14 slide**, không chỉ phần của mình.",
+        "- Slide 2 có ghi tên người phụ trách từng phần; khi nói chỉ cần nêu nội dung ba phần, không đọc tên.",
         "",
         "## Lời thoại theo slide",
         "",
@@ -79,16 +81,18 @@ def build_transcript():
     for s in SLIDES:
         L += [
             f"### Slide {s['n']} — {s['title']}",
-            f"**{s['speaker']}** · bắt đầu {mmss(s['start'])} · ~{int(round(s['dur']))}s",
+            f"Bắt đầu {mmss(s['start'])} · ~{int(round(s['dur']))}s · nếu chia phần: **{s['speaker']}**",
             "",
             f"> {s['script']}",
             "",
+            *([f"*Chỉ khi chia phần, thêm câu chuyển lời:* “{s['handoff']}”", ""] if s.get("handoff") else []),
             f"**Chốt:** {s['key']}",
             "",
         ]
-    L += ["## Câu hỏi dự kiến và người trả lời", "", "| Câu hỏi | Người trả lời | Ý chính |", "|---|---|---|"]
+    L += ["## Câu hỏi dự kiến", "", "Khi trình bày một mình, người trình bày trả lời tất cả; cột cuối chỉ là gợi ý khi cả nhóm cùng đứng lên.", "",
+          "| Câu hỏi | Ý chính | Phụ trách (nếu chia phần) |", "|---|---|---|"]
     for qa in TALK["qa"]:
-        L.append(f"| {qa['q']} | {qa['who']} | {qa['a']} |")
+        L.append(f"| {qa['q']} | {qa['a']} | {qa['who']} |")
     L += [
         "",
         "## Ghi chú trung thực học thuật",
@@ -104,7 +108,8 @@ def build_viewer(out):
     from PIL import Image
 
     keys = ["n", "eyebrow", "title", "speaker", "speakerFull", "script", "key", "points", "trap", "refs"]
-    data = [dict({k: s[k] for k in keys}, start=round(s["start"]), dur=round(s["dur"])) for s in SLIDES]
+    data = [dict({k: s[k] for k in keys}, handoff=s.get("handoff", ""), start=round(s["start"]), dur=round(s["dur"]))
+            for s in SLIDES]
     tpl = open(os.path.join(SRC, "study_viewer.html"), encoding="utf-8").read()
     html = (tpl.replace("__DATA__", json.dumps(data, ensure_ascii=False).replace("</", "<\\/"))
                .replace("__TOTAL__", mmss(TOTAL))
