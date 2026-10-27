@@ -41,7 +41,17 @@
         "Dữ liệu câu 1 là dữ liệu **tổng hợp** (biết trước đáp án). credit-g ở câu 2 là dữ liệu **thật**. Hai câu có mục đích khác nhau: kiểm chứng cài đặt và so sánh mô hình."
       ],
       "trap": [],
-      "refs": "Lecture 1 · Lecture 2"
+      "refs": "Lecture 1 · Lecture 2",
+      "de": [
+        "Đề có hai câu, mỗi câu **5 điểm**.",
+        "**Câu 1**: làm **riêng** cho hồi quy tuyến tính và hồi quy logistic, mỗi mô hình 5 ý: mô tả mô hình → hàm mất mát → dẫn xuất gradient → huấn luyện bằng Gradient Descent → tự cài đặt bằng Python, chia train/test, vẽ loss, đánh giá.",
+        "**Câu 2**: lấy một bộ dữ liệu phân loại trên OpenML, 3 ý: tiền xử lý và trực quan hóa → áp dụng nhiều phương pháp phân loại và so sánh → trình bày overfitting và cách khắc phục."
+      ],
+      "more": [
+        "Chữ **\"riêng\"** (separately) nghĩa là không gộp hai mô hình: mỗi mô hình phải có công thức, loss, gradient và kết quả riêng. Vì vậy slide 3–4 dành cho tuyến tính, slide 5 cho logistic, slide 6 và 7 là kết quả của từng mô hình.",
+        "Đề không bắt Câu 2 phải tự cài. Nhóm dùng scikit-learn để so sánh nhiều mô hình, nhưng đưa thêm logistic tự cài của Câu 1 vào Câu 2 để nối hai câu và kiểm tra code tự viết trên dữ liệu thật.",
+        "\"As many methods as appropriate\" không có nghĩa là càng nhiều càng tốt: nhóm chọn 14 mô hình phủ các họ đã học trong môn, và nói rõ ba kernel SVM chỉ là một họ."
+      ]
     },
     {
       "eyebrow": "Nội dung",
@@ -99,7 +109,22 @@
       "trap": [
         "Loss train thấp không có nghĩa là dự đoán tốt. Chính khoảng cách này là chủ đề của phần overfitting ở slide 13."
       ],
-      "refs": "Lecture 2 · Lecture 3b (Evaluation)"
+      "refs": "Lecture 2 · Lecture 3b (Evaluation)",
+      "de": [
+        "Bản đồ đề → slide:",
+        "**Câu 1.1** mô hình, công thức, bài toán → slide 3 (tuyến tính), slide 5 (logistic)",
+        "**Câu 1.2** hàm mất mát → slide 3, slide 5",
+        "**Câu 1.3** dẫn xuất gradient → slide 4, slide 5",
+        "**Câu 1.4** huấn luyện bằng Gradient Descent → slide 4, slide 5",
+        "**Câu 1.5** tự cài, chia train/test, vẽ loss, đánh giá → slide 6, slide 7",
+        "**Câu 2.1** tiền xử lý, trực quan hóa, làm sạch, biến đổi, chuẩn hóa → slide 8, slide 9",
+        "**Câu 2.2** nhiều phương pháp, đánh giá, so sánh → slide 10, 11, 12",
+        "**Câu 2.3** overfitting và cách khắc phục → slide 13"
+      ],
+      "more": [
+        "Thứ tự slide đi đúng thứ tự ý của đề. Khi thầy hỏi một ý cụ thể, có thể mở ngay slide tương ứng.",
+        "Câu hỏi xuyên suốt về tổng quát hóa là sợi chỉ nối hai câu: Câu 1 kiểm chứng mô hình học đúng, Câu 2 kiểm chứng mô hình dự đoán tốt trên dữ liệu chưa thấy."
+      ]
     },
     {
       "eyebrow": "Câu 1 · Hồi quy tuyến tính",
@@ -160,7 +185,16 @@
         "**MSE dùng để đánh giá** và **loss MSE/2 dùng để học** khác nhau một hệ số, nhưng có cùng điểm cực tiểu.",
         "Bình phương sai số khiến vài điểm ngoại lai có thể kéo lệch cả đường hồi quy."
       ],
-      "refs": "Lecture 8 · Linear Regression and Gradient Descent"
+      "refs": "Lecture 8 · Linear Regression and Gradient Descent",
+      "de": [
+        "**Câu 1.1** cho hồi quy tuyến tính: mô tả mô hình ($\\hat y = w^\\top x + b$), công thức dự đoán, bài toán giải quyết (hồi quy, vì đích là số thực).",
+        "**Câu 1.2**: định nghĩa hàm mất mát **phù hợp** → MSE/2."
+      ],
+      "more": [
+        "Vì sao MSE \"phù hợp\": đích là số thực, MSE khả vi ở mọi điểm và cho gradient tỉ lệ thuận với phần dư, nên Gradient Descent rất gọn. MAE không khả vi tại 0 nên khó dùng với GD hơn.",
+        "Vì sao dùng dữ liệu tổng hợp: đề cho phép \"real or synthetic\". Dữ liệu tổng hợp cho biết trước đáp án (3, −2, 1.5, hệ số chặn 4, nhiễu σ = 0.5), nên kiểm tra được mô hình học đúng hay sai. Dữ liệu thật không cho phép kiểm tra như vậy.",
+        "Ba đặc trưng độc lập, phân phối đều trên [−3, 3]: đủ đơn giản để kiểm chứng, nhưng vẫn là bài nhiều biến nên phải dùng dạng ma trận chứ không chỉ đường thẳng một biến."
+      ]
     },
     {
       "eyebrow": "Câu 1 · Hồi quy tuyến tính",
@@ -220,7 +254,16 @@
       "trap": [
         "Dừng huấn luyện dựa trên chỉ số test là **rò rỉ dữ liệu**. Test chỉ dùng để báo cáo kết quả cuối."
       ],
-      "refs": "Lecture 8 · Linear Regression and Gradient Descent"
+      "refs": "Lecture 8 · Linear Regression and Gradient Descent",
+      "de": [
+        "**Câu 1.3**: dẫn xuất gradient **theo từng tham số** → cần cả $\\partial J/\\partial w_j$ và $\\partial J/\\partial b$, không chỉ dạng ma trận.",
+        "**Câu 1.4**: trình bày huấn luyện bằng Gradient Descent → khởi tạo, công thức cập nhật, tốc độ học, điều kiện dừng."
+      ],
+      "more": [
+        "Điều kiện dừng là một phần của \"trình bày huấn luyện\": dừng khi chuẩn gradient ≤ $10^{-8}$, hoặc khi đạt tối đa 4000 vòng. Mô hình tuyến tính dừng sớm ở 1175 vòng vì đã tới đáy.",
+        "Vì sao chuẩn hóa min–max trước GD: các đặc trưng cùng thang [0, 1] nên một tốc độ học $\\eta$ dùng chung được cho mọi trọng số. Nếu thang lệch nhau, mặt loss bị kéo dài, phải giảm $\\eta$ và học chậm hơn nhiều.",
+        "Kiểm tra gradient bằng sai phân không phải yêu cầu của đề, nhưng là bằng chứng mạnh nhất cho ý 1.3: nó cho thấy công thức dẫn xuất khớp với code chạy thật."
+      ]
     },
     {
       "eyebrow": "Câu 1 · Hồi quy logistic",
@@ -282,7 +325,16 @@
         "Gradient giống hồi quy tuyến tính về **hình thức**, nhưng dự đoán và loss khác hẳn.",
         "Slide tổng kết trong bài giảng (LOG trang 43) thiếu hệ số $1/N$ trong công thức cập nhật. Nhóm giữ $1/N$ cho nhất quán với loss trung bình (trang 42)."
       ],
-      "refs": "Lecture 9 · Perceptron and Logistic Regression"
+      "refs": "Lecture 9 · Perceptron and Logistic Regression",
+      "de": [
+        "**Câu 1.1–1.4 cho logistic**: đề yêu cầu làm riêng, nên logistic cũng cần đủ mô hình, loss, gradient và GD.",
+        "Bài toán: **phân loại nhị phân**, nhãn 0/1, đầu ra là xác suất $P(y=1\\mid x)$."
+      ],
+      "more": [
+        "Vì sao không dùng MSE cho logistic: với sigmoid, gradient của MSE có thêm thừa số $p(1-p)$. Thừa số này gần 0 khi mô hình dự đoán tự tin mà sai, nên học rất chậm đúng lúc cần sửa nhất. Cross-entropy triệt tiêu thừa số này, gradient chỉ còn $p - y$.",
+        "Cực tiểu cross-entropy tương đương cực đại hợp lý Bernoulli (MLE), nên hàm mất mát có nền tảng xác suất chứ không phải chọn tùy ý.",
+        "Ngưỡng 0.5 được cố định từ trước, không chỉnh theo kết quả test. ROC-AUC dùng xác suất nên không phụ thuộc ngưỡng."
+      ]
     },
     {
       "eyebrow": "Câu 1 · Kết quả",
@@ -333,7 +385,19 @@
       "trap": [
         "$R^2$ cao trên dữ liệu tổng hợp tuyến tính là điều đã biết trước. Nó không chứng minh mô hình tốt trên dữ liệu thật, cũng không chứng minh quan hệ nhân quả."
       ],
-      "refs": "Lecture 3b · Evaluation (regression metrics)"
+      "refs": "Lecture 3b · Evaluation (regression metrics)",
+      "de": [
+        "**Câu 1.5 cho tuyến tính**, đủ 5 yêu cầu nhỏ:",
+        "Tự cài bằng Python → NumPy, không dùng `LinearRegression` của scikit-learn để học tham số.",
+        "Dữ liệu thật hoặc tổng hợp → tổng hợp, 600 mẫu.",
+        "Chia train/test → 480 / 120.",
+        "Vẽ loss huấn luyện → hình trái.",
+        "Đánh giá bằng chỉ số **phù hợp** → RMSE, MAE, R² (không dùng accuracy vì đích là số thực)."
+      ],
+      "more": [
+        "Loss vẽ trên **train**, còn chỉ số đánh giá tính trên **test**: hai vai trò khác nhau. Loss cho biết tối ưu có hội tụ không, chỉ số test cho biết mô hình tổng quát hóa thế nào.",
+        "So RMSE với độ lệch chuẩn nhiễu là cách đọc kết quả có cơ sở: không mô hình nào có RMSE thấp hơn nhiều so với σ = 0.5, vì phần đó là nhiễu ngẫu nhiên."
+      ]
     },
     {
       "eyebrow": "Câu 1 · Kết quả",
@@ -383,7 +447,16 @@
         "Còn lỗi không có nghĩa là tối ưu sai. Khi dữ liệu chồng lấn, biên tuyến tính nào cũng sẽ sai một phần."
       ],
       "refs": "Lecture 3b · Evaluation · Lecture 9",
-      "handoff": "Em xin mời bạn Thành trình bày câu hai."
+      "handoff": "Em xin mời bạn Thành trình bày câu hai.",
+      "de": [
+        "**Câu 1.5 cho logistic**: chỉ số **phù hợp với phân loại** → accuracy, precision, recall, F1, ROC-AUC và ma trận nhầm lẫn.",
+        "Chia 640 / 160, **phân tầng** theo nhãn."
+      ],
+      "more": [
+        "Vì sao chia phân tầng (stratify): giữ tỷ lệ hai lớp giống nhau ở train và test, để kết quả test không lệch chỉ vì cách chia.",
+        "Vì sao báo cả AUC bên cạnh accuracy và F1: accuracy và F1 phụ thuộc ngưỡng 0.5, còn AUC đánh giá khả năng xếp hạng qua mọi ngưỡng. Hai loại chỉ số bổ sung cho nhau.",
+        "Dữ liệu được sinh có chồng lấn có chủ ý, để thấy mô hình tuyến tính có giới hạn: 30 lỗi còn lại là do dữ liệu, không phải do tối ưu sai."
+      ]
     },
     {
       "eyebrow": "Câu 2 · Dữ liệu",
@@ -433,7 +506,16 @@
       "trap": [
         "\"Dữ liệu sạch\" không có nghĩa là xóa ngoại lai. Credit amount lệch phải nhưng đó là giá trị hợp lệ, nên được giữ. Bài giảng liệt kê làm sạch là việc **có thể** làm, không bắt buộc xóa."
       ],
-      "refs": "Data Preparation for ML · Lecture 3 (kNN, scaling)"
+      "refs": "Data Preparation for ML · Lecture 3 (kNN, scaling)",
+      "de": [
+        "**Câu 2**: dùng bộ dữ liệu **phân loại** trên **OpenML** → credit-g, mã 31, phiên bản 1.",
+        "**Câu 2.1**: chuẩn bị, trực quan hóa, làm sạch, biến đổi, chuẩn hóa. Trực quan hóa → hai biểu đồ phân bố lớp và credit amount. Làm sạch → kiểm tra thiếu, trùng, giá trị lạ. Biến đổi → one-hot 13 biến phân loại. Chuẩn hóa → min–max 7 biến số."
+      ],
+      "more": [
+        "Vì sao credit-g hợp đề: bài toán thật (rủi ro tín dụng), trộn biến số và biến phân loại nên dùng đủ các bước tiền xử lý, và lệch lớp nên phải chọn chỉ số đánh giá cẩn thận.",
+        "\"Làm sạch\" không có nghĩa là phải xóa dữ liệu. Nhóm kiểm tra và ghi lại kết quả kiểm tra; ngoại lai theo IQR được giữ vì là giá trị hợp lệ (ví dụ khoản vay lớn có thật).",
+        "Tệp ARFF gốc được lưu kèm mã MD5, nên chứng minh được kết quả chạy trên đúng dữ liệu OpenML chứ không phải bản đã bị sửa."
+      ]
     },
     {
       "eyebrow": "Câu 2 · Quy trình",
@@ -504,7 +586,15 @@
       "trap": [
         "**Tuning to the test set**: xem kết quả test, thấy chưa vừa ý rồi quay lại chỉnh. Khi đó test không còn là dữ liệu chưa thấy."
       ],
-      "refs": "Lecture 3b · Evaluation · Lecture 4 (NB, fit/transform)"
+      "refs": "Lecture 3b · Evaluation · Lecture 4 (NB, fit/transform)",
+      "de": [
+        "Tiếp **Câu 2.1** (chuẩn hóa đúng cách) và chuẩn bị cho **Câu 2.2** (đánh giá công bằng)."
+      ],
+      "more": [
+        "Đề nói \"scale data\". Điểm quan trọng không phải là có chuẩn hóa hay không, mà là **chuẩn hóa ở đâu**: trong pipeline, theo từng fold. Chuẩn hóa trên toàn bộ dữ liệu trước khi chia là lỗi rò rỉ phổ biến.",
+        "Vì sao 5-fold thay vì một tập validation: 800 hồ sơ là ít, một lần chia cho điểm dao động lớn. 5 fold cho mọi hồ sơ được làm validation đúng một lần, và cho thêm độ lệch chuẩn để biết điểm dao động bao nhiêu.",
+        "Vì sao macro F1: lớp bad chỉ 30%. Accuracy bị lớp good chi phối, còn macro F1 cho hai lớp trọng số ngang nhau."
+      ]
     },
     {
       "eyebrow": "Câu 2 · Chọn mô hình",
@@ -564,7 +654,15 @@
       "trap": [
         "Điểm CV của mô hình được chọn thường **lạc quan** hơn thực tế, vì chính nó đã được dùng để chọn. Cần tập test để có đánh giá độc lập."
       ],
-      "refs": "Lecture 3b · Evaluation (k-fold, t-test) · Lecture 3–13"
+      "refs": "Lecture 3b · Evaluation (k-fold, t-test) · Lecture 3–13",
+      "de": [
+        "**Câu 2.2**: áp dụng **nhiều** phương pháp phân loại, đánh giá và **so sánh**."
+      ],
+      "more": [
+        "Các họ mô hình bám bài giảng: kNN (Lecture 3), Naive Bayes (Lecture 4), cây quyết định (Lecture 5), SVM (Lecture 7), perceptron và logistic (Lecture 9), MLP (Lecture 10), ensemble (Lecture 13).",
+        "Mỗi mô hình có một lưới tham số nhỏ, chọn bằng `GridSearchCV` trên **cùng** 5 fold. Cùng fold, cùng tiền xử lý thì so sánh mới công bằng.",
+        "So sánh trung thực: báo cả độ lệch chuẩn giữa các fold, và không xếp hạng khi khoảng cách nhỏ hơn dao động. Đây là chỗ thể hiện hiểu đánh giá chứ không chỉ chạy code."
+      ]
     },
     {
       "eyebrow": "Câu 2 · Kết quả test",
@@ -624,7 +722,15 @@
         "\"Vượt baseline\" ở đây tính theo **macro F1**, không phải accuracy."
       ],
       "refs": "Lecture 3b · Evaluation",
-      "handoff": "Em xin mời bạn Tâm trình bày phần đọc kết quả và overfitting."
+      "handoff": "Em xin mời bạn Tâm trình bày phần đọc kết quả và overfitting.",
+      "de": [
+        "**Câu 2.2** phần **đánh giá**: kết quả trên tập test độc lập."
+      ],
+      "more": [
+        "Vì sao cần cả CV và test: CV dùng để chọn tham số, nên điểm CV của mô hình được chọn thường lạc quan. Test chưa từng được dùng để chọn nên cho đánh giá độc lập.",
+        "Bảng có nhiều chỉ số vì mỗi chỉ số trả lời một câu hỏi khác: accuracy (đúng bao nhiêu phần trăm), macro F1 (cân bằng giữa hai lớp), AUC (xếp hạng hồ sơ xấu cao hơn hồ sơ tốt).",
+        "Logistic tự cài ngang MLP là kết quả có ý nghĩa: với bảng dữ liệu nhỏ, mô hình tuyến tính đã nắm được phần lớn tín hiệu."
+      ]
     },
     {
       "eyebrow": "Câu 2 · Đọc kết quả",
@@ -684,7 +790,15 @@
       "trap": [
         "Đổi ngưỡng là hợp lệ, **với điều kiện** ngưỡng được chọn trên validation trước khi xem test."
       ],
-      "refs": "Lecture 3b · Evaluation (confusion matrix, ROC)"
+      "refs": "Lecture 3b · Evaluation (confusion matrix, ROC)",
+      "de": [
+        "**Câu 2.2** phần **so sánh**: đọc kết quả sâu hơn một con số."
+      ],
+      "more": [
+        "Đây là chỗ thể hiện hiểu bài toán: với dữ liệu lệch lớp, phải nhìn chỉ số theo từng lớp (recall, precision của lớp bad), không dừng ở accuracy.",
+        "Trong tín dụng, bỏ sót hồ sơ xấu (FN) thường tốn kém hơn báo nhầm (FP). Nếu làm lại theo chi phí, có thể chọn ngưỡng trên validation để tăng recall lớp bad.",
+        "Gaussian NB và MLP là hai điểm khác nhau trên đường đánh đổi precision–recall, không phải mô hình nào \"tốt hơn\" tuyệt đối."
+      ]
     },
     {
       "eyebrow": "Overfitting",
@@ -745,7 +859,16 @@
       "trap": [
         "Ensemble giảm phương sai nhưng **không miễn nhiễm** overfitting. Vẫn phải đo khoảng cách train–validation."
       ],
-      "refs": "Lecture 2 · Lecture 5 (Decision tree) · Lecture 13 (Ensemble) · Lecture 7 (SVM)"
+      "refs": "Lecture 2 · Lecture 5 (Decision tree) · Lecture 13 (Ensemble) · Lecture 7 (SVM)",
+      "de": [
+        "**Câu 2.3**: trình bày overfitting và cách khắc phục **cho các mô hình đã dùng** (for these models)."
+      ],
+      "more": [
+        "\"For these models\" nghĩa là phải gắn với mô hình cụ thể, không chỉ định nghĩa chung: cây (max depth, min samples leaf), kNN (k), SVM (C, gamma), MLP (số nơ-ron), ensemble (độ sâu cây con).",
+        "Nhóm đưa **bằng chứng định lượng**: đường cong theo độ sâu cây và khoảng cách train–CV trước và sau khi chọn tham số, thay vì chỉ nói lý thuyết.",
+        "Cách đo: macro F1 trên fold train trừ macro F1 trên fold validation, cùng 5 fold, nên các mô hình so sánh được với nhau.",
+        "Random forest còn khoảng cách 0.324 cho thấy chọn theo điểm CV cao nhất không đồng nghĩa với ít overfitting nhất: tiêu chí chọn là CV, không phải khoảng cách."
+      ]
     },
     {
       "eyebrow": "Kết luận",
@@ -802,7 +925,14 @@
       "trap": [
         "Đừng nói \"chưa bác bỏ khác biệt\" thành \"hai mô hình bằng nhau\". Chưa đủ bằng chứng không có nghĩa là bằng nhau."
       ],
-      "refs": "Tổng hợp toàn bài"
+      "refs": "Tổng hợp toàn bài",
+      "de": [
+        "Kết luận đối chiếu lại đủ **8 ý** của đề: Câu 1 (5 ý, làm cho cả hai mô hình) và Câu 2 (3 ý)."
+      ],
+      "more": [
+        "Phần hạn chế cho thấy hiểu giới hạn của kết quả: một bộ dữ liệu, một lần chia test, chưa kiểm định thống kê. Không nói quá kết quả là điểm cộng khi bảo vệ.",
+        "Ba kết luận đều có bằng chứng trên slide trước: kiểm tra gradient (slide 4), khoảng cách nhỏ hơn dao động fold (slide 10–11), recall lớp bad (slide 12)."
+      ]
     }
   ],
   "qa": [

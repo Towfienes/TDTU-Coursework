@@ -117,6 +117,14 @@ body.rehearse .script { font-size: 1.28rem; line-height: 1.7; }
 .points { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
 .points li { position: relative; padding-left: 18px; line-height: 1.65; }
 .points li::before { content: ""; position: absolute; left: 2px; top: .72em; width: 7px; height: 1.5px; background: var(--muted); }
+.req { margin: 0 0 14px; padding: 12px 14px; border: 1px solid var(--rule); border-radius: 6px; }
+.req small, .sub { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+.req ul, .more { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.req li, .more li { position: relative; padding-left: 18px; line-height: 1.6; overflow-x: auto; overflow-y: hidden; }
+.req li::before, .more li::before { content: ""; position: absolute; left: 2px; top: .72em; width: 7px; height: 1.5px; background: var(--muted); }
+.req li:first-child::before { display: none; }
+.req li:first-child { padding-left: 0; }
+.sub { margin: 16px 0 6px; }
 .trap { margin-top: 16px; padding: 12px 14px; background: var(--warn-soft); border-radius: 6px; }
 .trap small { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--warn); font-weight: 600; margin-bottom: 4px; }
 .trap p { margin: 0; line-height: 1.6; }
@@ -259,7 +267,11 @@ body.rehearse .watch { display: flex; }
     <details class="deep" id="deep" open>
       <summary>Hiểu sâu<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary>
       <div class="key" id="key"></div>
+      <div class="req" id="req"></div>
+      <p class="sub">Giải thích slide</p>
       <ul class="points" id="points"></ul>
+      <p class="sub">Phân tích sâu</p>
+      <ul class="more" id="more"></ul>
       <div class="trap" id="trap"></div>
       <p class="refs" id="refs"></p>
     </details>
@@ -370,6 +382,8 @@ body.rehearse .watch { display: flex; }
     ho.hidden = solo || !s.handoff;
     ho.innerHTML = s.handoff ? "<b>Chuyển lời (chỉ khi chia phần):</b> “" + esc(s.handoff) + "”" : "";
     $("key").innerHTML = "<small>Ý chốt</small>" + rich(s.key);
+    $("req").innerHTML = "<small>Đề bài yêu cầu gì</small><ul>" + s.de.map(function (p) { return "<li>" + rich(p) + "</li>"; }).join("") + "</ul>";
+    $("more").innerHTML = s.more.map(function (p) { return "<li>" + rich(p) + "</li>"; }).join("");
     $("points").innerHTML = s.points.map(function (p) { return "<li>" + rich(p) + "</li>"; }).join("");
     var trap = $("trap");
     trap.hidden = !s.trap.length;

@@ -141,7 +141,7 @@ def build_guide():
 def build_viewer(out):
     from PIL import Image
 
-    keys = ["n", "eyebrow", "title", "speaker", "speakerFull", "script", "key", "points", "trap", "refs"]
+    keys = ["n", "eyebrow", "title", "speaker", "speakerFull", "script", "key", "de", "points", "more", "trap", "refs"]
     data = [dict({k: s[k] for k in keys}, guide=s["guide"], handoff=s.get("handoff", ""),
                  start=round(s["start"]), dur=round(s["dur"]), gstart=round(s["gstart"]), gdur=round(s["gdur"]))
             for s in SLIDES]
