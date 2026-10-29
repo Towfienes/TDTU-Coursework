@@ -50,3 +50,7 @@ Thumbs.db
 # 5. Oversized Binary Archives (>100MB blocked by GitHub)
 # (Real deliverables for DA are stored in DA/Endterm/Nor/524H0195_524H0191_524H0186_524H0169.zip)
 DA/Endterm/Nor.zip
+
+# 6. Agent / tool backups (may contain live tokens)
+openclaw-backup*.tar.gz
+*-openclaw-backup.tar.gz
